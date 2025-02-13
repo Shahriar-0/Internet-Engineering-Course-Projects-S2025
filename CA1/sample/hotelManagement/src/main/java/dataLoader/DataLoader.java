@@ -1,36 +1,42 @@
 package dataLoader;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import entities.Customer;
 import entities.Hotel;
 import entities.Room;
-
 import java.io.File;
 import java.io.IOException;
 
 public class DataLoader {
-    public static Hotel loadHotelData(String dataFile) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
 
-        File file = new File(DataLoader.class.getClassLoader().getResource(dataFile).getFile());
+	public static Hotel loadHotelData(String dataFile) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 
-        Hotel hotel = objectMapper.readValue(file, Hotel.class);
+		File file = new File(DataLoader.class.getClassLoader().getResource(dataFile).getFile());
 
-        hotel.getBookings().forEach(booking -> {
-            Room room = hotel.getRooms().stream()
-                    .filter(r -> r.getId().equals(booking.roomId))
-                    .findFirst()
-                    .orElse(null);
-            Customer customer = hotel.getCustomers().stream()
-                    .filter(c -> c.getSsn().equals(booking.customerId))
-                    .findFirst()
-                    .orElse(null);
-            booking.setRoom(room);
-            booking.setCustomer(customer);
-        });
+		Hotel hotel = objectMapper.readValue(file, Hotel.class);
 
-        return hotel;
-    }
+		hotel
+			.getBookings()
+			.forEach(booking -> {
+				Room room = hotel
+					.getRooms()
+					.stream()
+					.filter(r -> r.getId().equals(booking.roomId))
+					.findFirst()
+					.orElse(null);
+				Customer customer = hotel
+					.getCustomers()
+					.stream()
+					.filter(c -> c.getSsn().equals(booking.customerId))
+					.findFirst()
+					.orElse(null);
+				booking.setRoom(room);
+				booking.setCustomer(customer);
+			});
+
+		return hotel;
+	}
 }
