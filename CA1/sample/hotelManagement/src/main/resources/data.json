@@ -1,0 +1,42 @@
+{
+    "customers": [
+        {
+            "ssn": "12345",
+            "name": "John Doe",
+            "phone": "09101231212",
+            "age": 30
+        },
+        {
+            "ssn": "67890",
+            "name": "Jane Smith",
+            "phone": "09107654321",
+            "age": 25
+        }
+    ],
+    "rooms": [
+        {
+            "id": "R001",
+            "capacity": 3
+        },
+        {
+            "id": "R002",
+            "capacity": 2
+        }
+    ],
+    "bookings": [
+        {
+            "id": "B001",
+            "room_id": "R001",
+            "customer_id": "12345",
+            "check_in": "2024-03-01 14:00:00",
+            "check_out": "2024-03-05 11:00:00"
+        },
+        {
+            "id": "B002",
+            "room_id": "R002",
+            "customer_id": "67890",
+            "check_in": "2024-03-02 15:00:00",
+            "check_out": "2024-03-06 12:00:00"
+        }
+    ]
+}
