@@ -10,11 +10,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class DataLoader {
-    public static Hotel loadHotelData() throws IOException {
+    public static Hotel loadHotelData(String dataFile) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        File file = new File(DataLoader.class.getClassLoader().getResource("data.json").getFile());
+        File file = new File(DataLoader.class.getClassLoader().getResource(dataFile).getFile());
 
         Hotel hotel = objectMapper.readValue(file, Hotel.class);
 
