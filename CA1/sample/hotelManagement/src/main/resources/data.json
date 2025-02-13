@@ -11,6 +11,42 @@
             "name": "Jane Smith",
             "phone": "09107654321",
             "age": 25
+        },
+        {
+            "ssn": "11111",
+            "name": "Robert Johnson",
+            "phone": "09109876543",
+            "age": 45
+        },
+        {
+            "ssn": "22222",
+            "name": "Maria Garcia",
+            "phone": "09102223333",
+            "age": 35
+        },
+        {
+            "ssn": "33333",
+            "name": "David Chen",
+            "phone": "09104445555",
+            "age": 28
+        },
+        {
+            "ssn": "44444",
+            "name": "Sarah Williams",
+            "phone": "09106667777",
+            "age": 52
+        },
+        {
+            "ssn": "55555",
+            "name": "Michael Brown",
+            "phone": "09108889999",
+            "age": 41
+        },
+        {
+            "ssn": "66666",
+            "name": "Emily Taylor",
+            "phone": "09101112222",
+            "age": 33
         }
     ],
     "rooms": [
@@ -21,6 +57,30 @@
         {
             "id": "R002",
             "capacity": 2
+        },
+        {
+            "id": "R003",
+            "capacity": 4
+        },
+        {
+            "id": "R004",
+            "capacity": 2
+        },
+        {
+            "id": "R005",
+            "capacity": 1
+        },
+        {
+            "id": "R006",
+            "capacity": 3
+        },
+        {
+            "id": "R007",
+            "capacity": 2
+        },
+        {
+            "id": "R008",
+            "capacity": 4
         }
     ],
     "bookings": [
@@ -37,6 +97,62 @@
             "customer_id": "67890",
             "check_in": "2024-03-02 15:00:00",
             "check_out": "2024-03-06 12:00:00"
+        },
+        {
+            "id": "B003",
+            "room_id": "R003",
+            "customer_id": "11111",
+            "check_in": "2024-03-05 13:00:00",
+            "check_out": "2024-03-10 10:00:00"
+        },
+        {
+            "id": "B004",
+            "room_id": "R004",
+            "customer_id": "22222",
+            "check_in": "2024-03-07 16:00:00",
+            "check_out": "2024-03-09 11:00:00"
+        },
+        {
+            "id": "B005",
+            "room_id": "R005",
+            "customer_id": "33333",
+            "check_in": "2024-03-08 14:00:00",
+            "check_out": "2024-03-15 10:00:00"
+        },
+        {
+            "id": "B006",
+            "room_id": "R001",
+            "customer_id": "44444",
+            "check_in": "2024-03-06 15:00:00",
+            "check_out": "2024-03-12 11:00:00"
+        },
+        {
+            "id": "B007",
+            "room_id": "R006",
+            "customer_id": "55555",
+            "check_in": "2024-03-10 13:00:00",
+            "check_out": "2024-03-13 10:00:00"
+        },
+        {
+            "id": "B008",
+            "room_id": "R007",
+            "customer_id": "66666",
+            "check_in": "2024-03-11 14:00:00",
+            "check_out": "2024-03-16 11:00:00"
+        },
+        {
+            "id": "B009",
+            "room_id": "R008",
+            "customer_id": "12345",
+            "check_in": "2024-03-15 15:00:00",
+            "check_out": "2024-03-20 10:00:00"
+        },
+        {
+            "id": "B010",
+            "room_id": "R002",
+            "customer_id": "67890",
+            "check_in": "2024-03-18 13:00:00",
+            "check_out": "2024-03-22 11:00:00"
         }
     ]
 }

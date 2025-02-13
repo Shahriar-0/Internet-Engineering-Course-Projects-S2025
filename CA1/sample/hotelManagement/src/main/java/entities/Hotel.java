@@ -17,11 +17,11 @@ public class Hotel {
     private List<Room> rooms;
     private List<Booking> bookings;
 
-    // public Hotel(List<Customer> customers, List<Room> rooms, List<Booking> bookings) {
-    //     this.customers = customers;
-    //     this.rooms = rooms;
-    //     this.bookings = bookings;
-    // }
+    public Hotel(List<Customer> customers, List<Room> rooms, List<Booking> bookings) {
+        this.customers = customers;
+        this.rooms = rooms;
+        this.bookings = bookings;
+    }
 
     public Hotel() {}
 
