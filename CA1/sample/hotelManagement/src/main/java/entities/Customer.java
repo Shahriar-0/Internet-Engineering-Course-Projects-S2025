@@ -1,14 +1,14 @@
 package entities;
 public record Customer(String ssn, String name, String phone, int age) {
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    int getAge() {
+    public int getAge() {
         return age;
     }
 
-    String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phone;
     }
 

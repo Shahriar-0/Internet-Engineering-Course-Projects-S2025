@@ -1,6 +1,6 @@
 package entities;
 public record Room(String id, int capacity) {
-    int getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 

@@ -16,8 +16,20 @@ public class Hotel {
     private List<Room> rooms;
     private List<Booking> bookings;
 
+    public Hotel(List<Customer> customers, List<Room> rooms, List<Booking> bookings) {
+        this.customers = customers;
+        this.rooms = rooms;
+        this.bookings = bookings;
+    }
+
+    public Hotel() {}
+
     public List<Customer> getCustomers() {
         return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
     public List<Room> getRooms() {
@@ -28,10 +40,18 @@ public class Hotel {
         return bookings;
     }
 
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
     public List<Room> getRooms(int minCapacity) {
         return rooms.stream()
                 .filter(room -> room.getCapacity() >= minCapacity)
                 .collect(Collectors.toList());
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public String getOldestCustomerName() {
