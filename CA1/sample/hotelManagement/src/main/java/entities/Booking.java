@@ -18,10 +18,7 @@ public class Booking {
     @JsonProperty("check_out")
     private LocalDateTime checkOut;
 
-    @JsonProperty("room_id")
     public String roomId;
-
-    @JsonProperty("customer_id")
     public String customerId;
 
     public Booking(String id, Room room, Customer customer, LocalDateTime checkIn, LocalDateTime checkOut) {
@@ -52,20 +49,20 @@ public class Booking {
         this.room = room;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public String getId() {
-        return id;
-    }
-
     public Room getRoom() {
         return room;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public Customer getCustomer() {
         return customer;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public LocalDateTime getCheckIn() {
