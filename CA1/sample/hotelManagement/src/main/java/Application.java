@@ -1,5 +1,8 @@
 import java.io.IOException;
 
+import dataLoader.DataLoader;
+import entities.Hotel;
+
 public class Application {
     public static void main(String[] args) {
         try {

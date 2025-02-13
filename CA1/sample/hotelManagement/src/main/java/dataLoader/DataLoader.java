@@ -1,5 +1,10 @@
+package dataLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import entities.Customer;
+import entities.Hotel;
+import entities.Room;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +13,7 @@ public class DataLoader {
     public static Hotel loadHotelData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        
+
         File file = new File(DataLoader.class.getClassLoader().getResource("data.json").getFile());
 
         Hotel hotel = objectMapper.readValue(file, Hotel.class);
