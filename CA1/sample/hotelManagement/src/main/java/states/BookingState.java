@@ -17,6 +17,13 @@ public class BookingState {
         this.check_out = check_out.toString();
     }
 
+    public BookingState(String id, Customer customer, String check_in, String check_out) {
+        this.id = id;
+        this.customer = customer;
+        this.check_in = check_in;
+        this.check_out = check_out;
+    }
+
     public String getId() {
         return id;
     }

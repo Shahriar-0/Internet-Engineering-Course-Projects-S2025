@@ -23,15 +23,16 @@ public class Booking {
     @JsonProperty("customer_id")
     public String customerId;
 
-    public Booking(String id, Room room, Customer customer, LocalDateTime checkIn, LocalDateTime checkOut) {
-        this.id = id;
-        this.room = room;
-        this.customer = customer;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.roomId = room.getId();
-        this.customerId = customer.getSsn();
-    }
+    // public Booking(String id, Room room, Customer customer, LocalDateTime checkIn, LocalDateTime checkOut) {
+    //     this.id = id;
+    //     this.room = room;
+    //     this.customer = customer;
+    //     this.checkIn = checkIn;
+    //     this.checkOut = checkOut;
+    //     this.roomId = room.getId();
+    //     this.customerId = customer.getSsn();
+    // }
+
     public void setRoom(Room room) {
         this.room = room;
     }

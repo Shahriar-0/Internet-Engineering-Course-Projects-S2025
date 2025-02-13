@@ -1,6 +1,7 @@
 package entities;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +17,11 @@ public class Hotel {
     private List<Room> rooms;
     private List<Booking> bookings;
 
-    public Hotel(List<Customer> customers, List<Room> rooms, List<Booking> bookings) {
-        this.customers = customers;
-        this.rooms = rooms;
-        this.bookings = bookings;
-    }
+    // public Hotel(List<Customer> customers, List<Room> rooms, List<Booking> bookings) {
+    //     this.customers = customers;
+    //     this.rooms = rooms;
+    //     this.bookings = bookings;
+    // }
 
     public Hotel() {}
 
@@ -32,16 +33,16 @@ public class Hotel {
         this.customers = customers;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
     public List<Booking> getBookings() {
         return bookings;
     }
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
     }
 
     public List<Room> getRooms(int minCapacity) {
@@ -75,8 +76,8 @@ public class Hotel {
                     .map(booking -> new BookingState(
                             booking.getId(),
                             booking.getCustomer(),
-                            booking.getCheckIn(),
-                            booking.getCheckOut()
+                            booking.getCheckIn().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                            booking.getCheckOut().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     ))
                     .collect(Collectors.toList());
             return new RoomState(room.getId(), room.getCapacity(), bookingStates);
