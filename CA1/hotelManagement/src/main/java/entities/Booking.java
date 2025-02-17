@@ -4,7 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Booking {
 
 	private String id;
@@ -45,33 +51,5 @@ public class Booking {
 		this.checkOut = checkOut;
 		this.roomId = roomId;
 		this.customerId = customerId;
-	}
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public LocalDateTime getCheckIn() {
-		return checkIn;
-	}
-
-	public LocalDateTime getCheckOut() {
-		return checkOut;
 	}
 }

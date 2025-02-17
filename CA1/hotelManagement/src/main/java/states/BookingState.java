@@ -2,7 +2,13 @@ package states;
 
 import entities.Customer;
 import java.time.LocalDateTime;
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class BookingState {
 
 	private String id;
@@ -15,28 +21,5 @@ public class BookingState {
 		this.customer = customer;
 		this.check_in = check_in.toString();
 		this.check_out = check_out.toString();
-	}
-
-	public BookingState(String id, Customer customer, String check_in, String check_out) {
-		this.id = id;
-		this.customer = customer;
-		this.check_in = check_in;
-		this.check_out = check_out;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public String getCheck_in() {
-		return check_in;
-	}
-
-	public String getCheck_out() {
-		return check_out;
 	}
 }
