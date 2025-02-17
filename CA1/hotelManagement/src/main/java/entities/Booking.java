@@ -28,8 +28,8 @@ public class Booking {
 		this.customer = customer;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		this.roomId = room.getId();
-		this.customerId = customer.getSsn();
+		this.roomId = room.id();
+		this.customerId = customer.ssn();
 	}
 
 	@JsonCreator

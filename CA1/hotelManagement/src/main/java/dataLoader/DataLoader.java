@@ -24,13 +24,13 @@ public class DataLoader {
 				Room room = hotel
 					.getRooms()
 					.stream()
-					.filter(r -> r.getId().equals(booking.roomId))
+					.filter(r -> r.id().equals(booking.roomId))
 					.findFirst()
 					.orElse(null);
 				Customer customer = hotel
 					.getCustomers()
 					.stream()
-					.filter(c -> c.getSsn().equals(booking.customerId))
+					.filter(c -> c.ssn().equals(booking.customerId))
 					.findFirst()
 					.orElse(null);
 				booking.setRoom(room);

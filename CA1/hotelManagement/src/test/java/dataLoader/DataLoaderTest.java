@@ -32,14 +32,14 @@ class DataLoaderTest {
 		Booking booking2 = hotel.getBookings().get(1);
 
 		assertNotNull(booking1.getRoom());
-		assertEquals("R001", booking1.getRoom().getId());
+		assertEquals("R001", booking1.getRoom().id());
 		assertNotNull(booking1.getCustomer());
-		assertEquals("12345", booking1.getCustomer().getSsn());
+		assertEquals("12345", booking1.getCustomer().ssn());
 
 		assertNotNull(booking2.getRoom());
-		assertEquals("R002", booking2.getRoom().getId());
+		assertEquals("R002", booking2.getRoom().id());
 		assertNotNull(booking2.getCustomer());
-		assertEquals("67890", booking2.getCustomer().getSsn());
+		assertEquals("67890", booking2.getCustomer().ssn());
 	}
 
 	@Test
@@ -47,7 +47,7 @@ class DataLoaderTest {
 		List<Room> rooms = hotel.getRooms(3);
 
 		assertEquals(2, rooms.size(), "There should be 2 rooms with capacity >= 3");
-		assertTrue(rooms.stream().allMatch(room -> room.getCapacity() >= 3));
+		assertTrue(rooms.stream().allMatch(room -> room.capacity() >= 3));
 	}
 
 	@Test
@@ -73,7 +73,7 @@ class DataLoaderTest {
 		List<Room> roomsWithBookings = hotel.getRooms(1);
 
 		assertEquals(1, roomsWithBookings.size(), "Room R005 should be included as it matches the capacity filter");
-		assertEquals("R005", roomsWithBookings.get(0).getId());
+		assertEquals("R005", roomsWithBookings.get(0).id());
 	}
 
 	@Test

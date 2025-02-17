@@ -61,7 +61,7 @@ class HotelTest {
 		List<Room> rooms = hotel.getRooms(3);
 
 		assertEquals(1, rooms.size());
-		assertEquals("R001", rooms.get(0).getId());
+		assertEquals("R001", rooms.get(0).id());
 	}
 
 	@Test
@@ -127,9 +127,9 @@ class HotelTest {
 		hotel.setBookings(Arrays.asList(booking));
 
 		assertNotNull(booking.getRoom());
-		assertEquals("R001", booking.getRoom().getId());
+		assertEquals("R001", booking.getRoom().id());
 		assertNotNull(booking.getCustomer());
-		assertEquals("12345", booking.getCustomer().getSsn());
+		assertEquals("12345", booking.getCustomer().ssn());
 	}
 
 	@Test
@@ -140,6 +140,6 @@ class HotelTest {
 		List<Room> rooms = hotel.getRooms(4);
 
 		assertEquals(1, rooms.size());
-		assertEquals("R003", rooms.get(0).getId());
+		assertEquals("R003", rooms.get(0).id());
 	}
 }

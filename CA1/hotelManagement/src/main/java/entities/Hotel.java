@@ -46,7 +46,7 @@ public class Hotel {
 	}
 
 	public List<Room> getRooms(int minCapacity) {
-		return rooms.stream().filter(room -> room.getCapacity() >= minCapacity).collect(Collectors.toList());
+		return rooms.stream().filter(room -> room.capacity() >= minCapacity).collect(Collectors.toList());
 	}
 
 	public void setRooms(List<Room> rooms) {
@@ -56,16 +56,16 @@ public class Hotel {
 	public String getOldestCustomerName() {
 		return customers
 			.stream()
-			.max((c1, c2) -> Integer.compare(c1.getAge(), c2.getAge()))
-			.map(Customer::getName)
+			.max((c1, c2) -> Integer.compare(c1.age(), c2.age()))
+			.map(Customer::name)
 			.orElse("No customers");
 	}
 
 	public List<String> getCustomerPhonesByRoomNumber(String roomNumber) {
 		return bookings
 			.stream()
-			.filter(b -> b.getRoom().getId().equals(roomNumber))
-			.map(b -> b.getCustomer().getPhoneNumber())
+			.filter(b -> b.getRoom().id().equals(roomNumber))
+			.map(b -> b.getCustomer().phone())
 			.collect(Collectors.toList());
 	}
 
@@ -75,7 +75,7 @@ public class Hotel {
 			.map(room -> {
 				List<BookingState> bookingStates = bookings
 					.stream()
-					.filter(booking -> booking.getRoom().getId().equals(room.getId()))
+					.filter(booking -> booking.getRoom().id().equals(room.id()))
 					.map(booking ->
 						new BookingState(
 							booking.getId(),
@@ -85,7 +85,7 @@ public class Hotel {
 						)
 					)
 					.collect(Collectors.toList());
-				return new RoomState(room.getId(), room.getCapacity(), bookingStates);
+				return new RoomState(room.id(), room.capacity(), bookingStates);
 			})
 			.collect(Collectors.toList());
 
