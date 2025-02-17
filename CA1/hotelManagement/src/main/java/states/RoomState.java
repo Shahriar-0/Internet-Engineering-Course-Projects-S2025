@@ -1,6 +1,8 @@
 package states;
 
 import java.util.List;
+
+import entities.Room;
 import lombok.*;
 
 @Getter

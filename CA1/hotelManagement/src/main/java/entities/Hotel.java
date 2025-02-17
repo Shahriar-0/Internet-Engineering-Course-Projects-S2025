@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.*;
@@ -23,6 +22,8 @@ public class Hotel {
 	private List<Customer> customers;
 	private List<Room> rooms;
 	private List<Booking> bookings;
+
+	private final String stateFilePath = "state.json";
 
 	public List<Room> getRooms(int minCapacity) {
 		return rooms.stream().filter(room -> room.capacity() >= minCapacity).collect(Collectors.toList());
@@ -51,14 +52,7 @@ public class Hotel {
 				List<BookingState> bookingStates = bookings
 					.stream()
 					.filter(booking -> booking.getRoom().id().equals(room.id()))
-					.map(booking ->
-						new BookingState(
-							booking.getId(),
-							booking.getCustomer(),
-							booking.getCheckIn().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-							booking.getCheckOut().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-						)
-					)
+					.map(booking -> new BookingState(booking))
 					.collect(Collectors.toList());
 				return new RoomState(room.id(), room.capacity(), bookingStates);
 			})
@@ -68,7 +62,7 @@ public class Hotel {
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 
-		File file = new File("state.json");
+		File file = new File(stateFilePath);
 		objectMapper.writeValue(file, roomStates);
 	}
 }
