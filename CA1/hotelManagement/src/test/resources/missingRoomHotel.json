@@ -1,0 +1,13 @@
+{
+	"customers": [{"ssn": "12345", "name": "John Doe", "phone": "09101231212", "age": 30}],
+	"rooms": [{"id": "R001", "capacity": 3}],
+	"bookings": [
+		{
+			"id": "B001",
+			"room_id": "R999",
+			"customer_id": "12345",
+			"check_in": "2024-03-01 14:00:00",
+			"check_out": "2024-03-05 11:00:00"
+		}
+	]
+}

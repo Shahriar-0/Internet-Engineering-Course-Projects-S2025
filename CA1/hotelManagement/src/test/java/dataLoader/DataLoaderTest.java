@@ -3,7 +3,7 @@ package dataLoader;
 import static org.junit.jupiter.api.Assertions.*;
 
 import entities.*;
-import java.io.File;
+import exceptions.HotelCreationException;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ class DataLoaderTest {
 
 	@BeforeEach
 	void setUp() throws IOException {
-		hotel = DataLoader.loadHotelData("dataTest.json");
+		hotel = DataLoader.loadHotelData("validHotel.json");
 	}
 
 	@Test
@@ -86,10 +86,47 @@ class DataLoaderTest {
 	}
 
 	@Test
-	void testLogStateGeneratesCorrectFile() throws Exception {
-		hotel.logState();
+	void testMissingRoomThrowsException() {
+		HotelCreationException exception = assertThrows(
+			HotelCreationException.class,
+			() -> {
+				DataLoader.loadHotelData("missingRoomHotel.json");
+			}
+		);
 
-		File file = new File("state.json");
-		assertTrue(file.exists(), "state.json file should be created after logging the state");
+		assertTrue(
+			exception.getMessage().contains("Room with ID R999 not found."),
+			"Exception should contain message about missing room"
+		);
+	}
+
+	@Test
+	void testMissingCustomerThrowsException() {
+		HotelCreationException exception = assertThrows(
+			HotelCreationException.class,
+			() -> {
+				DataLoader.loadHotelData("missingCustomerHotel.json");
+			}
+		);
+
+		assertTrue(
+			exception.getMessage().contains("Customer with SSN 99999 not found."),
+			"Exception should contain message about missing customer"
+		);
+	}
+
+	@Test
+	void testInvalidCheckInOutThrowsException() {
+		HotelCreationException exception = assertThrows(
+			HotelCreationException.class,
+			() -> {
+				DataLoader.loadHotelData("invalidCheckInOutHotel.json");
+			}
+		);
+
+		assertTrue(
+			exception.getMessage().contains("Check-in date is after check-out date for booking ID B001"),
+			"Exception should contain message about invalid check-in/out"
+		);
 	}
 }

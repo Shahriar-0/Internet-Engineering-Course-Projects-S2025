@@ -1,0 +1,13 @@
+{
+	"customers": [{"ssn": "67890", "name": "Jane Smith", "phone": "09107654321", "age": 25}],
+	"rooms": [{"id": "R002", "capacity": 2}],
+	"bookings": [
+		{
+			"id": "B002",
+			"room_id": "R002",
+			"customer_id": "99999",
+			"check_in": "2024-03-02 15:00:00",
+			"check_out": "2024-03-06 12:00:00"
+		}
+	]
+}
