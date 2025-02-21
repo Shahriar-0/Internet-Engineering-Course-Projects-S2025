@@ -1,0 +1,17 @@
+{
+    "success": true,
+    "message": "Book details retrieved successfully.",
+    "data": {
+        "title": "book title",
+        "author": "author1",
+        "publisher": "publisher1",
+        "genres": [
+            "science",
+            "novel"
+        ],
+        "year": "2024",
+        "price": 2200,
+        "synopsis": "lorem",
+        "averageRating": 4.5
+    }
+}
