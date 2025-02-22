@@ -1,19 +1,17 @@
-package cli.command;
+package application.services;
 
-import application.services.AlakiService;
 import domain.entities.AlakiEntity;
+import org.springframework.stereotype.Service;
 
-public class AlakiCommand implements BaseCommand {
+@Service
+public class Falaki {
     private final AlakiService alakiService;
-
-    public AlakiCommand(AlakiService alakiService) {
+    public Falaki(AlakiService alakiService) {
         this.alakiService = alakiService;
     }
 
-    @Override
-    public void execute() {
+    public void salam() {
         AlakiEntity alakiEntity = alakiService.getAlakiEntity();
-        System.out.println("execute shodam dadash !!");
         System.out.println(alakiEntity.getKey());
         System.out.println(alakiEntity.getName());
     }
