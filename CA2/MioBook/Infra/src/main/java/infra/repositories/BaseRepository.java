@@ -18,7 +18,8 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
         if (map.containsKey(entity.getKey()))
             return Response.failureOf(new EntityAlreadyExists(entity.getClass()));
 
-        return Response.successOf(map.put(entity.getKey(), entity));
+        map.put(entity.getKey(), entity);
+        return Response.successOf(entity);
     }
 
     @Override
@@ -35,7 +36,8 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
         if (!map.containsKey(entity.getKey()))
             return Response.failureOf(new EntityDoesNotExist(entity.getClass()));
 
-        return Response.successOf(map.put(entity.getKey(), entity));
+        map.put(entity.getKey(), entity);
+        return Response.successOf(entity);
     }
 
     @Override
