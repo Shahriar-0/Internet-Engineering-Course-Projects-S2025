@@ -1,6 +1,5 @@
 package infra.repositories;
 
-import application.exceptions.BaseException;
 import application.exceptions.EntityAlreadyExists;
 import application.exceptions.EntityDoesNotExist;
 import application.repositories.IBaseRepository;
@@ -16,55 +15,35 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
     //TODO: Refactor duplications
     @Override
     public Response<T> add(T entity) {
-        try {
-            if (map.containsKey(entity.getKey()))
-                return Response.failureOf(new EntityAlreadyExists(entity.getClass()));
+        if (map.containsKey(entity.getKey()))
+            return Response.failureOf(new EntityAlreadyExists(entity.getClass()));
 
-            return Response.successOf(map.put(entity.getKey(), entity));
-        }
-        catch (Exception e) {
-            return Response.failureOf(e.getMessage());
-        }
+        return Response.successOf(map.put(entity.getKey(), entity));
     }
 
     @Override
     public Response<T> remove(KT key) {
-        try {
-            T result = map.remove(key);
-            if (result == null)
-                return Response.failureOf(new EntityDoesNotExist()); // TODO: somehow find class here
+        T result = map.remove(key);
+        if (result == null)
+            return Response.failureOf(new EntityDoesNotExist()); // TODO: somehow find class here
 
-            return Response.successOf(result);
-        }
-        catch (Exception e) {
-            return Response.failureOf(e.getMessage());
-        }
+        return Response.successOf(result);
     }
 
     @Override
     public Response<T> update(T entity) {
-        try {
-            if (!map.containsKey(entity.getKey()))
-                return Response.failureOf(new EntityDoesNotExist(entity.getClass()));
+        if (!map.containsKey(entity.getKey()))
+            return Response.failureOf(new EntityDoesNotExist(entity.getClass()));
 
-            return Response.successOf(map.put(entity.getKey(), entity));
-        }
-        catch (Exception e) {
-            return Response.failureOf(e.getMessage());
-        }
+        return Response.successOf(map.put(entity.getKey(), entity));
     }
 
     @Override
     public Response<T> find(KT key) {
-        try {
-            T result = map.get(key);
-            if (result == null)
-                return Response.failureOf(new EntityDoesNotExist()); // TODO: somehow find class here
+        T result = map.get(key);
+        if (result == null)
+            return Response.failureOf(new EntityDoesNotExist()); // TODO: somehow find class here
 
-            return Response.successOf(result);
-        }
-        catch (Exception e) {
-            return Response.failureOf(e.getMessage());
-        }
+        return Response.successOf(result);
     }
 }
