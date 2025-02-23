@@ -2,9 +2,11 @@ package domain.entities;
 
 import domain.valueobject.Address;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @SuperBuilder
 public class User extends DomainEntity<String> {
     public enum Role {

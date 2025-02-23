@@ -2,6 +2,7 @@ package cli;
 
 import cli.command.BaseCommand;
 import cli.inputprocessors.CommandGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,8 +25,14 @@ public class Runner implements CommandLineRunner {
     public void run(String... args) {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
-            BaseCommand command = commandGenerator.generateCommand(scanner.nextLine());
-            command.execute();
+            try {
+                BaseCommand command = commandGenerator.generateCommand(scanner.nextLine());
+                command.execute();
+            }
+            catch (IllegalArgumentException | JsonProcessingException exception) {
+                //TODO: Add response here
+                System.out.println(exception.getMessage());
+            }
         }
         scanner.close();
     }

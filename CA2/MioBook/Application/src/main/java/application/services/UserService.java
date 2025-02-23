@@ -15,6 +15,7 @@ public class UserService {
     }
 
     public Response<User> addUser(User newUser) {
+        newUser.setCredit(0);
         Response<User> validationResponse = userValidator.validate(newUser);
 
         if (validationResponse.isFailure()) {

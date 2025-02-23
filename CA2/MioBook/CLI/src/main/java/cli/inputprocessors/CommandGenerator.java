@@ -5,6 +5,8 @@ import cli.command.BaseCommand;
 import cli.command.CommandType;
 import cli.dtos.AddUserDto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,17 +24,11 @@ public class CommandGenerator {
         this.objectMapper = new ObjectMapper();
     }
 
-    public BaseCommand generateCommand(String input) {
-        try {
-            String jsonString = input.substring(input.indexOf(" ") + 1);
+    public BaseCommand generateCommand(String input) throws JsonProcessingException, IllegalArgumentException {
+        String jsonString = input.substring(input.indexOf(" ") + 1);
 
-            return switch (CommandType.valueOf(input.split(" ")[0])) {
-                case ADD_USER -> new AddUserCommand(objectMapper.readValue(jsonString, AddUserDto.class), userService);
-                case ADD_BOOK -> null;
-            };
-
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid input format: " + e.getMessage(), e);
-        }
+        return switch (CommandType.valueOf(input.split(" ")[0].toUpperCase())) {
+            case ADD_USER -> new AddUserCommand(objectMapper.readValue(jsonString, AddUserDto.class), userService);
+        };
     }
 }
