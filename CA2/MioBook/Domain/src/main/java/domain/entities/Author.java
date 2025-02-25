@@ -8,18 +8,18 @@ import java.time.LocalDate;
 @Getter
 @SuperBuilder
 public class Author extends DomainEntity<String> {
-    private String name;
-    private String penName;
-    private LocalDate born;
-    private LocalDate death;
-    public String getUsername() {
+    public String getName() {
         return super.getKey();
     }
+    private String penName;
+    private String nationality;
+    private LocalDate born;
+    private LocalDate death;
 
-    public Author(String username, String name, String penName, LocalDate born, LocalDate death) {
-        super(username);
-        this.name = name;
+    public Author(String name, String penName, String nationality, LocalDate born, LocalDate death) {
+        super(name);
         this.penName = penName;
+        this.nationality = nationality;
         this.born = born;
         this.death = death;
     }
