@@ -12,10 +12,12 @@ import java.util.Map;
 public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements IBaseRepository<KT, T> {
     Map<KT, T> map = new HashMap<>();
 
+    protected abstract Class<T> getEntityClassType();
+
     @Override
     public Result<T> add(T entity) {
         if (map.containsKey(entity.getKey()))
-            return Result.failureOf(new EntityAlreadyExists(entity.getClass()));
+            return Result.failureOf(new EntityAlreadyExists(entity.getClass(), entity.getKey()));
 
         map.put(entity.getKey(), entity);
         return Result.successOf(entity);
@@ -25,7 +27,7 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
     public Result<T> remove(KT key) {
         T result = map.remove(key);
         if (result == null)
-            return Result.failureOf(new EntityDoesNotExist()); // TODO: somehow find class here
+            return Result.failureOf(new EntityDoesNotExist(getEntityClassType(), key));
 
         return Result.successOf(result);
     }
@@ -33,7 +35,7 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
     @Override
     public Result<T> update(T entity) {
         if (!map.containsKey(entity.getKey()))
-            return Result.failureOf(new EntityDoesNotExist(entity.getClass()));
+            return Result.failureOf(new EntityDoesNotExist(entity.getClass(), entity.getKey()));
 
         map.put(entity.getKey(), entity);
         return Result.successOf(entity);
@@ -43,7 +45,7 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
     public Result<T> find(KT key) {
         T result = map.get(key);
         if (result == null)
-            return Result.failureOf(new EntityDoesNotExist()); // TODO: somehow find class here
+            return Result.failureOf(new EntityDoesNotExist(getEntityClassType(), key));
 
         return Result.successOf(result);
     }
