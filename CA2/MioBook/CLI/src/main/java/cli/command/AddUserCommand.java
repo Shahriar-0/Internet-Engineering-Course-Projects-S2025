@@ -3,11 +3,13 @@ package cli.command;
 import application.result.Result;
 import application.services.UserService;
 import cli.dtos.AddUserDto;
+import cli.response.Response;
 import domain.entities.User;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class AddUserCommand implements BaseCommand {
+    private static final String SUCCESS_MESSAGE = "User added successfully.";
     private static final String CUSTOMER_ROLE = "customer";
     private static final String ADMIN_ROLE = "admin";
 
@@ -15,9 +17,14 @@ public class AddUserCommand implements BaseCommand {
     private final UserService userService;
 
     @Override
-    public void execute() {
+    public Response execute() {
         Result<User> result = userService.addUser(createUser(addUserDto));
-        System.out.println(result.getData());
+        return createResponse(result);
+    }
+
+    private Response createResponse(Result<User> result) {
+        String message = result.isSuccessful() ? SUCCESS_MESSAGE : result.getException().getMessage();
+        return new Response(result.isSuccessful(), message, null);
     }
 
     private User createUser(AddUserDto dto) {
