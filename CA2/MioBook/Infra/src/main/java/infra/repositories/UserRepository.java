@@ -8,6 +8,17 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
     protected Class<User> getEntityClassType() {
         return User.class;
     }
+    @Override
+    protected User copyOf(User persistedEntity) {
+        return User.builder()
+                .key(persistedEntity.getUsername())
+                .address(persistedEntity.getAddress())
+                .password(persistedEntity.getPassword())
+                .email(persistedEntity.getEmail())
+                .role(persistedEntity.getRole())
+                .credit(persistedEntity.getCredit())
+                .build();
+    }
 
     @Override
     public boolean doesEmailExist(String email) {

@@ -13,6 +13,7 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
     Map<KT, T> map = new HashMap<>();
 
     protected abstract Class<T> getEntityClassType();
+    protected abstract T copyOf(T persistedEntity);
 
     @Override
     public Result<T> add(T entity) {
@@ -20,16 +21,16 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
             return Result.failureOf(new EntityAlreadyExists(entity.getClass(), entity.getKey()));
 
         map.put(entity.getKey(), entity);
-        return Result.successOf(entity);
+        return Result.successOf(copyOf(entity));
     }
 
     @Override
     public Result<T> remove(KT key) {
-        T result = map.remove(key);
-        if (result == null)
+        T entity = map.remove(key);
+        if (entity == null)
             return Result.failureOf(new EntityDoesNotExist(getEntityClassType(), key));
 
-        return Result.successOf(result);
+        return Result.successOf(copyOf(entity));
     }
 
     @Override
@@ -38,16 +39,16 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
             return Result.failureOf(new EntityDoesNotExist(entity.getClass(), entity.getKey()));
 
         map.put(entity.getKey(), entity);
-        return Result.successOf(entity);
+        return Result.successOf(copyOf(entity));
     }
 
     @Override
     public Result<T> find(KT key) {
-        T result = map.get(key);
-        if (result == null)
+        T entity = map.get(key);
+        if (entity == null)
             return Result.failureOf(new EntityDoesNotExist(getEntityClassType(), key));
 
-        return Result.successOf(result);
+        return Result.successOf(copyOf(entity));
     }
 
     @Override
