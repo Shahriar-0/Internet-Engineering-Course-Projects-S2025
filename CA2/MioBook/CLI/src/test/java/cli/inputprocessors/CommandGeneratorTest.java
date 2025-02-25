@@ -42,7 +42,7 @@ public class CommandGeneratorTest {
         }
 
         try {
-            Path inputDir = Paths.get(url.toURI()); // Properly handle the URL
+            Path inputDir = Paths.get(url.toURI());
             return Files.list(inputDir)
                 .filter(p -> p.toString().endsWith(".json"))
                 .map(p -> {
@@ -61,7 +61,6 @@ public class CommandGeneratorTest {
 	@ParameterizedTest
 	@MethodSource("provideCommandFiles")
 	public void testCommandParsing(String commandJson) throws IOException {
-		// Extract command name from the JSON to verify correct command type
 		if (!commandJson.contains("add_user")) {
 			return; // Skip non-AddUser commands for now
 		}
