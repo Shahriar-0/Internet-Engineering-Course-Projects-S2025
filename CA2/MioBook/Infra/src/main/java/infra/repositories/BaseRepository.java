@@ -48,4 +48,9 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 
         return Result.successOf(result);
     }
+
+    @Override
+    public boolean exists(KT key) {
+        return map.containsKey(key);
+    }
 }

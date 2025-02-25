@@ -1,9 +1,6 @@
 package application.validators;
 
-import application.exceptions.businessexceptions.userexceptions.EmailAlreadyExists;
-import application.exceptions.businessexceptions.userexceptions.InvalidEmailPattern;
-import application.exceptions.businessexceptions.userexceptions.InvalidPasswordPattern;
-import application.exceptions.businessexceptions.userexceptions.InvalidUsernamePattern;
+import application.exceptions.businessexceptions.userexceptions.*;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import domain.entities.User;
@@ -35,9 +32,6 @@ public class UserValidator implements IBaseValidator<User> {
 
     @Override
     public Result<User> validate(User user) {
-        if (userRepo.doesEmailExist(user.getEmail()))
-            return Result.failureOf(new EmailAlreadyExists());
-
         if (!isUsernameFormatValid(user.getUsername()))
             return Result.failureOf(new InvalidUsernamePattern());
 
@@ -46,6 +40,12 @@ public class UserValidator implements IBaseValidator<User> {
 
         if (!isEmailValid(user.getEmail()))
             return Result.failureOf(new InvalidEmailPattern());
+
+        if (userRepo.exists(user.getUsername()))
+            return Result.failureOf(new UsernameAlreadyExists());
+
+        if (userRepo.doesEmailExist(user.getEmail()))
+            return Result.failureOf(new EmailAlreadyExists());
 
         return Result.successOf(user);
     }

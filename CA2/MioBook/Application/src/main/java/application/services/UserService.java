@@ -13,11 +13,10 @@ public class UserService {
 
     public Result<User> addUser(User newUser) {
         newUser.setCredit(0);
-        Result<User> validationResult = userValidator.validate(newUser);
 
-        if (validationResult.isFailure()) {
+        Result<User> validationResult = userValidator.validate(newUser);
+        if (validationResult.isFailure())
             return validationResult;
-        }
 
         return userRepo.add(newUser);
     }
