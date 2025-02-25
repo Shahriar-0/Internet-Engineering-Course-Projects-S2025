@@ -11,9 +11,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CommandGenerator {
-
-    private final UserService userService;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final UserService userService;
 
     public BaseCommand generateCommand(String input) throws JsonProcessingException, IllegalArgumentException {
         String jsonString = input.substring(input.indexOf(" ") + 1);

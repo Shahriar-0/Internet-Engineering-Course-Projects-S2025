@@ -6,25 +6,23 @@ import cli.inputprocessors.CommandGenerator;
 import cli.outputprocessors.CliWriter;
 import cli.response.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Scanner;
 
+@RequiredArgsConstructor
 public class Runner {
     private static final AppContext context = new AppContext();
+
     private final CommandGenerator commandGenerator;
     private final CliWriter cliWriter;
 
-    public Runner(CommandGenerator commandGenerator, CliWriter cliWriter) {
-        this.commandGenerator = commandGenerator;
-        this.cliWriter = cliWriter;
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         Runner runner = new Runner(context.getCommandGenerator(), context.getCliWriter());
         runner.run(args);
     }
 
-    private void run(String... args) {
+    private void run(String... args) throws JsonProcessingException {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             try {
@@ -32,9 +30,9 @@ public class Runner {
                 Response response = command.execute();
                 cliWriter.writeResponseToConsole(response);
             }
-            catch (IllegalArgumentException | JsonProcessingException exception) {
-                //TODO: Add response here
-                System.out.println(exception.getMessage());
+            catch (Exception e) {
+                Response response = new Response(false, e.getMessage(), null);
+                cliWriter.writeResponseToConsole(response);
             }
         }
         scanner.close();
