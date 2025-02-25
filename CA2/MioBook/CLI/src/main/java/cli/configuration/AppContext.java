@@ -14,15 +14,16 @@ import lombok.Getter;
 
 @Getter
 public class AppContext {
-    private final IUserRepository userRepository = new UserRepository();
-    private final IAuthorRepository authorRepository = new AuthorRepository();
 
-    private final UserValidator userValidator = new UserValidator(userRepository);
-    private final AuthorValidator authorValidator = new AuthorValidator(authorRepository);
+	private final IUserRepository userRepository = new UserRepository();
+	private final IAuthorRepository authorRepository = new AuthorRepository();
 
-    private final UserService userService = new UserService(userRepository, userValidator);
-    private final AdminService adminService = new AdminService(authorValidator, authorRepository, userService);
+	private final UserValidator userValidator = new UserValidator(userRepository);
+	private final AuthorValidator authorValidator = new AuthorValidator(authorRepository);
 
-    private final CommandGenerator commandGenerator = new CommandGenerator(userService, adminService);
-    private final CliWriter cliWriter = new CliWriter();
+	private final UserService userService = new UserService(userRepository, userValidator);
+	private final AdminService adminService = new AdminService(authorValidator, authorRepository, userService);
+
+	private final CommandGenerator commandGenerator = new CommandGenerator(userService, adminService);
+	private final CliWriter cliWriter = new CliWriter();
 }
