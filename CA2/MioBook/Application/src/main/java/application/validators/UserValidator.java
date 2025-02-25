@@ -2,7 +2,7 @@ package application.validators;
 
 import application.exceptions.userexceptions.*;
 import application.repositories.IUserRepository;
-import application.response.Response;
+import application.result.Result;
 import domain.entities.User;
 
 import java.util.regex.Pattern;
@@ -32,19 +32,19 @@ public class UserValidator implements IBaseValidator<User> {
     }
 
     @Override
-    public Response<User> validate(User user) {
+    public Result<User> validate(User user) {
         if (userRepo.doesEmailExist(user.getEmail()))
-            return Response.failureOf(new EmailAlreadyExists());
+            return Result.failureOf(new EmailAlreadyExists());
 
         if (!isUsernameFormatValid(user.getUsername()))
-            return Response.failureOf(new InvalidUsernamePattern());
+            return Result.failureOf(new InvalidUsernamePattern());
 
         if (!isPasswordValid(user.getPassword()))
-            return Response.failureOf(new InvalidPasswordPattern());
+            return Result.failureOf(new InvalidPasswordPattern());
 
         if (!isEmailValid(user.getEmail()))
-            return Response.failureOf(new InvalidEmailPattern());
+            return Result.failureOf(new InvalidEmailPattern());
 
-        return Response.successOf(user);
+        return Result.successOf(user);
     }
 }

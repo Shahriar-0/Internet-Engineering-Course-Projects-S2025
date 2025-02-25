@@ -1,11 +1,11 @@
 package application.repositories;
 
-import application.response.Response;
+import application.result.Result;
 import domain.entities.DomainEntity;
 
 public interface IBaseRepository<KT, T extends DomainEntity<KT>> {
-    Response<T> add(T entity);
-    Response<T> remove(KT key); //TODO: Make better decision for this
-    Response<T> update(T entity);
-    Response<T> find(KT key);
+    Result<T> add(T entity);
+    Result<T> remove(KT key); //TODO: Make better decision for this
+    Result<T> update(T entity);
+    Result<T> find(KT key);
 }

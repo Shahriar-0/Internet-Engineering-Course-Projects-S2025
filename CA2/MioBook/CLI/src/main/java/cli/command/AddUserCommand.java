@@ -1,6 +1,6 @@
 package cli.command;
 
-import application.response.Response;
+import application.result.Result;
 import application.services.UserService;
 import cli.dtos.AddUserDto;
 import domain.entities.User;
@@ -16,8 +16,8 @@ public class AddUserCommand implements BaseCommand {
 
     @Override
     public void execute() {
-        Response<User> response = userService.addUser(createUser(addUserDto));
-        System.out.println(response.getData());
+        Result<User> result = userService.addUser(createUser(addUserDto));
+        System.out.println(result.getData());
     }
 
     private User createUser(AddUserDto dto) {

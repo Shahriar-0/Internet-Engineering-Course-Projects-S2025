@@ -1,7 +1,7 @@
 package application.services;
 
 import application.repositories.IUserRepository;
-import application.response.Response;
+import application.result.Result;
 import application.validators.UserValidator;
 import domain.entities.User;
 
@@ -14,12 +14,12 @@ public class UserService {
         this.userValidator = userValidator;
     }
 
-    public Response<User> addUser(User newUser) {
+    public Result<User> addUser(User newUser) {
         newUser.setCredit(0);
-        Response<User> validationResponse = userValidator.validate(newUser);
+        Result<User> validationResult = userValidator.validate(newUser);
 
-        if (validationResponse.isFailure()) {
-            return validationResponse;
+        if (validationResult.isFailure()) {
+            return validationResult;
         }
 
         return userRepo.add(newUser);

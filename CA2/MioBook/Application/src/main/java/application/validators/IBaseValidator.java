@@ -1,7 +1,7 @@
 package application.validators;
 
-import application.response.Response;
+import application.result.Result;
 
 public interface IBaseValidator<T> {
-    Response<T> validate(T input);
+    Result<T> validate(T input);
 }
