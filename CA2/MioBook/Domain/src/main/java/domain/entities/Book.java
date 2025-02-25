@@ -1,6 +1,5 @@
 package domain.entities;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

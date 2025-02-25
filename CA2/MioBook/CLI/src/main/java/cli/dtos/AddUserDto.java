@@ -1,6 +1,6 @@
 package cli.dtos;
 
-import domain.valueobject.Address;
+import domain.valueobjects.Address;
 
 public record AddUserDto (
     String role,

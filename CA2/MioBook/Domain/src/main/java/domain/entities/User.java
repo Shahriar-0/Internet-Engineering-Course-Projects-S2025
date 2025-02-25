@@ -1,6 +1,6 @@
 package domain.entities;
 
-import domain.valueobject.Address;
+import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

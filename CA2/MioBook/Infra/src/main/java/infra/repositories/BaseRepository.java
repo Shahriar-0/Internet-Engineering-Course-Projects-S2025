@@ -12,7 +12,6 @@ import java.util.Map;
 public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements IBaseRepository<KT, T> {
     Map<KT, T> map = new HashMap<>();
 
-    //TODO: Refactor duplications
     @Override
     public Result<T> add(T entity) {
         if (map.containsKey(entity.getKey()))
