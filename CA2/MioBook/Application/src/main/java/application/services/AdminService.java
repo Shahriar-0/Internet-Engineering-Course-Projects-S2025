@@ -1,12 +1,16 @@
 package application.services;
 
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
+import application.repositories.IAuthorRepository;
 import application.result.Result;
+import application.validators.AuthorValidator;
 import domain.entities.Author;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AdminService {
+    private final AuthorValidator authorValidator;
+    private final IAuthorRepository authorRepository;
     private final UserService userService;
 
     public Result<Author> addAuthor(Author newAuthor, String adminUsername) {
@@ -16,6 +20,10 @@ public class AdminService {
         else if (!isAdminResult.getData())
             return Result.failureOf(new InvalidAccess());
 
-        return null;
+        Result<Author> validationResult = authorValidator.validate(newAuthor);
+        if (validationResult.isFailure())
+            return validationResult;
+
+        return authorRepository.add(newAuthor);
     }
 }
