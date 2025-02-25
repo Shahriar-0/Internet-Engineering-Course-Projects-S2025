@@ -9,21 +9,22 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AdminService {
-    private final AuthorValidator authorValidator;
-    private final IAuthorRepository authorRepository;
-    private final UserService userService;
 
-    public Result<Author> addAuthor(Author newAuthor, String adminUsername) {
-        Result<Boolean> isAdminResult = userService.isAdmin(adminUsername);
-        if (isAdminResult.isFailure())
-            return Result.failureOf(isAdminResult.getException());
-        else if (!isAdminResult.getData())
-            return Result.failureOf(new InvalidAccess());
+	private final AuthorValidator authorValidator;
+	private final IAuthorRepository authorRepository;
+	private final UserService userService;
 
-        Result<Author> validationResult = authorValidator.validate(newAuthor);
-        if (validationResult.isFailure())
-            return validationResult;
+	public Result<Author> addAuthor(Author newAuthor, String adminUsername) {
+		Result<Boolean> isAdminResult = userService.isAdmin(adminUsername);
+		if (isAdminResult.isFailure())
+			return Result.failureOf(isAdminResult.getException());
+		else if (!isAdminResult.getData())
+			return Result.failureOf(new InvalidAccess());
 
-        return authorRepository.add(newAuthor);
-    }
+		Result<Author> validationResult = authorValidator.validate(newAuthor);
+		if (validationResult.isFailure())
+			return validationResult;
+
+		return authorRepository.add(newAuthor);
+	}
 }
