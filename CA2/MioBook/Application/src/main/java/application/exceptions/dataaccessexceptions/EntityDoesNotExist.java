@@ -1,6 +1,6 @@
-package application.exceptions;
+package application.exceptions.dataaccessexceptions;
 
-public class EntityDoesNotExist extends BaseException {
+public class EntityDoesNotExist extends DataAccessException {
     public EntityDoesNotExist(Class<?> classType) {
         super("Entity " + classType.toString() + " does not exist!");
     }

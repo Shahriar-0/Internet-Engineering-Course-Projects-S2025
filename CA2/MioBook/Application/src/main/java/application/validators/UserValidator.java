@@ -1,21 +1,23 @@
 package application.validators;
 
-import application.exceptions.userexceptions.*;
+import application.exceptions.businessexceptions.userexceptions.EmailAlreadyExists;
+import application.exceptions.businessexceptions.userexceptions.InvalidEmailPattern;
+import application.exceptions.businessexceptions.userexceptions.InvalidPasswordPattern;
+import application.exceptions.businessexceptions.userexceptions.InvalidUsernamePattern;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import domain.entities.User;
+import lombok.RequiredArgsConstructor;
 
 import java.util.regex.Pattern;
 
+@RequiredArgsConstructor
 public class UserValidator implements IBaseValidator<User> {
-    private final IUserRepository userRepo;
     private static final String USERNAME_REGEX = "^[a-zA-Z0-9_-]+$";
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final int MINIMUM_PASSWORD_LENGTH = 4;
 
-    public UserValidator(IUserRepository userRepo) {
-        this.userRepo = userRepo;
-    }
+    private final IUserRepository userRepo;
 
     private boolean isUsernameFormatValid(String username) {
         Pattern pattern = Pattern.compile(USERNAME_REGEX);

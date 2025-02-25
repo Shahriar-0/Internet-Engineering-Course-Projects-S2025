@@ -10,7 +10,6 @@ public class Result<T> {
     public boolean isSuccessful() {
         return exception == null;
     }
-
     public boolean isFailure() {
         return exception != null;
     }
@@ -26,8 +25,5 @@ public class Result<T> {
     }
     public static <T> Result<T> failureOf(BaseException exception) {
         return new Result<>(exception);
-    }
-    public static <T> Result<T> failureOf(String msg) {
-        return new Result<>(new BaseException(msg));
     }
 }

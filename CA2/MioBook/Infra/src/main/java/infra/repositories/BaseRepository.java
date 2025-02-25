@@ -1,7 +1,7 @@
 package infra.repositories;
 
-import application.exceptions.EntityAlreadyExists;
-import application.exceptions.EntityDoesNotExist;
+import application.exceptions.dataaccessexceptions.EntityAlreadyExists;
+import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IBaseRepository;
 import application.result.Result;
 import domain.entities.DomainEntity;
