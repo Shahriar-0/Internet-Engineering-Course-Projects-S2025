@@ -6,6 +6,8 @@ import application.validators.UserValidator;
 import domain.entities.User;
 import lombok.RequiredArgsConstructor;
 
+import static domain.entities.User.Role.Admin;
+
 @RequiredArgsConstructor
 public class UserService {
     private final IUserRepository userRepo;
@@ -19,5 +21,13 @@ public class UserService {
             return validationResult;
 
         return userRepo.add(newUser);
+    }
+
+    Result<Boolean> isAdmin(String username) {
+        Result<User> result = userRepo.find(username);
+        if (result.isFailure())
+            return Result.failureOf(result.getException());
+
+        return Result.successOf(result.getData().getRole().equals(Admin));
     }
 }
