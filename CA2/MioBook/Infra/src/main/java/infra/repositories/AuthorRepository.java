@@ -16,7 +16,7 @@ public class AuthorRepository extends BaseRepository<String, Author> implements 
                 .penName(persistedEntity.getPenName())
                 .nationality(persistedEntity.getNationality())
                 .born(persistedEntity.getBorn())
-                .death(persistedEntity.getDeath())
+                .died(persistedEntity.getDied())
                 .build();
     }
 }

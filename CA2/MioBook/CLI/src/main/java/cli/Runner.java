@@ -1,6 +1,6 @@
 package cli;
 
-import cli.command.BaseCommand;
+import cli.command.IBaseCommand;
 import cli.configuration.AppContext;
 import cli.inputprocessors.CommandGenerator;
 import cli.outputprocessors.CliWriter;
@@ -26,7 +26,7 @@ public class Runner {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             try {
-                BaseCommand command = commandGenerator.generateCommand(scanner.nextLine());
+                IBaseCommand command = commandGenerator.generateCommand(scanner.nextLine());
                 Response response = command.execute();
                 cliWriter.writeResponseToConsole(response);
             }

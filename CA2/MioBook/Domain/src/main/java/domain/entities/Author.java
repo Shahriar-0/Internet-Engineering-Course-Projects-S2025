@@ -14,13 +14,13 @@ public class Author extends DomainEntity<String> {
     private String penName;
     private String nationality;
     private LocalDate born;
-    private LocalDate death;
+    private LocalDate died;
 
     public Author(String name, String penName, String nationality, LocalDate born, LocalDate death) {
         super(name);
         this.penName = penName;
         this.nationality = nationality;
         this.born = born;
-        this.death = death;
+        this.died = death;
     }
 }

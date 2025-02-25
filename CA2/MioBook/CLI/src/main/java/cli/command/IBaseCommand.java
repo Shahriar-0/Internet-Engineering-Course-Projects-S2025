@@ -2,6 +2,6 @@ package cli.command;
 
 import cli.response.Response;
 
-public interface BaseCommand {
+public interface IBaseCommand {
     Response execute();
 }

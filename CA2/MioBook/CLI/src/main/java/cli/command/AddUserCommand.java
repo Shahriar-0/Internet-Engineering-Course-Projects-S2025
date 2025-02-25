@@ -8,7 +8,7 @@ import domain.entities.User;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AddUserCommand implements BaseCommand {
+public class AddUserCommand implements IBaseCommand {
     private static final String SUCCESS_MESSAGE = "User added successfully.";
     private static final String CUSTOMER_ROLE = "customer";
     private static final String ADMIN_ROLE = "admin";
