@@ -1,125 +1,31 @@
-/* Add to existing variables */
-:root {
-	--primary: #16423c;
-	--secondary: #d9d9d9;
-	--background: #f5efe7;
-	--text-dark: #2c3e3b;
-	--text-light: #f5efe7;
+body {
+	background-color: #f5efe7;
+	font-family: Arial, sans-serif;
 }
 
-/* Auth Specific Styles */
-.auth-container {
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--background);
-	padding: 1rem;
-}
-
-.auth-card {
+.signin-card {
+	width: 100%;
+	max-width: 380px;
 	background: white;
-	width: 100%;
-	max-width: 400px;
-	padding: 2.5rem;
 	border-radius: 12px;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.auth-header {
-	padding-bottom: 1.5rem;
-}
-
-.logo {
-	color: var(--primary);
-	font-size: 2rem;
-	font-weight: 700;
-	letter-spacing: -0.5px;
-}
-
-.auth-title {
-	color: var(--text-dark);
-	font-size: 1.5rem;
-	font-weight: 500;
-	margin: 0.5rem 0;
-}
-
-.auth-form .form-label {
-	color: var(--text-dark);
-	font-size: 0.9rem;
-	font-weight: 500;
-	margin-bottom: 0.75rem;
-}
-
-.auth-form .form-control {
-	height: 46px;
-	border: 1px solid var(--secondary);
-	border-radius: 8px;
-	padding: 0.75rem 1rem;
-	transition: border-color 0.3s ease;
-}
-
-.auth-form .form-control:focus {
-	border-color: var(--primary);
-	box-shadow: 0 0 0 2px rgba(22, 66, 60, 0.1);
-}
-
-.btn-primary {
-	background-color: var(--primary);
+.signin-btn {
+	background-color: #d9d9d9;
+	color: #888;
 	border: none;
-	padding: 0.75rem;
-	font-weight: 600;
-	transition: background-color 0.3s ease;
+	padding: 10px;
+	border-radius: 6px;
+	font-size: 16px;
 }
 
-.btn-primary:hover {
-	background-color: #11332e;
+.signin-btn:disabled {
+	opacity: 0.6;
 }
 
-.auth-alt-text {
-	color: var(--text-dark);
-	font-size: 0.9rem;
-	margin: 1rem 0;
-}
-
-.auth-link {
-	color: var(--primary);
-	font-weight: 500;
-	text-decoration: none;
-	position: relative;
-}
-
-.auth-link::after {
-	content: "";
-	position: absolute;
-	bottom: -2px;
-	left: 0;
-	width: 0;
-	height: 1px;
-	background: var(--primary);
-	transition: width 0.3s ease;
-}
-
-.auth-link:hover::after {
+footer {
+	background-color: #16423c;
+	position: fixed;
+	bottom: 0;
 	width: 100%;
-}
-
-.copyright {
-	color: var(--text-dark);
-	font-size: 0.75rem;
-	opacity: 0.8;
-}
-
-@media (max-width: 480px) {
-	.auth-card {
-		padding: 1.5rem;
-	}
-
-	.logo {
-		font-size: 1.75rem;
-	}
-
-	.auth-title {
-		font-size: 1.25rem;
-	}
 }
