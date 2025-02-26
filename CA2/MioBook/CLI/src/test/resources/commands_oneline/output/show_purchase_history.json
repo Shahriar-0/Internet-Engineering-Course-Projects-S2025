@@ -1,0 +1,1 @@
+{"success":true,"message":"Purchase history retrieved successfully.","data":{"username":"name","purchaseHistory":[{"purchaseDate":"2025-02-10 14:00:00","items":[{"title":"book1","author":"author1","publisher":"publisher1","genres":["science","novel"],"year":"2024","isBorrowed":true,"borrowDays":2,"price":1000,"finalPrice":200}],"totalCost":200}]}}

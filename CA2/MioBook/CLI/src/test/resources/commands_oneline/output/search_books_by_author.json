@@ -1,0 +1,1 @@
+{"success":true,"message":"Books by 'author1':","data":{"search":"author1","books":[{"title":"book1","author":"author1","publisher":"publisher1","genres":["fiction"],"year":2024,"price":1000,"synopsis":"Lorem"}]}}
