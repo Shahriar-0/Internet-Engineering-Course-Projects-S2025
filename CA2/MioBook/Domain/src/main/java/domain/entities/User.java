@@ -11,8 +11,8 @@ import lombok.experimental.SuperBuilder;
 public class User extends DomainEntity<String> {
 
 	public enum Role {
-		Customer,
-		Admin,
+		CUSTOMER,
+		ADMIN,
 	}
 
 	private Address address;
@@ -23,14 +23,5 @@ public class User extends DomainEntity<String> {
 
 	public String getUsername() {
 		return super.getKey();
-	}
-
-	public User(String username, String password, String email, Address address, Role role, long credit) {
-		super(username);
-		this.password = password;
-		this.email = email;
-		this.address = address;
-		this.role = role;
-		this.credit = credit;
 	}
 }

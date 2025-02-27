@@ -1,6 +1,6 @@
 package application.services;
 
-import static domain.entities.User.Role.Admin;
+import static domain.entities.User.Role.ADMIN;
 
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -29,6 +29,6 @@ public class UserService {
 		if (result.isFailure())
 			return Result.failureOf(result.getException());
 
-		return Result.successOf(result.getData().getRole().equals(Admin));
+		return Result.successOf(result.getData().getRole().equals(ADMIN));
 	}
 }

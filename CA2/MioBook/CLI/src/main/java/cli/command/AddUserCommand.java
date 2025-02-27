@@ -11,8 +11,6 @@ import lombok.AllArgsConstructor;
 public class AddUserCommand implements IBaseCommand {
 
 	private static final String SUCCESS_MESSAGE = "User added successfully.";
-	private static final String CUSTOMER_ROLE = "customer";
-	private static final String ADMIN_ROLE = "admin";
 
 	private final AddUserDto addUserDto;
 	private final UserService userService;
@@ -30,15 +28,7 @@ public class AddUserCommand implements IBaseCommand {
 			.address(dto.address())
 			.password(dto.password())
 			.email(dto.email())
-			.role(getRole(dto.role()))
+			.role(User.Role.valueOf(dto.role().toUpperCase()))
 			.build();
-	}
-
-	private User.Role getRole(String role) {
-		return switch (role) {
-			case CUSTOMER_ROLE -> User.Role.Customer;
-			case ADMIN_ROLE -> User.Role.Admin;
-			default -> throw new IllegalArgumentException("Invalid user role");
-		};
 	}
 }
