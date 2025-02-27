@@ -1,0 +1,12 @@
+﻿@import "bootstrap.css";
+
+:root {
+    --c-green: #16423C;
+    --c-khaki: #F5EFE7;
+    --c-gray: #D9D9D9;
+}
+
+body {
+    background-color: #F7F9FB;
+    font-family: Arial, sans-serif;
+}
