@@ -17,11 +17,11 @@ public class Author extends DomainEntity<String> {
 	private LocalDate born;
 	private LocalDate died;
 
-	public Author(String name, String penName, String nationality, LocalDate born, LocalDate death) {
+	public Author(String name, String penName, String nationality, LocalDate born, LocalDate died) {
 		super(name);
 		this.penName = penName;
 		this.nationality = nationality;
 		this.born = born;
-		this.died = death;
+		this.died = died;
 	}
 }
