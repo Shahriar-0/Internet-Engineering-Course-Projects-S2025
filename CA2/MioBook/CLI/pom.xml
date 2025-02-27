@@ -14,6 +14,11 @@
     <version>1.0-SNAPSHOT</version>
     <name>CLI</name>
 
+    <properties>
+        <java.util.logging.config.file>./src/main/resources/logging.properties</java.util.logging.config.file>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.twoadayeesshah.miobook</groupId>
@@ -39,6 +44,31 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.18.2</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>6.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.17.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
