@@ -14,7 +14,7 @@ public class UserValidator implements IBaseValidator<User> {
 	@Override
 	public Result<User> validate(User user) {
 		if (userRepo.exists(user.getUsername()))
-			return Result.failureOf(new UsernameAlreadyExists());
+			return Result.failureOf(new UsernameAlreadyExists(user.getUsername()));
 
 		if (userRepo.doesEmailExist(user.getEmail()))
 			return Result.failureOf(new EmailAlreadyExists());
