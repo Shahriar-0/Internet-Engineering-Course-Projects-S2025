@@ -19,12 +19,7 @@ public class AddAuthorCommand implements IBaseCommand {
 	@Override
 	public Response execute() {
 		Result<Author> result = adminService.addAuthor(createAuthor(addAuthorDto), addAuthorDto.username());
-		return createResponse(result);
-	}
-
-	private Response createResponse(Result<Author> result) {
-		String message = result.isSuccessful() ? SUCCESS_MESSAGE : result.getException().getMessage();
-		return new Response(result.isSuccessful(), message, null);
+		return new Response(result, SUCCESS_MESSAGE, false);
 	}
 
 	private Author createAuthor(AddAuthorDto dto) {

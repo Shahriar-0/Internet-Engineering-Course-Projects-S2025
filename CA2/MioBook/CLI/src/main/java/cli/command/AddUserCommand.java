@@ -20,12 +20,7 @@ public class AddUserCommand implements IBaseCommand {
 	@Override
 	public Response execute() {
 		Result<User> result = userService.addUser(createUser(addUserDto));
-		return createResponse(result);
-	}
-
-	private Response createResponse(Result<User> result) {
-		String message = result.isSuccessful() ? SUCCESS_MESSAGE : result.getException().getMessage();
-		return new Response(result.isSuccessful(), message, null);
+		return new Response(result, SUCCESS_MESSAGE, false);
 	}
 
 	private User createUser(AddUserDto dto) {
