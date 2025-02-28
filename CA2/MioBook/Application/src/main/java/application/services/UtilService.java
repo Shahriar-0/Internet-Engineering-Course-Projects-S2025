@@ -4,23 +4,37 @@ import application.dtos.AddAuthorDto;
 import application.dtos.AddBookDto;
 import application.dtos.AddUserDto;
 import application.repositories.IAuthorRepository;
-import domain.entities.Author;
-import domain.entities.Book;
-import domain.entities.User;
+import domain.entities.*;
 import domain.valueobjects.BookContent;
 import java.time.LocalDate;
 
 public class UtilService {
 
 	public static User createUser(AddUserDto dto) {
-		return User
-			.builder()
-			.key(dto.username())
-			.address(dto.address())
-			.password(dto.password())
-			.email(dto.email())
-			.role(User.Role.valueOf(dto.role().toUpperCase()))
-			.build();
+		User.Role role = User.Role.valueOf(dto.role().toUpperCase());
+		if (role == null)
+			throw new IllegalArgumentException("Invalid role: " + dto.role());
+
+		if (role == User.Role.CUSTOMER)
+			return Customer
+				.builder()
+				.key(dto.username())
+				.address(dto.address())
+				.password(dto.password())
+				.email(dto.email())
+				.role(role)
+				.credit(0)
+				.build();
+		else
+			return Admin
+				.builder()
+				.key(dto.username())
+				.address(dto.address())
+				.password(dto.password())
+				.email(dto.email())
+				.role(role)
+				.credit(0)
+				.build();
 	}
 
 	public static Author createAuthor(AddAuthorDto dto) {
@@ -38,7 +52,7 @@ public class UtilService {
 		return Book
 			.builder()
 			.key(dto.title())
-			.author(authorRepository.find(dto.author()).getData())
+			.author(authorRepository.get(dto.author()).getData())
 			.publisher(dto.publisher())
 			.year(dto.year())
 			.price(dto.price())
