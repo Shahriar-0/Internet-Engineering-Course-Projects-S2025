@@ -1,7 +1,4 @@
-body {
-	background-color: #f5f5f5;
-	font-family: "Arial", sans-serif;
-}
+@import "base.css";
 
 .signup-card {
 	background: white;
@@ -24,14 +21,34 @@ body {
 }
 
 .btn-check:checked + .btn {
-	border-color: #16423c;
-	background-color: #f5f5f5;
-	color: #16423c;
+	border-color: var(--c-green);
+	background-color: var(--c-khaki);
+	color: var(--c-green);
 }
 
-footer {
-	background-color: #16423c;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
+.btn-check + .btn {
+	background-color: var(--c-gray);
+}
+
+.btn-check + .btn:hover {
+	background-color: var(--c-gray);
+}
+
+.btn-check:checked + .btn:hover {
+	background-color: var(--c-khaki);
+}
+
+.signup-btn {
+	background-color: var(--c-gray) !important;
+}
+
+.signup-btn:hover {
+	background-color: var(--c-khaki) !important;
+	color: var(--c-green);
+	border-color: var(--c-green);
+}
+
+.signup-btn:disabled {
+	opacity: 0.6;
+	border-color: transparent;
 }
