@@ -1,16 +1,9 @@
 package cli.inputprocessors;
 
-import application.dtos.AddAuthorDto;
-import application.dtos.AddBookDto;
-import application.dtos.AddUserDto;
+import application.dtos.*;
 import application.services.AdminService;
 import application.services.UserService;
-import cli.command.AddAuthorCommand;
-import cli.command.AddBookCommand;
-import cli.command.AddUserCommand;
-import cli.command.CommandType;
-import cli.command.IBaseCommand;
-
+import cli.command.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
@@ -26,7 +19,6 @@ public class CommandGenerator {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private static final Validator validator = factory.getValidator();
-
 
 	private final UserService userService;
 	private final AdminService adminService;
@@ -50,6 +42,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new AddBookCommand(dto, adminService);
 			}
+			case ADD_CART -> {
+				AddCartDto dto = objectMapper.readValue(jsonString, AddCartDto.class);
+				validate(dto);
+				yield new AddCartCommand(dto, userService);
+			}
 		};
 	}
 
@@ -59,8 +56,7 @@ public class CommandGenerator {
 		if (!violations.isEmpty()) {
 			StringBuilder errorMessage = new StringBuilder("Validation failed:\n");
 			for (ConstraintViolation<T> violation : violations) {
-				errorMessage.append(violation.getPropertyPath()).append(": ")
-							.append(violation.getMessage()).append("\n");
+				errorMessage.append(violation.getPropertyPath()).append(": ").append(violation.getMessage()).append("\n");
 			}
 			throw new IllegalArgumentException(errorMessage.toString());
 		}
