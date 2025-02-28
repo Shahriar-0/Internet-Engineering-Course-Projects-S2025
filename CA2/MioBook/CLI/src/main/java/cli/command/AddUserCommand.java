@@ -1,8 +1,8 @@
 package cli.command;
 
+import application.dtos.AddUserDto;
 import application.result.Result;
 import application.services.UserService;
-import cli.dtos.AddUserDto;
 import cli.response.Response;
 import domain.entities.User;
 import lombok.AllArgsConstructor;
@@ -17,18 +17,7 @@ public class AddUserCommand implements IBaseCommand {
 
 	@Override
 	public Response execute() {
-		Result<User> result = userService.addUser(createUser(addUserDto));
+		Result<User> result = userService.addUser(addUserDto);
 		return new Response(result, SUCCESS_MESSAGE, false);
-	}
-
-	private User createUser(AddUserDto dto) {
-		return User
-			.builder()
-			.key(dto.username())
-			.address(dto.address())
-			.password(dto.password())
-			.email(dto.email())
-			.role(User.Role.valueOf(dto.role().toUpperCase()))
-			.build();
 	}
 }

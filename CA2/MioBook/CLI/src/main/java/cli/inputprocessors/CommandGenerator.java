@@ -1,5 +1,8 @@
 package cli.inputprocessors;
 
+import application.dtos.AddAuthorDto;
+import application.dtos.AddBookDto;
+import application.dtos.AddUserDto;
 import application.services.AdminService;
 import application.services.UserService;
 import cli.command.AddAuthorCommand;
@@ -7,9 +10,7 @@ import cli.command.AddBookCommand;
 import cli.command.AddUserCommand;
 import cli.command.CommandType;
 import cli.command.IBaseCommand;
-import cli.dtos.AddAuthorDto;
-import cli.dtos.AddBookDto;
-import cli.dtos.AddUserDto;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;

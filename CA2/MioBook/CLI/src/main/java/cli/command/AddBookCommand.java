@@ -1,11 +1,10 @@
 package cli.command;
 
+import application.dtos.AddBookDto;
 import application.result.Result;
 import application.services.AdminService;
-import cli.dtos.AddBookDto;
 import cli.response.Response;
 import domain.entities.Book;
-import domain.valueobjects.BookContent;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -18,20 +17,7 @@ public class AddBookCommand implements IBaseCommand {
 
     @Override
     public Response execute() {
-        Result<Book> result = adminService.addBook(createBook(addBookDto), addBookDto.username());
+        Result<Book> result = adminService.addBook(addBookDto);
         return new Response(result, SUCCESS_MESSAGE, false);
-    }
-
-    private Book createBook(AddBookDto dto) {
-        return Book.builder()
-            .key(dto.title())
-            .authorString(dto.author()) // FIXME: this is not a good thing, it takes memory and it's bullshit
-            .publisher(dto.publisher())
-            .year(dto.year())
-            .price(dto.price())
-            .synopsis(dto.synopsis())
-            .content(new BookContent(dto.content()))
-            .genres(dto.genres())
-            .build();
     }
 }

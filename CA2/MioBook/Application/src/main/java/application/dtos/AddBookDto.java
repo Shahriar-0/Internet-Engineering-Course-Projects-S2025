@@ -1,4 +1,4 @@
-package cli.dtos;
+package application.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;

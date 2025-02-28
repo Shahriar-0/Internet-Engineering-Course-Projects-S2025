@@ -1,5 +1,6 @@
 package application.validators;
 
+import application.dtos.AddAuthorDto;
 import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.repositories.IAuthorRepository;
@@ -8,16 +9,16 @@ import domain.entities.Author;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AuthorValidator implements IBaseValidator<Author> {
+public class AuthorValidator implements IBaseValidator<AddAuthorDto> {
 
 	private final IAuthorRepository authorRepository;
 
 	@Override
-	public Result<Author> validate(Author author) {
-		if (authorRepository.exists(author.getKey()))
-			return Result.failureOf(new AuthorAlreadyExists(author.getName()));
+	public Result<AddAuthorDto> validate(AddAuthorDto authorDto) {
+		if (authorRepository.exists(authorDto.name()))
+			return Result.failureOf(new AuthorAlreadyExists(authorDto.name()));
 
-		return Result.successOf(author);
+		return Result.successOf(authorDto);
 	}
 
 	public Result<Author> getAuthor(String authorName) { // FIXME: this shouldn't be here but I don't know what to for now

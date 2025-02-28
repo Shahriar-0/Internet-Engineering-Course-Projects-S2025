@@ -1,24 +1,24 @@
 package application.validators;
 
+import application.dtos.AddUserDto;
 import application.exceptions.businessexceptions.userexceptions.*;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import domain.entities.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UserValidator implements IBaseValidator<User> {
+public class UserValidator implements IBaseValidator<AddUserDto> {
 
 	private final IUserRepository userRepo;
 
 	@Override
-	public Result<User> validate(User user) {
-		if (userRepo.exists(user.getUsername()))
-			return Result.failureOf(new UsernameAlreadyExists(user.getUsername()));
+	public Result<AddUserDto> validate(AddUserDto userDto) {
+		if (userRepo.exists(userDto.username()))
+			return Result.failureOf(new UsernameAlreadyExists(userDto.username()));
 
-		if (userRepo.doesEmailExist(user.getEmail()))
+		if (userRepo.doesEmailExist(userDto.email()))
 			return Result.failureOf(new EmailAlreadyExists());
 
-		return Result.successOf(user);
+		return Result.successOf(userDto);
 	}
 }
