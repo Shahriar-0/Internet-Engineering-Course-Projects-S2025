@@ -12,8 +12,8 @@ public class Book extends DomainEntity<String> {
 
 	private Author author;
 	private String publisher;
-	private String year; // Published year
-	private long price;
+	private String year; // published year
+	private long price; // in cents
 	private String synopsis;
 	private BookContent content;
 	private List<String> genres;
