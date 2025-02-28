@@ -1,4 +1,5 @@
 ﻿@import "bootstrap.css";
+@import "bootstrap-icons.css";
 
 :root {
     --c-green: #16423C;
@@ -7,6 +8,55 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #F7F9FB;
     font-family: Arial, sans-serif;
+}
+
+main {
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+footer {
+    margin-top: auto;
+    background-color: var(--c-green);
+}
+
+a {
+    text-decoration: none;
+    color: var(--c-green);
+    font-weight: bold;
+}
+
+@media (min-width: 576px) {
+    .w-sm-25 { width: 25% !important; }
+    .w-sm-50 { width: 50% !important; }
+    .w-sm-75 { width: 75% !important; }
+}
+
+@media (min-width: 768px) {
+    .w-md-25 { width: 25% !important; }
+    .w-md-50 { width: 50% !important; }
+    .w-md-75 { width: 75% !important; }
+}
+
+@media (min-width: 992px) {
+    .w-lg-25 { width: 25% !important; }
+    .w-lg-50 { width: 50% !important; }
+    .w-lg-75 { width: 75% !important; }
+}
+
+@media (min-width: 1200px) {
+    .w-xl-25 { width: 25% !important; }
+    .w-xl-50 { width: 50% !important; }
+    .w-xl-75 { width: 75% !important; }
+}
+
+@media (min-width: 1400px) {
+    .w-xxl-25 { width: 25% !important; }
+    .w-xxl-50 { width: 50% !important; }
+    .w-xxl-75 { width: 75% !important; }
 }
