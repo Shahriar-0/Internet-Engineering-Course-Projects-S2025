@@ -33,5 +33,8 @@ public record AddUserDto(
 	@JsonProperty(value = "email", required = true)
 	String email,
 
-	@NotNull(message = "Address is required") @Valid @JsonProperty(value = "address", required = true) Address address
+	@NotNull(message = "Address is required")
+    @Valid
+    @JsonProperty(value = "address", required = true)
+    Address address
 ) {}
