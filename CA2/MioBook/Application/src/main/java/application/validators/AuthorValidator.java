@@ -13,6 +13,14 @@ public class AuthorValidator implements IBaseValidator<AddAuthorDto> {
 
 	private final IAuthorRepository authorRepository;
 
+	/**
+	 * Checks if an author with the given name already exists in the system.
+	 *
+	 * @param authorDto The new author to add, as a DTO.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists}.
+	 */
 	@Override
 	public Result<AddAuthorDto> validate(AddAuthorDto authorDto) {
 		if (authorRepository.exists(authorDto.name()))

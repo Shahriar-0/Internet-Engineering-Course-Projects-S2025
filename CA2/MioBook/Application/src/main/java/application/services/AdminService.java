@@ -8,9 +8,7 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.validators.AuthorValidator;
 import application.validators.BookValidator;
-import domain.entities.Author;
-import domain.entities.Book;
-import domain.entities.User;
+import domain.entities.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -64,6 +62,15 @@ public class AdminService {
 		return bookRepository.add(newBook);
 	}
 
+	/**
+	 * Check if a user with the given username exists and is an admin.
+	 *
+	 * @param username The username of the user to check.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}. The only
+	 *         possible exception is an {@link application.exceptions.businessexceptions.userexceptions.InvalidAccess}.
+	 */
 	private Result<User> isAdmin(String username) {
 		Result<User> userSearchResult = userService.doesExist(username);
 		if (userSearchResult.isFailure())

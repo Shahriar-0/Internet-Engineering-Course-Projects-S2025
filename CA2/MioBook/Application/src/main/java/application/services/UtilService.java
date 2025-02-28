@@ -1,8 +1,6 @@
 package application.services;
 
-import application.dtos.AddAuthorDto;
-import application.dtos.AddBookDto;
-import application.dtos.AddUserDto;
+import application.dtos.*;
 import application.repositories.IAuthorRepository;
 import domain.entities.*;
 import domain.valueobjects.BookContent;

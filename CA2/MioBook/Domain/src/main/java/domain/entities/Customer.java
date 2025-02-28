@@ -19,6 +19,9 @@ public class Customer extends User {
 		return cart.canAddBook(book);
 	}
 
+	/**
+	 * @return A string containing the reason why a book cannot be added to the cart. If a book can be added, this method returns null.
+	 */
 	public String getAddBookError() {
 		return cart.getAddBookError();
 	}
@@ -34,8 +37,9 @@ class Cart {
 	private final int MAXIMUM_BOOKS = 10;
 
 	String getAddBookError() { // FIXME: I'm not sure about this choice
-		//also the performce of this method is not good cause of duplication
-		if (books.size() >= MAXIMUM_BOOKS) return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
+							   // also the performce of this method is not good cause of duplication
+		if (books.size() >= MAXIMUM_BOOKS)
+			return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
 		return null;
 	}
 

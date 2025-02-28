@@ -1,8 +1,7 @@
 package cli.inputprocessors;
 
 import application.dtos.*;
-import application.services.AdminService;
-import application.services.UserService;
+import application.services.*;
 import cli.command.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +22,15 @@ public class CommandGenerator {
 	private final UserService userService;
 	private final AdminService adminService;
 
+	/**
+	 * Given a string command in the format "COMMAND_NAME JSON_DATA",
+	 * parse the JSON data and create a corresponding command object.
+	 *
+	 * @param input A string command in the format "COMMAND_NAME JSON_DATA".
+	 * @return A command object corresponding to the given command name and data.
+	 * @throws JsonProcessingException If the JSON data cannot be parsed.
+	 * @throws IllegalArgumentException If the command name is invalid.
+	 */
 	public IBaseCommand generateCommand(String input) throws JsonProcessingException, IllegalArgumentException {
 		String jsonString = input.substring(input.indexOf(" ") + 1);
 
@@ -50,6 +58,12 @@ public class CommandGenerator {
 		};
 	}
 
+	/**
+	 * Validate the given object against the constraints specified in its class.
+	 *
+	 * @param object The object to validate.
+	 * @throws IllegalArgumentException If the object is invalid.
+	 */
 	private static <T> void validate(T object) {
 		Set<ConstraintViolation<T>> violations = validator.validate(object);
 

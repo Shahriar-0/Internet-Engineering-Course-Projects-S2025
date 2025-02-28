@@ -62,6 +62,15 @@ public class UserService {
 		return Result.success(user);
 	}
 
+	/**
+	 * Check if a user with the given username exists and is a customer.
+	 *
+	 * @param username The username of the user to check.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}. The only
+	 *         possible exception is an {@link application.exceptions.businessexceptions.userexceptions.InvalidAccess}.
+	 */
 	private Result<User> isCustomer(String username) {
 		Result<User> userSearchResult = doesExist(username);
 		if (userSearchResult.isFailure())
@@ -72,6 +81,15 @@ public class UserService {
 		return userSearchResult;
 	}
 
+	/**
+	 * Check if a user with the given username exists.
+	 *
+	 * @param username The username of the user to check.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}. The only
+	 *         possible exception is an {@link application.exceptions.businessexceptions.userexceptions.UserDoesNotExists}.
+	 */
 	Result<User> doesExist(String username) {
 		return userRepo.get(username);
 	}

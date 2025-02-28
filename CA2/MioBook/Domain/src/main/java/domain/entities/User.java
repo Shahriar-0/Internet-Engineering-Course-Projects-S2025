@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public abstract class User extends DomainEntity<String> { // FIXME: maybe abstract class?
+public abstract class User extends DomainEntity<String> {
 
 	public enum Role {
 		CUSTOMER,
