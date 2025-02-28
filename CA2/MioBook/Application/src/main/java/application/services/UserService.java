@@ -1,7 +1,5 @@
 package application.services;
 
-import static domain.entities.User.Role.ADMIN;
-
 import application.dtos.AddUserDto;
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -18,19 +16,15 @@ public class UserService {
 	public Result<User> addUser(AddUserDto newUserDto) {
 		Result<AddUserDto> validationResult = userValidator.validate(newUserDto);
 		if (validationResult.isFailure())
-			return Result.failureOf(validationResult.getException());
+			return new Result<>(validationResult);
 
 		User newUser = createUser(newUserDto);
 		newUser.setCredit(0);
 		return userRepo.add(newUser);
 	}
 
-	Result<Boolean> isAdmin(String username) {
-		Result<User> result = userRepo.find(username);
-		if (result.isFailure())
-			return Result.failureOf(result.getException());
-
-		return Result.successOf(result.getData().getRole().equals(ADMIN));
+	Result<User> doesExist(String username) {
+		return userRepo.find(username);
 	}
 
 	private User createUser(AddUserDto dto) {

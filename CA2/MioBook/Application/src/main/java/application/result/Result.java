@@ -25,11 +25,23 @@ public class Result<T> {
 		this.exception = exception;
 	}
 
-	public static <T> Result<T> successOf(T data) {
+	@SuppressWarnings("unchecked")
+	public <U> Result(Result<U> result) {
+		if (result.getData() != null) {
+			try {
+				this.data = (T) result.getData();
+			} catch (ClassCastException e) {
+				this.data = null;
+			}
+		}
+		this.exception = result.getException();
+	}
+
+	public static <T> Result<T> success(T data) {
 		return new Result<>(data);
 	}
 
-	public static <T> Result<T> failureOf(BaseException exception) {
+	public static <T> Result<T> failure(BaseException exception) {
 		return new Result<>(exception);
 	}
 }

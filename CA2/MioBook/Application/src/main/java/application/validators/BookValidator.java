@@ -11,18 +11,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookValidator implements IBaseValidator<AddBookDto> {
 
-    private final IBookRepository bookRepository;
-    private final AuthorValidator authorValidator;
+	private final IBookRepository bookRepository;
+	private final AuthorValidator authorValidator;
 
 	@Override
 	public Result<AddBookDto> validate(AddBookDto input) {
-        Result<Author> authorResult = authorValidator.getAuthor(input.author());
-        if (authorResult.isFailure())
-            return Result.failureOf(new AuthorDoesNotExists(input.author()));
+		Result<Author> authorResult = authorValidator.getAuthor(input.author());
+		if (authorResult.isFailure())
+            return Result.failure(new AuthorDoesNotExists(input.author()));
 
-        if (bookRepository.exists(input.title()))
-            return Result.failureOf(new BookAlreadyExists(input.title()));
+		if (bookRepository.exists(input.title()))
+            return Result.failure(new BookAlreadyExists(input.title()));
 
-        return Result.successOf(input);
+		return Result.success(input);
 	}
 }

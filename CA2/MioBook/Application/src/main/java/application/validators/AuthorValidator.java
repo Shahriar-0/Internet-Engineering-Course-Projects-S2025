@@ -16,15 +16,15 @@ public class AuthorValidator implements IBaseValidator<AddAuthorDto> {
 	@Override
 	public Result<AddAuthorDto> validate(AddAuthorDto authorDto) {
 		if (authorRepository.exists(authorDto.name()))
-			return Result.failureOf(new AuthorAlreadyExists(authorDto.name()));
+			return Result.failure(new AuthorAlreadyExists(authorDto.name()));
 
-		return Result.successOf(authorDto);
+		return Result.success(authorDto);
 	}
 
-	public Result<Author> getAuthor(String authorName) { // FIXME: this shouldn't be here but I don't know what to for now
+	public Result<Author> getAuthor(String authorName) {
 		if (!authorRepository.exists(authorName))
-            return Result.failureOf(new AuthorDoesNotExists(authorName));
+			return Result.failure(new AuthorDoesNotExists(authorName));
 
-        return Result.successOf(authorRepository.find(authorName).getData());
+		return Result.success(authorRepository.find(authorName).getData());
 	}
 }

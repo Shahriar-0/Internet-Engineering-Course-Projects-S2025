@@ -14,11 +14,11 @@ public class UserValidator implements IBaseValidator<AddUserDto> {
 	@Override
 	public Result<AddUserDto> validate(AddUserDto userDto) {
 		if (userRepo.exists(userDto.username()))
-			return Result.failureOf(new UsernameAlreadyExists(userDto.username()));
+			return Result.failure(new UsernameAlreadyExists(userDto.username()));
 
 		if (userRepo.doesEmailExist(userDto.email()))
-			return Result.failureOf(new EmailAlreadyExists());
+			return Result.failure(new EmailAlreadyExists(userDto.email()));
 
-		return Result.successOf(userDto);
+		return Result.success(userDto);
 	}
 }
