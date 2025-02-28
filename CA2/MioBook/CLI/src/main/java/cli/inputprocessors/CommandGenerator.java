@@ -55,6 +55,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new AddCartCommand(dto, userService);
 			}
+			case REMOVE_CART -> {
+				RemoveCartDto dto = objectMapper.readValue(jsonString, RemoveCartDto.class);
+				validate(dto);
+				yield new RemoveCartCommand(dto, userService);
+			}
 		};
 	}
 
