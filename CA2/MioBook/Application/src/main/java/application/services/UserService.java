@@ -2,8 +2,9 @@ package application.services;
 
 import application.dtos.AddCartDto;
 import application.dtos.AddUserDto;
-import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
+import application.dtos.RemoveCartDto;
+import application.exceptions.businessexceptions.cartexceptions.*;
+import application.exceptions.businessexceptions.userexceptions.*;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -56,9 +57,35 @@ public class UserService {
 		Book book = bookSearchResult.getData();
 
 		if (!user.canAddBook(book))
-			return Result.failure(new CantAddToCart(user.getAddBookError()));
+			return Result.failure(new CantAddToCart(user.getAddBookError(book)));
 
 		user.addBook(book);
+		return Result.success(user);
+	}
+
+	/**
+	 * Remove a book from the cart of a customer.
+	 *
+	 * @param removeCartDto A DTO containing the username of the customer and the title of the book to be removed.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.cartexceptions.CartException}.
+	 */
+	public Result<User> RemoveCart(RemoveCartDto removeCartDto) {
+		Result<User> userSearchResult = isCustomer(removeCartDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+		Customer user = (Customer) userSearchResult.getData();
+
+		Result<Book> bookSearchResult = bookRepo.get(removeCartDto.title());
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
+		Book book = bookSearchResult.getData();
+
+		if (!user.canRemoveBook(book))
+			return Result.failure(new CantRemoveFromCart(user.getRemoveBookError(book)));
+
+		user.removeBook(removeCartDto.title());
 		return Result.success(user);
 	}
 
