@@ -4,9 +4,11 @@ import application.exceptions.businessexceptions.BusinessException;
 
 public class InvalidAccess extends BusinessException {
 
-	private static final String MESSAGE = "Invalid access!";
+	private static String message(String access) {
+		return "User does not have " + access + " access!";
+	}
 
-	public InvalidAccess() {
-		super(MESSAGE);
+	public InvalidAccess(String access) {
+		super(message(access));
 	}
 }

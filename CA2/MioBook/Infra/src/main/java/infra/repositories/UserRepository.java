@@ -24,7 +24,7 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 	}
 
 	@Override
-	public boolean doesEmailExist(String email) {
+	public Boolean doesEmailExist(String email) {
 		return map.values().stream().anyMatch(user -> user.getEmail().equals(email));
 	}
 }

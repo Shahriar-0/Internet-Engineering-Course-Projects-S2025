@@ -9,11 +9,11 @@ public class Result<T> {
 	private T data;
 	private BaseException exception;
 
-	public boolean isSuccessful() {
+	public Boolean isSuccessful() {
 		return exception == null;
 	}
 
-	public boolean isFailure() {
+	public Boolean isFailure() {
 		return exception != null;
 	}
 

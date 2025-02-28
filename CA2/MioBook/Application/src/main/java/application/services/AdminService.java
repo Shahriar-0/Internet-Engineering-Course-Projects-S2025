@@ -11,8 +11,6 @@ import application.validators.BookValidator;
 import domain.entities.Author;
 import domain.entities.Book;
 import domain.entities.User;
-import domain.valueobjects.BookContent;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class AdminService {
 		if (validationResult.isFailure())
 			return new Result<>(validationResult);
 
-		Author newAuthor = createAuthor(newAuthorDto);
+		Author newAuthor = UtilService.createAuthor(newAuthorDto);
 		return authorRepository.add(newAuthor);
 	}
 
@@ -46,7 +44,7 @@ public class AdminService {
 		if (validationResult.isFailure())
 			return new Result<>(validationResult);
 
-		Book newBook = createBook(newBookDto);
+		Book newBook = UtilService.createBook(newBookDto, authorRepository);
 		return bookRepository.add(newBook);
 	}
 
@@ -55,33 +53,8 @@ public class AdminService {
 		if (userSearchResult.isFailure())
 			return new Result<>(userSearchResult);
 		else if (userSearchResult.getData().getRole() != User.Role.ADMIN)
-			return Result.failure(new InvalidAccess());
+			return Result.failure(new InvalidAccess("admin"));
 
 		return userSearchResult;
-	}
-
-	private Author createAuthor(AddAuthorDto dto) {
-		return Author
-			.builder()
-			.key(dto.name())
-			.penName(dto.penName())
-			.nationality(dto.nationality())
-			.born(LocalDate.parse(dto.born()))
-			.died(dto.died() == null ? null : LocalDate.parse(dto.died()))
-			.build();
-	}
-
-	private Book createBook(AddBookDto dto) {
-		return Book
-			.builder()
-			.key(dto.title())
-			.author(authorRepository.find(dto.author()).getData())
-			.publisher(dto.publisher())
-			.year(dto.year())
-			.price(dto.price())
-			.synopsis(dto.synopsis())
-			.content(new BookContent(dto.content()))
-			.genres(dto.genres())
-			.build();
 	}
 }

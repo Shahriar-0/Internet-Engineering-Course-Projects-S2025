@@ -18,8 +18,7 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 
 	@Override
 	public Result<T> add(T entity) {
-		if (map.containsKey(entity.getKey()))
-			return Result.failure(new EntityAlreadyExists(entity.getClass(), entity.getKey()));
+		if (map.containsKey(entity.getKey())) return Result.failure(new EntityAlreadyExists(entity.getClass(), entity.getKey()));
 
 		map.put(entity.getKey(), entity);
 		return Result.success(copyOf(entity));
@@ -28,16 +27,14 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 	@Override
 	public Result<T> remove(KT key) {
 		T entity = map.remove(key);
-		if (entity == null)
-			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
+		if (entity == null) return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
 
 		return Result.success(copyOf(entity));
 	}
 
 	@Override
 	public Result<T> update(T entity) {
-		if (!map.containsKey(entity.getKey()))
-			return Result.failure(new EntityDoesNotExist(entity.getClass(), entity.getKey()));
+		if (!map.containsKey(entity.getKey())) return Result.failure(new EntityDoesNotExist(entity.getClass(), entity.getKey()));
 
 		map.put(entity.getKey(), entity);
 		return Result.success(copyOf(entity));
@@ -46,14 +43,13 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 	@Override
 	public Result<T> find(KT key) {
 		T entity = map.get(key);
-		if (entity == null)
-			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
+		if (entity == null) return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
 
 		return Result.success(copyOf(entity));
 	}
 
 	@Override
-	public boolean exists(KT key) {
+	public Boolean exists(KT key) {
 		return map.containsKey(key);
 	}
 }
