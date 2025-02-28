@@ -22,6 +22,14 @@ public class AdminService {
 	private final IBookRepository bookRepository;
 	private final UserService userService;
 
+	/**
+	 * Adds a new author to the system.
+	 *
+	 * @param newAuthorDto The new author to add, as a DTO.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}.
+	 */
 	public Result<Author> addAuthor(AddAuthorDto newAuthorDto) {
 		Result<User> isAdminResult = isAdmin(newAuthorDto.username());
 		if (isAdminResult.isFailure())
@@ -35,6 +43,14 @@ public class AdminService {
 		return authorRepository.add(newAuthor);
 	}
 
+	/**
+	 * Adds a new book to the system.
+	 *
+	 * @param newBookDto The new book to add, as a DTO.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}.
+	 */
 	public Result<Book> addBook(AddBookDto newBookDto) {
 		Result<User> isAdminResult = isAdmin(newBookDto.username());
 		if (isAdminResult.isFailure())

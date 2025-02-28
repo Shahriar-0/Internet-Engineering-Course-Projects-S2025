@@ -19,6 +19,14 @@ public class UserService {
 	private final UserValidator userValidator;
 	private final IBookRepository bookRepo;
 
+	/**
+	 * Adds a new user to the system.
+	 *
+	 * @param newUserDto The new user to add, as a DTO.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}.
+	 */
 	public Result<User> addUser(AddUserDto newUserDto) {
 		Result<AddUserDto> validationResult = userValidator.validate(newUserDto);
 		if (validationResult.isFailure())
@@ -29,7 +37,15 @@ public class UserService {
 		return userRepo.add(newUser);
 	}
 
-	public Result<Void> addToCart(AddCartDto addCartDto) {
+	/**
+	 * Add a book to the cart of a customer.
+	 *
+	 * @param addCartDto A DTO containing the username of the customer and the title of the book.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.cartexceptions.CartException}.
+	 */
+	public Result<Void> addCart(AddCartDto addCartDto) {
 		Result<User> userSearchResult = isCustomer(addCartDto.username());
 		if (!userSearchResult.isSuccessful())
 			return new Result<>(userSearchResult);
