@@ -4,9 +4,11 @@ import application.exceptions.businessexceptions.BusinessException;
 
 public class EmailAlreadyExists extends BusinessException {
 
-	private static final String MESSAGE = "Email already exists!";
+	private static String message(String email) {
+		return "User with email '" + email + "' already exists!";
+	}
 
-	public EmailAlreadyExists() {
-		super(MESSAGE);
+	public EmailAlreadyExists(String email) {
+		super(message(email));
 	}
 }
