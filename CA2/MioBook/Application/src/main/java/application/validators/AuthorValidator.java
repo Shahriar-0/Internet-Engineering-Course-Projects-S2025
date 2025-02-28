@@ -1,6 +1,7 @@
 package application.validators;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
+import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import domain.entities.Author;
@@ -17,5 +18,12 @@ public class AuthorValidator implements IBaseValidator<Author> {
 			return Result.failureOf(new AuthorAlreadyExists(author.getName()));
 
 		return Result.successOf(author);
+	}
+
+	public Result<Author> getAuthor(String authorName) { // FIXME: this shouldn't be here but I don't know what to for now
+		if (!authorRepository.exists(authorName))
+            return Result.failureOf(new AuthorDoesNotExists(authorName));
+
+        return Result.successOf(authorRepository.find(authorName).getData());
 	}
 }

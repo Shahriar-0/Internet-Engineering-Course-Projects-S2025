@@ -3,10 +3,12 @@ package cli.inputprocessors;
 import application.services.AdminService;
 import application.services.UserService;
 import cli.command.AddAuthorCommand;
+import cli.command.AddBookCommand;
 import cli.command.AddUserCommand;
 import cli.command.CommandType;
 import cli.command.IBaseCommand;
 import cli.dtos.AddAuthorDto;
+import cli.dtos.AddBookDto;
 import cli.dtos.AddUserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +43,11 @@ public class CommandGenerator {
 				AddAuthorDto dto = objectMapper.readValue(jsonString, AddAuthorDto.class);
 				validate(dto);
 				yield new AddAuthorCommand(dto, adminService);
+			}
+			case ADD_BOOK -> {
+				AddBookDto dto = objectMapper.readValue(jsonString, AddBookDto.class);
+				validate(dto);
+				yield new AddBookCommand(dto, adminService);
 			}
 		};
 	}

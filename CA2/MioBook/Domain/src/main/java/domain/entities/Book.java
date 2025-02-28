@@ -11,8 +11,9 @@ import lombok.experimental.SuperBuilder;
 public class Book extends DomainEntity<String> {
 
 	private Author author;
+	private String authorString; // FIXME: this is just a temporary solution
 	private String publisher;
-	private String year; // published year
+	private int year; // published year
 	private long price; // in cents
 	private String synopsis;
 	private BookContent content;
@@ -26,7 +27,7 @@ public class Book extends DomainEntity<String> {
 		String title,
 		Author author,
 		String publisher,
-		String year,
+		int year,
 		long price,
 		String synopsis,
 		BookContent content,

@@ -7,4 +7,9 @@ public record BookContent(
     @NotBlank(message = "Content is required")
     @JsonProperty(value = "content", required = true)
     String content
-) {}
+) {
+
+    public BookContent(String content) {
+        this.content = content;
+    }
+}
