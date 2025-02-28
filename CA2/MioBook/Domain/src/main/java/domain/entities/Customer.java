@@ -44,6 +44,10 @@ public class Customer extends User {
 	public void removeBook(String title) {
 		cart.removeBook(title);
 	}
+
+	public void addCredit(long amount) {
+		credit += amount;
+	}
 }
 
 class Cart {

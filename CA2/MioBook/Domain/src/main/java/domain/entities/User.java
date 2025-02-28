@@ -15,11 +15,11 @@ public abstract class User extends DomainEntity<String> {
 		ADMIN,
 	}
 
-	private Address address;
-	private String password;
-	private String email;
-	private Role role;
-	private long credit;
+	protected Address address;
+	protected String password;
+	protected String email;
+	protected Role role;
+	protected long credit;
 
 	public String getUsername() {
 		return super.getKey();

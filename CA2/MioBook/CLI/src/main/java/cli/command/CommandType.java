@@ -6,4 +6,5 @@ public enum CommandType {
 	ADD_BOOK,
 	ADD_CART,
 	REMOVE_CART,
+	ADD_CREDIT,
 }

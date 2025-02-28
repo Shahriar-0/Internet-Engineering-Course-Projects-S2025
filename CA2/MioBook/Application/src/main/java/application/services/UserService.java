@@ -1,8 +1,6 @@
 package application.services;
 
-import application.dtos.AddCartDto;
-import application.dtos.AddUserDto;
-import application.dtos.RemoveCartDto;
+import application.dtos.*;
 import application.exceptions.businessexceptions.cartexceptions.*;
 import application.exceptions.businessexceptions.userexceptions.*;
 import application.repositories.IBookRepository;
@@ -86,6 +84,24 @@ public class UserService {
 			return Result.failure(new CantRemoveFromCart(user.getRemoveBookError(book)));
 
 		user.removeBook(removeCartDto.title());
+		return Result.success(user);
+	}
+
+	/**
+	 * Adds credit to a customer.
+	 *
+	 * @param addCreditDto A DTO containing the username of the customer and the amount of credit to add.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.userexceptions.UserException}.
+	 */
+	public Result<User> addCredit(AddCreditDto addCreditDto) {
+		Result<User> userSearchResult = isCustomer(addCreditDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+		Customer user = (Customer) userSearchResult.getData();
+
+		user.addCredit(addCreditDto.credit());
 		return Result.success(user);
 	}
 

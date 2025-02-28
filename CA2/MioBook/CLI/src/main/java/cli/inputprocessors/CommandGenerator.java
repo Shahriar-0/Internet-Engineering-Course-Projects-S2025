@@ -60,6 +60,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new RemoveCartCommand(dto, userService);
 			}
+			case ADD_CREDIT -> {
+				AddCreditDto dto = objectMapper.readValue(jsonString, AddCreditDto.class);
+				validate(dto);
+				yield new AddCreditCommand(dto, userService);
+			}
 		};
 	}
 

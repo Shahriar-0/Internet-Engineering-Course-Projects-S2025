@@ -1,7 +1,6 @@
 package application.services;
 
-import application.dtos.AddAuthorDto;
-import application.dtos.AddBookDto;
+import application.dtos.*;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
