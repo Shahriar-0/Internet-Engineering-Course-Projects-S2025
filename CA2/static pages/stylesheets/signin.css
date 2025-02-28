@@ -1,31 +1,17 @@
-body {
-	background-color: #f5efe7;
-	font-family: Arial, sans-serif;
-}
-
-.signin-card {
-	width: 100%;
-	max-width: 380px;
-	background: white;
-	border-radius: 12px;
-}
+@import "base.css";
 
 .signin-btn {
-	background-color: #d9d9d9;
-	color: #888;
-	border: none;
-	padding: 10px;
-	border-radius: 6px;
-	font-size: 16px;
+	background-color: var(--c-gray) !important;
+}
+
+.signin-btn:hover {
+	background-color: var(--c-khaki) !important;
+	color: var(--c-green);
+	border-color: var(--c-green);
 }
 
 .signin-btn:disabled {
 	opacity: 0.6;
+	border-color: transparent;
 }
 
-footer {
-	background-color: #16423c;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-}
