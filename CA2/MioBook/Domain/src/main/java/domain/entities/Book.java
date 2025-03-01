@@ -1,8 +1,11 @@
 package domain.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import domain.valueobjects.BookContent;
+import domain.valueobjects.Review;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -18,27 +21,14 @@ public class Book extends DomainEntity<String> {
 	private BookContent content;
 	private List<String> genres;
 
+	@Builder.Default
+	private List<Review> reviews = new ArrayList<>();
+
 	public String getTitle() {
 		return super.getKey();
 	}
 
-	public Book(
-		String title,
-		Author author,
-		String publisher,
-		int year,
-		long price,
-		String synopsis,
-		BookContent content,
-		List<String> genres
-	) {
-		super(title);
-		this.author = author;
-		this.publisher = publisher;
-		this.year = year;
-		this.price = price;
-		this.synopsis = synopsis;
-		this.content = content;
-		this.genres = genres;
+	public void addReview(Review review) {
+		reviews.add(review);
 	}
 }
