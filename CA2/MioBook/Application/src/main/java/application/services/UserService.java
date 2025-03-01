@@ -83,7 +83,7 @@ public class UserService {
 		if (!user.canRemoveBook(book))
 			return Result.failure(new CantRemoveFromCart(user.getRemoveBookError(book)));
 
-		user.removeBook(removeCartDto.title());
+		user.removeBook(book);
 		return Result.success(user);
 	}
 
