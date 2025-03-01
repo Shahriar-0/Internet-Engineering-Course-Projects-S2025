@@ -9,4 +9,5 @@ public enum CommandType {
 	ADD_CREDIT,
 	PURCHASE_CART,
 	BORROW_BOOK,
+	ADD_REVIEW,
 }

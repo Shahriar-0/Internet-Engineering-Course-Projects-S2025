@@ -75,6 +75,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new BorrowBookCommand(dto, userService);
 			}
+			case ADD_REVIEW -> {
+				AddReviewDto dto = objectMapper.readValue(jsonString, AddReviewDto.class);
+				validate(dto);
+				yield new AddReviewCommand(dto, userService);
+			}
 		};
 	}
 
