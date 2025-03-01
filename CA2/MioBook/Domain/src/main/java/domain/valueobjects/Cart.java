@@ -29,8 +29,8 @@ public class Cart {
     public String getPurchaseCartError(long credit) {
         if (books.size() == 0)
             return "Cart is empty! Cannot purchase cart.";
-        if (credit < books.stream().mapToLong(b -> b.getBook().getPrice()).sum())
-            return "Not enough credit! Cannot purchase cart.";
+        if (credit < getTotalCost())
+            return "Not enough credit! Cannot purchase cart. Required credit: " + books.stream().mapToLong(b -> b.getBook().getPrice()).sum() + ", Current credit: " + credit;
         return null;
     }
 

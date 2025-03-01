@@ -17,7 +17,7 @@ public class CustomerBook {
             throw new RuntimeException("Borrow days cannot exceed " + MAXIMUM_BORROW_DAYS);
         if (borrowDays < 0)
             throw new RuntimeException("Borrow days cannot be negative");
-            
+
         this.book = book;
         this.isBorrowed = borrowDays > 0;
         this.borrowDays = borrowDays;
