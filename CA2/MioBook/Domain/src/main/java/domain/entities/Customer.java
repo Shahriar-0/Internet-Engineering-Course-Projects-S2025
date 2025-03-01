@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
+import domain.valueobjects.PurchasedBooks;
 import domain.valueobjects.PurchasedCart;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,11 @@ public class Customer extends User {
 	@JsonProperty("balance")
 	public long getBalance() {
 		return credit;
+	}
+
+	@JsonIgnore
+	public PurchasedBooks getPurchasedBooks() {
+		return new PurchasedBooks(this);
 	}
 
 	public Boolean canAddBook(Book book) {

@@ -264,6 +264,14 @@ public class UserService {
 		return Result.success(bookSearchResult.getData());
 	}
 
+	public Result<PurchasedBooks> showPurchasedBooks(ShowPurchasedBooksDto showPurchasedBooksDto) {
+		Result<User> userSearchResult = isCustomer(showPurchasedBooksDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+		Customer user = (Customer) userSearchResult.getData();
+		return Result.success(user.getPurchasedBooks());
+	}
+
 	/**
 	 * Check if a user with the given username exists and is a customer.
 	 *

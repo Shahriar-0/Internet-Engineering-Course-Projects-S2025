@@ -105,6 +105,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new ShowPurchaseHistoryCommand(dto, userService);
 			}
+			case SHOW_PURCHASED_BOOKS -> {
+				ShowPurchasedBooksDto dto = objectMapper.readValue(jsonString, ShowPurchasedBooksDto.class);
+				validate(dto);
+				yield new ShowPurchasedBooksCommand(dto, userService);
+			}
 		};
 	}
 
