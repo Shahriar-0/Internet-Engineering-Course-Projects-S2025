@@ -57,12 +57,19 @@ public class Customer extends User {
 		return cart.getPurchaseCartError(credit);
 	}
 
-	// The validations in these methods are just to make them robust, they should never be called
+	// the validations in these methods are just to make them robust, they should never be called
 	public void addBook(Book book) {
 		if (!canAddBook(book))
 			throw new RuntimeException(getAddBookError(book));
 
 		cart.addBook(book);
+	}
+
+	public void borrowBook(Book book, int borrowDays) {
+		if (!canAddBook(book)) // for now their validations are the same
+			throw new RuntimeException(getAddBookError(book));
+
+		cart.borrowBook(book, borrowDays);
 	}
 
 	public void removeBook(Book book) {
@@ -84,7 +91,7 @@ public class Customer extends User {
 			throw new RuntimeException(getPurchaseCartError());
 
 		purchasedCarts.add(new PurchasedCart(cart));
-		credit -= cart.getBooks().stream().mapToLong(Book::getPrice).sum();
+		credit -= cart.getTotalCost();
 		cart.emptyCart();
 		return purchasedCarts.get(purchasedCarts.size() - 1);
 	}
