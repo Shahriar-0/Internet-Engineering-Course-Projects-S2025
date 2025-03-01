@@ -264,12 +264,33 @@ public class UserService {
 		return Result.success(bookSearchResult.getData());
 	}
 
+	/**
+	 * Shows the purchased books of a customer.
+	 *
+	 * @param showPurchasedBooksDto A DTO containing the username of the customer whose purchased books are to be shown.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.userexceptions.UserException}. The only
+	 *         possible exception is an {@link application.exceptions.businessexceptions.userexceptions.InvalidAccess} if the user is not a customer, or a
+	 *         {@link application.exceptions.businessexceptions.userexceptions.UserDoesNotExists} if the user does not exist.
+	 */
 	public Result<PurchasedBooks> showPurchasedBooks(ShowPurchasedBooksDto showPurchasedBooksDto) {
 		Result<User> userSearchResult = isCustomer(showPurchasedBooksDto.username());
 		if (!userSearchResult.isSuccessful())
 			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 		return Result.success(user.getPurchasedBooks());
+	}
+
+	/**
+	 * Search for books with the given parameters.
+	 *
+	 * @param searchBooksDto A DTO containing the parameters to search for.
+	 * @return A Result containing a {@link BookSearch} if the operation was successful, or a
+	 *         subclass of {@link application.exceptions.businessexceptions.bookexceptions.BookException} if the operation was not successful.
+	 */
+	public Result<BookSearch> searchBooks(SearchBooksDto searchBooksDto) {
+		return bookRepository.search(searchBooksDto.getParams());
 	}
 
 	/**

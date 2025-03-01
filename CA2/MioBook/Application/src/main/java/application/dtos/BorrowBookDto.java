@@ -7,9 +7,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record BorrowBookDto(
-	@NotBlank(message = "Username is required") @JsonProperty(value = "username", required = true) String username,
+	@NotBlank(message = "Username is required")
+	@JsonProperty(value = "username", required = true)
+	String username,
 
-	@NotBlank(message = "Title is required") @JsonProperty(value = "title", required = true) String title,
+	@NotBlank(message = "Title is required")
+	@JsonProperty(value = "title", required = true)
+	String title,
 
 	@NotNull(message = "Borrowed date is required")
 	@Min(value = 1, message = "Borrowed days must be greater or equal to 1")
