@@ -70,6 +70,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new PurchaseCartCommand(dto, userService);
 			}
+			case BORROW_BOOK -> {
+				BorrowBookDto dto = objectMapper.readValue(jsonString, BorrowBookDto.class);
+				validate(dto);
+				yield new BorrowBookCommand(dto, userService);
+			}
 		};
 	}
 
