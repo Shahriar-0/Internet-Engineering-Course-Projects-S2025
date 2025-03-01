@@ -2,11 +2,10 @@ package domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import domain.valueobjects.Cart;
+import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedCart;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -23,14 +22,14 @@ public class Customer extends User {
 	@JsonIgnore
 	private Cart cart;
 
+	@JsonIgnore
+	private PurchaseHistory purchaseHistory;
+
 	protected Customer(CustomerBuilder<?, ?> builder) {
         super(builder);
         this.cart = new Cart(this);
+		this.purchaseHistory = new PurchaseHistory(this);
     }
-
-	@Builder.Default
-	@JsonIgnore
-	private List<PurchasedCart> purchasedCarts = new ArrayList<>();
 
 	@JsonIgnore
 	private long credit;
@@ -79,35 +78,40 @@ public class Customer extends User {
 
 	// the validations in these methods are just to make them robust, they should never be called
 	public void addBook(Book book) {
-		if (!canAddBook(book)) throw new RuntimeException(findAddBookErrors(book));
+		if (!canAddBook(book))
+			throw new RuntimeException(findAddBookErrors(book));
 
 		cart.addBook(book);
 	}
 
 	public void borrowBook(Book book, int borrowDays) {
-		if (!canAddBook(book)) throw new RuntimeException(findAddBookErrors(book)); // for now their validations are the same
+		if (!canAddBook(book))
+			throw new RuntimeException(findAddBookErrors(book)); // for now their validations are the same
 
 		cart.borrowBook(book, borrowDays);
 	}
 
 	public void removeBook(Book book) {
-		if (!canRemoveBook(book)) throw new RuntimeException(findRemoveBookErrors(book));
+		if (!canRemoveBook(book))
+			throw new RuntimeException(findRemoveBookErrors(book));
 
 		cart.removeBook(book);
 	}
 
 	public void addCredit(long amount) {
-		if (amount < 0) throw new RuntimeException("Amount must be positive.");
+		if (amount < 0)
+			throw new RuntimeException("Amount must be positive.");
 
 		credit += amount;
 	}
 
 	public PurchasedCart purchaseCart() {
-		if (!canPurchaseCart()) throw new RuntimeException(findPurchaseCartErrors());
+		if (!canPurchaseCart())
+			throw new RuntimeException(findPurchaseCartErrors());
 
-		purchasedCarts.add(new PurchasedCart(cart));
+		PurchasedCart purchasedCart = purchaseHistory.addPurchasedCart(new PurchasedCart(cart));
 		credit -= cart.getTotalCost();
 		cart.emptyCart();
-		return purchasedCarts.get(purchasedCarts.size() - 1);
+		return purchasedCart;
 	}
 }

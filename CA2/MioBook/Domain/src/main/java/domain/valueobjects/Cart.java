@@ -16,36 +16,39 @@ public class Cart {
 	@JsonIgnore
 	private final Customer customer;
 
+	@JsonIgnore
+	private final List<CustomerBook> books;
+
 	public Cart(Customer customer) {
 		this.customer = customer;
+		this.books = new ArrayList<>();
 	}
-
-	@JsonIgnore
-	private final List<CustomerBook> books = new ArrayList<>();
 
 	@JsonIgnore
 	private final transient int MAXIMUM_BOOKS = 10;
 
 	public String findAddBookErrors(Book book) {
-		if (books.size() >= MAXIMUM_BOOKS) return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
+		if (books.size() >= MAXIMUM_BOOKS)
+			return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
 		return null;
 	}
 
 	public String findRemoveBookErrors(Book book) {
-		if (!books.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle()))) return (
-			"Book with title '" + book.getTitle() + "' is not in cart!"
-		);
+		if (!books.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
+			return ("Book with title '" + book.getTitle() + "' is not in cart!");
 		return null;
 	}
 
 	public String findPurchaseCartErrors(long credit) {
-		if (books.size() == 0) return "Cart is empty! Cannot purchase cart.";
-		if (credit < getTotalCost()) return (
-			"Not enough credit! Cannot purchase cart. Required credit: " +
-			books.stream().mapToLong(b -> b.getBook().getPrice()).sum() +
-			", Current credit: " +
-			credit
-		);
+		if (books.size() == 0)
+			return "Cart is empty! Cannot purchase cart.";
+		if (credit < getTotalCost())
+			return (
+				"Not enough credit! Cannot purchase cart. Required credit: " +
+				books.stream().mapToLong(b -> b.getBook().getPrice()).sum() +
+				", Current credit: " +
+				credit
+			);
 		return null;
 	}
 

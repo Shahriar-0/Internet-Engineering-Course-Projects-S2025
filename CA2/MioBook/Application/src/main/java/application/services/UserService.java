@@ -118,7 +118,7 @@ public class UserService {
 	 *         unsuccessful, the contained exception will be a subclass of
 	 *         {@link application.exceptions.businessexceptions.cartexceptions.CartException}.
 	 */
-	public Result<PurchasedCart> purchaseCart(PurchaseCartDto purchaseCartDto) {
+	public Result<PurchasedCartSummary> purchaseCart(PurchaseCartDto purchaseCartDto) {
 		Result<User> userSearchResult = isCustomer(purchaseCartDto.username());
 		if (!userSearchResult.isSuccessful())
 			return new Result<>(userSearchResult);
@@ -128,7 +128,7 @@ public class UserService {
 			return Result.failure(new CantPurchaseCart(user.findPurchaseCartErrors()));
 
 		PurchasedCart purchasedCart = user.purchaseCart();
-		return Result.success(purchasedCart);
+		return Result.success(new PurchasedCartSummary(purchasedCart));
 	}
 
 	/**
@@ -185,12 +185,38 @@ public class UserService {
 		return Result.success(book);
 	}
 
+	/**
+	 * Shows the cart of a customer.
+	 *
+	 * @param showCartDto A DTO containing the username of the customer to show the cart of.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.userexceptions.UserException}. The only
+	 *         possible exceptions are an {@link application.exceptions.businessexceptions.userexceptions.InvalidAccess} if the user is not a customer, or a
+	 *         {@link application.exceptions.businessexceptions.userexceptions.UserDoesNotExists} if the user does not exist.
+	 */
 	public Result<Cart> showCart(ShowCartDto showCartDto) {
 		Result<User> userSearchResult = isCustomer(showCartDto.username());
 		if (!userSearchResult.isSuccessful())
 			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 		return Result.success(user.getCart());
+	}
+
+	/**
+	 * Shows the purchase history of a customer.
+	 *
+	 * @param showPurchaseHistoryDto A DTO containing the username of the customer whose purchase history is to be shown.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.userexceptions.UserException}.
+	 */
+	public Result<PurchaseHistory> showPurchaseHistory(ShowPurchaseHistoryDto showPurchaseHistoryDto) {
+		Result<User> userSearchResult = isCustomer(showPurchaseHistoryDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+		Customer user = (Customer) userSearchResult.getData();
+		return Result.success(user.getPurchaseHistory());
 	}
 
 	/**

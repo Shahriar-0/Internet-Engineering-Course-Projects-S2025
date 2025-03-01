@@ -4,7 +4,7 @@ import application.dtos.PurchaseCartDto;
 import application.result.Result;
 import application.services.UserService;
 import cli.response.Response;
-import domain.valueobjects.PurchasedCart;
+import domain.valueobjects.PurchasedCartSummary;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class PurchaseCartCommand implements IBaseCommand {
 
     @Override
     public Response execute() {
-        Result<PurchasedCart> result = userService.purchaseCart(purchaseCartDto);
+        Result<PurchasedCartSummary> result = userService.purchaseCart(purchaseCartDto);
         return new Response(result, SUCCESS_MESSAGE, true);
     }
 }
