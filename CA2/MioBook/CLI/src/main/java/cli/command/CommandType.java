@@ -11,4 +11,5 @@ public enum CommandType {
 	BORROW_BOOK,
 	ADD_REVIEW,
 	SHOW_USER_DETAILS,
+	SHOW_AUTHOR_DETAILS,
 }

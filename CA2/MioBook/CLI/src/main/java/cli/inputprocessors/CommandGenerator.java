@@ -85,6 +85,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new ShowUserDetailsCommand(dto, userService);
 			}
+			case SHOW_AUTHOR_DETAILS -> {
+				ShowAuthorDetailsDto dto = objectMapper.readValue(jsonString, ShowAuthorDetailsDto.class);
+				validate(dto);
+				yield new ShowAuthorDetailsCommand(dto, userService);
+			}
 		};
 	}
 
