@@ -200,11 +200,34 @@ public class UserService {
 		return Result.success(userSearchResult.getData());
 	}
 
+	/**
+	 * Shows the details of an author.
+	 *
+	 * @param showAuthorDetailsDto A DTO containing the name of the author to show the details of.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.authorexceptions.AuthorException}.
+	 */
 	public Result<Author> showAuthorDetails(ShowAuthorDetailsDto showAuthorDetailsDto) {
 		Result<Author> authorSearchResult = authorRepository.get(showAuthorDetailsDto.name());
 		if (authorSearchResult.isFailure())
 			return new Result<>(authorSearchResult);
 		return Result.success(authorSearchResult.getData());
+	}
+
+	/**
+	 * Shows the details of a book.
+	 *
+	 * @param showBookDetailsDto A DTO containing the title of the book to show the details of.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.bookexceptions.BookException}.
+	 */
+	public Result<Book> showBookDetails(ShowBookDetailsDto showBookDetailsDto) {
+		Result<Book> bookSearchResult = bookRepository.get(showBookDetailsDto.title());
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
+		return Result.success(bookSearchResult.getData());
 	}
 
 	/**
