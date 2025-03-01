@@ -22,7 +22,7 @@ public class PurchasedCart {
 	public PurchasedCart(Cart cart) {
 		this.books = cart.getBooks();
 		this.datePurchased = LocalDateTime.now();
-		this.totalCost = books.stream().mapToLong(b -> b.getBook().getPrice()).sum();
+		this.totalCost = cart.getTotalCost();
 		this.bookCount = books.size();
 	}
 }
