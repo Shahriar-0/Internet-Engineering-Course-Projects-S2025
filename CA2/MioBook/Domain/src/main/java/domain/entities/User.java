@@ -1,5 +1,7 @@
 package domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,9 +21,26 @@ public abstract class User extends DomainEntity<String> {
 	protected String password;
 	protected String email;
 	protected Role role;
-	protected long credit;
 
-	public String getUsername() {
-		return super.getKey();
-	}
+    @JsonProperty("username")
+    public String getUsername() {
+        return super.getKey();
+    }
+
+    @Override
+    @JsonIgnore
+    public String getKey() {
+        return super.getKey();
+    }
+
+
+    @JsonProperty("role")
+    public String getRoleAsString() {
+        return role.name().toLowerCase();
+    }
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
 }

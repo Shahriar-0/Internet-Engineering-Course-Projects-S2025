@@ -20,7 +20,7 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 				.password(persistedEntity.getPassword())
 				.email(persistedEntity.getEmail())
 				.role(persistedEntity.getRole())
-				.credit(persistedEntity.getCredit())
+				.credit(((Customer) persistedEntity).getCredit())
 				.build();
 		else if (persistedEntity instanceof Admin)
 			return Admin
@@ -30,7 +30,6 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 				.password(persistedEntity.getPassword())
 				.email(persistedEntity.getEmail())
 				.role(persistedEntity.getRole())
-				.credit(persistedEntity.getCredit())
 				.build();
 		else
 			throw new IllegalArgumentException("Invalid user type: " + persistedEntity);
