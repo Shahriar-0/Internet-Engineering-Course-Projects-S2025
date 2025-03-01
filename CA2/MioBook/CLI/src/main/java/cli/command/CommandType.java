@@ -10,4 +10,5 @@ public enum CommandType {
 	PURCHASE_CART,
 	BORROW_BOOK,
 	ADD_REVIEW,
+	SHOW_USER_DETAILS,
 }
