@@ -28,7 +28,8 @@ public class UserService {
 	 */
 	public Result<User> addUser(AddUserDto newUserDto) {
 		Result<AddUserDto> validationResult = userValidator.validate(newUserDto);
-		if (validationResult.isFailure()) return new Result<>(validationResult);
+		if (validationResult.isFailure())
+			return new Result<>(validationResult);
 
 		User newUser = UtilService.createUser(newUserDto);
 		newUser.setCredit(0);
@@ -45,14 +46,17 @@ public class UserService {
 	 */
 	public Result<User> addCart(AddCartDto addCartDto) {
 		Result<User> userSearchResult = isCustomer(addCartDto.username());
-		if (!userSearchResult.isSuccessful()) return new Result<>(userSearchResult);
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 
 		Result<Book> bookSearchResult = bookRepo.get(addCartDto.title());
-		if (bookSearchResult.isFailure()) return new Result<>(bookSearchResult);
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
 		Book book = bookSearchResult.getData();
 
-		if (!user.canAddBook(book)) return Result.failure(new CantAddToCart(user.getAddBookError(book)));
+		if (!user.canAddBook(book))
+			return Result.failure(new CantAddToCart(user.getAddBookError(book)));
 
 		user.addBook(book);
 		return Result.success(user);
@@ -68,14 +72,17 @@ public class UserService {
 	 */
 	public Result<User> RemoveCart(RemoveCartDto removeCartDto) {
 		Result<User> userSearchResult = isCustomer(removeCartDto.username());
-		if (!userSearchResult.isSuccessful()) return new Result<>(userSearchResult);
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 
 		Result<Book> bookSearchResult = bookRepo.get(removeCartDto.title());
-		if (bookSearchResult.isFailure()) return new Result<>(bookSearchResult);
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
 		Book book = bookSearchResult.getData();
 
-		if (!user.canRemoveBook(book)) return Result.failure(new CantRemoveFromCart(user.getRemoveBookError(book)));
+		if (!user.canRemoveBook(book))
+			return Result.failure(new CantRemoveFromCart(user.getRemoveBookError(book)));
 
 		user.removeBook(book);
 		return Result.success(user);
@@ -91,7 +98,8 @@ public class UserService {
 	 */
 	public Result<User> addCredit(AddCreditDto addCreditDto) {
 		Result<User> userSearchResult = isCustomer(addCreditDto.username());
-		if (!userSearchResult.isSuccessful()) return new Result<>(userSearchResult);
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 
 		user.addCredit(addCreditDto.credit());
@@ -108,10 +116,12 @@ public class UserService {
 	 */
 	public Result<PurchasedCart> purchaseCart(PurchaseCartDto purchaseCartDto) {
 		Result<User> userSearchResult = isCustomer(purchaseCartDto.username());
-		if (!userSearchResult.isSuccessful()) return new Result<>(userSearchResult);
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 
-		if (!user.canPurchaseCart()) return Result.failure(new CantPurchaseCart(user.getPurchaseCartError()));
+		if (!user.canPurchaseCart())
+			return Result.failure(new CantPurchaseCart(user.getPurchaseCartError()));
 
 		PurchasedCart purchasedCart = user.purchaseCart();
 		return Result.success(purchasedCart);
@@ -128,11 +138,13 @@ public class UserService {
 	 */
 	public Result<User> borrowBook(BorrowBookDto borrowBookDto) {
 		Result<User> userSearchResult = isCustomer(borrowBookDto.username());
-		if (!userSearchResult.isSuccessful()) return new Result<>(userSearchResult);
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
 		Customer user = (Customer) userSearchResult.getData();
 
 		Result<Book> bookSearchResult = bookRepo.get(borrowBookDto.title());
-		if (bookSearchResult.isFailure()) return new Result<>(bookSearchResult);
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
 		Book book = bookSearchResult.getData();
 
 		if (
@@ -141,6 +153,33 @@ public class UserService {
 
 		user.borrowBook(book, borrowBookDto.borrowedDays());
 		return Result.success(user);
+	}
+
+	/**
+	 * Allows a customer to add a review to a book.
+	 *
+	 * @param addReviewDto A DTO containing the username of the customer, the title of the book,
+	 *                     the rating of the book, and the comment of the review.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}. The only
+	 *         possible exceptions are an {@link application.exceptions.businessexceptions.userexceptions.InvalidAccess} if the user is not a customer, a
+	 *         {@link application.exceptions.businessexceptions.bookexceptions.BookDoesNotExist} if the book does not exist, or a
+	 *         {@link application.exceptions.businessexceptions.reviews.exceptions.ReviewDoesNotExist} if the review does not exist.
+	 */
+	public Result<Book> addReview(AddReviewDto addReviewDto) {
+		Result<User> userSearchResult = isCustomer(addReviewDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+
+		Result<Book> bookSearchResult = bookRepo.get(addReviewDto.title());
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
+
+		Book book = bookSearchResult.getData();
+		Review review = UtilService.createReview(addReviewDto);
+		book.addReview(review);
+		return Result.success(book);
 	}
 
 	/**
@@ -154,9 +193,10 @@ public class UserService {
 	 */
 	private Result<User> isCustomer(String username) {
 		Result<User> userSearchResult = doesExist(username);
-		if (userSearchResult.isFailure()) return new Result<>(userSearchResult); else if (
-			userSearchResult.getData().getRole() != User.Role.CUSTOMER
-		) return Result.failure(new InvalidAccess("customer"));
+		if (userSearchResult.isFailure())
+			return new Result<>(userSearchResult);
+		else if (userSearchResult.getData().getRole() != User.Role.CUSTOMER)
+			return Result.failure(new InvalidAccess("customer"));
 
 		return userSearchResult;
 	}

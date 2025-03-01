@@ -3,7 +3,8 @@ package application.services;
 import application.dtos.*;
 import application.repositories.IAuthorRepository;
 import domain.entities.*;
-import domain.valueobjects.BookContent;
+import domain.valueobjects.*;
+
 import java.time.LocalDate;
 
 public class UtilService {
@@ -58,5 +59,9 @@ public class UtilService {
 			.content(new BookContent(dto.content()))
 			.genres(dto.genres())
 			.build();
+	}
+
+	public static Review createReview(AddReviewDto dto) {
+		return new Review(dto.rating(), dto.comment());
 	}
 }
