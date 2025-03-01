@@ -33,8 +33,8 @@ public class CommandGenerator {
 	 */
 	public IBaseCommand generateCommand(String input) throws JsonProcessingException, IllegalArgumentException {
 		String jsonString = input.substring(input.indexOf(" ") + 1);
-
-		return switch (CommandType.valueOf(input.split(" ")[0].toUpperCase())) {
+		CommandType type = CommandType.valueOf(input.split(" ")[0].toUpperCase());
+		return switch (type) {
 			case ADD_USER -> {
 				AddUserDto dto = objectMapper.readValue(jsonString, AddUserDto.class);
 				validate(dto);
@@ -113,6 +113,7 @@ public class CommandGenerator {
 			case SEARCH_BOOKS_BY_TITLE, SEARCH_BOOKS_BY_AUTHOR, SEARCH_BOOKS_BY_GENRE, SEARCH_BOOKS_BY_YEAR -> {
 				SearchBooksDto dto = objectMapper.readValue(jsonString, SearchBooksDto.class);
 				validate(dto);
+				validateSearchBooksDto(dto, type);
 				yield new SearchBooksCommand(dto, userService);
 			}
 		};
@@ -134,5 +135,19 @@ public class CommandGenerator {
 			}
 			throw new IllegalArgumentException(errorMessage.toString());
 		}
+	}
+
+	/**
+	 * Validate the given SearchBooksDto against the constraints specified
+	 * in the given CommandType. Specifically, ensure that the given
+	 * SearchBooksDto is compatible with the given CommandType.
+	 *
+	 * @param dto The SearchBooksDto to validate.
+	 * @param type The CommandType to validate against.
+	 */
+	private static void validateSearchBooksDto(SearchBooksDto dto, CommandType type) { // FIXME: sorry for this
+		String by = type.toString().substring(type.toString().indexOf("BY") + "BY_".length()).toLowerCase();
+		if (!dto.isCompatibleWithSearchType(by))
+			throw new IllegalArgumentException("Search for '" + by + "' requires a '" + by + "' parameter");
 	}
 }

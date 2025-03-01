@@ -41,6 +41,18 @@ public record SearchBooksDto(
         return yearFrom == null || yearTo == null || yearFrom <= yearTo;
     }
 
+    public boolean isCompatibleWithSearchType(String by) {
+        if (by.equals("title"))
+            return title != null;
+        if (by.equals("author"))
+            return authorName != null;
+        if (by.equals("genre"))
+            return genre != null;
+        if (by.equals("year"))
+            return yearFrom != null && yearTo != null;
+        return false;
+    }
+
     private boolean onlyOneFieldProvided() {
         long fieldCount = Stream.of(
                 title != null,
