@@ -8,6 +8,7 @@ import application.repositories.IUserRepository;
 import application.result.Result;
 import application.validators.UserValidator;
 import domain.entities.*;
+import domain.valueobjects.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -103,6 +104,19 @@ public class UserService {
 
 		user.addCredit(addCreditDto.credit());
 		return Result.success(user);
+	}
+
+	public Result<PurchasedCart> purchaseCart(PurchaseCartDto purchaseCartDto) {
+		Result<User> userSearchResult = isCustomer(purchaseCartDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+		Customer user = (Customer) userSearchResult.getData();
+
+		if (!user.canPurchaseCart())
+			return Result.failure(new CantPurchaseCart(user.getPurchaseCartError()));
+
+		PurchasedCart purchasedCart = user.purchaseCart();
+		return Result.success(purchasedCart);
 	}
 
 	/**
