@@ -110,6 +110,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new ShowPurchasedBooksCommand(dto, userService);
 			}
+			case SEARCH_BOOKS_BY_TITLE, SEARCH_BOOKS_BY_AUTHOR, SEARCH_BOOKS_BY_GENRE, SEARCH_BOOKS_BY_YEAR -> {
+				SearchBooksDto dto = objectMapper.readValue(jsonString, SearchBooksDto.class);
+				validate(dto);
+				yield new SearchBooksCommand(dto, userService);
+			}
 		};
 	}
 
