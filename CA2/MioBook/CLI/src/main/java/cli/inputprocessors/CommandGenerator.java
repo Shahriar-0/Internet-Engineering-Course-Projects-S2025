@@ -113,9 +113,9 @@ public class CommandGenerator {
 		Set<ConstraintViolation<T>> violations = validator.validate(object);
 
 		if (!violations.isEmpty()) {
-			StringBuilder errorMessage = new StringBuilder("Validation failed:\n");
+			StringBuilder errorMessage = new StringBuilder("Validation failed: ");
 			for (ConstraintViolation<T> violation : violations) {
-				errorMessage.append(violation.getPropertyPath()).append(": ").append(violation.getMessage()).append("\n");
+				errorMessage.append(violation.getPropertyPath()).append(": ").append(violation.getMessage()).append(",");
 			}
 			throw new IllegalArgumentException(errorMessage.toString());
 		}
