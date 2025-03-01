@@ -185,6 +185,14 @@ public class UserService {
 		return Result.success(book);
 	}
 
+	public Result<Cart> showCart(ShowCartDto showCartDto) {
+		Result<User> userSearchResult = isCustomer(showCartDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+		Customer user = (Customer) userSearchResult.getData();
+		return Result.success(user.getCart());
+	}
+
 	/**
 	 * Shows the details of a user.
 	 *

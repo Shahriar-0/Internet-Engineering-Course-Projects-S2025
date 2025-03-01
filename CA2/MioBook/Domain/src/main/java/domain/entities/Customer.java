@@ -16,9 +16,17 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Customer extends User {
 
-	@Builder.Default
+	// FIXME: a problem here is that whatever we add here would be serialized as a part of the user
+	// so we need to add json ignore to it, a better solution would be to create a response object based on the user
+	// or use
+
 	@JsonIgnore
-	private Cart cart = new Cart();
+	private Cart cart;
+
+	protected Customer(CustomerBuilder<?, ?> builder) {
+        super(builder);
+        this.cart = new Cart(this);
+    }
 
 	@Builder.Default
 	@JsonIgnore

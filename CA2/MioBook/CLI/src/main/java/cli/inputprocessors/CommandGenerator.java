@@ -95,6 +95,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new ShowBookDetailsCommand(dto, userService);
 			}
+			case SHOW_CART -> {
+				ShowCartDto dto = objectMapper.readValue(jsonString, ShowCartDto.class);
+				validate(dto);
+				yield new ShowCartCommand(dto, userService);
+			}
 		};
 	}
 
