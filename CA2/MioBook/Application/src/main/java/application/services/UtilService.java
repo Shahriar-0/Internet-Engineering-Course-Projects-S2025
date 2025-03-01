@@ -32,7 +32,6 @@ public class UtilService {
 				.password(dto.password())
 				.email(dto.email())
 				.role(role)
-				.credit(0)
 				.build();
 	}
 
