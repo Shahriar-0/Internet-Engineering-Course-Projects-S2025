@@ -11,18 +11,12 @@
 			<div class="container p-0 m-0 mx-auto d-flex flex-wrap align-items-center justify-content-between">
 				<a href="homepage.html"><img src="../icons/logo-icon.svg" alt="MioBook"></a>
 				<div class="d-none d-sm-flex header-search-group w-50 w-xl-75 p-2 rounded-3">
-					<div class="dropdown position-relative px-4">
-						<button class="btn text-secondary header-search-item" data-bs-toggle="dropdown">
-							Author
-							<img class="position-absolute top-50 end-0 translate-middle-y me-3"
-								 src="../icons/search-arrow.svg" alt="search-arrow-icon"/>
-						</button>
-						<ul class="dropdown-menu header-filter-select-list">
-							<li class="dropdown-item text-secondary header-filter-select-item">Name</li>
-							<li class="dropdown-item text-secondary header-filter-select-item">Author</li>
-							<li class="dropdown-item text-secondary header-filter-select-item">Genre</li>
-						</ul>
-					</div>
+					<label for="filter-type" class="visually-hidden">Filter Type</label>
+					<select id="filter-type" name="filterType" class="text-secondary me-2 px-3 header-search-item">
+						<option class="text-secondary header-filter-select-option">Name</option>
+						<option class="text-secondary header-filter-select-option">Author</option>
+						<option class="text-secondary header-filter-select-option">Genre</option>
+					</select>
 					<label for="filter-value" class="visually-hidden">Filter Value</label>
 					<input id="filter-value" name="filterValue" type="search"
 						   class="flex-grow-1 header-search-item border-start border-secondary ps-3" placeholder="Search" />
@@ -31,65 +25,5 @@
 				<button class="btn btn-lg border-0 text-white fw-bold header-btn">Buy now</button>
 			</div>
 		</header>
-<!--		<nav class="navbar navbar-light bg-white px-3">-->
-<!--			<a class="navbar-brand fw-bold" href="#">MioBook</a>-->
-<!--			<div class="d-flex">-->
-<!--				<select class="form-select me-2">-->
-<!--					<option>Author</option>-->
-<!--					<option>Title</option>-->
-<!--					<option>Genre</option>-->
-<!--				</select>-->
-<!--				<input class="form-control me-2" type="search" placeholder="Search" />-->
-<!--				<button class="btn btn-dark">Buy now</button>-->
-<!--			</div>-->
-<!--		</nav>-->
-
-		<section class="hero bg-light">
-			<div class="container text-center py-5">
-				<div class="row align-items-center">
-					<div class="col-md-8 text-start">
-						<h2>Welcome to MioBook – the online bookstore where you can buy or borrow books with ease.</h2>
-						<p>
-							Whether you're looking for the latest bestseller, a classic novel, or a niche title, MioBook
-							has you covered.
-						</p>
-						<p>
-							Here, you can quickly find books by title, author, and genre. And if you're not sure to buy?
-							Try borrowing instead! Rent a book for just a fraction of the price and enjoy full access
-							for a set period.
-						</p>
-						<p>
-							Your next great read is just a click away. Visit MioBook today and let the perfect book find
-							you! 📚✨
-						</p>
-					</div>
-					<div class="col-md-4">
-						<img src="bookshelf.png" alt="Bookshelf" class="img-fluid" />
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Book Sections -->
-		<div class="container my-5">
-			<h3 class="mb-3">New Releases</h3>
-			<div class="row">
-				<!-- Book Cards -->
-				<div class="col-md-2 col-sm-6 mb-4" id="books-new"></div>
-			</div>
-
-			<h3 class="mt-5 mb-3">Top Rated</h3>
-			<div class="row">
-				<!-- Book Cards -->
-				<div class="col-md-2 col-sm-6 mb-4" id="books-top"></div>
-			</div>
-		</div>
-
-		<footer class="text-center text-white py-3">
-			<p class="mb-0">Copyright © 2025 - MioBook</p>
-		</footer>
-
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="../src/homepage.js"></script>
 	</body>
 </html>

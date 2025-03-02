@@ -26,7 +26,7 @@
 	background-color: var(--c-green) !important;
 }
 
-.header-filter-select-option {
+.header-filter-select-item {
 	background-color: var(--c-gray);
 }
 
