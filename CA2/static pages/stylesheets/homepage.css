@@ -45,3 +45,7 @@
 .welcome-section {
 	background-color: var(--c-khaki);
 }
+
+@media (max-width: 350px) {
+	.welcome-image {display: none !important;}
+}

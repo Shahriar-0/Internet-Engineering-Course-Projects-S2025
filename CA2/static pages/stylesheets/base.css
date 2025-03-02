@@ -71,3 +71,7 @@ a {
     .w-xxl-75 { width: 75% !important; }
     .w-xxl-100 { width: 100% !important;}
 }
+
+.bg-khaki {
+    background-color: var(--c-khaki);
+}
