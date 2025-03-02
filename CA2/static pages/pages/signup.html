@@ -12,7 +12,7 @@
 				<h3 class="fw-bold fs-2">Sign Up</h3>
 				<p class="text-muted">MioBook</p>
 
-				<form>
+				<form class="row">
 					<div class="mb-3">
 						<label for="username" class="visually-hidden">Username</label>
 						<input type="text" id="username" class="form-control form-control-lg" placeholder="Username" required/>
@@ -29,27 +29,38 @@
 						<input type="email" id="email" class="form-control form-control-lg" placeholder="Email" required/>
 					</div>
 
-					<div class="mb-3 d-flex">
+					<div class="mb-3 col-12 col-sm-6">
 						<label for="country" class="visually-hidden">Country</label>
-						<input type="text" id="country" class="form-control form-control-lg me-4" placeholder="Country" required/>
+						<input type="text" id="country" class="form-control form-control-lg" placeholder="Country" required/>
+					</div>
+
+					<div class="mb-3 col-12 col-sm-6">
 						<label for="city" class="visually-hidden">City</label>
 						<input type="text" id="city" class="form-control form-control-lg" placeholder="City" required/>
 					</div>
 
-					<p class="fw-bold text-start ms-1 mb-1">I am</p>
-					<div class="mb-3 d-flex">
+					<p class="fw-bold text-start ps-3 mb-1 w-sm-100">I am</p>
+
+					<div class="mb-1 mb-sm-3 col-12 col-sm-6">
 						<input type="radio" name="role" id="customer" class="btn-check" checked/>
-						<label for="customer" class="btn btn-lg flex-grow-1 border-3 fw-bold me-4">
-							<i class="bi bi-person-circle me-2"></i>
-							Customer
-						</label>
-						<input type="radio" name="role" id="manager" class="btn-check"/>
-						<label for="manager" class="btn btn-lg flex-grow-1 border-3 fw-bold">
-							<i class="bi bi-briefcase-fill me-2"></i>
-							Manager
+						<label for="customer" class="d-block btn btn-lg border-3 fw-bold position-relative">
+							<i class="position-absolute top-50 start-0 translate-middle-y ms-2 ms-xl-4 ms-xxl-5"><img src="../icons/custom-role-icon.svg" alt="customer-icon"/></i>
+							<span class="align-middle">Customer</span>
 						</label>
 					</div>
-					<button type="submit" class="btn btn-lg w-100 fw-bold border-2 signup-btn">Sign up</button>
+
+					<div class="mb-3 col-12 col-sm-6">
+						<input type="radio" name="role" id="manager" class="btn-check"/>
+						<label for="manager" class="d-block btn btn-lg border-3 fw-bold position-relative">
+							<i class="position-absolute top-50 start-0 translate-middle-y ms-2 ms-xl-4 ms-xxl-5"><img src="../icons/manager-role-icon.svg" alt="manager-icon"></i>
+							<span class="align-middle">Manager</span>
+						</label>
+					</div>
+
+					<div>
+						<button type="submit" class="btn btn-lg w-100 fw-bold border-2 signup-btn">Sign up</button>
+					</div>
+
 				</form>
 				<p class="mt-3 text-muted">Already have an account? <a href="signin.html" class="fw-bold">Sign in</a></p>
 			</div>

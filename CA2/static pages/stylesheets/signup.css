@@ -1,25 +1,5 @@
 @import "base.css";
 
-.signup-card {
-	background: white;
-	border-radius: 10px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-	width: 400px;
-}
-
-.form-control {
-	border-radius: 8px;
-}
-
-.password-toggle {
-	position: absolute;
-	right: 15px;
-	top: 50%;
-	transform: translateY(-50%);
-	cursor: pointer;
-	color: #777;
-}
-
 .btn-check:checked + .btn {
 	border-color: var(--c-green);
 	background-color: var(--c-khaki);
