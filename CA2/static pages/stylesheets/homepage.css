@@ -1,5 +1,45 @@
-body {
-	font-family: "Arial", sans-serif;
+@import "base.css";
+
+.header-search-group {
+	background-color: var(--c-gray);
+}
+
+.header-search-item {
+	background-color: transparent !important;
+	border: none;
+	outline: none;
+}
+
+.header-search-filter-list {
+	background-color: var(--c-gray);
+}
+
+.header-btn {
+	background-color: var(--c-green);
+}
+
+.header-btn:hover {
+	background-color: var(--c-green);
+}
+
+.header-btn:active {
+	background-color: var(--c-green) !important;
+}
+
+.header-filter-select-list {
+	background-color: var(--c-gray);
+}
+
+.header-filter-select-item {
+	cursor: pointer;
+}
+
+.header-filter-select-item:active{
+	background-color: var(--c-khaki);
+}
+
+.search-btn {
+	background-color: var(--c-gray);
 }
 
 .navbar {
