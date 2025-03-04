@@ -37,6 +37,14 @@ a {
     appearance: none;
 }
 
+.fs-7 {
+    font-size: 0.875em;
+}
+
+.fs-8 {
+    font-size: 0.75em;
+}
+
 @media (min-width: 576px) {
     .w-sm-25 { width: 25% !important; }
     .w-sm-50 { width: 50% !important; }
@@ -74,4 +82,8 @@ a {
 
 .bg-khaki {
     background-color: var(--c-khaki);
+}
+
+.bg-green {
+    background-color: var(--c-green);
 }

@@ -51,3 +51,21 @@
 	background-color: var(--c-green) !important;
 	color: white !important;
 }
+
+.add-btn:hover {
+	background-color: var(--c-green);
+}
+
+.add-btn:active {
+	background-color: var(--c-green) !important;
+}
+
+.about-text {
+	max-height: 125px;
+}
+
+.truncate-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
