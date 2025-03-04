@@ -87,3 +87,7 @@ a {
 .bg-green {
     background-color: var(--c-green);
 }
+
+.bg-gray {
+    background-color: var(--c-gray);
+}
