@@ -1,17 +1,1 @@
-@import "../../styles/base.css";
-
-.signin-btn {
-	background-color: var(--c-gray) !important;
-}
-
-.signin-btn:hover {
-	background-color: var(--c-khaki) !important;
-	color: var(--c-green);
-	border-color: var(--c-green);
-}
-
-.signin-btn:disabled {
-	opacity: 0.6;
-	border-color: transparent;
-}
-
+@import "../../styles";

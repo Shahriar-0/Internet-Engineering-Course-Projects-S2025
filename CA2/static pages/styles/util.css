@@ -1,0 +1,65 @@
+﻿:root {
+    --c-green: #16423C;
+    --c-khaki: #F5EFE7;
+    --c-gray: #D9D9D9;
+}
+
+@media (min-width: 576px) {
+    .w-sm-25 { width: 25% !important; }
+    .w-sm-50 { width: 50% !important; }
+    .w-sm-75 { width: 75% !important; }
+    .w-sm-100 { width: 100% !important;}
+    .w-sm-auto { width: auto!important; }
+}
+
+@media (min-width: 768px) {
+    .w-md-25 { width: 25% !important; }
+    .w-md-50 { width: 50% !important; }
+    .w-md-75 { width: 75% !important; }
+    .w-md-100 { width: 100% !important;}
+    .w-md-auto { width: auto!important; }
+}
+
+@media (min-width: 992px) {
+    .w-lg-25 { width: 25% !important; }
+    .w-lg-50 { width: 50% !important; }
+    .w-lg-75 { width: 75% !important; }
+    .w-lg-100 { width: 100% !important;}
+    .w-lg-auto { width: auto!important; }
+}
+
+@media (min-width: 1200px) {
+    .w-xl-25 { width: 25% !important; }
+    .w-xl-50 { width: 50% !important; }
+    .w-xl-75 { width: 75% !important; }
+    .w-xl-100 { width: 100% !important;}
+    .w-xl-auto { width: auto!important; }
+}
+
+@media (min-width: 1400px) {
+    .w-xxl-25 { width: 25% !important; }
+    .w-xxl-50 { width: 50% !important; }
+    .w-xxl-75 { width: 75% !important; }
+    .w-xxl-100 { width: 100% !important;}
+    .w-xxl-auto { width: auto!important; }
+}
+
+.fs-7 {
+    font-size: 0.875em;
+}
+
+.fs-8 {
+    font-size: 0.75em;
+}
+
+.bg-khaki {
+    background-color: var(--c-khaki) !important;
+}
+
+.bg-green {
+    background-color: var(--c-green) !important;
+}
+
+.bg-gray {
+    background-color: var(--c-gray) !important;
+}

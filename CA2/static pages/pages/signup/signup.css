@@ -1,4 +1,4 @@
-@import "../../styles/base.css";
+@import "../../styles";
 
 .btn-check:checked + .btn {
 	border-color: var(--c-green);
@@ -16,19 +16,4 @@
 
 .btn-check:checked + .btn:hover {
 	background-color: var(--c-khaki);
-}
-
-.signup-btn {
-	background-color: var(--c-gray) !important;
-}
-
-.signup-btn:hover {
-	background-color: var(--c-khaki) !important;
-	color: var(--c-green);
-	border-color: var(--c-green);
-}
-
-.signup-btn:disabled {
-	opacity: 0.6;
-	border-color: transparent;
 }
