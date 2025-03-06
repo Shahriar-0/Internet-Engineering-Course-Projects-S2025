@@ -1,0 +1,7 @@
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"Author added successfully."}
+{"success":true,"message":"Book added successfully."}
+{"success":true,"message":"Added borrowed book to cart."}
+{"success":true,"message":"Credit added successfully."}
+{"success":true,"message":"Purchase completed successfully.","data":{"datePurchased":"2025-03-06 23:36:12","totalCost":125,"bookCount":1}}
