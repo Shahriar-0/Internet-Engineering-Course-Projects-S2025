@@ -92,13 +92,13 @@ input::-webkit-inner-spin-button {
 }
 
 .bg-khaki {
-    background-color: var(--c-khaki);
+    background-color: var(--c-khaki) !important;
 }
 
 .bg-green {
-    background-color: var(--c-green);
+    background-color: var(--c-green) !important;
 }
 
 .bg-gray {
-    background-color: var(--c-gray);
+    background-color: var(--c-gray) !important;
 }

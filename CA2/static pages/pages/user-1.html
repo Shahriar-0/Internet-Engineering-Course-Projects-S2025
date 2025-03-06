@@ -27,14 +27,14 @@
     </header>
 
     <main class="d-flex flex-column align-items-center">
-        <section class="container row">
+        <section class="container row mb-5">
             <div class="col-12 col-sm-6 col-xl-8 mb-4 mb-sm-0">
                 <div class="shadow rounded-3 p-3 h-100 d-flex flex-column justify-content-between">
                     <p class="fw-bold fs-3">$1,000</p>
                     <div class="d-flex flex-wrap">
                         <label for="credit-amount" class="visually-hidden">Credit Amount</label>
                         <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount" type="number" placeholder="$Amount">
-                        <button class="btn bg-gray border-0 w-100 w-md-auto ms-auto add-credit-btn">Add more credit</button>
+                        <button class="btn bg-gray text-secondary border-0 w-100 w-md-auto ms-auto add-credit-btn">Add more credit</button>
                     </div>
                 </div>
             </div>
@@ -45,6 +45,61 @@
                     <p class="text-nowrap overflow-auto"><img src="../icons/user-email-icon.svg" alt="user-icon"> sana.sarinavaei@gmail.com</p>
                     <div>
                         <button class="btn btn-sm bg-gray border-0 px-4 logout-btn">logout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container row">
+            <div class="col-12">
+                <div class="shadow rounded-3 p-3">
+                    <p class="fw-bold fs-3"><img src="../icons/buy-basket.svg" alt="buy-basket"> Cart</p>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="d-sm-none bg-gray fw-medium text-muted">Info</th>
+                            <th class="bg-gray fw-medium text-muted">Image</th>
+                            <th class="d-none d-sm-table-cell bg-gray fw-medium text-muted">Name</th>
+                            <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Author</th>
+                            <th class="bg-gray fw-medium text-muted">Price</th>
+                            <th class="bg-gray fw-medium text-muted">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            <tr>
+                                <td class="d-sm-none text-center"><i class="bi bi-info-circle-fill"></i></td>
+                                <td><img src="../images/user/book.svg" alt="book-image"></td>
+                                <td class="d-none d-sm-table-cell">The Design of Books</td>
+                                <td class="d-none d-md-table-cell">Debbie Berne</td>
+                                <td>$ 18.00</td>
+                                <td>
+                                    <div>
+                                        <button class="btn btn-sm border-0 bg-gray px-2"><img src="../icons/minus.svg" alt="minus"></button>
+                                        <span class="mx-1 mx-md-3">1</span>
+                                        <button class="btn btn-sm border-0 bg-green"><img src="../icons/plus.svg" alt="plus"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="d-sm-none text-center"><i class="bi bi-info-circle-fill"></i></td>
+                                <td><img src="../images/user/book.svg" alt="book-image"></td>
+                                <td class="d-none d-sm-table-cell">The Design of Books</td>
+                                <td class="d-none d-md-table-cell">Debbie Berne</td>
+                                <td>$ 18.00</td>
+                                <td>
+                                    <div>
+                                        <button class="btn btn-sm border-0 bg-gray px-2"><img src="../icons/minus.svg" alt="minus"></button>
+                                        <span class="mx-1 mx-md-3">1</span>
+                                        <button class="btn btn-sm border-0 bg-green"><img src="../icons/plus.svg" alt="plus"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-center">
+                        <button class="btn border-0 bg-green text-white px-5">Purchase</button>
                     </div>
                 </div>
             </div>
