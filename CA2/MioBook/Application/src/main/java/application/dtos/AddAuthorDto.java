@@ -1,6 +1,10 @@
 package application.dtos;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Pattern;
 
 public record AddAuthorDto(
@@ -29,4 +33,11 @@ public record AddAuthorDto(
 		message = "Invalid date format. Expected format: YYYY-MM-DD"
 	)
 	String died
-) {}
+) {
+	@AssertTrue(message = "From and to years must be consistent")
+    private boolean isYearRangeConsistent() {
+		LocalDate bornDate = LocalDate.parse(this.born);
+		LocalDate diedDate = this.died == null ? null : LocalDate.parse(this.died);
+        return born == null || died == null || bornDate.isBefore(diedDate);
+    }
+}
