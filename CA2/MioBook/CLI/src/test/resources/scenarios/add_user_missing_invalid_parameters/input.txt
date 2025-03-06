@@ -4,3 +4,5 @@ add_user {"role": "customer", "password": "1234", "email": "my.mail@mail.com", "
 add_user {"role": "meow", "username": "test-name", "password": "1234", "email": "my.mail@mail.com", "address": {"country": "Iran", "city": "Karaj"}}
 add_user {"role": "customer", "username": "test-name", "password": "14", "email": "my.mail@mail.com", "address": {"country": "Iran", "city": "Karaj"}}
 add_user {"role": "customer", "username": "test-name", "password": "1234", "email": "mymail.com", "address": {"country": "Iran", "city": "Karaj"}}
+add_user {"role": "admin", "username": "test?-name", "password": "1234", "email": "my.mail@mail.com", "address": {"country": "Iran", "city": "Karaj"}}
+
