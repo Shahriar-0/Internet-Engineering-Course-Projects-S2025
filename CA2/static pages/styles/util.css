@@ -1,9 +1,13 @@
-﻿:root {
+﻿/*-------------------- Color Variables Start --------------------*/
+:root {
     --c-green: #16423C;
     --c-khaki: #F5EFE7;
     --c-gray: #D9D9D9;
 }
+/*--------------------  Color Variables End  --------------------*/
 
+
+/*-------------------- Width And Height Sizing Utils Start --------------------*/
 @media (min-width: 576px) {
     .w-sm-25 { width: 25% !important; }
     .w-sm-50 { width: 50% !important; }
@@ -43,7 +47,10 @@
     .w-xxl-100 { width: 100% !important;}
     .w-xxl-auto { width: auto!important; }
 }
+/*--------------------  Width And Height Sizing Utils End  --------------------*/
 
+
+/*-------------------- Text Utils Start --------------------*/
 .fs-7 {
     font-size: 0.875em;
 }
@@ -52,14 +59,15 @@
     font-size: 0.75em;
 }
 
-.outline-0 {
-    outline: none !important;
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+/*--------------------  Text Utils End  --------------------*/
 
-.pointer:hover {
-    cursor: pointer;
-}
 
+/*-------------------- Color Utils Start --------------------*/
 .bg-khaki {
     background-color: var(--c-khaki) !important;
 }
@@ -70,4 +78,14 @@
 
 .bg-gray {
     background-color: var(--c-gray) !important;
+}
+/*--------------------  Color Utils End  --------------------*/
+
+
+.outline-0 {
+    outline: none !important;
+}
+
+.pointer:hover {
+    cursor: pointer;
 }
