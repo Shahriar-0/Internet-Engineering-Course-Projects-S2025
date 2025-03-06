@@ -4,9 +4,11 @@ import application.exceptions.businessexceptions.BusinessException;
 
 public class UsernameAlreadyExists extends BusinessException {
 
-	private static final String MESSAGE = "Username already exists!";
+	private static String message(String username) {
+		return "User with name '" + username + "' already exists!";
+	}
 
-	public UsernameAlreadyExists() {
-		super(MESSAGE);
+	public UsernameAlreadyExists(String username) {
+		super(message(username));
 	}
 }

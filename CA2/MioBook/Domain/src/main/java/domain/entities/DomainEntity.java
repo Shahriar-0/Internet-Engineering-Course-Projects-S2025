@@ -13,7 +13,7 @@ public abstract class DomainEntity<KT> {
 		this.key = key;
 	}
 
-	public final boolean isKeyEqual(KT otherKey) {
+	public final Boolean isKeyEqual(KT otherKey) {
 		return key.equals(otherKey);
 	}
 }

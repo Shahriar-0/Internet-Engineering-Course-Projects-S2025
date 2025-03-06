@@ -9,11 +9,11 @@ public class Result<T> {
 	private T data;
 	private BaseException exception;
 
-	public boolean isSuccessful() {
+	public Boolean isSuccessful() {
 		return exception == null;
 	}
 
-	public boolean isFailure() {
+	public Boolean isFailure() {
 		return exception != null;
 	}
 
@@ -25,11 +25,38 @@ public class Result<T> {
 		this.exception = exception;
 	}
 
-	public static <T> Result<T> successOf(T data) {
+	/**
+	 * Copy constructor. Copies the data (if any and if possible) and the exception.
+	 * @param <U>
+	 * @param result
+	 */
+	@SuppressWarnings("unchecked")
+	public <U> Result(Result<U> result) {
+		if (result.getData() != null) {
+			try {
+				this.data = (T) result.getData();
+			} catch (ClassCastException e) {
+				this.data = null;
+			}
+		}
+		this.exception = result.getException();
+	}
+
+	/**
+	 * Create a successful result with the given data.
+	 * @param data data to be stored in the result
+	 * @return a successful result
+	 */
+	public static <T> Result<T> success(T data) {
 		return new Result<>(data);
 	}
 
-	public static <T> Result<T> failureOf(BaseException exception) {
+	/**
+	 * Create a failed result with the given exception.
+	 * @param exception exception to be stored in the result
+	 * @return a failed result
+	 */
+	public static <T> Result<T> failure(BaseException exception) {
 		return new Result<>(exception);
 	}
 }

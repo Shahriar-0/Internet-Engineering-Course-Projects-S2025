@@ -25,13 +25,18 @@ public class Runner {
 	private void run(String... args) throws JsonProcessingException {
 		Scanner scanner = new Scanner(System.in);
 		while (scanner.hasNextLine()) {
+			Response response = null;
 			try {
 				IBaseCommand command = commandGenerator.generateCommand(scanner.nextLine());
-				Response response = command.execute();
-				cliWriter.writeResponseToConsole(response);
+				response = command.execute();
+			}
+			catch (JsonProcessingException e) {
+				response = new Response(false, e.getOriginalMessage(), null);
 			}
 			catch (Exception e) {
-				Response response = new Response(false, e.getMessage(), null);
+				response = new Response(false, e.getMessage(), null);
+			}
+			finally {
 				cliWriter.writeResponseToConsole(response);
 			}
 		}
