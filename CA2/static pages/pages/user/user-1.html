@@ -9,20 +9,20 @@
 <body>
     <header class="shadow py-3 px-5 mb-5">
         <div class="container p-0 m-0 mx-auto d-flex flex-wrap align-items-center justify-content-between">
-            <a href="../homepage/homepage.html"><img src="../../assets/icons/logo-icon.svg" alt="MioBook"></a>
-            <div class="d-none d-sm-flex header-search-group w-50 w-xl-75 p-2 rounded-3">
+            <a href="../homepage/homepage.html"><img src="../../assets/../assets/icons/logo-icon.svg" alt="MioBook"></a>
+            <div class="d-none d-sm-flex bg-gray w-50 w-xl-75 p-2 rounded-3">
                 <label for="filter-type" class="visually-hidden">Filter Type</label>
-                <select id="filter-type" name="filterType" class="text-secondary me-2 px-3 header-search-item">
-                    <option class="text-secondary header-filter-select-option">Name</option>
-                    <option class="text-secondary header-filter-select-option">Author</option>
-                    <option class="text-secondary header-filter-select-option">Genre</option>
+                <select id="filter-type" name="filterType" class="text-secondary me-2 px-3 border-0 bg-transparent outline-0 pointer">
+                    <option class="text-secondary bg-gray">Name</option>
+                    <option class="text-secondary bg-gray">Author</option>
+                    <option class="text-secondary bg-gray">Genre</option>
                 </select>
                 <label for="filter-value" class="visually-hidden">Filter Value</label>
                 <input id="filter-value" name="filterValue" type="search"
-                       class="flex-grow-1 header-search-item border-start border-secondary ps-3" placeholder="Search" />
+                       class="flex-grow-1 border-start border-secondary ps-3 border-0 bg-transparent outline-0" placeholder="Search" />
             </div>
-            <button class="d-sm-none btn border-0 fw-bolder search-btn"><i class="bi bi-search"></i></button>
-            <button class="btn border-0 text-white fw-bold header-btn">Buy now</button>
+            <button class="d-sm-none btn border-0 fw-bolder bg-gray"><i class="bi bi-search"></i></button>
+            <button class="btn border-1 fw-bold green-btn">Buy now</button>
         </div>
     </header>
 
@@ -34,7 +34,7 @@
                     <div class="d-flex flex-wrap">
                         <label for="credit-amount" class="visually-hidden">Credit Amount</label>
                         <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount" type="number" placeholder="$Amount">
-                        <button class="btn bg-gray text-secondary border-0 w-100 w-md-auto ms-auto add-credit-btn">Add more credit</button>
+                        <button class="btn w-100 w-md-auto ms-auto green-btn" disabled>Add more credit</button>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <p class="text-nowrap overflow-auto"><img src="../../assets/icons/user-icon.svg" alt="user-icon"> SanaNavaei</p>
                     <p class="text-nowrap overflow-auto"><img src="../../assets/icons/user-email-icon.svg" alt="user-icon"> sana.sarinavaei@gmail.com</p>
                     <div>
-                        <button class="btn btn-sm bg-gray border-0 px-4 logout-btn">logout</button>
+                        <button class="btn btn-sm bg-gray border-0 px-4 bg-gray">logout</button>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                     </table>
 
                     <div class="text-center">
-                        <button class="btn border-0 bg-green text-white px-5">Purchase</button>
+                        <button class="btn green-btn px-5">Purchase</button>
                     </div>
                 </div>
             </div>
