@@ -1,0 +1,6 @@
+{"success":false,"message":"Missing required creator property 'city' (index 1)"}
+{"success":false,"message":"Unexpected end-of-input: was expecting closing quote for a string value"}
+{"success":false,"message":"Missing required creator property 'username' (index 1)"}
+{"success":false,"message":"Validation failed: role: Role must be either 'customer' or 'admin',"}
+{"success":false,"message":"Validation failed: password: Password must be at least 4 characters long,"}
+{"success":false,"message":"Validation failed: email: Invalid email format,"}
