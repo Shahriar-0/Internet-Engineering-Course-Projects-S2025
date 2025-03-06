@@ -6,6 +6,6 @@ add_author {"username":"admin_user","name":"author name","penName":"abc","nation
 add_author {"username":"admin_user","name":"author name","penName":"abc","born":"1982-04-12"}
 add_author {"username":"admin_user","name":"author name","penName":"abc","born":"1982-04-12","died":"1982-04-11","nationality":"meow"}
 add_author {"username":"admin_user","penName":"abc","born":"1982-04-12","nationality":"meow"}
-add_author {"username":"admin_user","name":"author name","penName":"abc","born":"1982-04-12","nationality":"meow"}
+add_author {"username":"admin_user","name":"author name","penName":"abc","born":"1982-04-12","died":"1982-04-13","nationality":"meow"}
 add_author {"username":"admin_user","name":"author2 name","penName":"abc","born":"1982-04-12","nationality":"meow"}
 add_author {"username":"admin_user","name":"author name","penName":"abc","born":"1982-04-12","nationality":"meow"}
