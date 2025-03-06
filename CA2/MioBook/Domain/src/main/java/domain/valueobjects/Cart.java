@@ -30,6 +30,8 @@ public class Cart {
 	public String findAddBookErrors(Book book) {
 		if (books.size() >= MAXIMUM_BOOKS)
 			return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
+		if (books.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
+			return ("Book with title '" + book.getTitle() + "' is already in cart!");
 		return null;
 	}
 
