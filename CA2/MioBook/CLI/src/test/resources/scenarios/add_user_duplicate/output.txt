@@ -1,0 +1,2 @@
+{"success":true,"message":"User added successfully."}
+{"success":false,"message":"User with name 'test-name' already exists!"}
