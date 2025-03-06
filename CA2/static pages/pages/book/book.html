@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Book Details - MioBook</title>
+		<link rel="stylesheet" href="./book.css" />
+	</head>
+	<body>
+	<header class="shadow py-3 px-5 mb-5">
+		<div class="container p-0 m-0 mx-auto d-flex flex-wrap align-items-center justify-content-between">
+			<a href="../homepage/homepage.html"><img src="../../assets/../assets/icons/logo-icon.svg" alt="MioBook"></a>
+			<div class="d-none d-sm-flex bg-gray w-50 w-xl-75 p-2 rounded-3">
+				<label for="filter-type" class="visually-hidden">Filter Type</label>
+				<select id="filter-type" name="filterType" class="text-secondary me-2 px-3 border-0 bg-transparent outline-0 pointer">
+					<option class="text-secondary bg-gray">Name</option>
+					<option class="text-secondary bg-gray">Author</option>
+					<option class="text-secondary bg-gray">Genre</option>
+				</select>
+				<label for="filter-value" class="visually-hidden">Filter Value</label>
+				<input id="filter-value" name="filterValue" type="search"
+					   class="flex-grow-1 border-start border-secondary ps-3 border-0 bg-transparent outline-0" placeholder="Search" />
+			</div>
+			<button class="d-sm-none btn border-0 fw-bolder bg-gray"><i class="bi bi-search"></i></button>
+			<button class="btn border-1 fw-bold green-btn">Buy now</button>
+		</div>
+	</header>
+	
+	<main class="container">
+		<section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
+			<div class="col-12 col-md-5 col-lg-4 d-flex justify-content-center mb-4 mb-md-0">
+				<div>
+					<p class="fw-bold fs-3 d-md-none mb-1">Book Title</p>
+					<div class="mb-4 d-md-none">
+						<img src="../../assets/icons/stars.svg" alt="stars-rate">
+						<span class="align-middle ms-2">4.0</span>
+					</div>
+					<img src="../../assets/images/book/book-img.svg" alt="book-image">
+				</div>
+			</div>
+
+			<div class="col-12 col-md-7 col-lg-8 d-flex flex-column">
+				<p class="fw-bold fs-3 d-none d-md-block">Book Title</p>
+				<div class="mb-4 d-none d-md-block">
+					<img src="../../assets/icons/stars.svg" alt="stars-rate">
+					<span class="align-middle ms-2">4.0</span>
+				</div>
+
+				<div class="row mb-auto">
+					<div class="col-4 col-lg-3">
+						<p class="mb-1 fs-7 text-secondary">Author</p>
+						<p class="text-truncate">Author McName</p>
+					</div>
+					<div class="col-4 col-lg-3">
+						<p class="mb-1 fs-7 text-secondary">Publisher</p>
+						<p class="text-truncate">The Publisher</p>
+					</div>
+					<div class="col-4 col-lg-3">
+						<p class="mb-1 fs-7 text-secondary">Year</p>
+						<p class="text-truncate">2025</p>
+					</div>
+					<div class="col-12">
+						<p class="mb-1 fs-7 text-secondary">About</p>
+						<p class="about-text overflow-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					</div>
+				</div>
+
+				<div>
+					<p class="fw-bold fs-5">$18.99</p>
+					<button class="btn px-4 fw-bold mt-auto green-btn">Add to Cart</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary p-4 mx-2 mb-5 d-flex flex-column">
+			<div class="d-flex justify-content-between align-items-center mb-3">
+				<p class="align-middle mb-0">Reviews <span class="text-muted">130</span></p>
+				<button class="btn border-0 bg-gray px-3 bg-gray">
+					Add reviews 
+					<img class="ms-2" src="../../assets/icons/add-review-icon.svg" alt="add-review">
+				</button>
+			</div>
+
+			<div  class="row align-items-center p-2 mb-4 shadow-sm rounded-1 border-1 border-bottom border-secondary">
+				<div class="d-none d-md-flex rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+				<div class="row col-12 col-md-9">
+					<div class="col-3 d-md-none rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+					<div class="col-8">
+						<p class="mb-0 fw-bold">The Person</p>
+						<div class="d-md-none mb-3">
+							<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br>
+							<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+						</div>
+					</div>
+					<p class="mb-0 fs-7">I bought it 3 weeks ago and now come back just to say “Awesome”. I really enjoyed it.</p>
+				</div>
+				<div class="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
+					<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br />
+					<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+				</div>
+			</div>
+			<div  class="row align-items-center p-2 mb-4 shadow-sm rounded-1 border-1 border-bottom border-secondary">
+				<div class="d-none d-md-flex rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+				<div class="row col-12 col-md-9">
+					<div class="col-3 d-md-none rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+					<div class="col-8">
+						<p class="mb-0 fw-bold">The Person</p>
+						<div class="d-md-none mb-3">
+							<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br>
+							<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+						</div>
+					</div>
+					<p class="mb-0 fs-7">I bought it 3 weeks ago and now come back just to say “Awesome”. I really enjoyed it.</p>
+				</div>
+				<div class="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
+					<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br />
+					<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+				</div>
+			</div>
+			<div  class="row align-items-center p-2 mb-4 shadow-sm rounded-1 border-1 border-bottom border-secondary">
+				<div class="d-none d-md-flex rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+				<div class="row col-12 col-md-9">
+					<div class="col-3 d-md-none rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+					<div class="col-8">
+						<p class="mb-0 fw-bold">The Person</p>
+						<div class="d-md-none mb-3">
+							<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br>
+							<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+						</div>
+					</div>
+					<p class="mb-0 fs-7">I bought it 3 weeks ago and now come back just to say “Awesome”. I really enjoyed it.</p>
+				</div>
+				<div class="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
+					<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br />
+					<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+				</div>
+			</div>
+			<div  class="row align-items-center p-2 mb-4 shadow-sm rounded-1 border-1 border-bottom border-secondary">
+				<div class="d-none d-md-flex rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+				<div class="row col-12 col-md-9">
+					<div class="col-3 d-md-none rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+					<div class="col-8">
+						<p class="mb-0 fw-bold">The Person</p>
+						<div class="d-md-none mb-3">
+							<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br>
+							<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+						</div>
+					</div>
+					<p class="mb-0 fs-7">I bought it 3 weeks ago and now come back just to say “Awesome”. I really enjoyed it.</p>
+				</div>
+				<div class="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
+					<img src="../../assets/icons/stars.svg" alt="stars-rate"> <br />
+					<span class="align-middle fs-8 text-muted">February 20, 2025</span>
+				</div>
+			</div>
+
+			<ul class="pagination justify-content-center">
+				<li class="px-3 py-2 mx-1 rounded-3 pagination-item">&lt;</li>
+				<li class="px-3 py-2 mx-1 rounded-3 pagination-item active">1</li>
+				<li class="px-3 py-2 mx-1 rounded-3 pagination-item">2</li>
+				<li class="px-3 py-2 mx-1 rounded-3 pagination-item">3</li>
+				<li class="d-sm-none px-3 py-2 mx-1 rounded-3 pagination-item">...</li>
+				<li class="d-none d-sm-block px-3 py-2 mx-1 rounded-3 pagination-item">4</li>
+				<li class="d-none d-sm-block px-3 py-2 mx-1 rounded-3 pagination-item">5</li>
+				<li class="px-3 py-2 mx-1 rounded-3 pagination-item">&gt;</li>
+			</ul>
+		</section>
+	</main>
+
+	<footer class="text-center text-white py-3">Copyright © 2025 - MioBook</footer>
+	</body>
+</html>

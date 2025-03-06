@@ -1,0 +1,19 @@
+@import "../../styles";
+
+.btn-check:checked + .btn {
+	border-color: var(--c-green);
+	background-color: var(--c-khaki);
+	color: var(--c-green);
+}
+
+.btn-check + .btn {
+	background-color: var(--c-gray);
+}
+
+.btn-check + .btn:hover {
+	background-color: var(--c-gray);
+}
+
+.btn-check:checked + .btn:hover {
+	background-color: var(--c-khaki);
+}
