@@ -1,2 +1,3 @@
 {"success":true,"message":"User added successfully."}
 {"success":false,"message":"User with name 'test-name' already exists!"}
+{"success":false,"message":"User with email 'my.mail@mail.com' already exists!"}
