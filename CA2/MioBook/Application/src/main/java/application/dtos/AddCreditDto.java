@@ -10,7 +10,7 @@ public record AddCreditDto(
     @JsonProperty(value = "username", required = true)
     String username,
 
-    @Min(value = 100, message = "Credit amount must be greater than 100 cent")
+    @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
     @JsonProperty(value = "credit", required = true)
     long credit
 ) {}
