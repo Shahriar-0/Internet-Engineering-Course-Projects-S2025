@@ -1,4 +1,4 @@
-@import "../../styles";
+@import "../../styles/index.css";
 
 .btn-check:checked + .btn {
 	border-color: var(--c-green);
