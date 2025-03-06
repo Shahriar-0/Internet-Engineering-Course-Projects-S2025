@@ -52,6 +52,14 @@
     font-size: 0.75em;
 }
 
+.outline-0 {
+    outline: none !important;
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
+
 .bg-khaki {
     background-color: var(--c-khaki) !important;
 }
