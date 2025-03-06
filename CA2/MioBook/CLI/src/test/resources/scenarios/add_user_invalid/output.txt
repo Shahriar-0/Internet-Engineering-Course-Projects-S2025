@@ -5,3 +5,5 @@
 {"success":false,"message":"Validation failed: password: Password must be at least 4 characters long,"}
 {"success":false,"message":"Validation failed: email: Invalid email format,"}
 {"success":false,"message":"Validation failed: username: Username must contain only letters, numbers, underscores, hyphens, or underscores,"}
+{"success":false,"message":"User with name 'test-name' already exists!"}
+{"success":false,"message":"User with email 'my.mail@mail.com' already exists!"}
