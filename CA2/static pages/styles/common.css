@@ -21,3 +21,12 @@
     border-color: var(--c-gray);
 }
 
+.pagination-item:hover {
+    cursor: pointer;
+    background-color: var(--c-gray);
+}
+
+.pagination-item.active {
+    background-color: var(--c-green) !important;
+    color: white !important;
+}
