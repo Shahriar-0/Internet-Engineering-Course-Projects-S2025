@@ -31,8 +31,12 @@ public class PurchaseHistory {
 		return customer.getUsername();
 	}
 
-    @JsonProperty("purchaseHistory")
-    public List<PurchasedCart> getPurchaseHistory() {
-        return this.purchasedCarts;
-    }
+	@JsonProperty("purchaseHistory")
+	public List<PurchasedCart> getPurchaseHistory() {
+		return this.purchasedCarts;
+	}
+
+	public Boolean hasBook(String title) {
+		return this.purchasedCarts.stream().anyMatch(p -> p.hasBook(title));
+	}
 }

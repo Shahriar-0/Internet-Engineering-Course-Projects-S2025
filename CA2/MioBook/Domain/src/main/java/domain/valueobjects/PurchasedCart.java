@@ -21,4 +21,8 @@ public class PurchasedCart {
 		this.datePurchased = LocalDateTime.now();
 		this.totalCost = cart.getTotalCost();
 	}
+
+	public Boolean hasBook(String title) {
+		return books.stream().filter(b -> b.isStillAccessible(LocalDateTime.now())).anyMatch(b -> b.getBook().getTitle().equals(title));
+	}
 }

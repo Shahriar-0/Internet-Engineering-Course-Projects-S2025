@@ -32,6 +32,8 @@ public class Cart {
 			return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
 		if (books.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
 			return ("Book with title '" + book.getTitle() + "' is already in cart!");
+		if (customer.hasBought(book))
+			return ("Book with title '" + book.getTitle() + "' has already been bought!");
 		return null;
 	}
 

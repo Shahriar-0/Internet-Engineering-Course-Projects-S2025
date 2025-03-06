@@ -116,4 +116,8 @@ public class Customer extends User {
 		cart.emptyCart();
 		return purchasedCart;
 	}
+
+	public Boolean hasBought(Book book) {
+		return purchaseHistory.hasBook(book.getTitle());
+	}
 }
