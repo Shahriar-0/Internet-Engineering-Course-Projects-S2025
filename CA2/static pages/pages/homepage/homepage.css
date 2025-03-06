@@ -1,4 +1,4 @@
-@import "base.css";
+@import "../../styles/base.css";
 
 .header-search-group {
 	background-color: var(--c-gray);
@@ -42,12 +42,10 @@
 	background-color: var(--c-gray) !important;
 }
 
-.pagination-item:hover {
-	cursor: pointer;
-	background-color: var(--c-gray);
+.welcome-section {
+	background-color: var(--c-khaki);
 }
 
-.pagination-item.active {
-	background-color: var(--c-green) !important;
-	color: white !important;
+@media (max-width: 350px) {
+	.welcome-image {display: none !important;}
 }
