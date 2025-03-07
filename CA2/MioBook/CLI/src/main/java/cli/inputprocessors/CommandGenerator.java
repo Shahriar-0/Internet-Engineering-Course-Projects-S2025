@@ -95,6 +95,11 @@ public class CommandGenerator {
 				validate(dto);
 				yield new ShowBookDetailsCommand(dto, userService);
 			}
+			case SHOW_BOOK_REVIEWS -> {
+				ShowBookReviewsDto dto = objectMapper.readValue(jsonString, ShowBookReviewsDto.class);
+				validate(dto);
+				yield new ShowBookReviewsCommand(dto, userService);
+			}
 			case SHOW_CART -> {
 				ShowCartDto dto = objectMapper.readValue(jsonString, ShowCartDto.class);
 				validate(dto);
@@ -147,7 +152,6 @@ public class CommandGenerator {
 	 */
 	private static void validateSearchBooksDto(SearchBooksDto dto, CommandType type) { // FIXME: sorry for this
 		String by = type.toString().substring(type.toString().indexOf("BY") + "BY_".length()).toLowerCase();
-		if (!dto.isCompatibleWithSearchType(by))
-			throw new IllegalArgumentException("Search for '" + by + "' requires a '" + by + "' parameter");
+		if (!dto.isCompatibleWithSearchType(by)) throw new IllegalArgumentException("Search for '" + by + "' requires a '" + by + "' parameter");
 	}
 }

@@ -185,6 +185,14 @@ public class UserService {
 		return Result.success(book);
 	}
 
+	public Result<BookReviews> showBookReviews(ShowBookReviewsDto showBookReviewsDto) {
+		Result<Book> bookSearchResult = bookRepository.get(showBookReviewsDto.title());
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
+		Book book = bookSearchResult.getData();
+		return Result.success(book.getReviews());
+	}
+
 	/**
 	 * Shows the cart of a customer.
 	 *
