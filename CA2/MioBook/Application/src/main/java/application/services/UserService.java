@@ -185,6 +185,15 @@ public class UserService {
 		return Result.success(book);
 	}
 
+	/**
+	 * Shows the reviews of a book.
+	 *
+	 * @param showBookReviewsDto A DTO containing the title of the book to show the reviews of.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.BusinessException}. The only
+	 *         possible exception is an {@link application.exceptions.businessexceptions.bookexceptions.BookDoesNotExist} if the book does not exist.
+	 */
 	public Result<BookReviews> showBookReviews(ShowBookReviewsDto showBookReviewsDto) {
 		Result<Book> bookSearchResult = bookRepository.get(showBookReviewsDto.title());
 		if (bookSearchResult.isFailure())
