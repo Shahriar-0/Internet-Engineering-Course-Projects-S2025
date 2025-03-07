@@ -3,6 +3,7 @@ package domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import domain.valueobjects.BookContent;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;
@@ -119,5 +120,11 @@ public class Customer extends User {
 
 	public Boolean hasBought(Book book) {
 		return purchaseHistory.hasBook(book.getTitle());
+	}
+
+	public BookContent showBookContent(String title) { // FIXME: improve this
+		PurchasedBooks purchasedBooks = getPurchasedBooks();
+		BookContent bookContent = purchasedBooks.getBookContent(title);
+		return bookContent;
 	}
 }

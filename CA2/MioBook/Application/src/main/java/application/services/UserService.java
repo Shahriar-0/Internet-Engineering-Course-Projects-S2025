@@ -211,12 +211,20 @@ public class UserService {
 	 *         {@link application.exceptions.businessexceptions.bookexceptions.BookException}. The only
 	 *         possible exception is an {@link application.exceptions.businessexceptions.bookexceptions.BookDoesntExist} if the book does not exist.
 	 */
-	public Result<BookContent> showBookContent(ShowBookContentDto showBookContentDto) {
-		Result<Book> bookSearchResult = bookRepository.get(showBookContentDto.title());
-		if (bookSearchResult.isFailure())
-			return new Result<>(bookSearchResult);
-		Book book = bookSearchResult.getData();
-		return Result.success(book.getContent());
+	public Result<BookContent> showBookContent(ShowBookContentDto showBookContentDto) { // FIXME
+		Result<User> userSearchResult = isCustomer(showBookContentDto.username());
+		if (!userSearchResult.isSuccessful())
+			return new Result<>(userSearchResult);
+
+		Customer user = (Customer) userSearchResult.getData();
+		Result<Book> book = bookRepository.get(showBookContentDto.title());
+		if (book.isFailure())
+			return new Result<>(book);
+
+		if (!user.hasBought(book.getData()))
+			return Result.failure(new BookIsNotAccessible(showBookContentDto.title()));
+
+		return Result.success(book.getData().getContent());
 	}
 
 	/**

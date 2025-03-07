@@ -37,4 +37,8 @@ public class PurchasedBooks {
 	public long getTotalCost() {
 		return books.stream().mapToLong(CustomerBook::getFinalPrice).sum();
 	}
+
+	public BookContent getBookContent(String title) {
+		return books.stream().filter(b -> b.getBook().getTitle().equals(title)).findFirst().get().getBook().getContent();
+	}
 }
