@@ -1,0 +1,9 @@
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"Author added successfully."}
+{"success":true,"message":"Book added successfully."}
+{"success":true,"message":"Book added successfully."}
+{"success":true,"message":"Added book to cart."}
+{"success":true,"message":"Credit added successfully."}
+{"success":true,"message":"Purchase completed successfully.","data":{"datePurchased":"2025-03-07 18:20:34","totalCost":250,"bookCount":1}}
+{"success":true,"message":"Book content retrieved successfully.","data":{"content":"lorem ipsum","title":"sample book"}}
