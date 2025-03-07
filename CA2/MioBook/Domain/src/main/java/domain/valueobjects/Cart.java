@@ -49,7 +49,7 @@ public class Cart {
 		if (credit < getTotalCost())
 			return (
 				"Not enough credit! Cannot purchase cart. Required credit: " +
-				books.stream().mapToLong(b -> b.getBook().getPrice()).sum() +
+				getTotalCost() +
 				", Current credit: " +
 				credit
 			);

@@ -17,7 +17,7 @@ public record BorrowBookDto(
 
 	@NotNull(message = "Borrowed date is required")
 	@Min(value = 1, message = "Borrowed days must be greater or equal to 1")
-	@Max(value = 10, message = "Borrowed days must be less or equal to 10")
+	@Max(value = 9, message = "Borrowed days must be less than 10")
 	@JsonProperty(value = "days", required = true)
 	Integer borrowedDays
 ) {}
