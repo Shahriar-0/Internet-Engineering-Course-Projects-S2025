@@ -1,0 +1,6 @@
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"Author added successfully."}
+{"success":true,"message":"Book added successfully."}
+{"success":true,"message":"Books containing 'skir' in their title:","data":{"books":[],"search":"skir"}}
+{"success":true,"message":"Books containing 'sample book' in their title:","data":{"books":[{"author":"author name","publisher":"name","year":2012,"price":250,"synopsis":"lorem","genres":["horror","thriller"],"title":"sample book","averageRating":0.0}],"search":"sample book"}}
