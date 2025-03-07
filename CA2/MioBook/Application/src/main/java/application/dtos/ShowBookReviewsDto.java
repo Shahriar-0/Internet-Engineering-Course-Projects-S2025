@@ -1,7 +1,6 @@
 package application.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.validation.constraints.NotBlank;
 
 public record ShowBookReviewsDto(
