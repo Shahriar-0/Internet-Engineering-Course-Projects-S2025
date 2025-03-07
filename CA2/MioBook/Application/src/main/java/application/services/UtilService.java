@@ -56,7 +56,7 @@ public class UtilService {
 			.year(dto.year())
 			.price(dto.price())
 			.synopsis(dto.synopsis())
-			.content(new BookContent(dto.content()))
+			.content(new BookContent(dto.content(), dto.title()))
 			.genres(dto.genres())
 			.build();
 	}

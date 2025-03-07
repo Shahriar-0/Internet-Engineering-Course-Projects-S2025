@@ -203,6 +203,23 @@ public class UserService {
 	}
 
 	/**
+	 * Shows the content of a book.
+	 *
+	 * @param showBookContentDto A DTO containing the title of the book to show the content of.
+	 * @return A Result indicating whether the operation was successful. If the operation was
+	 *         unsuccessful, the contained exception will be a subclass of
+	 *         {@link application.exceptions.businessexceptions.bookexceptions.BookException}. The only
+	 *         possible exception is an {@link application.exceptions.businessexceptions.bookexceptions.BookDoesntExist} if the book does not exist.
+	 */
+	public Result<BookContent> showBookContent(ShowBookContentDto showBookContentDto) {
+		Result<Book> bookSearchResult = bookRepository.get(showBookContentDto.title());
+		if (bookSearchResult.isFailure())
+			return new Result<>(bookSearchResult);
+		Book book = bookSearchResult.getData();
+		return Result.success(book.getContent());
+	}
+
+	/**
 	 * Shows the cart of a customer.
 	 *
 	 * @param showCartDto A DTO containing the username of the customer to show the cart of.
