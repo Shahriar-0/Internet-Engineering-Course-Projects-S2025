@@ -1,0 +1,10 @@
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"Author added successfully."}
+{"success":true,"message":"Book added successfully."}
+{"success":false,"message":"Validation failed: rating: Rating must be at least 1,"}
+{"success":false,"message":"Validation failed: rating: Rating must be at least 1,"}
+{"success":false,"message":"Validation failed: rating: Rating must be at most 5,"}
+{"success":false,"message":"Missing required creator property 'comment' (index 3)"}
+{"success":false,"message":"Entity with type of 'User' and key value of 'customer2_user' does not exist!"}
+{"success":false,"message":"Entity with type of 'Book' and key value of 'sample1 book' does not exist!"}
