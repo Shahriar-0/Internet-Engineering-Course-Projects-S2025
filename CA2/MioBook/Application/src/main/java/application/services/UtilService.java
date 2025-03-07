@@ -2,6 +2,7 @@ package application.services;
 
 import application.dtos.*;
 import application.repositories.IAuthorRepository;
+import application.repositories.IUserRepository;
 import domain.entities.*;
 import domain.valueobjects.*;
 
@@ -60,7 +61,11 @@ public class UtilService {
 			.build();
 	}
 
-	public static Review createReview(AddReviewDto dto) {
-		return new Review(dto.rating(), dto.comment());
+	public static Review createReview(AddReviewDto dto, IUserRepository userRepository) {
+		return new Review(
+			dto.rating(),
+			dto.comment(),
+			userRepository.get(dto.username()).getData()
+		);
 	}
 }

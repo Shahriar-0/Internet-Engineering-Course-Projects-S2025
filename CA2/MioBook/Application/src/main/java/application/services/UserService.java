@@ -180,7 +180,7 @@ public class UserService {
 			return new Result<>(bookSearchResult);
 
 		Book book = bookSearchResult.getData();
-		Review review = UtilService.createReview(addReviewDto);
+		Review review = UtilService.createReview(addReviewDto, userRepository);
 		book.addReview(review);
 		return Result.success(book);
 	}
