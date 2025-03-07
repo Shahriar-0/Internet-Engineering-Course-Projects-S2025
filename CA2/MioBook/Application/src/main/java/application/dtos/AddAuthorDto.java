@@ -33,7 +33,6 @@ public record AddAuthorDto(
 	)
 	String born,
 
-	@NotBlank(message = "Died is required")
 	@JsonProperty(value = "died") 	// It can be null
 	@Pattern(
 		regexp = "^\\d{4}-\\d{2}-\\d{2}$",
