@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sign In - MioBook</title>
+		<link rel="stylesheet" href="./signin.css" />
+	</head>
+	<body>
+		 <main class="container p-4 d-flex justify-content-center align-items-center text-center">
+			<div class="card shadow py-3 px-4 px-sm-5 border-0 rounded-4 w-100 w-md-75 w-lg-50">
+				<h3 class="fw-bold fs-2">Sign in</h3>
+				<p class="text-muted">MioBook</p>
+
+				<form>
+					<div class="mb-3">
+						<label for="username" class="visually-hidden">Username</label>
+						<input type="text" id="username" class="form-control form-control-lg" placeholder="Username" required/>
+					</div>
+
+					<div class="mb-3 position-relative">
+						<label for="password" class="visually-hidden">Password</label>
+						<input type="password" id="password" class="form-control form-control-lg" placeholder="Password" required/>
+						<i class="bi bi-eye-slash btn border-0 position-absolute top-50 end-0 translate-middle-y me-3"></i>
+					</div>
+
+					<button type="submit" class="btn btn-lg w-100 fw-bold border-2 green-btn">Sign in</button>
+				</form>
+				<p class="text-center text-muted mt-3 mb-4">Not a member yet? <a href="../signup/signup.html">Sign Up</a></p>
+			</div>
+		</main>
+
+		<footer class="text-center text-white py-3">Copyright © 2025 - MioBook</footer>
+	</body>
+</html>

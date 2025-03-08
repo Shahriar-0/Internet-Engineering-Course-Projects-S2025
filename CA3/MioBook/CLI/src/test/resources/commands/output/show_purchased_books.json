@@ -1,0 +1,20 @@
+{
+    "success": true,
+    "message": "Purchased books retrieved successfully.",
+    "data": {
+        "username": "user1",
+        "books": [
+            {
+                "title": "book1",
+                "author": "author1",
+                "publisher": "publisher1",
+                "category": [
+                    "fiction"
+                ],
+                "year": 2010,
+                "price": 4600,
+                "isBorrowed": false
+            }
+        ]
+    }
+}

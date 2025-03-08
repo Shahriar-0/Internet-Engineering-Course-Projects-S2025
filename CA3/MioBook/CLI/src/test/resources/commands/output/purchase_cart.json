@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "message": "Purchase completed successfully.",
+    "data": {
+        "bookCount": 2,
+        "totalCost": 4200,
+        "date": "2025-02-04 15:02:28"
+    }
+}

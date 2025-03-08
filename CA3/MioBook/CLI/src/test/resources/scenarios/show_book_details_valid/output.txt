@@ -1,0 +1,6 @@
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"User added successfully."}
+{"success":true,"message":"Author added successfully."}
+{"success":true,"message":"Book added successfully."}
+{"success":true,"message":"Review added successfully."}
+{"success":true,"message":"Book details retrieved successfully.","data":{"author":"author name","publisher":"name","year":2012,"price":250,"synopsis":"lorem","genres":["horror","thriller"],"title":"sample book","averageRating":5.0}}

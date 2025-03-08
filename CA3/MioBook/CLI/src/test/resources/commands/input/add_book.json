@@ -1,0 +1,14 @@
+{
+    "username": "admin_user",
+    "title": "sample book",
+    "author": "sample name",
+    "publisher": "name",
+    "year": 2012,
+    "price": 250,
+    "synopsis": "lorem",
+    "content": "lorem ipsum",
+    "genres": [
+        "horror",
+        "thriller"
+    ]
+}

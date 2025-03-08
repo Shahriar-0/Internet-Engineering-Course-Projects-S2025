@@ -1,0 +1,5 @@
+@import "../../styles/index.css";
+
+.about-text {
+	max-height: 125px;
+}
