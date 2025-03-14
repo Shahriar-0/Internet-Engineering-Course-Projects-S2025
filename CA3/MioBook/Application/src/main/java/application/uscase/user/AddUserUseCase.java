@@ -35,7 +35,7 @@ public class AddUserUseCase implements IUseCase {
         return userRepository.add(mapToUser(data));
     }
 
-    private User mapToUser(AddUserData data) {
+    private static User mapToUser(AddUserData data) {
         User.Role role = User.Role.valueOf(data.role.toUpperCase());
         assert role != null : "Correctness of role field should be checked in presentation layer";
 

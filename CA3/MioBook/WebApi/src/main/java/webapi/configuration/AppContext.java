@@ -2,6 +2,7 @@ package webapi.configuration;
 
 import application.repositories.*;
 import application.services.*;
+import application.uscase.admin.AddAuthorUseCase;
 import application.uscase.user.AddUserUseCase;
 import application.validators.*;
 import infra.repositories.*;
@@ -30,4 +31,5 @@ public class AppContext {
 
 /*	----------------------------------- use cases ----------------------------------- */
 	private final AddUserUseCase addUserUseCase = new AddUserUseCase(userRepository);
+	private final AddAuthorUseCase addAuthorUseCase = new AddAuthorUseCase(authorRepository);
 }
