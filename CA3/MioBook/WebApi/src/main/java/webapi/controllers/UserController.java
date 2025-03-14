@@ -2,8 +2,8 @@ package webapi.controllers;
 
 import application.result.Result;
 import application.uscase.UseCaseType;
-import application.uscase.admin.AddAuthorUseCase;
-import domain.entities.Author;
+import application.uscase.user.AddUserUseCase;
+import domain.entities.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,23 +11,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/author")
-public class AuthorController {
+@RequestMapping("/user")
+public class UserController {
     private final UseCaseService useCaseService;
-    private final AuthenticationService authenticationService;
 
     @PostMapping
-    public ResponseEntity<String> addAuthor(@Valid @RequestBody AddAuthorUseCase.AddAuthorData data) {
-        AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
-        Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
+    public ResponseEntity<String> addUser(@Valid @RequestBody AddUserUseCase.AddUserData data) {
+        AddUserUseCase useCase = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
+        Result<User> result = useCase.perform(data);
         if (result.isFailure())
             throw result.getException();
 
-        return ResponseEntity.ok("Author added successfully.");
+        return ResponseEntity.ok("User added successfully.");
     }
 }
