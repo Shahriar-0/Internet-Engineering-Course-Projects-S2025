@@ -2,6 +2,7 @@ package webapi.configuration;
 
 import application.repositories.*;
 import application.services.*;
+import application.uscase.user.AddUserUseCase;
 import application.validators.*;
 import infra.repositories.*;
 import lombok.Getter;
@@ -25,4 +26,8 @@ public class AppContext {
 		bookRepository,
 		userService
 	);
+
+
+/*	----------------------------------- use cases ----------------------------------- */
+	private final AddUserUseCase addUserUseCase = new AddUserUseCase(userRepository);
 }

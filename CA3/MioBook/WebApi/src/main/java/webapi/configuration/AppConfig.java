@@ -1,6 +1,7 @@
 package webapi.configuration;
 
 import application.services.AdminService;
+import application.uscase.user.AddUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,5 +12,10 @@ public class AppConfig {
     @Bean
     public AdminService adminService() {
         return context.getAdminService();
+    }
+
+    @Bean
+    public AddUserUseCase addUserUseCase() {
+        return context.getAddUserUseCase();
     }
 }
