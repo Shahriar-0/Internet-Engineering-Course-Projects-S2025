@@ -6,6 +6,7 @@ import application.services.*;
 import application.uscase.admin.AddAuthorUseCase;
 import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.AddCartUseCase;
+import application.uscase.customer.AddCreditUseCase;
 import application.uscase.customer.RemoveCartUseCase;
 import application.uscase.user.AddUserUseCase;
 import application.validators.*;
@@ -39,4 +40,5 @@ public class AppContext {
 	private final AddBookUseCase addBookUseCase = new AddBookUseCase(authorRepository, bookRepository);
 	private final AddCartUseCase addCartUseCase = new AddCartUseCase(userRepository, bookRepository);
 	private final RemoveCartUseCase removeCartUseCase = new RemoveCartUseCase(userRepository, bookRepository);
+	private final AddCreditUseCase addCreditUseCase = new AddCreditUseCase(userRepository);
 }

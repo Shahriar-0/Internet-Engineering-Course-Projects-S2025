@@ -3,6 +3,7 @@ package webapi.controllers;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.customer.AddCartUseCase;
+import application.uscase.customer.AddCreditUseCase;
 import application.uscase.customer.RemoveCartUseCase;
 import application.uscase.user.AddUserUseCase;
 import domain.entities.Customer;
@@ -49,5 +50,15 @@ public class UserController {
             throw result.getException();
 
         return ResponseEntity.ok("Removed book from cart.");
+    }
+
+    @PutMapping("credit")
+    public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
+        AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
+        Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok("Credit added successfully.");
     }
 }
