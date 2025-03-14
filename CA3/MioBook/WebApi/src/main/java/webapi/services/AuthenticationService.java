@@ -10,4 +10,7 @@ public class AuthenticationService {
     public User.Role getUserRole() {
         throw new RuntimeException("Not implement yet!");
     }
+    public String getUserName() {
+        throw new RuntimeException("Not implement yet!");
+    }
 }
