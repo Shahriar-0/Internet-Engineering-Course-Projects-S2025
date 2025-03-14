@@ -1,6 +1,7 @@
 package webapi.configuration;
 
 import application.services.AdminService;
+import application.uscase.admin.AddBookUseCase;
 import application.uscase.user.AddUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,5 +18,10 @@ public class AppConfig {
     @Bean
     public AddUserUseCase addUserUseCase() {
         return context.getAddUserUseCase();
+    }
+
+    @Bean
+    public AddBookUseCase addBookUseCase() {
+        return context.getAddBookUseCase();
     }
 }
