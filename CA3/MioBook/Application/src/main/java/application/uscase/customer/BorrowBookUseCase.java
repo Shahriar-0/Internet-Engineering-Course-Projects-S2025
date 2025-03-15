@@ -1,6 +1,5 @@
 package application.uscase.customer;
 
-import application.dtos.BorrowBookDto;
 import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
@@ -51,12 +50,11 @@ public class BorrowBookUseCase implements IUseCase {
 
 
     public record BorrowBookData(
-            @NotBlank(message = "Title is required")
-            String title,
+            @NotBlank String title,
 
-            @NotNull(message = "Borrowed date is required")
-            @Min(value = 1, message = "Borrowed days must be greater or equal to 1")
-            @Max(value = 9, message = "Borrowed days must be less than 10")
+            @NotNull
+            @Min(value = 1)
+            @Max(value = 9)
             Integer borrowedDays
     ) {}
 }

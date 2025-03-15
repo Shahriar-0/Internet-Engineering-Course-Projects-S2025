@@ -46,7 +46,6 @@ public class AddCartUseCase implements IUseCase {
     }
 
     public record AddCartData (
-            @NotBlank(message = "Title is required")
-            String title
+            @NotBlank String title
     ) {}
 }

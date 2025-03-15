@@ -31,7 +31,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/cart/{title}")
-    public ResponseEntity<String> removeCart(@NotBlank(message = "Title is required") @PathVariable String title) {
+    public ResponseEntity<String> removeCart(@NotBlank @PathVariable String title) {
         RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
         Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
         if (result.isFailure())

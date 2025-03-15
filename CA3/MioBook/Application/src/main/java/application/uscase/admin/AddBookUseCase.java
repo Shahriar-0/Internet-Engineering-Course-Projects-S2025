@@ -57,29 +57,16 @@ public class AddBookUseCase implements IUseCase {
     }
 
     public record AddBookData(
-            @NotBlank(message = "Author is required")
-            String author,
+            @NotBlank String author,
+            @NotBlank String title,
+            @NotBlank String publisher,
+            @Positive int year,
+            @Positive long price,
+            @NotBlank String synopsis,
+            @NotBlank String content,
 
-            @NotBlank(message = "Title is required")
-            String title,
-
-            @NotBlank(message = "Publisher is required")
-            String publisher,
-
-            @Positive(message = "Year must be a positive number")
-            int year,
-
-            @Positive(message = "Price must be a positive number")
-            long price,
-
-            @NotBlank(message = "Synopsis is required")
-            String synopsis,
-
-            @NotBlank(message = "Content is required")
-            String content,
-
-            @NotEmpty(message = "Genres list cannot be empty or null")
+            @NotEmpty
             @Valid
-            List<@NotBlank(message = "Genre cannot be blank") String> genres
+            List<@NotBlank String> genres
     ) {}
 }
