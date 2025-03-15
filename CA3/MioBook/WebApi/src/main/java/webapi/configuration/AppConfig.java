@@ -2,10 +2,7 @@ package webapi.configuration;
 
 import application.services.AdminService;
 import application.uscase.admin.AddBookUseCase;
-import application.uscase.customer.AddCartUseCase;
-import application.uscase.customer.AddCreditUseCase;
-import application.uscase.customer.PurchaseCartUseCase;
-import application.uscase.customer.RemoveCartUseCase;
+import application.uscase.customer.*;
 import application.uscase.user.AddUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,5 +44,10 @@ public class AppConfig {
     @Bean
     public PurchaseCartUseCase purchaseCartUseCase() {
         return context.getPurchaseCartUseCase();
+    }
+
+    @Bean
+    public BorrowBookUseCase borrowBookUseCase() {
+        return context.getBorrowBookUseCase();
     }
 }

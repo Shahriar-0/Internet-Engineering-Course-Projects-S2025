@@ -2,10 +2,7 @@ package webapi.controllers;
 
 import application.result.Result;
 import application.uscase.UseCaseType;
-import application.uscase.customer.AddCartUseCase;
-import application.uscase.customer.AddCreditUseCase;
-import application.uscase.customer.PurchaseCartUseCase;
-import application.uscase.customer.RemoveCartUseCase;
+import application.uscase.customer.*;
 import application.uscase.user.AddUserUseCase;
 import domain.entities.Customer;
 import domain.entities.User;
@@ -54,7 +51,7 @@ public class UserController {
         return ResponseEntity.ok("Removed book from cart.");
     }
 
-    @PutMapping("credit")
+    @PatchMapping("credit")
     public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
         AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
         Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
@@ -72,5 +69,15 @@ public class UserController {
             throw result.getException();
 
         return ResponseEntity.ok(result.getData());
+    }
+
+    @PostMapping("/borrow")
+    public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
+        BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
+        Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok("Added borrowed book to cart.");
     }
 }
