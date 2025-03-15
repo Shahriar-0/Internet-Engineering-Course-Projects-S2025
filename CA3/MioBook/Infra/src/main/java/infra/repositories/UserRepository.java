@@ -49,6 +49,6 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 		if (userList.isEmpty())
 			return Optional.empty();
 
-		return Optional.of(userList.get(0));
+		return Optional.of(userList.getFirst());
 	}
 }

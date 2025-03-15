@@ -1,7 +1,5 @@
 package domain.valueobjects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.entities.Book;
 import domain.entities.Customer;
 import java.util.ArrayList;
@@ -13,10 +11,8 @@ import lombok.Setter;
 @Setter
 public class Cart {
 
-	@JsonIgnore
 	private final Customer customer;
 
-	@JsonIgnore
 	private final List<CustomerBook> books;
 
 	public Cart(Customer customer) {
@@ -24,7 +20,6 @@ public class Cart {
 		this.books = new ArrayList<>();
 	}
 
-	@JsonIgnore
 	private final transient int MAXIMUM_BOOKS = 10;
 
 	public String findAddBookErrors(Book book) {
@@ -76,17 +71,14 @@ public class Cart {
 		books.clear();
 	}
 
-	@JsonIgnore
 	public int getMAXIMUM_BOOKS() {
 		return MAXIMUM_BOOKS;
 	}
 
-	@JsonProperty("items")
 	public List<CustomerBook> getBooks() {
 		return books;
 	}
 
-	@JsonProperty("username")
 	public String getUsername() {
 		return customer.getUsername();
 	}

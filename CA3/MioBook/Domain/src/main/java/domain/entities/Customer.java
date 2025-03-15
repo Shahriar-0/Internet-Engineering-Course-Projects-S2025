@@ -1,8 +1,5 @@
 package domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import domain.valueobjects.BookContent;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
@@ -17,10 +14,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Customer extends User {
 
-	@JsonIgnore
 	private Cart cart;
 
-	@JsonIgnore
 	private PurchaseHistory purchaseHistory;
 
 	protected Customer(CustomerBuilder<?, ?> builder) {
@@ -29,15 +24,12 @@ public class Customer extends User {
 		this.purchaseHistory = new PurchaseHistory(this);
     }
 
-	@JsonIgnore
 	private long credit;
 
-	@JsonProperty("balance")
 	public long getBalance() {
 		return credit;
 	}
 
-	@JsonIgnore
 	public PurchasedBooks getPurchasedBooks() {
 		return new PurchasedBooks(this);
 	}

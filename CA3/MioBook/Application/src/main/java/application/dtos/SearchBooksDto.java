@@ -4,23 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.AssertTrue;
 
 public record SearchBooksDto(
-    @JsonProperty("title")
     String title,
 
-    @JsonProperty("username")
     String authorName,
 
-    @JsonProperty("genre")
     String genre,
 
-    @JsonProperty("from")
     Integer yearFrom,
 
-    @JsonProperty("to")
     Integer yearTo
 ) {
     @AssertTrue(message = "At least one search field must be provided")
