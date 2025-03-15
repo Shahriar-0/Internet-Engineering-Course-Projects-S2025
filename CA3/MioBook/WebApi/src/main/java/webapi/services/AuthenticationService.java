@@ -1,16 +1,20 @@
 package webapi.services;
 
 import domain.entities.User;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
-    //TODO: Implement after adding logging mechanism
+    private User user;
+
     public User.Role getUserRole() {
-        throw new RuntimeException("Not implement yet!");
+        return user.getRole();
     }
     public String getUserName() {
-        throw new RuntimeException("Not implement yet!");
+        return user.getUsername();
+    }
+    
+    public void setLoggedInUser(User user) {
+        this.user = user;
     }
 }
