@@ -33,7 +33,7 @@ public class AuthenticationController {
 
     @DeleteMapping("logout")
     public ResponseEntity<String> logout() {
-        authenticationService.validateAnyOneLoggedIn();
+        authenticationService.validateSomeOneLoggedIn();
         authenticationService.unSetLoggedInUser();
         return ResponseEntity.ok("User logged out successfully");
     }

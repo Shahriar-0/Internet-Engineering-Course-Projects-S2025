@@ -1,7 +1,6 @@
 package infra.repositories;
 
 import application.repositories.IUserRepository;
-import application.result.Result;
 import domain.entities.*;
 
 import java.util.List;
@@ -50,6 +49,6 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 		if (userList.isEmpty())
 			return Optional.empty();
 
-		return Optional.of(userList.getFirst());
+		return Optional.of(userList.get(0));
 	}
 }

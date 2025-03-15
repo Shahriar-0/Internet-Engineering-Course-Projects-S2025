@@ -23,6 +23,8 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<String> addBook(@Valid @RequestBody AddBookUseCase.AddBookData data) {
+        authenticationService.validateSomeOneLoggedIn();
+
         AddBookUseCase useCase = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
         Result<Book> result = useCase.perform(data, authenticationService.getUserRole());
         if (result.isFailure())

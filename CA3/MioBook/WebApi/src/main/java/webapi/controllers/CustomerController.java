@@ -22,6 +22,8 @@ public class CustomerController {
 
     @PostMapping("/cart")
     public ResponseEntity<String> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
+        authenticationService.validateSomeOneLoggedIn();
+
         AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
         Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
         if (result.isFailure())
@@ -32,6 +34,8 @@ public class CustomerController {
 
     @DeleteMapping("/cart/{title}")
     public ResponseEntity<String> removeCart(@NotBlank @PathVariable String title) {
+        authenticationService.validateSomeOneLoggedIn();
+
         RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
         Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
         if (result.isFailure())
@@ -42,6 +46,8 @@ public class CustomerController {
 
     @PatchMapping("credit")
     public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
+        authenticationService.validateSomeOneLoggedIn();
+
         AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
         Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
         if (result.isFailure())
@@ -52,6 +58,8 @@ public class CustomerController {
 
     @PostMapping("/purchase")
     public ResponseEntity<PurchasedCartSummary> purchaseCart() {
+        authenticationService.validateSomeOneLoggedIn();
+
         PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
         Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
         if (result.isFailure())
@@ -62,6 +70,8 @@ public class CustomerController {
 
     @PostMapping("/borrow")
     public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
+        authenticationService.validateSomeOneLoggedIn();
+
         BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
         Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
         if (result.isFailure())

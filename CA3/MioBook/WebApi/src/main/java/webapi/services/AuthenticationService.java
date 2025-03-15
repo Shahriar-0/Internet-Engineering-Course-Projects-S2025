@@ -8,7 +8,7 @@ import webapi.exceptions.AuthenticationException;
 public class AuthenticationService {
     private User user = null;
 
-    public void validateAnyOneLoggedIn() {
+    public void validateSomeOneLoggedIn() {
         if (user == null)
             throw AuthenticationException.noOneLoggedIn();
     }
