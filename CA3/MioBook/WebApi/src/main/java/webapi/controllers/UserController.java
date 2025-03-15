@@ -4,10 +4,12 @@ import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.customer.AddCartUseCase;
 import application.uscase.customer.AddCreditUseCase;
+import application.uscase.customer.PurchaseCartUseCase;
 import application.uscase.customer.RemoveCartUseCase;
 import application.uscase.user.AddUserUseCase;
 import domain.entities.Customer;
 import domain.entities.User;
+import domain.valueobjects.PurchasedCartSummary;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -60,5 +62,15 @@ public class UserController {
             throw result.getException();
 
         return ResponseEntity.ok("Credit added successfully.");
+    }
+
+    @PostMapping("/purchase")
+    public ResponseEntity<PurchasedCartSummary> purchaseCart() {
+        PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
+        Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok(result.getData());
     }
 }

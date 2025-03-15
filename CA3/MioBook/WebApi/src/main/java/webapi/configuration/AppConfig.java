@@ -4,6 +4,7 @@ import application.services.AdminService;
 import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.AddCartUseCase;
 import application.uscase.customer.AddCreditUseCase;
+import application.uscase.customer.PurchaseCartUseCase;
 import application.uscase.customer.RemoveCartUseCase;
 import application.uscase.user.AddUserUseCase;
 import org.springframework.context.annotation.Bean;
@@ -41,5 +42,10 @@ public class AppConfig {
     @Bean
     public AddCreditUseCase addCreditUseCase() {
         return context.getAddCreditUseCase();
+    }
+
+    @Bean
+    public PurchaseCartUseCase purchaseCartUseCase() {
+        return context.getPurchaseCartUseCase();
     }
 }
