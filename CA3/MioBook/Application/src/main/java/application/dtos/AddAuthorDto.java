@@ -14,10 +14,10 @@ public record AddAuthorDto(
 	String username,
 
 	@NotBlank(message = "Name is required")
-	@JsonProperty(value = "name", required = true)
+	@JsonProperty(value = "username", required = true)
 	String name,
 
-	@NotBlank(message = "Pen name is required")
+	@NotBlank(message = "Pen username is required")
 	@JsonProperty(value = "penName", required = true)
 	String penName,
 

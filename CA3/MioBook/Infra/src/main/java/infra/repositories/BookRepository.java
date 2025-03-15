@@ -34,8 +34,8 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		List<Book> books = null;
         if (params.containsKey("title"))
             books = books == null ? searchTitle(params.get("title")) : filterTitle(books, params.get("title"));
-        if (params.containsKey("name"))
-            books = books == null ? searchName(params.get("name")) : filterName(books, params.get("name"));
+        if (params.containsKey("username"))
+            books = books == null ? searchName(params.get("username")) : filterName(books, params.get("username"));
         if (params.containsKey("genre"))
             books = books == null ? searchGenre(params.get("genre")) : filterGenre(books, params.get("genre"));
         if (params.containsKey("from") && params.containsKey("to")){

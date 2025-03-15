@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record ShowAuthorDetailsDto(
     @NotBlank(message = "Name is required")
-    @JsonProperty(value = "name", required = true)
+    @JsonProperty(value = "username", required = true)
     String name
 ) {}

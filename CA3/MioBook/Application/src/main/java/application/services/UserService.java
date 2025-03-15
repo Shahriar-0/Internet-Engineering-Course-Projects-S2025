@@ -279,7 +279,7 @@ public class UserService {
 	/**
 	 * Shows the details of an author.
 	 *
-	 * @param showAuthorDetailsDto A DTO containing the name of the author to show the details of.
+	 * @param showAuthorDetailsDto A DTO containing the username of the author to show the details of.
 	 * @return A Result indicating whether the operation was successful. If the operation was
 	 *         unsuccessful, the contained exception will be a subclass of
 	 *         {@link application.exceptions.businessexceptions.authorexceptions.AuthorException}.

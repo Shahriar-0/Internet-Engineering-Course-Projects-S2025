@@ -1,7 +1,11 @@
 package infra.repositories;
 
 import application.repositories.IUserRepository;
+import application.result.Result;
 import domain.entities.*;
+
+import java.util.List;
+import java.util.Optional;
 
 public class UserRepository extends BaseRepository<String, User> implements IUserRepository {
 
@@ -38,5 +42,14 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 	@Override
 	public Boolean doesEmailExist(String email) {
 		return map.values().stream().anyMatch(user -> user.getEmail().equals(email));
+	}
+
+	@Override
+	public Optional<User> findByEmail(String email) {
+		List<User> userList = map.values().stream().filter(u -> u.getEmail().equals(email)).toList();
+		if (userList.isEmpty())
+			return Optional.empty();
+
+		return Optional.of(userList.getFirst());
 	}
 }

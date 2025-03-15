@@ -11,7 +11,7 @@ public record SearchBooksDto(
     @JsonProperty("title")
     String title,
 
-    @JsonProperty("name")
+    @JsonProperty("username")
     String authorName,
 
     @JsonProperty("genre")
@@ -87,7 +87,7 @@ public record SearchBooksDto(
         if (title != null)
             params.put("title", title);
         if (authorName != null)
-            params.put("name", authorName);
+            params.put("username", authorName);
         if (genre != null)
             params.put("genre", genre);
         if (yearFrom != null)

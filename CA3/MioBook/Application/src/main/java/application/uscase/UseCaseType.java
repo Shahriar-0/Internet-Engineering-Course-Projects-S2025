@@ -10,6 +10,8 @@ public enum UseCaseType {
     PURCHASE_CART,
     BORROW_BOOK,
     ADD_REVIEW,
+    LOGIN,
+    LOGOUT,
     SHOW_USER_DETAILS,
     SHOW_AUTHOR_DETAILS,
     SHOW_BOOK_DETAILS,
