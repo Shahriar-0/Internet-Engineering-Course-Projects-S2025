@@ -7,10 +7,7 @@ import domain.entities.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 
@@ -23,6 +20,8 @@ public class AuthenticationController {
 
     @PostMapping("login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data) {
+        authenticationService.validateNoOneLoggedIn();
+
         LoginUseCase useCase = (LoginUseCase) useCaseService.getUseCase(UseCaseType.LOGIN);
         Result<User> userResult = useCase.perform(data);
         if (userResult.isFailure())
@@ -30,5 +29,12 @@ public class AuthenticationController {
 
         authenticationService.setLoggedInUser(userResult.getData());
         return ResponseEntity.ok("User logged in successfully");
+    }
+
+    @DeleteMapping("logout")
+    public ResponseEntity<String> logout() {
+        authenticationService.validateAnyOneLoggedIn();
+        authenticationService.unSetLoggedInUser();
+        return ResponseEntity.ok("User logged out successfully");
     }
 }
