@@ -7,6 +7,7 @@ import application.uscase.admin.AddAuthorUseCase;
 import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.*;
 import application.uscase.user.AddUserUseCase;
+import application.uscase.user.GetUserUseCase;
 import application.validators.*;
 import infra.repositories.*;
 import lombok.Getter;
@@ -41,4 +42,5 @@ public class AppContext {
 	private final AddCreditUseCase addCreditUseCase = new AddCreditUseCase(userRepository);
 	private final PurchaseCartUseCase purchaseCartUseCase = new PurchaseCartUseCase(userRepository);
 	private final BorrowBookUseCase borrowBookUseCase = new BorrowBookUseCase(userRepository, bookRepository);
+	private final GetUserUseCase getUserUseCase = new GetUserUseCase(userRepository);
 }

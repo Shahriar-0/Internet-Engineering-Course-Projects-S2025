@@ -4,6 +4,7 @@ import application.services.AdminService;
 import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.*;
 import application.uscase.user.AddUserUseCase;
+import application.uscase.user.GetUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -49,5 +50,10 @@ public class AppConfig {
     @Bean
     public BorrowBookUseCase borrowBookUseCase() {
         return context.getBorrowBookUseCase();
+    }
+
+    @Bean
+    public GetUserUseCase getUserUseCase() {
+        return context.getGetUserUseCase();
     }
 }

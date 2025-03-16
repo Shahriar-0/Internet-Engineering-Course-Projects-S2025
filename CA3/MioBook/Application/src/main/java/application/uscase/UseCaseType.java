@@ -12,7 +12,7 @@ public enum UseCaseType {
     ADD_REVIEW,
     LOGIN,
     LOGOUT,
-    SHOW_USER_DETAILS,
+    GET_USER,
     SHOW_AUTHOR_DETAILS,
     SHOW_BOOK_DETAILS,
     SHOW_BOOK_CONTENT,

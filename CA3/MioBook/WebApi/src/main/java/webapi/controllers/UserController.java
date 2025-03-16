@@ -3,15 +3,15 @@ package webapi.controllers;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.user.AddUserUseCase;
+import application.uscase.user.GetUserUseCase;
 import domain.entities.User;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import webapi.services.UseCaseService;
+import webapi.views.user.UserView;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,5 +27,15 @@ public class UserController {
             throw result.getException();
 
         return ResponseEntity.ok("User added successfully.");
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserView> getUser(@NotBlank @RequestParam String username) {
+        GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
+        Result<User> result = useCase.perform(username);
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok(new UserView(result.getData()));
     }
 }
