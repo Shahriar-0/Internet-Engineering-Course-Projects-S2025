@@ -110,6 +110,12 @@ public class Customer extends User {
 		return purchasedCart;
 	}
 
+	/**
+	 * Checks if the customer has previously purchased a book with the given title and is still accessible.
+	 *
+	 * @param book The book to check if it has been bought.
+	 * @return True if the customer has bought the book, otherwise false.
+	 */
 	public Boolean hasBought(Book book) {
 		return purchaseHistory.hasBook(book.getTitle());
 	}
