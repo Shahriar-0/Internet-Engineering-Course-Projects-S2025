@@ -1,5 +1,6 @@
 package webapi.views.book;
 
+import application.page.Page;
 import domain.entities.Book;
 
 import java.util.List;
@@ -26,5 +27,15 @@ public record BookView(
                 entity.getSynopsis(),
                 entity.getAverageRating()
         );
+    }
+
+    public static Page<BookView> mapToView(Page<Book> bookPage) {
+        return Page.<BookView>builder()
+                .data(bookPage.getData().stream().map(BookView::new).toList())
+                .pageNumber(bookPage.getPageNumber())
+                .pageSize(bookPage.getPageSize())
+                .totalPageNumber(bookPage.getTotalPageNumber())
+                .totalDataSize(bookPage.getTotalDataSize())
+                .build();
     }
 }

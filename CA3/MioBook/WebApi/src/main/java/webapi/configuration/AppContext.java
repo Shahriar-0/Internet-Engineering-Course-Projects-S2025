@@ -8,6 +8,7 @@ import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.*;
 import application.uscase.user.AddUserUseCase;
 import application.uscase.user.GetAuthorUseCase;
+import application.uscase.user.GetBookUseCase;
 import application.uscase.user.GetUserUseCase;
 import application.validators.*;
 import infra.repositories.*;
@@ -45,4 +46,5 @@ public class AppContext {
 	private final BorrowBookUseCase borrowBookUseCase = new BorrowBookUseCase(userRepository, bookRepository);
 	private final GetUserUseCase getUserUseCase = new GetUserUseCase(userRepository);
 	private final GetAuthorUseCase getAuthorUseCase = new GetAuthorUseCase(authorRepository);
+	private final GetBookUseCase getBookUseCase = new GetBookUseCase(bookRepository);
 }

@@ -1,14 +1,20 @@
 package application.uscase.user;
 
+import application.page.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
 import application.uscase.IUseCase;
 import application.uscase.UseCaseType;
 import domain.entities.Book;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class GetBookUseCase implements IUseCase {
+    private static final int MAX_BOOK_PAGE_SIZE = 100;
+    private static final int DEFAULT_BOOK_PAGE_SIZE = 20;
+    private static final int DEFAULT_BOOK_PAGE_NUMBER = 1;
+
     private final IBookRepository bookRepository;
 
     @Override
@@ -22,4 +28,43 @@ public class GetBookUseCase implements IUseCase {
 
         return bookRepository.find(title);
     }
+
+    public Result<Page<Book>> perform(BookFilter filter) {
+        BookFilter standardFilter = standardizeFilter(filter);
+        return Result.success(bookRepository.filter(standardFilter));
+    }
+
+    private static BookFilter standardizeFilter(BookFilter filter) {
+        return new BookFilter(
+                filter.title,
+                filter.author,
+                filter.genre,
+                filter.from,
+                filter.to,
+                (filter.ascendingSortByRating != null) ? filter.ascendingSortByRating : true,
+                (filter.pageNumber != null) ? filter.pageNumber : DEFAULT_BOOK_PAGE_NUMBER,
+                standardizePageSizeField(filter.pageSize)
+        );
+    }
+
+    private static int standardizePageSizeField(Integer currentPageSize) {
+        if (currentPageSize == null)
+            return DEFAULT_BOOK_PAGE_SIZE;
+
+        if (currentPageSize > MAX_BOOK_PAGE_SIZE)
+            return MAX_BOOK_PAGE_SIZE;
+
+        return currentPageSize;
+    }
+
+    public record BookFilter(
+            String title,
+            String author,
+            String genre,
+            @Positive Integer from,
+            @Positive Integer to,
+            Boolean ascendingSortByRating,
+            @Positive Integer pageNumber,
+            @Positive Integer pageSize
+    ) { }
 }

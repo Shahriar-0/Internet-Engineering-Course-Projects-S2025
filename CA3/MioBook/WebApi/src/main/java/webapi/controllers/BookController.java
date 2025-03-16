@@ -1,5 +1,6 @@
 package webapi.controllers;
 
+import application.page.Page;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.admin.AddBookUseCase;
@@ -41,5 +42,15 @@ public class BookController {
             throw result.getException();
 
         return ResponseEntity.ok(new BookView(result.getData()));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
+        GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+        Result<Page<Book>> result = useCase.perform(filter);
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok(BookView.mapToView(result.getData()));
     }
 }
