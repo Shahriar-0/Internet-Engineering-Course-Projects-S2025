@@ -24,6 +24,8 @@ public class BookReviews {
 	}
 
     public void add(Review review) {
+		// if a review already exists for that user, replace it
+        reviews.removeIf(r -> r.getUsername().equals(review.getUsername()));
         reviews.add(review);
     }
 }

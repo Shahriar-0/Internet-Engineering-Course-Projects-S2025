@@ -2,6 +2,7 @@ package application.uscase.customer;
 
 import java.time.LocalDateTime;
 
+import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
@@ -44,6 +45,9 @@ public class AddReviewUseCase implements IUseCase {
             return Result.failure(bookResult.getException());
         Book book = bookResult.getData();
 
+        if (!customer.hasBought(book))
+            return Result.failure(new BookIsNotAccessible(data.title));
+
         book.addReview(mapToReview(data, customer));
         return Result.success(book);
     }
@@ -53,10 +57,15 @@ public class AddReviewUseCase implements IUseCase {
     }
 
 	public record AddReviewData(
-		@NotBlank String title,
+            @NotBlank
+            String title,
 
-		@NotNull @Min(value = 1) @Max(value = 5) Integer rating,
+            @NotNull
+            @Min(value = 1)
+            @Max(value = 5)
+            Integer rating,
 
-		@NotBlank String comment
+            @NotBlank
+            String comment
 	) {}
 }
