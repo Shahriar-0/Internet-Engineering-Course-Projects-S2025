@@ -14,7 +14,7 @@ public class AuthorValidator implements IBaseValidator<AddAuthorDto> {
 	private final IAuthorRepository authorRepository;
 
 	/**
-	 * Checks if an author with the given name already exists in the system.
+	 * Checks if an author with the given username already exists in the system.
 	 *
 	 * @param authorDto The new author to add, as a DTO.
 	 * @return A Result indicating whether the operation was successful. If the operation was

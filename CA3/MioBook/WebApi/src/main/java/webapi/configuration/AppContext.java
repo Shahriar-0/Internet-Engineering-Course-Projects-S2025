@@ -3,6 +3,8 @@ package webapi.configuration;
 import application.repositories.*;
 import application.services.*;
 import application.uscase.admin.AddAuthorUseCase;
+import application.uscase.admin.AddBookUseCase;
+import application.uscase.customer.*;
 import application.uscase.user.AddUserUseCase;
 import application.validators.*;
 import infra.repositories.*;
@@ -29,7 +31,14 @@ public class AppContext {
 	);
 
 
-/*	----------------------------------- use cases ----------------------------------- */
+	/*	----------------------------------- use cases ----------------------------------- */
 	private final AddUserUseCase addUserUseCase = new AddUserUseCase(userRepository);
 	private final AddAuthorUseCase addAuthorUseCase = new AddAuthorUseCase(authorRepository);
+	private final AddBookUseCase addBookUseCase = new AddBookUseCase(authorRepository, bookRepository);
+	private final AddCartUseCase addCartUseCase = new AddCartUseCase(userRepository, bookRepository);
+	private final RemoveCartUseCase removeCartUseCase = new RemoveCartUseCase(userRepository, bookRepository);
+	private final AddCreditUseCase addCreditUseCase = new AddCreditUseCase(userRepository);
+	private final PurchaseCartUseCase purchaseCartUseCase = new PurchaseCartUseCase(userRepository);
+	private final BorrowBookUseCase borrowBookUseCase = new BorrowBookUseCase(userRepository, bookRepository);
+	private final AddReviewUseCase addReviewUseCase = new AddReviewUseCase(userRepository, bookRepository);
 }

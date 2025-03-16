@@ -23,6 +23,8 @@ public class AuthorController {
 
     @PostMapping
     public ResponseEntity<String> addAuthor(@Valid @RequestBody AddAuthorUseCase.AddAuthorData data) {
+        authenticationService.validateSomeOneLoggedIn();
+
         AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
         Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
         if (result.isFailure())

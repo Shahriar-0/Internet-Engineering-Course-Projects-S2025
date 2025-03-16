@@ -45,16 +45,11 @@ public class AddAuthorUseCase implements IUseCase {
     }
 
     public record AddAuthorData(
-            @NotBlank(message = "Name is required")
-            String name,
+            @NotBlank String name,
+            @NotBlank String penName,
+            @NotBlank String nationality,
 
-            @NotBlank(message = "Pen name is required")
-            String penName,
-
-            @NotBlank(message = "Nationality is required")
-            String nationality,
-
-            @NotBlank(message = "Born is required")
+            @NotBlank
             @Pattern(
                     regexp = "^\\d{4}-\\d{2}-\\d{2}$",
                     message = "Invalid date format. Expected format: YYYY-MM-DD"

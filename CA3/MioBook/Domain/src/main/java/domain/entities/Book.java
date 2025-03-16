@@ -2,9 +2,6 @@ package domain.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import domain.valueobjects.BookContent;
 import domain.valueobjects.BookReviews;
 import domain.valueobjects.Review;
@@ -23,15 +20,12 @@ public class Book extends DomainEntity<String> {
 	private String synopsis;
 	private List<String> genres;
 
-	@JsonIgnore
 	private BookContent content;
 
     @Builder.Default
-    @JsonIgnore
     private BookReviews reviews = new BookReviews();
 
 	@Override
-	@JsonIgnore
 	public String getKey() {
 		return super.getKey();
 	}
@@ -48,7 +42,6 @@ public class Book extends DomainEntity<String> {
 		return reviews.getAverageRating();
 	}
 
-	@JsonProperty("author")
     public String getAuthorName() {
         return author != null ? author.getName() : null;
     }
