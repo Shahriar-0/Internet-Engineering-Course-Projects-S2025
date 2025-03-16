@@ -25,7 +25,7 @@ public class RemoveCartUseCase implements IUseCase {
     public Result<Customer> perform(String title, String userName, User.Role role) {
         assert title != null && !title.isBlank(): "we relay on @NotBlank validation from presentation layer";
 
-        if (User.Role.CUSTOMER.equals(role))
+        if (!User.Role.CUSTOMER.equals(role))
             return Result.failure(new InvalidAccess("customer"));
 
         Result<User> userResult = userRepository.get(userName);

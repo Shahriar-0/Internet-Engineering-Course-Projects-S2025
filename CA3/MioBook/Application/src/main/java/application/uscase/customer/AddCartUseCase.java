@@ -24,7 +24,7 @@ public class AddCartUseCase implements IUseCase {
     }
 
     public Result<Customer> perform(AddCartData data, String userName, User.Role role) {
-        if (User.Role.CUSTOMER.equals(role))
+        if (!User.Role.CUSTOMER.equals(role))
             return Result.failure(new InvalidAccess("customer"));
 
         Result<User> userResult = userRepository.get(userName);

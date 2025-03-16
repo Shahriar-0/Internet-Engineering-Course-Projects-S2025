@@ -20,7 +20,7 @@ public class AddCreditUseCase implements IUseCase {
     }
 
     public Result<Customer> perform(AddCreditData data, String userName, User.Role role) {
-        if (User.Role.CUSTOMER.equals(role))
+        if (!User.Role.CUSTOMER.equals(role))
             return Result.failure(new InvalidAccess("customer"));
 
         Result<User> userResult = userRepository.get(userName);

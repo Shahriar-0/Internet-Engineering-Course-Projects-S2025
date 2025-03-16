@@ -27,7 +27,7 @@ public class BorrowBookUseCase implements IUseCase {
     }
 
     public Result<Customer> perform(BorrowBookData data, String userName, User.Role role) {
-        if (User.Role.CUSTOMER.equals(role))
+        if (!User.Role.CUSTOMER.equals(role))
             return Result.failure(new InvalidAccess("customer"));
 
         Result<User> userResult = userRepository.get(userName);
