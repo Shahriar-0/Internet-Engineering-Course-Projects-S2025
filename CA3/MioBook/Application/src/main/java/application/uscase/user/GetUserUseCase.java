@@ -19,6 +19,9 @@ public class GetUserUseCase implements IUseCase {
     }
 
     public Result<User> perform(String username) {
+        assert username != null && !username.isBlank():
+                "we relay on @NotBlank validation on username field in presentation layer";
+
         return userRepository.find(username);
     }
 

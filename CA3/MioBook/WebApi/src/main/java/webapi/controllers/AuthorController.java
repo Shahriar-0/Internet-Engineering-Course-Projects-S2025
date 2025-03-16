@@ -3,16 +3,16 @@ package webapi.controllers;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.admin.AddAuthorUseCase;
+import application.uscase.user.GetAuthorUseCase;
 import domain.entities.Author;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
+import webapi.views.author.AuthorView;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,5 +31,15 @@ public class AuthorController {
             throw result.getException();
 
         return ResponseEntity.ok("Author added successfully.");
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<AuthorView> getAuthor(@NotBlank @RequestParam String name) {
+        GetAuthorUseCase useCase = (GetAuthorUseCase) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
+        Result<Author> result = useCase.perform(name);
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok(new AuthorView(result.getData()));
     }
 }
