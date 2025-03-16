@@ -3,16 +3,16 @@ package webapi.controllers;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.admin.AddBookUseCase;
+import application.uscase.user.GetBookUseCase;
 import domain.entities.Book;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
+import webapi.views.book.BookView;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,5 +31,15 @@ public class BookController {
             throw result.getException();
 
         return ResponseEntity.ok("Book added successfully.");
+    }
+
+    @GetMapping("/{title}")
+    public ResponseEntity<BookView> getBook(@NotBlank @RequestParam String title) {
+        GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+        Result<Book> result = useCase.perform(title);
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok(new BookView(result.getData()));
     }
 }

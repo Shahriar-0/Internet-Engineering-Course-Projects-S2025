@@ -14,7 +14,7 @@ public enum UseCaseType {
     LOGOUT,
     GET_USER,
     GET_AUTHOR,
-    SHOW_BOOK_DETAILS,
+    GET_BOOK,
     SHOW_BOOK_CONTENT,
     SHOW_BOOK_REVIEWS,
     SHOW_CART,
