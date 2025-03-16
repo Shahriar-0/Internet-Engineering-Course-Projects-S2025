@@ -1,6 +1,5 @@
 package webapi.configuration;
 
-import application.dtos.RemoveCartDto;
 import application.repositories.*;
 import application.services.*;
 import application.uscase.admin.AddAuthorUseCase;
@@ -32,7 +31,7 @@ public class AppContext {
 	);
 
 
-/*	----------------------------------- use cases ----------------------------------- */
+	/*	----------------------------------- use cases ----------------------------------- */
 	private final AddUserUseCase addUserUseCase = new AddUserUseCase(userRepository);
 	private final AddAuthorUseCase addAuthorUseCase = new AddAuthorUseCase(authorRepository);
 	private final AddBookUseCase addBookUseCase = new AddBookUseCase(authorRepository, bookRepository);
@@ -41,4 +40,5 @@ public class AppContext {
 	private final AddCreditUseCase addCreditUseCase = new AddCreditUseCase(userRepository);
 	private final PurchaseCartUseCase purchaseCartUseCase = new PurchaseCartUseCase(userRepository);
 	private final BorrowBookUseCase borrowBookUseCase = new BorrowBookUseCase(userRepository, bookRepository);
+	private final AddReviewUseCase addReviewUseCase = new AddReviewUseCase(userRepository, bookRepository);
 }

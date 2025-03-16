@@ -3,6 +3,7 @@ package webapi.controllers;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.admin.AddBookUseCase;
+import application.uscase.customer.AddReviewUseCase;
 import domain.entities.Book;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,17 @@ public class BookController {
             throw result.getException();
 
         return ResponseEntity.ok("Book added successfully.");
+    }
+
+    @PostMapping("/review")
+    public ResponseEntity<String> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data) {
+        authenticationService.validateSomeOneLoggedIn();
+
+        AddReviewUseCase useCase = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
+        Result<Book> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+        if (result.isFailure())
+            throw result.getException();
+
+        return ResponseEntity.ok("Review added successfully.");
     }
 }

@@ -50,4 +50,9 @@ public class AppConfig {
     public BorrowBookUseCase borrowBookUseCase() {
         return context.getBorrowBookUseCase();
     }
+
+    @Bean
+    public AddReviewUseCase addReviewUseCase() {
+        return context.getAddReviewUseCase();
+    }
 }
