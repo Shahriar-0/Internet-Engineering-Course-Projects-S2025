@@ -36,4 +36,9 @@ public class AppContext {
 	private final GetAuthorUseCase getAuthorUseCase = new GetAuthorUseCase(authorRepository);
 	private final GetBookUseCase getBookUseCase = new GetBookUseCase(bookRepository);
 	private final AddReviewUseCase addReviewUseCase = new AddReviewUseCase(userRepository, bookRepository);
+	private final GetBookReviewsUseCase getBookReviewsUseCase = new GetBookReviewsUseCase(bookRepository);
+	private final GetBookContentUseCase getBookContentUseCase = new GetBookContentUseCase(userRepository, bookRepository);
+	private final GetCartUseCase getCartUseCase = new GetCartUseCase(userRepository);
+	private final GetPurchaseHistoryUseCase getPurchaseHistoryUseCase = new GetPurchaseHistoryUseCase(userRepository);
+	private final GetPurchasedBooksUseCase getPurchasedBooksUseCase = new GetPurchasedBooksUseCase(userRepository);
 }

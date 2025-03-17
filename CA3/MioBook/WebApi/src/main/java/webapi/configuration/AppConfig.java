@@ -3,10 +3,7 @@ package webapi.configuration;
 import application.services.AdminService;
 import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.*;
-import application.uscase.user.AddUserUseCase;
-import application.uscase.user.GetAuthorUseCase;
-import application.uscase.user.GetBookUseCase;
-import application.uscase.user.GetUserUseCase;
+import application.uscase.user.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -68,5 +65,35 @@ public class AppConfig {
 	@Bean
 	public GetBookUseCase getBookUseCase() {
 		return context.getGetBookUseCase();
+	}
+
+	@Bean
+	public GetBookContentUseCase getBookContentUseCase() {
+		return context.getGetBookContentUseCase();
+	}
+
+	@Bean
+	public GetBookReviewsUseCase getBookReviewsUseCase() {
+		return context.getGetBookReviewsUseCase();
+	}
+
+	@Bean
+	public GetCartUseCase getCartUseCase() {
+		return context.getGetCartUseCase();
+	}
+
+	@Bean
+	public GetPurchaseHistoryUseCase getPurchaseHistoryUseCase() {
+		return context.getGetPurchaseHistoryUseCase();
+	}
+
+	@Bean
+	public GetPurchasedBooksUseCase getPurchasedBooksUseCase() {
+		return context.getGetPurchasedBooksUseCase();
+	}
+
+	@Bean
+	public AddReviewUseCase addReviewUseCase() {
+		return context.getAddReviewUseCase();
 	}
 }
