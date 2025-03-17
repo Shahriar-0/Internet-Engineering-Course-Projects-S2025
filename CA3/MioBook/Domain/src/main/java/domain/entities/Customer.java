@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 public class Customer extends User {
 
 	private Cart cart;
-
+	private long credit;
 	private PurchaseHistory purchaseHistory;
 
 	protected Customer(CustomerBuilder<?, ?> builder) {
@@ -22,8 +22,6 @@ public class Customer extends User {
 		this.cart = new Cart(this);
 		this.purchaseHistory = new PurchaseHistory(this);
 	}
-
-	private long credit;
 
 	public long getBalance() {
 		return credit;

@@ -9,9 +9,7 @@ import lombok.Getter;
 public class PurchasedCart {
 
 	private final LocalDateTime datePurchased;
-
 	private final long totalCost;
-
 	private final List<CustomerBook> books;
 
 	public PurchasedCart(Cart cart) {
@@ -21,6 +19,8 @@ public class PurchasedCart {
 	}
 
 	public Boolean hasBook(String title) {
-		return books.stream().filter(b -> b.isStillAccessible(LocalDateTime.now())).anyMatch(b -> b.getBook().getTitle().equals(title));
+		return books.stream().filter(
+			b -> b.isStillAccessible(LocalDateTime.now())).anyMatch(b -> b.getBook().getTitle().equals(title)
+		);
 	}
 }
