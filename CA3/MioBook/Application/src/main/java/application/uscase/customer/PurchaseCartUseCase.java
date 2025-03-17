@@ -14,27 +14,28 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class PurchaseCartUseCase implements IUseCase {
-    private final IUserRepository userRepository;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.PURCHASE_CART;
-    }
+	private final IUserRepository userRepository;
 
-    public Result<PurchasedCartSummary> perform(String userName, User.Role role) {
-        if (User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.PURCHASE_CART;
+	}
 
-        Result<User> userResult = userRepository.get(userName);
-        if (userResult.isFailure())
-            return Result.failure(userResult.getException());
-        assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
-        Customer customer = (Customer) userResult.getData();
+	public Result<PurchasedCartSummary> perform(String userName, User.Role role) {
+		if (User.Role.CUSTOMER.equals(role))
+			return Result.failure(new InvalidAccess("customer"));
 
-        if (!customer.canPurchaseCart())
-            return Result.failure(new CantPurchaseCart(customer.findPurchaseCartErrors()));
+		Result<User> userResult = userRepository.get(userName);
+		if (userResult.isFailure())
+			return Result.failure(userResult.getException());
+		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
+		Customer customer = (Customer) userResult.getData();
 
-        PurchasedCart purchasedCart = customer.purchaseCart();
-        return Result.success(new PurchasedCartSummary(purchasedCart));
-    }
+		if (!customer.canPurchaseCart())
+			return Result.failure(new CantPurchaseCart(customer.findPurchaseCartErrors()));
+
+		PurchasedCart purchasedCart = customer.purchaseCart();
+		return Result.success(new PurchasedCartSummary(purchasedCart));
+	}
 }

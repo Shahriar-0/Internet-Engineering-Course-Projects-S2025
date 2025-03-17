@@ -11,60 +11,60 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class GetBookUseCase implements IUseCase {
-    private static final int MAX_BOOK_PAGE_SIZE = 100;
-    private static final int DEFAULT_BOOK_PAGE_SIZE = 20;
-    private static final int DEFAULT_BOOK_PAGE_NUMBER = 1;
 
-    private final IBookRepository bookRepository;
+	private static final int MAX_BOOK_PAGE_SIZE = 100;
+	private static final int DEFAULT_BOOK_PAGE_SIZE = 20;
+	private static final int DEFAULT_BOOK_PAGE_NUMBER = 1;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.GET_BOOK;
-    }
+	private final IBookRepository bookRepository;
 
-    public Result<Book> perform(String title) {
-        assert title != null && !title.isBlank():
-                "we relay on @NotBlank validation on title field in presentation layer";
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.GET_BOOK;
+	}
 
-        return bookRepository.find(title);
-    }
+	public Result<Book> perform(String title) {
+		assert title != null && !title.isBlank() : "we relay on @NotBlank validation on title field in presentation layer";
 
-    public Result<Page<Book>> perform(BookFilter filter) {
-        BookFilter standardFilter = standardizeFilter(filter);
-        return Result.success(bookRepository.filter(standardFilter));
-    }
+		return bookRepository.find(title);
+	}
 
-    private static BookFilter standardizeFilter(BookFilter filter) {
-        return new BookFilter(
-                filter.title,
-                filter.author,
-                filter.genre,
-                filter.from,
-                filter.to,
-                (filter.ascendingSortByRating != null) ? filter.ascendingSortByRating : true,
-                (filter.pageNumber != null) ? filter.pageNumber : DEFAULT_BOOK_PAGE_NUMBER,
-                standardizePageSizeField(filter.pageSize)
-        );
-    }
+	public Result<Page<Book>> perform(BookFilter filter) {
+		BookFilter standardFilter = standardizeFilter(filter);
+		return Result.success(bookRepository.filter(standardFilter));
+	}
 
-    private static int standardizePageSizeField(Integer currentPageSize) {
-        if (currentPageSize == null)
-            return DEFAULT_BOOK_PAGE_SIZE;
+	private static BookFilter standardizeFilter(BookFilter filter) {
+		return new BookFilter(
+			filter.title,
+			filter.author,
+			filter.genre,
+			filter.from,
+			filter.to,
+			(filter.ascendingSortByRating != null) ? filter.ascendingSortByRating : true,
+			(filter.pageNumber != null) ? filter.pageNumber : DEFAULT_BOOK_PAGE_NUMBER,
+			standardizePageSizeField(filter.pageSize)
+		);
+	}
 
-        if (currentPageSize > MAX_BOOK_PAGE_SIZE)
-            return MAX_BOOK_PAGE_SIZE;
+	private static int standardizePageSizeField(Integer currentPageSize) {
+		if (currentPageSize == null)
+			return DEFAULT_BOOK_PAGE_SIZE;
 
-        return currentPageSize;
-    }
+		if (currentPageSize > MAX_BOOK_PAGE_SIZE)
+			return MAX_BOOK_PAGE_SIZE;
 
-    public record BookFilter(
-            String title,
-            String author,
-            String genre,
-            @Positive Integer from,
-            @Positive Integer to,
-            Boolean ascendingSortByRating,
-            @Positive Integer pageNumber,
-            @Positive Integer pageSize
-    ) { }
+		return currentPageSize;
+	}
+
+	public record BookFilter(
+		String title,
+		String author,
+		String genre,
+		@Positive Integer from,
+		@Positive Integer to,
+		Boolean ascendingSortByRating,
+		@Positive Integer pageNumber,
+		@Positive Integer pageSize
+	) {}
 }

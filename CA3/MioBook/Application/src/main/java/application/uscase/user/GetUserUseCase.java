@@ -5,33 +5,30 @@ import application.result.Result;
 import application.uscase.IUseCase;
 import application.uscase.UseCaseType;
 import domain.entities.User;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class GetUserUseCase implements IUseCase {
-    private final IUserRepository userRepository;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.GET_USER;
-    }
+	private final IUserRepository userRepository;
 
-    public Result<User> perform(String username) {
-        assert username != null && !username.isBlank():
-                "we relay on @NotBlank validation on username field in presentation layer";
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.GET_USER;
+	}
 
-        return userRepository.find(username);
-    }
+	public Result<User> perform(String username) {
+		assert username != null && !username.isBlank() : "we relay on @NotBlank validation on username field in presentation layer";
 
-    // TODO: this feature added soon
-    public Result<List<User>> perform(UserFilter filter) {
-        throw new RuntimeException("Not implemented yet");
-    }
+		return userRepository.find(username);
+	}
 
-    // TODO: this feature added soon
-    public record UserFilter(
+	// TODO: this feature added soon
+	public Result<List<User>> perform(UserFilter filter) {
+		throw new RuntimeException("Not implemented yet");
+	}
 
-    ) {}
+	// TODO: this feature added soon
+	public record UserFilter() {}
 }

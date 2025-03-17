@@ -14,35 +14,36 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RemoveCartUseCase implements IUseCase {
-    private final IUserRepository userRepository;
-    private final IBookRepository bookRepository;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.REMOVE_CART;
-    }
+	private final IUserRepository userRepository;
+	private final IBookRepository bookRepository;
 
-    public Result<Customer> perform(String title, String userName, User.Role role) {
-        assert title != null && !title.isBlank(): "we relay on @NotBlank validation from presentation layer";
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.REMOVE_CART;
+	}
 
-        if (User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
+	public Result<Customer> perform(String title, String userName, User.Role role) {
+		assert title != null && !title.isBlank() : "we relay on @NotBlank validation from presentation layer";
 
-        Result<User> userResult = userRepository.get(userName);
-        if (userResult.isFailure())
-            return Result.failure(userResult.getException());
-        assert userResult.getData() instanceof Customer: "we relay on role passing from presentation layer";
-        Customer customer = (Customer) userResult.getData();
+		if (User.Role.CUSTOMER.equals(role))
+			return Result.failure(new InvalidAccess("customer"));
 
-        Result<Book> bookResult = bookRepository.get(title);
-        if (bookResult.isFailure())
-            return Result.failure(bookResult.getException());
-        Book book = bookResult.getData();
+		Result<User> userResult = userRepository.get(userName);
+		if (userResult.isFailure())
+			return Result.failure(userResult.getException());
+		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
+		Customer customer = (Customer) userResult.getData();
 
-        if (!customer.canRemoveBook(book))
-            return Result.failure(new CantRemoveFromCart(customer.findRemoveBookErrors(book)));
+		Result<Book> bookResult = bookRepository.get(title);
+		if (bookResult.isFailure())
+			return Result.failure(bookResult.getException());
+		Book book = bookResult.getData();
 
-        customer.removeBook(book);
-        return Result.success(customer);
-    }
+		if (!customer.canRemoveBook(book))
+			return Result.failure(new CantRemoveFromCart(customer.findRemoveBookErrors(book)));
+
+		customer.removeBook(book);
+		return Result.success(customer);
+	}
 }

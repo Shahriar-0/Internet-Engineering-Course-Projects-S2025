@@ -15,7 +15,7 @@ public class PurchasedCart {
 	private final List<CustomerBook> books;
 
 	public PurchasedCart(Cart cart) {
-		this.books = new ArrayList<>(cart.getBooks());;
+		this.books = new ArrayList<>(cart.getBooks());
 		this.datePurchased = LocalDateTime.now();
 		this.totalCost = cart.getTotalCost();
 	}

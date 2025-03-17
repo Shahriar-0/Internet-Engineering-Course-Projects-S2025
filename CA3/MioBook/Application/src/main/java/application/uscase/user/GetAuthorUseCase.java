@@ -5,33 +5,30 @@ import application.result.Result;
 import application.uscase.IUseCase;
 import application.uscase.UseCaseType;
 import domain.entities.Author;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class GetAuthorUseCase implements IUseCase {
-    private final IAuthorRepository authorRepository;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.GET_AUTHOR;
-    }
+	private final IAuthorRepository authorRepository;
 
-    public Result<Author> perform(String name) {
-        assert name != null && !name.isBlank():
-                "we relay on @NotBlank validation on name field in presentation layer";
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.GET_AUTHOR;
+	}
 
-        return authorRepository.find(name);
-    }
+	public Result<Author> perform(String name) {
+		assert name != null && !name.isBlank() : "we relay on @NotBlank validation on name field in presentation layer";
 
-    // TODO: this feature added soon
-    public Result<List<Author>> perform(AuthorFilter filter) {
-        throw new RuntimeException("Not implemented yet");
-    }
+		return authorRepository.find(name);
+	}
 
-    // TODO: this feature added soon
-    public record AuthorFilter(
+	// TODO: this feature added soon
+	public Result<List<Author>> perform(AuthorFilter filter) {
+		throw new RuntimeException("Not implemented yet");
+	}
 
-    ) {}
+	// TODO: this feature added soon
+	public record AuthorFilter() {}
 }

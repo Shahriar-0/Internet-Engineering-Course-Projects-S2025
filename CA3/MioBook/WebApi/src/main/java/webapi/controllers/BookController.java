@@ -19,38 +19,39 @@ import webapi.views.book.BookView;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-    private final UseCaseService useCaseService;
-    private final AuthenticationService authenticationService;
 
-    @PostMapping
-    public ResponseEntity<String> addBook(@Valid @RequestBody AddBookUseCase.AddBookData data) {
-        authenticationService.validateSomeOneLoggedIn();
+	private final UseCaseService useCaseService;
+	private final AuthenticationService authenticationService;
 
-        AddBookUseCase useCase = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
-        Result<Book> result = useCase.perform(data, authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@PostMapping
+	public ResponseEntity<String> addBook(@Valid @RequestBody AddBookUseCase.AddBookData data) {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok("Book added successfully.");
-    }
+		AddBookUseCase useCase = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
+		Result<Book> result = useCase.perform(data, authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
 
-    @GetMapping("/{title}")
-    public ResponseEntity<BookView> getBook(@NotBlank @RequestParam String title) {
-        GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
-        Result<Book> result = useCase.perform(title);
-        if (result.isFailure())
-            throw result.getException();
+		return ResponseEntity.ok("Book added successfully.");
+	}
 
-        return ResponseEntity.ok(new BookView(result.getData()));
-    }
+	@GetMapping("/{title}")
+	public ResponseEntity<BookView> getBook(@NotBlank @RequestParam String title) {
+		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		Result<Book> result = useCase.perform(title);
+		if (result.isFailure())
+			throw result.getException();
 
-    @GetMapping
-    public ResponseEntity<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
-        GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
-        Result<Page<Book>> result = useCase.perform(filter);
-        if (result.isFailure())
-            throw result.getException();
+		return ResponseEntity.ok(new BookView(result.getData()));
+	}
 
-        return ResponseEntity.ok(BookView.mapToView(result.getData()));
-    }
+	@GetMapping
+	public ResponseEntity<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
+		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		Result<Page<Book>> result = useCase.perform(filter);
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(BookView.mapToView(result.getData()));
+	}
 }

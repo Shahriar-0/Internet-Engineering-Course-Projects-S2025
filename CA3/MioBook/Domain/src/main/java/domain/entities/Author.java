@@ -19,7 +19,7 @@ public class Author extends DomainEntity<String> {
 
 	private String penName;
 	private String nationality;
-	
+
 	private LocalDate born;
 
 	private LocalDate died;

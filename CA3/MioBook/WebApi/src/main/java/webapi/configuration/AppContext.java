@@ -26,16 +26,9 @@ public class AppContext {
 	private final BookValidator bookValidator = new BookValidator(bookRepository, authorValidator);
 
 	private final UserService userService = new UserService(userRepository, userValidator, bookRepository, authorRepository);
-	private final AdminService adminService = new AdminService(
-		authorValidator,
-		authorRepository,
-		bookValidator,
-		bookRepository,
-		userService
-	);
+	private final AdminService adminService = new AdminService(authorValidator, authorRepository, bookValidator, bookRepository, userService);
 
-
-/*	----------------------------------- use cases ----------------------------------- */
+	/*	----------------------------------- use cases ----------------------------------- */
 	private final AddUserUseCase addUserUseCase = new AddUserUseCase(userRepository);
 	private final AddAuthorUseCase addAuthorUseCase = new AddAuthorUseCase(authorRepository);
 	private final AddBookUseCase addBookUseCase = new AddBookUseCase(authorRepository, bookRepository);

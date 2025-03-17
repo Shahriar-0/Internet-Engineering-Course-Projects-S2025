@@ -16,72 +16,70 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AddUserUseCase implements IUseCase {
-    private static final int DEFAULT_CREDIT_AT_CREATION = 0;
 
-    private final IUserRepository userRepository;
+	private static final int DEFAULT_CREDIT_AT_CREATION = 0;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.ADD_USER;
-    }
+	private final IUserRepository userRepository;
 
-    public Result<User> perform(AddUserData data) {
-        if (userRepository.exists(data.username))
-            return Result.failure(new UsernameAlreadyExists(data.username));
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.ADD_USER;
+	}
 
-        if (userRepository.doesEmailExist(data.email))
-            return Result.failure(new EmailAlreadyExists(data.email));
+	public Result<User> perform(AddUserData data) {
+		if (userRepository.exists(data.username))
+			return Result.failure(new UsernameAlreadyExists(data.username));
 
-        return userRepository.add(mapToUser(data));
-    }
+		if (userRepository.doesEmailExist(data.email))
+			return Result.failure(new EmailAlreadyExists(data.email));
 
-    private static User mapToUser(AddUserData data) {
-        User.Role role = User.Role.valueOf(data.role.toUpperCase());
-        assert role != null : "Correctness of role field should be checked in presentation layer";
+		return userRepository.add(mapToUser(data));
+	}
 
-        if (role == User.Role.CUSTOMER)
-            return Customer
-                    .builder()
-                    .key(data.username)
-                    .address(data.address)
-                    .password(data.password)
-                    .email(data.email)
-                    .role(role)
-                    .credit(DEFAULT_CREDIT_AT_CREATION)
-                    .build();
-        else
-            return Admin
-                    .builder()
-                    .key(data.username)
-                    .address(data.address)
-                    .password(data.password)
-                    .email(data.email)
-                    .role(role)
-                    .build();
-    }
+	private static User mapToUser(AddUserData data) {
+		User.Role role = User.Role.valueOf(data.role.toUpperCase());
+		assert role != null : "Correctness of role field should be checked in presentation layer";
 
-    public record AddUserData(
-            @NotBlank
-            @Pattern(regexp = "^(customer|admin)$", message = "Role must be either 'customer' or 'admin'")
-            String role,
+		if (role == User.Role.CUSTOMER)
+			return Customer
+				.builder()
+				.key(data.username)
+				.address(data.address)
+				.password(data.password)
+				.email(data.email)
+				.role(role)
+				.credit(DEFAULT_CREDIT_AT_CREATION)
+				.build();
+		else
+			return Admin
+				.builder()
+				.key(data.username)
+				.address(data.address)
+				.password(data.password)
+				.email(data.email)
+				.role(role)
+				.build();
+	}
 
-            @NotBlank
-            @Pattern(
-                    regexp = "^[a-zA-Z0-9_-]+$",
-                    message = "Username must contain only letters, numbers, underscores, hyphens, or underscores"
-            )
-            String username,
+	public record AddUserData(
+		@NotBlank
+		@Pattern(regexp = "^(customer|admin)$", message = "Role must be either 'customer' or 'admin'")
+		String role,
 
-            @NotBlank
-            @Size(min = 4)
-            String password,
+		@NotBlank
+		@Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Username must contain only letters, numbers, underscores, hyphens, or underscores")
+		String username,
 
-            @NotBlank
-            @Email
-            String email,
+		@NotBlank
+		@Size(min = 4)
+		String password,
 
-            @NotNull
-            @Valid
-            Address address
-    ) {}
+		@NotBlank
+		@Email
+		String email,
+
+		@NotNull
+		@Valid
+		Address address
+	) {}
 }

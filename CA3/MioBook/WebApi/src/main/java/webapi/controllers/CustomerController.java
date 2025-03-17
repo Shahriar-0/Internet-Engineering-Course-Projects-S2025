@@ -17,66 +17,67 @@ import webapi.services.UseCaseService;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-    private final UseCaseService useCaseService;
-    private final AuthenticationService authenticationService;
 
-    @PostMapping("/cart")
-    public ResponseEntity<String> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
-        authenticationService.validateSomeOneLoggedIn();
+	private final UseCaseService useCaseService;
+	private final AuthenticationService authenticationService;
 
-        AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
-        Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@PostMapping("/cart")
+	public ResponseEntity<String> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok("Added book to cart.");
-    }
+		AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
+		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
 
-    @DeleteMapping("/cart/{title}")
-    public ResponseEntity<String> removeCart(@NotBlank @PathVariable String title) {
-        authenticationService.validateSomeOneLoggedIn();
+		return ResponseEntity.ok("Added book to cart.");
+	}
 
-        RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
-        Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@DeleteMapping("/cart/{title}")
+	public ResponseEntity<String> removeCart(@NotBlank @PathVariable String title) {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok("Removed book from cart.");
-    }
+		RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
+		Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
 
-    @PatchMapping("credit")
-    public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
-        authenticationService.validateSomeOneLoggedIn();
+		return ResponseEntity.ok("Removed book from cart.");
+	}
 
-        AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
-        Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@PatchMapping("credit")
+	public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok("Credit added successfully.");
-    }
+		AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
+		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
 
-    @PostMapping("/purchase")
-    public ResponseEntity<PurchasedCartSummary> purchaseCart() {
-        authenticationService.validateSomeOneLoggedIn();
+		return ResponseEntity.ok("Credit added successfully.");
+	}
 
-        PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
-        Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@PostMapping("/purchase")
+	public ResponseEntity<PurchasedCartSummary> purchaseCart() {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok(result.getData());
-    }
+		PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
+		Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
 
-    @PostMapping("/borrow")
-    public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
-        authenticationService.validateSomeOneLoggedIn();
+		return ResponseEntity.ok(result.getData());
+	}
 
-        BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
-        Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@PostMapping("/borrow")
+	public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok("Added borrowed book to cart.");
-    }
+		BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
+		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok("Added borrowed book to cart.");
+	}
 }

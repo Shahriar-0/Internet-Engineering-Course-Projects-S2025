@@ -12,29 +12,30 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AddCreditUseCase implements IUseCase {
-    private final IUserRepository userRepository;
 
-    @Override
-    public UseCaseType getType() {
-        return UseCaseType.ADD_CREDIT;
-    }
+	private final IUserRepository userRepository;
 
-    public Result<Customer> perform(AddCreditData data, String userName, User.Role role) {
-        if (User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
+	@Override
+	public UseCaseType getType() {
+		return UseCaseType.ADD_CREDIT;
+	}
 
-        Result<User> userResult = userRepository.get(userName);
-        if (userResult.isFailure())
-            return Result.failure(userResult.getException());
-        assert userResult.getData() instanceof Customer: "we relay on role passing from presentation layer";
-        Customer customer = (Customer) userResult.getData();
+	public Result<Customer> perform(AddCreditData data, String userName, User.Role role) {
+		if (User.Role.CUSTOMER.equals(role))
+			return Result.failure(new InvalidAccess("customer"));
 
-        customer.addCredit(data.credit);
-        return Result.success(customer);
-    }
+		Result<User> userResult = userRepository.get(userName);
+		if (userResult.isFailure())
+			return Result.failure(userResult.getException());
+		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
+		Customer customer = (Customer) userResult.getData();
 
-    public record AddCreditData(
-            @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
-            long credit
-    ) {}
+		customer.addCredit(data.credit);
+		return Result.success(customer);
+	}
+
+	public record AddCreditData(
+		@Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
+		long credit
+	) {}
 }

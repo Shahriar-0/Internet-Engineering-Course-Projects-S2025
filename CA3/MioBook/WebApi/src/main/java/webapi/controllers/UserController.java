@@ -17,25 +17,26 @@ import webapi.views.user.UserView;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UseCaseService useCaseService;
 
-    @PostMapping
-    public ResponseEntity<String> addUser(@Valid @RequestBody AddUserUseCase.AddUserData data) {
-        AddUserUseCase useCase = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
-        Result<User> result = useCase.perform(data);
-        if (result.isFailure())
-            throw result.getException();
+	private final UseCaseService useCaseService;
 
-        return ResponseEntity.ok("User added successfully.");
-    }
+	@PostMapping
+	public ResponseEntity<String> addUser(@Valid @RequestBody AddUserUseCase.AddUserData data) {
+		AddUserUseCase useCase = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
+		Result<User> result = useCase.perform(data);
+		if (result.isFailure())
+			throw result.getException();
 
-    @GetMapping("/{username}")
-    public ResponseEntity<UserView> getUser(@NotBlank @RequestParam String username) {
-        GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
-        Result<User> result = useCase.perform(username);
-        if (result.isFailure())
-            throw result.getException();
+		return ResponseEntity.ok("User added successfully.");
+	}
 
-        return ResponseEntity.ok(new UserView(result.getData()));
-    }
+	@GetMapping("/{username}")
+	public ResponseEntity<UserView> getUser(@NotBlank @RequestParam String username) {
+		GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
+		Result<User> result = useCase.perform(username);
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(new UserView(result.getData()));
+	}
 }

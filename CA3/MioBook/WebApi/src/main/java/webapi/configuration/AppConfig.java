@@ -12,60 +12,61 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
-    private final AppContext context = new AppContext();
 
-    @Bean
-    public AdminService adminService() {
-        return context.getAdminService();
-    }
+	private final AppContext context = new AppContext();
 
-    @Bean
-    public AddUserUseCase addUserUseCase() {
-        return context.getAddUserUseCase();
-    }
+	@Bean
+	public AdminService adminService() {
+		return context.getAdminService();
+	}
 
-    @Bean
-    public AddBookUseCase addBookUseCase() {
-        return context.getAddBookUseCase();
-    }
+	@Bean
+	public AddUserUseCase addUserUseCase() {
+		return context.getAddUserUseCase();
+	}
 
-    @Bean
-    public AddCartUseCase addCartUseCase() {
-        return context.getAddCartUseCase();
-    }
+	@Bean
+	public AddBookUseCase addBookUseCase() {
+		return context.getAddBookUseCase();
+	}
 
-    @Bean
-    public RemoveCartUseCase removeCartUseCase() {
-        return context.getRemoveCartUseCase();
-    }
+	@Bean
+	public AddCartUseCase addCartUseCase() {
+		return context.getAddCartUseCase();
+	}
 
-    @Bean
-    public AddCreditUseCase addCreditUseCase() {
-        return context.getAddCreditUseCase();
-    }
+	@Bean
+	public RemoveCartUseCase removeCartUseCase() {
+		return context.getRemoveCartUseCase();
+	}
 
-    @Bean
-    public PurchaseCartUseCase purchaseCartUseCase() {
-        return context.getPurchaseCartUseCase();
-    }
+	@Bean
+	public AddCreditUseCase addCreditUseCase() {
+		return context.getAddCreditUseCase();
+	}
 
-    @Bean
-    public BorrowBookUseCase borrowBookUseCase() {
-        return context.getBorrowBookUseCase();
-    }
+	@Bean
+	public PurchaseCartUseCase purchaseCartUseCase() {
+		return context.getPurchaseCartUseCase();
+	}
 
-    @Bean
-    public GetUserUseCase getUserUseCase() {
-        return context.getGetUserUseCase();
-    }
+	@Bean
+	public BorrowBookUseCase borrowBookUseCase() {
+		return context.getBorrowBookUseCase();
+	}
 
-    @Bean
-    public GetAuthorUseCase getAuthorUseCase() {
-        return context.getGetAuthorUseCase();
-    }
+	@Bean
+	public GetUserUseCase getUserUseCase() {
+		return context.getGetUserUseCase();
+	}
 
-    @Bean
-    public GetBookUseCase getBookUseCase() {
-        return context.getGetBookUseCase();
-    }
+	@Bean
+	public GetAuthorUseCase getAuthorUseCase() {
+		return context.getGetAuthorUseCase();
+	}
+
+	@Bean
+	public GetBookUseCase getBookUseCase() {
+		return context.getGetBookUseCase();
+	}
 }

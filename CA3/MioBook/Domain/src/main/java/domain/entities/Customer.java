@@ -19,10 +19,10 @@ public class Customer extends User {
 	private PurchaseHistory purchaseHistory;
 
 	protected Customer(CustomerBuilder<?, ?> builder) {
-        super(builder);
-        this.cart = new Cart(this);
+		super(builder);
+		this.cart = new Cart(this);
 		this.purchaseHistory = new PurchaseHistory(this);
-    }
+	}
 
 	private long credit;
 

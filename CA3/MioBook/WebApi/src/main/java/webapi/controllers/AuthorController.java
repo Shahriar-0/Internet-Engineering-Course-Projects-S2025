@@ -18,28 +18,29 @@ import webapi.views.author.AuthorView;
 @RestController
 @RequestMapping("/author")
 public class AuthorController {
-    private final UseCaseService useCaseService;
-    private final AuthenticationService authenticationService;
 
-    @PostMapping
-    public ResponseEntity<String> addAuthor(@Valid @RequestBody AddAuthorUseCase.AddAuthorData data) {
-        authenticationService.validateSomeOneLoggedIn();
+	private final UseCaseService useCaseService;
+	private final AuthenticationService authenticationService;
 
-        AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
-        Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+	@PostMapping
+	public ResponseEntity<String> addAuthor(@Valid @RequestBody AddAuthorUseCase.AddAuthorData data) {
+		authenticationService.validateSomeOneLoggedIn();
 
-        return ResponseEntity.ok("Author added successfully.");
-    }
+		AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
+		Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
 
-    @GetMapping("/{name}")
-    public ResponseEntity<AuthorView> getAuthor(@NotBlank @RequestParam String name) {
-        GetAuthorUseCase useCase = (GetAuthorUseCase) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
-        Result<Author> result = useCase.perform(name);
-        if (result.isFailure())
-            throw result.getException();
+		return ResponseEntity.ok("Author added successfully.");
+	}
 
-        return ResponseEntity.ok(new AuthorView(result.getData()));
-    }
+	@GetMapping("/{name}")
+	public ResponseEntity<AuthorView> getAuthor(@NotBlank @RequestParam String name) {
+		GetAuthorUseCase useCase = (GetAuthorUseCase) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
+		Result<Author> result = useCase.perform(name);
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(new AuthorView(result.getData()));
+	}
 }

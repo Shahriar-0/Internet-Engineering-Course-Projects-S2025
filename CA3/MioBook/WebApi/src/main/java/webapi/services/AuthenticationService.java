@@ -6,30 +6,32 @@ import webapi.exceptions.AuthenticationException;
 
 @Service
 public class AuthenticationService {
-    private User user = null;
 
-    public void validateSomeOneLoggedIn() {
-        if (user == null)
-            throw AuthenticationException.noOneLoggedIn();
-    }
+	private User user = null;
 
-    public void validateNoOneLoggedIn() {
-        if (user != null)
-            throw AuthenticationException.someOneLoggedIn();
-    }
+	public void validateSomeOneLoggedIn() {
+		if (user == null)
+			throw AuthenticationException.noOneLoggedIn();
+	}
 
-    public User.Role getUserRole() {
-        return user.getRole();
-    }
-    public String getUserName() {
-        return user.getUsername();
-    }
-    
-    public void setLoggedInUser(User user) {
-        this.user = user;
-    }
+	public void validateNoOneLoggedIn() {
+		if (user != null)
+			throw AuthenticationException.someOneLoggedIn();
+	}
 
-    public void unSetLoggedInUser() {
-        this.user = null;
-    }
+	public User.Role getUserRole() {
+		return user.getRole();
+	}
+
+	public String getUserName() {
+		return user.getUsername();
+	}
+
+	public void setLoggedInUser(User user) {
+		this.user = user;
+	}
+
+	public void unSetLoggedInUser() {
+		this.user = null;
+	}
 }
