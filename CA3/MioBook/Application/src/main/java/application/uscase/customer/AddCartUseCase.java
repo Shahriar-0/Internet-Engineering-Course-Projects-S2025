@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AddCartUseCase implements IUseCase {
-
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 
@@ -25,7 +24,7 @@ public class AddCartUseCase implements IUseCase {
 	}
 
 	public Result<Customer> perform(AddCartData data, String username, User.Role role) {
-		if (User.Role.CUSTOMER.equals(role))
+		if (!User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
 		Result<User> userResult = userRepository.get(username);
@@ -46,5 +45,7 @@ public class AddCartUseCase implements IUseCase {
 		return Result.success(customer);
 	}
 
-	public record AddCartData(@NotBlank String title) {}
+	public record AddCartData(
+    @NotBlank String title
+  ) {}
 }

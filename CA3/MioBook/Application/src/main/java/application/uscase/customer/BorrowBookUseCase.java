@@ -28,7 +28,7 @@ public class BorrowBookUseCase implements IUseCase {
 	}
 
 	public Result<Customer> perform(BorrowBookData data, String username, User.Role role) {
-		if (User.Role.CUSTOMER.equals(role))
+		if (!User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
 		Result<User> userResult = userRepository.get(username);
@@ -52,6 +52,9 @@ public class BorrowBookUseCase implements IUseCase {
 	public record BorrowBookData(
 		@NotBlank String title,
 
-		@NotNull @Min(value = 1) @Max(value = 9) Integer borrowedDays
+		@NotNull 
+    @Min(value = 1) 
+    @Max(value = 9) 
+    Integer borrowedDays
 	) {}
 }

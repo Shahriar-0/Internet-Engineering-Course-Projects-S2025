@@ -35,4 +35,5 @@ public class AppContext {
 	private final GetUserUseCase getUserUseCase = new GetUserUseCase(userRepository);
 	private final GetAuthorUseCase getAuthorUseCase = new GetAuthorUseCase(authorRepository);
 	private final GetBookUseCase getBookUseCase = new GetBookUseCase(bookRepository);
+	private final AddReviewUseCase addReviewUseCase = new AddReviewUseCase(userRepository, bookRepository);
 }

@@ -19,7 +19,9 @@ public class BookReviews {
 		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::rating).average().orElse(0)).setScale(1, RoundingMode.HALF_UP).floatValue();
 	}
 
-	public void add(Review review) {
-		reviews.add(review);
-	}
+    public void add(Review review) {
+		// if a review already exists for that user, replace it
+        reviews.removeIf(r -> r.getUsername().equals(review.getUsername()));
+        reviews.add(review);
+    }
 }

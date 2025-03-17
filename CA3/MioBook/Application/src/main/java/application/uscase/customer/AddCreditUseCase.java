@@ -21,7 +21,7 @@ public class AddCreditUseCase implements IUseCase {
 	}
 
 	public Result<Customer> perform(AddCreditData data, String username, User.Role role) {
-		if (User.Role.CUSTOMER.equals(role))
+		if (!User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
 		Result<User> userResult = userRepository.get(username);
@@ -34,5 +34,8 @@ public class AddCreditUseCase implements IUseCase {
 		return Result.success(customer);
 	}
 
-	public record AddCreditData(@Min(value = 100, message = "Credit amount must be greater or equal to 100 cent") long credit) {}
+	public record AddCreditData(
+    @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent") 
+    long credit
+  ) {}
 }
