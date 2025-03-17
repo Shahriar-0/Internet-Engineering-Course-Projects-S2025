@@ -15,7 +15,7 @@ import webapi.services.UseCaseService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customer") // TODO: maybe my or profile?
 public class CustomerController {
 
 	private final UseCaseService useCaseService;

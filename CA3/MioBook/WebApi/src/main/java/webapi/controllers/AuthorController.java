@@ -16,7 +16,7 @@ import webapi.views.author.AuthorView;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/author")
+@RequestMapping("/author") // TODO: maybe authors?
 public class AuthorController {
 
 	private final UseCaseService useCaseService;
