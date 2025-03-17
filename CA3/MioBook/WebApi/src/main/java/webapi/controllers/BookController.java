@@ -4,8 +4,10 @@ import application.page.Page;
 import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.admin.AddBookUseCase;
+import application.uscase.customer.GetBookContentUseCase;
 import application.uscase.user.GetBookUseCase;
 import domain.entities.Book;
+import domain.valueobjects.BookContent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
+import webapi.views.book.BookContentView;
 import webapi.views.book.BookView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/book") // TODO: maybe change to books?
 public class BookController {
 
 	private final UseCaseService useCaseService;
@@ -44,6 +50,17 @@ public class BookController {
 
 		return ResponseEntity.ok(new BookView(result.getData()));
 	}
+
+	@GetMapping("/{title}/content")
+	public ResponseEntity<BookContentView> getBookContent(@NotBlank @RequestParam String title) {
+		GetBookContentUseCase useCase = (GetBookContentUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		Result<BookContent> result = useCase.perform(new GetBookContentUseCase.GetBookContentData(title), authenticationService.getUserName(), authenticationService.getUserRole()); // TODO: refactor this authentication data into another class
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(new BookContentView(result.getData()));
+	}
+
 
 	@GetMapping
 	public ResponseEntity<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
