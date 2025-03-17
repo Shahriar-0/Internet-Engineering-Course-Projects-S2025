@@ -1,15 +1,10 @@
 package webapi.configuration;
 
-import application.dtos.RemoveCartDto;
 import application.repositories.*;
 import application.services.*;
-import application.uscase.admin.AddAuthorUseCase;
-import application.uscase.admin.AddBookUseCase;
+import application.uscase.admin.*;
 import application.uscase.customer.*;
-import application.uscase.user.AddUserUseCase;
-import application.uscase.user.GetAuthorUseCase;
-import application.uscase.user.GetBookUseCase;
-import application.uscase.user.GetUserUseCase;
+import application.uscase.user.*;
 import application.validators.*;
 import infra.repositories.*;
 import lombok.Getter;
