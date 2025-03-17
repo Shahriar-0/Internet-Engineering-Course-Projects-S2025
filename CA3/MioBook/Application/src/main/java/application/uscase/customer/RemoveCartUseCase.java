@@ -23,13 +23,13 @@ public class RemoveCartUseCase implements IUseCase {
 		return UseCaseType.REMOVE_CART;
 	}
 
-	public Result<Customer> perform(String title, String userName, User.Role role) {
+	public Result<Customer> perform(String title, String username, User.Role role) {
 		assert title != null && !title.isBlank() : "we relay on @NotBlank validation from presentation layer";
 
 		if (User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
-		Result<User> userResult = userRepository.get(userName);
+		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());
 		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";

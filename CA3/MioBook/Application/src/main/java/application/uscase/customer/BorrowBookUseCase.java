@@ -27,11 +27,11 @@ public class BorrowBookUseCase implements IUseCase {
 		return UseCaseType.BORROW_BOOK;
 	}
 
-	public Result<Customer> perform(BorrowBookData data, String userName, User.Role role) {
+	public Result<Customer> perform(BorrowBookData data, String username, User.Role role) {
 		if (User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
-		Result<User> userResult = userRepository.get(userName);
+		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());
 		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
@@ -52,9 +52,6 @@ public class BorrowBookUseCase implements IUseCase {
 	public record BorrowBookData(
 		@NotBlank String title,
 
-		@NotNull
-		@Min(value = 1)
-		@Max(value = 9)
-		Integer borrowedDays
+		@NotNull @Min(value = 1) @Max(value = 9) Integer borrowedDays
 	) {}
 }

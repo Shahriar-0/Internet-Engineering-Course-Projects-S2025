@@ -22,11 +22,11 @@ public class PurchaseCartUseCase implements IUseCase {
 		return UseCaseType.PURCHASE_CART;
 	}
 
-	public Result<PurchasedCartSummary> perform(String userName, User.Role role) {
+	public Result<PurchasedCartSummary> perform(String username, User.Role role) {
 		if (User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
-		Result<User> userResult = userRepository.get(userName);
+		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());
 		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";

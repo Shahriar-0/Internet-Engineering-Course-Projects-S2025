@@ -24,11 +24,11 @@ public class AddCartUseCase implements IUseCase {
 		return UseCaseType.ADD_CART;
 	}
 
-	public Result<Customer> perform(AddCartData data, String userName, User.Role role) {
+	public Result<Customer> perform(AddCartData data, String username, User.Role role) {
 		if (User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
-		Result<User> userResult = userRepository.get(userName);
+		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());
 		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
@@ -46,7 +46,5 @@ public class AddCartUseCase implements IUseCase {
 		return Result.success(customer);
 	}
 
-	public record AddCartData(
-		@NotBlank String title
-	) {}
+	public record AddCartData(@NotBlank String title) {}
 }
