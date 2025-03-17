@@ -1,0 +1,33 @@
+package webapi.views.book;
+
+import domain.valueobjects.Review;
+import java.time.LocalDateTime;
+
+import application.page.Page;
+
+public record BookReviewsView(
+    Integer rating,
+    String comment,
+    String customer,
+    LocalDateTime date
+) {
+    public BookReviewsView(Review review) {
+        this(
+            review.rating(),
+            review.comment(),
+            review.customer().getUsername(),
+            review.date()
+        );
+    }
+
+    public static Page<BookReviewsView> mapToView(Page<Review> reviewPage) {
+        return Page
+            .<BookReviewsView>builder()
+            .data(reviewPage.getData().stream().map(BookReviewsView::new).toList())
+            .pageNumber(reviewPage.getPageNumber())
+            .pageSize(reviewPage.getPageSize())
+            .totalPageNumber(reviewPage.getTotalPageNumber())
+            .totalDataSize(reviewPage.getTotalDataSize())
+            .build();
+    }
+}

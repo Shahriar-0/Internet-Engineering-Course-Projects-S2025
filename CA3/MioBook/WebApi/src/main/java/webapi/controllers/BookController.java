@@ -5,9 +5,11 @@ import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.admin.AddBookUseCase;
 import application.uscase.customer.GetBookContentUseCase;
+import application.uscase.user.GetBookReviewsUseCase;
 import application.uscase.user.GetBookUseCase;
 import domain.entities.Book;
 import domain.valueobjects.BookContent;
+import domain.valueobjects.Review;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
-import webapi.views.book.BookContentView;
-import webapi.views.book.BookView;
+import webapi.views.book.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -59,6 +60,16 @@ public class BookController {
 			throw result.getException();
 
 		return ResponseEntity.ok(new BookContentView(result.getData()));
+	}
+
+	@GetMapping("/{title}/reviews")
+	public ResponseEntity<Page<BookReviewsView>> getBookReviews(@NotBlank @RequestParam GetBookReviewsUseCase.ReviewFilter filter) {
+		GetBookReviewsUseCase useCase = (GetBookReviewsUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
+		Result<Page<Review>> result = useCase.perform(filter);
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(BookReviewsView.mapToView(result.getData()));
 	}
 
 
