@@ -4,6 +4,7 @@ import application.result.Result;
 import application.uscase.UseCaseType;
 import application.uscase.customer.*;
 import domain.entities.Customer;
+import domain.valueobjects.Cart;
 import domain.valueobjects.PurchasedCartSummary;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +32,18 @@ public class CustomerController {
 			throw result.getException();
 
 		return ResponseEntity.ok("Added book to cart.");
+	}
+
+	@GetMapping("/cart")
+	public ResponseEntity<Cart> getCart() {
+		authenticationService.validateSomeOneLoggedIn();
+
+		GetCartUseCase useCase = (GetCartUseCase) useCaseService.getUseCase(UseCaseType.GET_CART);
+		Result<Cart> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(result.getData());
 	}
 
 	@DeleteMapping("/cart/{title}")
