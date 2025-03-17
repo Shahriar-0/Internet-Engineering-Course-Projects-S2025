@@ -6,6 +6,7 @@ import application.uscase.customer.*;
 import domain.entities.Customer;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
+import domain.valueobjects.PurchasedBooks;
 import domain.valueobjects.PurchasedCartSummary;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.customer.PurchaseHistoryView;
-
+import webapi.views.customer.PurchasedBooksView;
 
 
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class CustomerController {
 		return ResponseEntity.ok(result.getData());
 	}
 
-	@GetMapping("/purchaseHistory")
+	@GetMapping("/history")
 	public ResponseEntity<PurchaseHistoryView> getPurchaseHistory() {
 		authenticationService.validateSomeOneLoggedIn();
 
@@ -60,6 +61,18 @@ public class CustomerController {
 			throw result.getException();
 
 		return ResponseEntity.ok(new PurchaseHistoryView(result.getData()));
+	}
+
+	@GetMapping("/books")
+	public ResponseEntity<PurchasedBooksView> getPurchasedBooks() {
+		authenticationService.validateSomeOneLoggedIn();
+
+		GetPurchasedBooksUseCase useCase = (GetPurchasedBooksUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
+		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		if (result.isFailure())
+			throw result.getException();
+
+		return ResponseEntity.ok(new PurchasedBooksView(result.getData()));
 	}
 
 	@DeleteMapping("/cart/{title}")
