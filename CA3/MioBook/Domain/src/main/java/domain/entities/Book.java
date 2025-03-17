@@ -44,4 +44,8 @@ public class Book extends DomainEntity<String> {
 	public String getAuthorName() {
 		return author != null ? author.getName() : null;
 	}
+
+	public List<Review> getReviewsList() {
+		return reviews.getReviews();
+	}
 }
