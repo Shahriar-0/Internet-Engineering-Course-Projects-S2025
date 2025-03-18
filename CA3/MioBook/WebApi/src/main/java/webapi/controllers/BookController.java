@@ -17,8 +17,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.book.*;
 
@@ -28,7 +28,6 @@ import webapi.views.book.*;
 public class BookController {
 
 	private final UseCaseService useCaseService;
-	private final AuthenticationService authenticationService;
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
@@ -53,7 +52,7 @@ public class BookController {
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
 		GetBookContentUseCase useCase = (GetBookContentUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
-		String username = authenticationService.getUserName();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Result<BookContent> result = useCase.perform(new GetBookContentUseCase.GetBookContentData(title), username);
 
 		if (result.isFailure()) throw result.getException();
@@ -88,7 +87,7 @@ public class BookController {
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data) {
 		AddReviewUseCase useCase = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
-		String username = authenticationService.getUserName();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Result<Book> result = useCase.perform(data, username);
 
 		if (result.isFailure()) throw result.getException();

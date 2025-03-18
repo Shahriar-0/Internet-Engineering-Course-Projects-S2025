@@ -17,28 +17,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-	private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-	@PostMapping("/login")
-	public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data, HttpServletRequest request) {
-		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(data.username(), data.password());
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data) {
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(data.username(), data.password())
+        );
 
-		Authentication authentication = authenticationManager.authenticate(authRequest);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		HttpSession session = request.getSession(true);
-		session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+        return ResponseEntity.ok("User logged in successfully");
+    }
 
-		return ResponseEntity.ok("User logged in successfully");
-	}
+    @DeleteMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
 
-	@DeleteMapping("/logout")
-	public ResponseEntity<String> logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		SecurityContextHolder.clearContext();
-		return ResponseEntity.ok("User logged out successfully");
-	}
+        SecurityContextHolder.clearContext();
+
+        return ResponseEntity.ok("User logged out successfully");
+    }
 }
