@@ -35,7 +35,7 @@ public class AddCreditUseCase implements IUseCase {
 	}
 
 	public record AddCreditData(
-    @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
-    long credit
+		@Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
+		long credit
   ) {}
 }

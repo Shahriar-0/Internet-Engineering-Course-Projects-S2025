@@ -8,9 +8,9 @@ import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
 import domain.valueobjects.PurchaseHistory;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GetPurchaseHistoryUseCase implements IUseCase {
 
     private final IUserRepository userRepository;
