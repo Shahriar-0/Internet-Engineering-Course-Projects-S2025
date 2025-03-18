@@ -1,8 +1,8 @@
 package webapi.controllers;
 
 import application.result.Result;
-import application.uscase.UseCaseType;
-import application.uscase.customer.*;
+import application.usecase.UseCaseType;
+import application.usecase.customer.*;
 import domain.entities.Customer;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;

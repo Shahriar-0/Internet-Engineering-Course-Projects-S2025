@@ -2,8 +2,8 @@ package application.repositories;
 
 import application.page.Page;
 import application.result.Result;
-import application.uscase.user.GetBookReviewsUseCase;
-import application.uscase.user.GetBookUseCase;
+import application.usecase.user.GetBookReviewsUseCase;
+import application.usecase.user.GetBookUseCase;
 import domain.entities.Book;
 import domain.valueobjects.BookSearch;
 import domain.valueobjects.Review;

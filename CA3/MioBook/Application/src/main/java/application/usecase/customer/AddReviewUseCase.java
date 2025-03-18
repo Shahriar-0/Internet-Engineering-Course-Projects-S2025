@@ -1,4 +1,4 @@
-package application.uscase.customer;
+package application.usecase.customer;
 
 import java.time.LocalDateTime;
 
@@ -7,8 +7,8 @@ import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Book;
 import domain.entities.Customer;
 import domain.entities.User;

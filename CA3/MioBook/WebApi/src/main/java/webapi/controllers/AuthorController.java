@@ -1,9 +1,9 @@
 package webapi.controllers;
 
 import application.result.Result;
-import application.uscase.UseCaseType;
-import application.uscase.admin.AddAuthorUseCase;
-import application.uscase.user.GetAuthorUseCase;
+import application.usecase.UseCaseType;
+import application.usecase.admin.AddAuthorUseCase;
+import application.usecase.user.GetAuthorUseCase;
 import domain.entities.Author;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

@@ -2,12 +2,12 @@ package webapi.controllers;
 
 import application.page.Page;
 import application.result.Result;
-import application.uscase.UseCaseType;
-import application.uscase.admin.AddBookUseCase;
-import application.uscase.customer.GetBookContentUseCase;
-import application.uscase.user.GetBookReviewsUseCase;
-import application.uscase.user.GetBookUseCase;
-import application.uscase.customer.AddReviewUseCase;
+import application.usecase.UseCaseType;
+import application.usecase.admin.AddBookUseCase;
+import application.usecase.customer.AddReviewUseCase;
+import application.usecase.customer.GetBookContentUseCase;
+import application.usecase.user.GetBookReviewsUseCase;
+import application.usecase.user.GetBookUseCase;
 import domain.entities.Book;
 import domain.valueobjects.BookContent;
 import domain.valueobjects.Review;

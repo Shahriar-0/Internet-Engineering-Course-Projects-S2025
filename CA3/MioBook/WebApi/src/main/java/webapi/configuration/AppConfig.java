@@ -1,9 +1,10 @@
 package webapi.configuration;
 
 import application.services.AdminService;
-import application.uscase.admin.AddBookUseCase;
-import application.uscase.customer.*;
-import application.uscase.user.*;
+import application.usecase.admin.AddBookUseCase;
+import application.usecase.customer.*;
+import application.usecase.user.*;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

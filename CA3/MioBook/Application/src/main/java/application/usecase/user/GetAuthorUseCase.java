@@ -1,9 +1,9 @@
-package application.uscase.user;
+package application.usecase.user;
 
 import application.repositories.IAuthorRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Author;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

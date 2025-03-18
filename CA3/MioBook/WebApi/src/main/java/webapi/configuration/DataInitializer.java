@@ -1,9 +1,11 @@
 package webapi.configuration;
 
-import application.uscase.UseCaseType;
-import application.uscase.user.AddUserUseCase;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import application.usecase.UseCaseType;
+import application.usecase.user.AddUserUseCase;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;

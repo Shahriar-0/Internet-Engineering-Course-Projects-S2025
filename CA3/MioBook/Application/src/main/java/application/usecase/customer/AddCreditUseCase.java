@@ -1,10 +1,10 @@
-package application.uscase.customer;
+package application.usecase.customer;
 
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
 import jakarta.validation.constraints.Min;
@@ -35,7 +35,7 @@ public class AddCreditUseCase implements IUseCase {
 	}
 
 	public record AddCreditData(
-    @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent") 
+    @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
     long credit
   ) {}
 }

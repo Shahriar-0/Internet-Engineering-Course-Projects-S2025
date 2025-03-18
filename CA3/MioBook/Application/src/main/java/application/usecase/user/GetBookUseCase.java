@@ -1,10 +1,10 @@
-package application.uscase.user;
+package application.usecase.user;
 
 import application.page.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Book;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

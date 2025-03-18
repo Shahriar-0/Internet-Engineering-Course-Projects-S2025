@@ -1,8 +1,8 @@
 package webapi.controllers;
 
 import application.result.Result;
-import application.uscase.UseCaseType;
-import application.uscase.user.LoginUseCase;
+import application.usecase.UseCaseType;
+import application.usecase.user.LoginUseCase;
 import domain.entities.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

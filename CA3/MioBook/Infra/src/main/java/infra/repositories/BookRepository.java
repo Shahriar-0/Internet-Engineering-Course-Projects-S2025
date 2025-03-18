@@ -3,8 +3,8 @@ package infra.repositories;
 import application.page.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
-import application.uscase.user.GetBookReviewsUseCase;
-import application.uscase.user.GetBookUseCase;
+import application.usecase.user.GetBookReviewsUseCase;
+import application.usecase.user.GetBookUseCase;
 import domain.entities.Book;
 import domain.valueobjects.BookSearch;
 import domain.valueobjects.Review;
@@ -38,9 +38,12 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	@Override
 	public Result<BookSearch> search(Map<String, String> params) {
 		List<Book> books = new ArrayList<>(map.values());
-		if (params.containsKey("title")) books = filterTitle(books, params.get("title"));
-		if (params.containsKey("username")) books = filterAuthorName(books, params.get("username"));
-		if (params.containsKey("genre")) books = filterGenre(books, params.get("genre"));
+		if (params.containsKey("title"))
+			books = filterTitle(books, params.get("title"));
+		if (params.containsKey("username"))
+			books = filterAuthorName(books, params.get("username"));
+		if (params.containsKey("genre"))
+			books = filterGenre(books, params.get("genre"));
 		if (params.containsKey("from") && params.containsKey("to")) {
 			int from = Integer.parseInt(params.get("from"));
 			int to = Integer.parseInt(params.get("to"));
@@ -70,7 +73,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 	@Override
 	public Page<Review> filter(Book book, GetBookReviewsUseCase.ReviewFilter filter) { // FIXME: didnt have better solution for this
-		return new Page<>(book.getReviewsList(), filter.pageNumber(), filter.pageSize()); 
+		return new Page<>(book.getReviewsList(), filter.pageNumber(), filter.pageSize());
 	}
 
 	private static List<Book> filterTitle(List<Book> books, String title) {

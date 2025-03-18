@@ -1,31 +1,32 @@
-package application.uscase.customer;
+package application.usecase.customer;
 
-import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
+import application.exceptions.businessexceptions.cartexceptions.CantRemoveFromCart;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Book;
 import domain.entities.Customer;
 import domain.entities.User;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AddCartUseCase implements IUseCase {
+public class RemoveCartUseCase implements IUseCase {
+
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 
 	@Override
 	public UseCaseType getType() {
-		return UseCaseType.ADD_CART;
+		return UseCaseType.REMOVE_CART;
 	}
 
-	public Result<Customer> perform(AddCartData data, String username, User.Role role) {
-		if (!User.Role.CUSTOMER.equals(role))
-			return Result.failure(new InvalidAccess("customer"));
+	public Result<Customer> perform(String title, String username, User.Role role) {
+		assert title != null && !title.isBlank() : "we relay on @NotBlank validation from presentation layer";
+        if (!User.Role.CUSTOMER.equals(role))
+            return Result.failure(new InvalidAccess("customer"));
 
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
@@ -33,19 +34,15 @@ public class AddCartUseCase implements IUseCase {
 		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
 		Customer customer = (Customer) userResult.getData();
 
-		Result<Book> bookResult = bookRepository.get(data.title);
+		Result<Book> bookResult = bookRepository.get(title);
 		if (bookResult.isFailure())
 			return Result.failure(bookResult.getException());
 		Book book = bookResult.getData();
 
-		if (!customer.canAddBook(book))
-			return Result.failure(new CantAddToCart(customer.findAddBookErrors(book)));
+		if (!customer.canRemoveBook(book))
+			return Result.failure(new CantRemoveFromCart(customer.findRemoveBookErrors(book)));
 
-		customer.addBook(book);
+		customer.removeBook(book);
 		return Result.success(customer);
 	}
-
-	public record AddCartData(
-    @NotBlank String title
-  ) {}
 }

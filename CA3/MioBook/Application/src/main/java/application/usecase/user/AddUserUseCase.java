@@ -1,11 +1,11 @@
-package application.uscase.user;
+package application.usecase.user;
 
 import application.exceptions.businessexceptions.userexceptions.EmailAlreadyExists;
 import application.exceptions.businessexceptions.userexceptions.UsernameAlreadyExists;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Admin;
 import domain.entities.Customer;
 import domain.entities.User;

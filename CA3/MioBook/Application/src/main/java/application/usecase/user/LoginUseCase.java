@@ -1,11 +1,11 @@
-package application.uscase.user;
+package application.usecase.user;
 
 import application.exceptions.businessexceptions.userexceptions.UserNotFound;
 import application.exceptions.businessexceptions.userexceptions.WrongPassword;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;

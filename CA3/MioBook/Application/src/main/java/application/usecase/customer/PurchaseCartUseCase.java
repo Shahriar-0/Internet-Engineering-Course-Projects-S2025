@@ -1,11 +1,11 @@
-package application.uscase.customer;
+package application.usecase.customer;
 
 import application.exceptions.businessexceptions.cartexceptions.CantPurchaseCart;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IUserRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
 import domain.valueobjects.PurchasedCart;

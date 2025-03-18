@@ -1,4 +1,4 @@
-package application.uscase;
+package application.usecase;
 
 public enum UseCaseType {
 	ADD_USER,

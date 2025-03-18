@@ -2,9 +2,9 @@ package webapi.configuration;
 
 import application.repositories.*;
 import application.services.*;
-import application.uscase.admin.*;
-import application.uscase.customer.*;
-import application.uscase.user.*;
+import application.usecase.admin.*;
+import application.usecase.customer.*;
+import application.usecase.user.*;
 import application.validators.*;
 import infra.repositories.*;
 import lombok.Getter;

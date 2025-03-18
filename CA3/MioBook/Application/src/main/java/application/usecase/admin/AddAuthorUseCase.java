@@ -1,11 +1,11 @@
-package application.uscase.admin;
+package application.usecase.admin;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
-import application.uscase.IUseCase;
-import application.uscase.UseCaseType;
+import application.usecase.IUseCase;
+import application.usecase.UseCaseType;
 import domain.entities.Author;
 import domain.entities.User;
 import jakarta.validation.constraints.AssertTrue;
