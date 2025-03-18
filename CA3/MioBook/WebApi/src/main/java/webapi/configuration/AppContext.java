@@ -41,4 +41,5 @@ public class AppContext {
 	private final GetCartUseCase getCartUseCase = new GetCartUseCase(userRepository);
 	private final GetPurchaseHistoryUseCase getPurchaseHistoryUseCase = new GetPurchaseHistoryUseCase(userRepository);
 	private final GetPurchasedBooksUseCase getPurchasedBooksUseCase = new GetPurchasedBooksUseCase(userRepository);
+	private final LoginUseCase loginUseCase = new LoginUseCase(userRepository);
 }
