@@ -7,9 +7,11 @@ import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
 import domain.valueobjects.PurchasedBooks;
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class GetPurchasedBooksUseCase implements IUseCase {
 
     private final IUserRepository userRepository;

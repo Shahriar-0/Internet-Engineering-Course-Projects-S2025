@@ -15,13 +15,19 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Component
 @RequiredArgsConstructor
 public class AddReviewUseCase implements IUseCase {
 
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
+
+	private boolean enforceAccessChecks = true; // for data initialization it would be false otherwise it would be true
 
 	@Override
 	public UseCaseType getType() {
@@ -40,7 +46,7 @@ public class AddReviewUseCase implements IUseCase {
             return Result.failure(bookResult.getException());
 		Book book = bookResult.getData();
 
-		if (!customer.hasBought(book))
+		if (enforceAccessChecks && !customer.hasBought(book))
             return Result.failure(new BookIsNotAccessible(data.title));
 
 		book.addReview(mapToReview(data, customer));

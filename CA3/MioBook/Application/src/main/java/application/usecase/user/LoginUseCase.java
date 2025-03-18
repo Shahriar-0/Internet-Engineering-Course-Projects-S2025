@@ -11,8 +11,10 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class LoginUseCase implements IUseCase {
 

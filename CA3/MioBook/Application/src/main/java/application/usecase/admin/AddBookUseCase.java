@@ -14,8 +14,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class AddBookUseCase implements IUseCase {
 

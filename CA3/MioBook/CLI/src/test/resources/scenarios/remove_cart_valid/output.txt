@@ -1,6 +1,0 @@
-{"success":true,"message":"User added successfully."}
-{"success":true,"message":"User added successfully."}
-{"success":true,"message":"Author added successfully."}
-{"success":true,"message":"Book added successfully."}
-{"success":true,"message":"Added book to cart."}
-{"success":true,"message":"Removed book from cart."}

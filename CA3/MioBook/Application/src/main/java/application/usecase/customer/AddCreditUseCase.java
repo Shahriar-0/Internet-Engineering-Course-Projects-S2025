@@ -7,8 +7,10 @@ import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
 import jakarta.validation.constraints.Min;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class AddCreditUseCase implements IUseCase {
 

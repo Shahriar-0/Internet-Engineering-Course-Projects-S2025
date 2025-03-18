@@ -1,7 +1,7 @@
 package webapi.configuration;
 
-import application.services.AdminService;
-import application.usecase.admin.AddBookUseCase;
+import application.repositories.*;
+import application.usecase.admin.*;
 import application.usecase.customer.*;
 import application.usecase.user.*;
 
@@ -14,13 +14,28 @@ public class AppConfig {
 	private final AppContext context = new AppContext();
 
 	@Bean
-	public AdminService adminService() {
-		return context.getAdminService();
+	public IUserRepository userRepository() {
+		return context.getUserRepository();
+	}
+
+	@Bean
+	public IAuthorRepository authorRepository() {
+		return context.getAuthorRepository();
+	}
+
+	@Bean
+	public IBookRepository bookRepository() {
+		return context.getBookRepository();
 	}
 
 	@Bean
 	public AddUserUseCase addUserUseCase() {
 		return context.getAddUserUseCase();
+	}
+
+	@Bean
+	public AddAuthorUseCase addAuthorUseCase() {
+		return context.getAddAuthorUseCase();
 	}
 
 	@Bean

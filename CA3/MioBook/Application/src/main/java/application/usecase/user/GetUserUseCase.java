@@ -6,8 +6,10 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.User;
 import java.util.List;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class GetUserUseCase implements IUseCase {
 

@@ -12,8 +12,10 @@ import domain.entities.User;
 import domain.valueobjects.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class AddUserUseCase implements IUseCase {
 

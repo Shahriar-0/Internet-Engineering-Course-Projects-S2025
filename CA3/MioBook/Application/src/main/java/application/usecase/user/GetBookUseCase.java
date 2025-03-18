@@ -7,8 +7,10 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Book;
 import jakarta.validation.constraints.Positive;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class GetBookUseCase implements IUseCase {
 
