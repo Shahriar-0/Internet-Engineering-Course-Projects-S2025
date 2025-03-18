@@ -1,6 +1,6 @@
 package webapi.configuration;
 
-import application.usecase.admin.AddBookUseCase;
+import application.usecase.admin.*;
 import application.usecase.customer.*;
 import application.usecase.user.*;
 
@@ -15,6 +15,11 @@ public class AppConfig {
 	@Bean
 	public AddUserUseCase addUserUseCase() {
 		return context.getAddUserUseCase();
+	}
+
+	@Bean
+	public AddAuthorUseCase addAuthorUseCase() {
+		return context.getAddAuthorUseCase();
 	}
 
 	@Bean
