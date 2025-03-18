@@ -1,2 +1,0 @@
-add_user {"role": "customer", "username": "low_mist", "password": "1234", "email": "my.mail@mail.com", "address": {"country": "Iran", "city": "Karaj"}}
-add_credit {"username": "low_mist", "credit": 8200}
