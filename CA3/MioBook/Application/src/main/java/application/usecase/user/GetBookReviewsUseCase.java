@@ -8,9 +8,11 @@ import application.usecase.UseCaseType;
 import domain.entities.Book;
 import domain.valueobjects.Review;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class GetBookReviewsUseCase implements IUseCase {
 
     private static final int MAX_REVIEW_PAGE_SIZE = 20;

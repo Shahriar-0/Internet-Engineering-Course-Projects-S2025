@@ -9,8 +9,10 @@ import domain.entities.Customer;
 import domain.entities.User;
 import domain.valueobjects.PurchasedCart;
 import domain.valueobjects.PurchasedCartSummary;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class PurchaseCartUseCase implements IUseCase {
 

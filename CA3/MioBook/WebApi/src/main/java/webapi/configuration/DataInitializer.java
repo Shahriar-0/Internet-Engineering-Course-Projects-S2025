@@ -47,6 +47,7 @@ public class DataInitializer implements ApplicationRunner {
 			List<AddUserUseCase.AddUserData> parsedUserData = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
 			parsedUserData.forEach(addUser::perform);
+			parsedUserData.forEach(user -> System.out.println("User added: " + user.username()));
 		}
 		catch (Exception e) {
 			System.err.println("Error loading users: " + e.getMessage());

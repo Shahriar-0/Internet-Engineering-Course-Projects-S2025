@@ -9,8 +9,10 @@ import application.usecase.UseCaseType;
 import domain.entities.Book;
 import domain.entities.Customer;
 import domain.entities.User;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class RemoveCartUseCase implements IUseCase {
 

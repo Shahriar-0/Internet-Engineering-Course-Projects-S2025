@@ -7,9 +7,11 @@ import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
 import domain.valueobjects.Cart;
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class GetCartUseCase implements IUseCase {
 
 	private final IUserRepository userRepository;

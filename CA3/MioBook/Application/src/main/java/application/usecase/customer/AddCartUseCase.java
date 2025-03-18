@@ -10,8 +10,10 @@ import domain.entities.Book;
 import domain.entities.Customer;
 import domain.entities.User;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class AddCartUseCase implements IUseCase {
 	private final IUserRepository userRepository;
