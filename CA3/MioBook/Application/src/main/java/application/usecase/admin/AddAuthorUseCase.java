@@ -1,13 +1,11 @@
 package application.usecase.admin;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Author;
-import domain.entities.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -24,10 +22,7 @@ public class AddAuthorUseCase implements IUseCase {
 		return UseCaseType.ADD_AUTHOR;
 	}
 
-	public Result<Author> perform(AddAuthorData data, User.Role role) {
-		if (!User.Role.ADMIN.equals(role))
-			return Result.failure(new InvalidAccess("admin"));
-
+	public Result<Author> perform(AddAuthorData data) {
 		if (authorRepository.exists(data.name))
 			return Result.failure(new AuthorAlreadyExists(data.name));
 

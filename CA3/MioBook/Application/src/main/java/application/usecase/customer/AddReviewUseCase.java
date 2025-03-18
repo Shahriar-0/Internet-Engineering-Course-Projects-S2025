@@ -1,9 +1,6 @@
 package application.usecase.customer;
 
-import java.time.LocalDateTime;
-
 import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -17,6 +14,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -30,42 +28,37 @@ public class AddReviewUseCase implements IUseCase {
 		return UseCaseType.ADD_REVIEW;
 	}
 
-	public Result<Book> perform(AddReviewData data, String userName, User.Role role) {
-        if (!User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
-
-        Result<User> userResult = userRepository.get(userName);
-        if (userResult.isFailure())
+	public Result<Book> perform(AddReviewData data, String userName) {
+		Result<User> userResult = userRepository.get(userName);
+		if (userResult.isFailure())
             return Result.failure(userResult.getException());
-        assert userResult.getData() instanceof Customer: "we relay on role passing from presentation layer";
-        Customer customer = (Customer) userResult.getData();
+		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
+		Customer customer = (Customer) userResult.getData();
 
-        Result<Book> bookResult = bookRepository.get(data.title);
-        if (bookResult.isFailure())
+		Result<Book> bookResult = bookRepository.get(data.title);
+		if (bookResult.isFailure())
             return Result.failure(bookResult.getException());
-        Book book = bookResult.getData();
+		Book book = bookResult.getData();
 
-        if (!customer.hasBought(book))
+		if (!customer.hasBought(book))
             return Result.failure(new BookIsNotAccessible(data.title));
 
-        book.addReview(mapToReview(data, customer));
-        return Result.success(book);
-    }
+		book.addReview(mapToReview(data, customer));
+		return Result.success(book);
+	}
 
-    private Review mapToReview(AddReviewData data, Customer customer) {
-        return new Review(data.rating, data.comment, customer, LocalDateTime.now());
-    }
+	private Review mapToReview(AddReviewData data, Customer customer) {
+		return new Review(data.rating, data.comment, customer, LocalDateTime.now());
+	}
 
 	public record AddReviewData(
-            @NotBlank
-            String title,
+		@NotBlank String title,
 
-            @NotNull
-            @Min(value = 1)
-            @Max(value = 5)
-            Integer rating,
+		@NotNull
+        @Min(value = 1)
+        @Max(value = 5)
+        Integer rating,
 
-            @NotBlank
-            String comment
+		@NotBlank String comment
 	) {}
 }

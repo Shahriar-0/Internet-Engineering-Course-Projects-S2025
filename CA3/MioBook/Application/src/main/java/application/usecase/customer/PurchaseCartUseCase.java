@@ -1,7 +1,6 @@
 package application.usecase.customer;
 
 import application.exceptions.businessexceptions.cartexceptions.CantPurchaseCart;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -22,10 +21,7 @@ public class PurchaseCartUseCase implements IUseCase {
 		return UseCaseType.PURCHASE_CART;
 	}
 
-	public Result<PurchasedCartSummary> perform(String username, User.Role role) {
-		if (!User.Role.CUSTOMER.equals(role))
-			return Result.failure(new InvalidAccess("customer"));
-
+	public Result<PurchasedCartSummary> perform(String username) {
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());

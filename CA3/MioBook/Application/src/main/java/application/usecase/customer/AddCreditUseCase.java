@@ -1,6 +1,5 @@
 package application.usecase.customer;
 
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -20,10 +19,7 @@ public class AddCreditUseCase implements IUseCase {
 		return UseCaseType.ADD_CREDIT;
 	}
 
-	public Result<Customer> perform(AddCreditData data, String username, User.Role role) {
-		if (!User.Role.CUSTOMER.equals(role))
-			return Result.failure(new InvalidAccess("customer"));
-
+	public Result<Customer> perform(AddCreditData data, String username) {
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());
@@ -35,7 +31,7 @@ public class AddCreditUseCase implements IUseCase {
 	}
 
 	public record AddCreditData(
-    @Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
-    long credit
+		@Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
+		long credit
   ) {}
 }

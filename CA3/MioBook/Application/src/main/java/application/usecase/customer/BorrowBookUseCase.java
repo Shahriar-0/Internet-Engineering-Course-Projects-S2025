@@ -1,7 +1,6 @@
 package application.usecase.customer;
 
 import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -27,10 +26,7 @@ public class BorrowBookUseCase implements IUseCase {
 		return UseCaseType.BORROW_BOOK;
 	}
 
-	public Result<Customer> perform(BorrowBookData data, String username, User.Role role) {
-		if (!User.Role.CUSTOMER.equals(role))
-			return Result.failure(new InvalidAccess("customer"));
-
+	public Result<Customer> perform(BorrowBookData data, String username) {
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(userResult.getException());

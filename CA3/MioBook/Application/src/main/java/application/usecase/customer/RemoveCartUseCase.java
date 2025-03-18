@@ -1,7 +1,6 @@
 package application.usecase.customer;
 
 import application.exceptions.businessexceptions.cartexceptions.CantRemoveFromCart;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -23,10 +22,8 @@ public class RemoveCartUseCase implements IUseCase {
 		return UseCaseType.REMOVE_CART;
 	}
 
-	public Result<Customer> perform(String title, String username, User.Role role) {
+	public Result<Customer> perform(String title, String username) {
 		assert title != null && !title.isBlank() : "we relay on @NotBlank validation from presentation layer";
-        if (!User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
 
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
