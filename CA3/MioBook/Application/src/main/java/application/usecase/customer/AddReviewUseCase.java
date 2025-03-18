@@ -18,12 +18,16 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @RequiredArgsConstructor
 public class AddReviewUseCase implements IUseCase {
 
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
+
+    private boolean enforceAccessChecks = true; // for data initialization it would be false otherwise it would be true
 
 	@Override
 	public UseCaseType getType() {
@@ -45,7 +49,7 @@ public class AddReviewUseCase implements IUseCase {
             return Result.failure(bookResult.getException());
         Book book = bookResult.getData();
 
-        if (!customer.hasBought(book))
+        if (enforceAccessChecks && !customer.hasBought(book))
             return Result.failure(new BookIsNotAccessible(data.title));
 
         book.addReview(mapToReview(data, customer));
@@ -57,15 +61,15 @@ public class AddReviewUseCase implements IUseCase {
     }
 
 	public record AddReviewData(
-            @NotBlank
-            String title,
+        @NotBlank
+        String title,
 
-            @NotNull
-            @Min(value = 1)
-            @Max(value = 5)
-            Integer rating,
+        @NotNull
+        @Min(value = 1)
+        @Max(value = 5)
+        Integer rating,
 
-            @NotBlank
-            String comment
+        @NotBlank
+        String comment
 	) {}
 }

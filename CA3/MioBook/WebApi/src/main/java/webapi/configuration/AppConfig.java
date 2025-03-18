@@ -1,5 +1,8 @@
 package webapi.configuration;
 
+import application.repositories.IAuthorRepository;
+import application.repositories.IBookRepository;
+import application.repositories.IUserRepository;
 import application.services.AdminService;
 import application.usecase.admin.*;
 import application.usecase.customer.*;
@@ -12,6 +15,21 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
 	private final AppContext context = new AppContext();
+
+	@Bean
+	public IUserRepository userRepository() {
+		return context.getUserRepository();
+	}
+
+	@Bean
+	public IAuthorRepository authorRepository() {
+		return context.getAuthorRepository();
+	}
+
+	@Bean
+	public IBookRepository bookRepository() {
+		return context.getBookRepository();
+	}
 
 	@Bean
 	public AdminService adminService() {

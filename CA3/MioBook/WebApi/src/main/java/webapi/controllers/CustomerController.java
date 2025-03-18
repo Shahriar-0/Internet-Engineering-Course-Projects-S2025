@@ -21,7 +21,7 @@ import webapi.views.customer.PurchasedBooksView;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/customer") // TODO: maybe my or profile?
+@RequestMapping("/profile")
 public class CustomerController {
 
 	private final UseCaseService useCaseService;

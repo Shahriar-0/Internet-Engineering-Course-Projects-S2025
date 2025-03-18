@@ -23,7 +23,7 @@ import webapi.views.book.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/book") // TODO: maybe change to books?
+@RequestMapping("/books")
 public class BookController {
 
 	private final UseCaseService useCaseService;
@@ -91,7 +91,7 @@ public class BookController {
 		return ResponseEntity.ok(BookView.mapToView(result.getData()));
 	}
 
-	@PostMapping("/review")
+	@PostMapping("/review") // TODO: maybe change to {title}/review
 	public ResponseEntity<String> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
