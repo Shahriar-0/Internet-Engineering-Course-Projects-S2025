@@ -35,7 +35,7 @@ public class AuthorController {
 	}
 
 	@GetMapping("/{name}")
-	public ResponseEntity<AuthorView> getAuthor(@NotBlank @RequestParam String name) {
+	public ResponseEntity<AuthorView> getAuthor(@NotBlank @PathVariable String name) {
 		GetAuthorUseCase useCase = (GetAuthorUseCase) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 		Result<Author> result = useCase.perform(name);
 		if (result.isFailure())

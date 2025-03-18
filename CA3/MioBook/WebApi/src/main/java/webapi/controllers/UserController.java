@@ -31,7 +31,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{username}")
-	public ResponseEntity<UserView> getUser(@NotBlank @RequestParam String username) {
+	public ResponseEntity<UserView> getUser(@NotBlank @PathVariable String username) {
 		GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
 		Result<User> result = useCase.perform(username);
 		if (result.isFailure())

@@ -13,15 +13,13 @@ import domain.valueobjects.BookContent;
 import domain.valueobjects.Review;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.book.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -44,7 +42,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}")
-	public ResponseEntity<BookView> getBook(@NotBlank @RequestParam String title) {
+	public ResponseEntity<BookView> getBook(@NotBlank @PathVariable String title) {
 		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Book> result = useCase.perform(title);
 		if (result.isFailure())
@@ -54,9 +52,14 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}/content")
-	public ResponseEntity<BookContentView> getBookContent(@NotBlank @RequestParam String title) {
+	public ResponseEntity<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
 		GetBookContentUseCase useCase = (GetBookContentUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
-		Result<BookContent> result = useCase.perform(new GetBookContentUseCase.GetBookContentData(title), authenticationService.getUserName(), authenticationService.getUserRole()); // TODO: refactor this authentication data into another class
+		Result<BookContent> result = useCase.perform(
+			new GetBookContentUseCase.GetBookContentData(title),
+			authenticationService.getUserName(),
+			authenticationService.getUserRole()
+		); // TODO: refactor this authentication data into another class
+
 		if (result.isFailure())
 			throw result.getException();
 
@@ -64,7 +67,12 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}/reviews")
-	public ResponseEntity<Page<BookReviewsView>> getBookReviews(@NotBlank @RequestParam GetBookReviewsUseCase.ReviewFilter filter) {
+	public ResponseEntity<Page<BookReviewsView>> getBookReviews(
+		@NotBlank @PathVariable String title,
+		@Positive @RequestParam Integer pageNumber,
+		@Positive @RequestParam Integer pageSize
+	) {
+		GetBookReviewsUseCase.ReviewFilter filter = new GetBookReviewsUseCase.ReviewFilter(title, pageNumber, pageSize);
 		GetBookReviewsUseCase useCase = (GetBookReviewsUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 		Result<Page<Review>> result = useCase.perform(filter);
 		if (result.isFailure())
@@ -72,7 +80,6 @@ public class BookController {
 
 		return ResponseEntity.ok(BookReviewsView.mapToView(result.getData()));
 	}
-
 
 	@GetMapping
 	public ResponseEntity<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
@@ -84,16 +91,20 @@ public class BookController {
 		return ResponseEntity.ok(BookView.mapToView(result.getData()));
 	}
 
+	@PostMapping("/review")
+	public ResponseEntity<String> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data) {
+		authenticationService.validateSomeOneLoggedIn();
 
-    @PostMapping("/review")
-    public ResponseEntity<String> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data) {
-        authenticationService.validateSomeOneLoggedIn();
+		AddReviewUseCase useCase = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
+		Result<Book> result = useCase.perform(
+			data,
+			authenticationService.getUserName(),
+			authenticationService.getUserRole()
+		);
 
-        AddReviewUseCase useCase = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
-        Result<Book> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
-        if (result.isFailure())
-            throw result.getException();
+		if (result.isFailure())
+			throw result.getException();
 
-        return ResponseEntity.ok("Review added successfully.");
-    }
+		return ResponseEntity.ok("Review added successfully.");
+	}
 }
