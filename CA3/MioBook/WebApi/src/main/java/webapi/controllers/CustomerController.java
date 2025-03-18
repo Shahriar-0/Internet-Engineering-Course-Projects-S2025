@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
@@ -21,18 +22,18 @@ import webapi.views.customer.PurchasedBooksView;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/customer") // TODO: maybe my or profile?
+@RequestMapping("/profile")
 public class CustomerController {
 
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
 
 	@PostMapping("/cart")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
-		authenticationService.validateSomeOneLoggedIn();
-
 		AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
-		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<Customer> result = useCase.perform(data, username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -40,11 +41,11 @@ public class CustomerController {
 	}
 
 	@GetMapping("/cart")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<Cart> getCart() {
-		authenticationService.validateSomeOneLoggedIn();
-
 		GetCartUseCase useCase = (GetCartUseCase) useCaseService.getUseCase(UseCaseType.GET_CART);
-		Result<Cart> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<Cart> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -52,11 +53,11 @@ public class CustomerController {
 	}
 
 	@GetMapping("/history")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<PurchaseHistoryView> getPurchaseHistory() {
-		authenticationService.validateSomeOneLoggedIn();
-
 		GetPurchaseHistoryUseCase useCase = (GetPurchaseHistoryUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
-		Result<PurchaseHistory> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<PurchaseHistory> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -64,11 +65,11 @@ public class CustomerController {
 	}
 
 	@GetMapping("/books")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<PurchasedBooksView> getPurchasedBooks() {
-		authenticationService.validateSomeOneLoggedIn();
-
 		GetPurchasedBooksUseCase useCase = (GetPurchasedBooksUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
-		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<PurchasedBooks> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -76,11 +77,11 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("/cart/{title}")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> removeCart(@NotBlank @PathVariable String title) {
-		authenticationService.validateSomeOneLoggedIn();
-
 		RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
-		Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<Customer> result = useCase.perform(title, username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -88,11 +89,11 @@ public class CustomerController {
 	}
 
 	@PatchMapping("credit")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
-		authenticationService.validateSomeOneLoggedIn();
-
 		AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
-		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<Customer> result = useCase.perform(data, username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -100,11 +101,11 @@ public class CustomerController {
 	}
 
 	@PostMapping("/purchase")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<PurchasedCartSummary> purchaseCart() {
-		authenticationService.validateSomeOneLoggedIn();
-
 		PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
-		Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<PurchasedCartSummary> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.getException();
 
@@ -112,11 +113,11 @@ public class CustomerController {
 	}
 
 	@PostMapping("/borrow")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
-		authenticationService.validateSomeOneLoggedIn();
-
 		BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
-		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
+		String username = authenticationService.getUserName();
+		Result<Customer> result = useCase.perform(data, username);
 		if (result.isFailure())
 			throw result.getException();
 

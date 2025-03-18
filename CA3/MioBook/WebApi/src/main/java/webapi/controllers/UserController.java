@@ -15,7 +15,7 @@ import webapi.views.user.UserView;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user") // TODO: maybe users?
+@RequestMapping("/users")
 public class UserController {
 
 	private final UseCaseService useCaseService;

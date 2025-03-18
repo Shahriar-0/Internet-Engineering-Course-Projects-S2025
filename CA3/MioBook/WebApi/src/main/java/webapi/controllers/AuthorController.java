@@ -9,25 +9,23 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.author.AuthorView;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/author") // TODO: maybe authors?
+@RequestMapping("/authors")
 public class AuthorController {
 
 	private final UseCaseService useCaseService;
-	private final AuthenticationService authenticationService;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> addAuthor(@Valid @RequestBody AddAuthorUseCase.AddAuthorData data) {
-		authenticationService.validateSomeOneLoggedIn();
-
 		AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
-		Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
+		Result<Author> result = useCase.perform(data);
 		if (result.isFailure())
 			throw result.getException();
 

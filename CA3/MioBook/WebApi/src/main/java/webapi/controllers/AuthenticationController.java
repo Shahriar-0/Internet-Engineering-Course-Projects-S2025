@@ -1,41 +1,44 @@
 package webapi.controllers;
 
-import application.result.Result;
-import application.usecase.UseCaseType;
 import application.usecase.user.LoginUseCase;
-import domain.entities.User;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import webapi.services.AuthenticationService;
-import webapi.services.UseCaseService;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-	private final UseCaseService useCaseService;
-	private final AuthenticationService authenticationService;
+	private final AuthenticationManager authenticationManager;
 
-	@PostMapping("login")
-	public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data) {
-		authenticationService.validateNoOneLoggedIn();
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data, HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(data.username(), data.password());
 
-		LoginUseCase useCase = (LoginUseCase) useCaseService.getUseCase(UseCaseType.LOGIN);
-		Result<User> userResult = useCase.perform(data);
-		if (userResult.isFailure())
-			throw userResult.getException();
+		Authentication authentication = authenticationManager.authenticate(authRequest);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		authenticationService.setLoggedInUser(userResult.getData());
+		HttpSession session = request.getSession(true);
+		session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
 		return ResponseEntity.ok("User logged in successfully");
 	}
 
-	@DeleteMapping("logout")
-	public ResponseEntity<String> logout() {
-		authenticationService.validateSomeOneLoggedIn();
-		authenticationService.unSetLoggedInUser();
+	@DeleteMapping("/logout")
+	public ResponseEntity<String> logout(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
+		SecurityContextHolder.clearContext();
 		return ResponseEntity.ok("User logged out successfully");
 	}
 }

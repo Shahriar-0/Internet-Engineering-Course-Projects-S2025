@@ -1,37 +1,28 @@
 package webapi.services;
 
 import domain.entities.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import webapi.exceptions.AuthenticationException;
+
 
 @Service
 public class AuthenticationService {
 
-	private User user = null;
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            return (User) authentication.getPrincipal();
+        }
+        throw AuthenticationException.noOneLoggedIn();
+    }
 
-	public void validateSomeOneLoggedIn() {
-		if (user == null)
-			throw AuthenticationException.noOneLoggedIn();
-	}
+    public User.Role getUserRole() {
+        return getCurrentUser().getRole();
+    }
 
-	public void validateNoOneLoggedIn() {
-		if (user != null)
-			throw AuthenticationException.someOneLoggedIn();
-	}
-
-	public User.Role getUserRole() {
-		return user.getRole();
-	}
-
-	public String getUserName() {
-		return user.getUsername();
-	}
-
-	public void setLoggedInUser(User user) {
-		this.user = user;
-	}
-
-	public void unSetLoggedInUser() {
-		this.user = null;
-	}
+    public String getUserName() {
+        return getCurrentUser().getUsername();
+    }
 }
