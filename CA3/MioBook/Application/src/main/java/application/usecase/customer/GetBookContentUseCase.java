@@ -45,5 +45,7 @@ public class GetBookContentUseCase implements IUseCase {
 		return Result.success(bookResult.getData().getContent());
 	}
 
-	public record GetBookContentData(@NotBlank String title) {}
+	public record GetBookContentData(
+		@NotBlank String title
+	) {}
 }

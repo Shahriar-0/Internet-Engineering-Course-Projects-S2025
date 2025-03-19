@@ -81,7 +81,10 @@ public class DataInitializer implements ApplicationRunner {
 				AddAuthorUseCase.AddAuthorData data = new AddAuthorUseCase.AddAuthorData(name, penName, nationality, born, died);
 				Result<Author> result = addAuthor.perform(data, userResult.getData().getRole());
 				if (result.isFailure())
-					System.err.println("Failed to add author: " + result.getException().getMessage() + " because of: " + result.getException().getMessage());
+					System.err.println(
+						"Failed to add author: " + result.getException().getMessage() +
+						" because of: " + result.getException().getMessage()
+					);
 			}
 		}
 		catch (Exception e) {
@@ -114,7 +117,10 @@ public class DataInitializer implements ApplicationRunner {
 				AddBookUseCase.AddBookData data = new AddBookUseCase.AddBookData(authorName, title, publisher, year, price, synopsis, content, genres);
 				Result<Book> result = addBook.perform(data, userResult.getData().getRole());
 				if (result.isFailure())
-					System.err.println("Failed to add book: " + title + " because: " + result.getException().getMessage());
+					System.err.println(
+						"Failed to add book: " + title +
+						" because: " + result.getException().getMessage()
+					);
 			}
 		}
 		catch (Exception e) {
@@ -144,7 +150,10 @@ public class DataInitializer implements ApplicationRunner {
 
 				Result<Book> result = addReview.perform(addReviewData, username, userResult.getData().getRole());
 				if (result.isFailure()) {
-					System.err.println("Failed to add review for book: " + title + " because: " + result.getException().getMessage());
+					System.err.println(
+						"Failed to add review for book: " + title +
+						" because: " + result.getException().getMessage()
+					);
 				}
 			}
 		}

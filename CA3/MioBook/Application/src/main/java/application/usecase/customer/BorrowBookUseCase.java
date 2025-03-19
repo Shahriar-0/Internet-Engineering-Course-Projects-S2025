@@ -53,8 +53,8 @@ public class BorrowBookUseCase implements IUseCase {
 		@NotBlank String title,
 
 		@NotNull
-    @Min(value = 1)
-    @Max(value = 9)
-    Integer borrowedDays
+		@Min(value = 1)
+		@Max(value = 9)
+		Integer borrowedDays
 	) {}
 }

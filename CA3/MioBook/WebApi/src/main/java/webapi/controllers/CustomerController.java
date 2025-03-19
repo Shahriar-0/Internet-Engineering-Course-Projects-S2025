@@ -44,7 +44,7 @@ public class CustomerController {
 		authenticationService.validateSomeOneLoggedIn();
 
 		GetCartUseCase useCase = (GetCartUseCase) useCaseService.getUseCase(UseCaseType.GET_CART);
-		Result<Cart> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
+		Result<Cart> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole()); // FIXME: clean this authentication
 		if (result.isFailure())
 			throw result.getException();
 
