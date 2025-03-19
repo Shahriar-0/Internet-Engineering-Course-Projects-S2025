@@ -9,7 +9,6 @@ import lombok.Getter;
 public class PurchasedBooks {
 
 	private final Customer customer;
-
 	private final List<CustomerBook> books;
 
 	public PurchasedBooks(Customer customer) {

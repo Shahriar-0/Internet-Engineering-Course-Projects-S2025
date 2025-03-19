@@ -1,8 +1,8 @@
 package webapi.controllers;
 
 import application.result.Result;
-import application.uscase.UseCaseType;
-import application.uscase.user.LoginUseCase;
+import application.usecase.UseCaseType;
+import application.usecase.user.LoginUseCase;
 import domain.entities.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,26 +15,27 @@ import webapi.services.UseCaseService;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
-    private final UseCaseService useCaseService;
-    private final AuthenticationService authenticationService;
 
-    @PostMapping("login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data) {
-        authenticationService.validateNoOneLoggedIn();
+	private final UseCaseService useCaseService;
+	private final AuthenticationService authenticationService;
 
-        LoginUseCase useCase = (LoginUseCase) useCaseService.getUseCase(UseCaseType.LOGIN);
-        Result<User> userResult = useCase.perform(data);
-        if (userResult.isFailure())
-            throw userResult.getException();
+	@PostMapping("login")
+	public ResponseEntity<String> login(@Valid @RequestBody LoginUseCase.LoginData data) {
+		authenticationService.validateNoOneLoggedIn();
 
-        authenticationService.setLoggedInUser(userResult.getData());
-        return ResponseEntity.ok("User logged in successfully");
-    }
+		LoginUseCase useCase = (LoginUseCase) useCaseService.getUseCase(UseCaseType.LOGIN);
+		Result<User> userResult = useCase.perform(data);
+		if (userResult.isFailure())
+			throw userResult.getException();
 
-    @DeleteMapping("logout")
-    public ResponseEntity<String> logout() {
-        authenticationService.validateSomeOneLoggedIn();
-        authenticationService.unSetLoggedInUser();
-        return ResponseEntity.ok("User logged out successfully");
-    }
+		authenticationService.setLoggedInUser(userResult.getData());
+		return ResponseEntity.ok("User logged in successfully");
+	}
+
+	@DeleteMapping("logout")
+	public ResponseEntity<String> logout() {
+		authenticationService.validateSomeOneLoggedIn();
+		authenticationService.unSetLoggedInUser();
+		return ResponseEntity.ok("User logged out successfully");
+	}
 }

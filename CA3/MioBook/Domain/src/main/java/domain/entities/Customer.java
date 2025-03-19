@@ -1,6 +1,5 @@
 package domain.entities;
 
-import domain.valueobjects.BookContent;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;
@@ -15,16 +14,14 @@ import lombok.experimental.SuperBuilder;
 public class Customer extends User {
 
 	private Cart cart;
-
+	private long credit;
 	private PurchaseHistory purchaseHistory;
 
 	protected Customer(CustomerBuilder<?, ?> builder) {
-        super(builder);
-        this.cart = new Cart(this);
+		super(builder);
+		this.cart = new Cart(this);
 		this.purchaseHistory = new PurchaseHistory(this);
-    }
-
-	private long credit;
+	}
 
 	public long getBalance() {
 		return credit;
@@ -118,11 +115,5 @@ public class Customer extends User {
 	 */
 	public Boolean hasBought(Book book) {
 		return purchaseHistory.hasBook(book.getTitle());
-	}
-
-	public BookContent showBookContent(String title) { // FIXME: improve this
-		PurchasedBooks purchasedBooks = getPurchasedBooks();
-		BookContent bookContent = purchasedBooks.getBookContent(title);
-		return bookContent;
 	}
 }

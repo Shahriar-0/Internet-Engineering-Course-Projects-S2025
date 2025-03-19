@@ -7,9 +7,7 @@ import lombok.Getter;
 public class PurchasedCartSummary {
 
 	private final LocalDateTime datePurchased;
-
 	private final long totalCost;
-
 	private final int bookCount;
 
 	public PurchasedCartSummary(PurchasedCart cart) {

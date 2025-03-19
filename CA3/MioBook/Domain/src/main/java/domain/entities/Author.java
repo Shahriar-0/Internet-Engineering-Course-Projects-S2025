@@ -8,6 +8,11 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Author extends DomainEntity<String> {
 
+	private String penName;
+	private String nationality;
+	private LocalDate born;
+	private LocalDate died;
+
 	@Override
 	public String getKey() {
 		return super.getKey();
@@ -16,11 +21,4 @@ public class Author extends DomainEntity<String> {
 	public String getName() {
 		return super.getKey();
 	}
-
-	private String penName;
-	private String nationality;
-	
-	private LocalDate born;
-
-	private LocalDate died;
 }

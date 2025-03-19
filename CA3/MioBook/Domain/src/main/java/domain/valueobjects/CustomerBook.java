@@ -8,13 +8,9 @@ import lombok.Getter;
 public class CustomerBook {
 
 	private final Book book;
-
 	private final Boolean isBorrowed;
-
 	private final int borrowDays;
-
 	private final long price;
-
 	private final transient int MAXIMUM_BORROW_DAYS = 10;
 
 	public CustomerBook(Book book, int borrowDays) {

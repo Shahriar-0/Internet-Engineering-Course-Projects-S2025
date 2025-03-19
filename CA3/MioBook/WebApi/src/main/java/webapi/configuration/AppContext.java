@@ -2,10 +2,9 @@ package webapi.configuration;
 
 import application.repositories.*;
 import application.services.*;
-import application.uscase.admin.AddAuthorUseCase;
-import application.uscase.admin.AddBookUseCase;
-import application.uscase.customer.*;
-import application.uscase.user.AddUserUseCase;
+import application.usecase.admin.*;
+import application.usecase.customer.*;
+import application.usecase.user.*;
 import application.validators.*;
 import infra.repositories.*;
 import lombok.Getter;
@@ -22,14 +21,7 @@ public class AppContext {
 	private final BookValidator bookValidator = new BookValidator(bookRepository, authorValidator);
 
 	private final UserService userService = new UserService(userRepository, userValidator, bookRepository, authorRepository);
-	private final AdminService adminService = new AdminService(
-		authorValidator,
-		authorRepository,
-		bookValidator,
-		bookRepository,
-		userService
-	);
-
+	private final AdminService adminService = new AdminService(authorValidator, authorRepository, bookValidator, bookRepository, userService);
 
 	/*	----------------------------------- use cases ----------------------------------- */
 	private final AddUserUseCase addUserUseCase = new AddUserUseCase(userRepository);
@@ -40,5 +32,14 @@ public class AppContext {
 	private final AddCreditUseCase addCreditUseCase = new AddCreditUseCase(userRepository);
 	private final PurchaseCartUseCase purchaseCartUseCase = new PurchaseCartUseCase(userRepository);
 	private final BorrowBookUseCase borrowBookUseCase = new BorrowBookUseCase(userRepository, bookRepository);
+	private final GetUserUseCase getUserUseCase = new GetUserUseCase(userRepository);
+	private final GetAuthorUseCase getAuthorUseCase = new GetAuthorUseCase(authorRepository);
+	private final GetBookUseCase getBookUseCase = new GetBookUseCase(bookRepository);
 	private final AddReviewUseCase addReviewUseCase = new AddReviewUseCase(userRepository, bookRepository);
+	private final GetBookReviewsUseCase getBookReviewsUseCase = new GetBookReviewsUseCase(bookRepository);
+	private final GetBookContentUseCase getBookContentUseCase = new GetBookContentUseCase(userRepository, bookRepository);
+	private final GetCartUseCase getCartUseCase = new GetCartUseCase(userRepository);
+	private final GetPurchaseHistoryUseCase getPurchaseHistoryUseCase = new GetPurchaseHistoryUseCase(userRepository);
+	private final GetPurchasedBooksUseCase getPurchasedBooksUseCase = new GetPurchasedBooksUseCase(userRepository);
+	private final LoginUseCase loginUseCase = new LoginUseCase(userRepository);
 }
