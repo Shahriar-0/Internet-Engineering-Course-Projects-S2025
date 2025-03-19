@@ -11,7 +11,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Page<T> {
 
-	private final List<T> data;
+	private final List<T> list;
 	private final int pageNumber;
 	private final int pageSize;
 	private final int totalPageNumber;
@@ -25,6 +25,6 @@ public class Page<T> {
 
 		int startIndex = (pageNumber - 1) * pageSize;
 		int endIndex = Math.min(startIndex + pageSize - 1, totalDataSize - 1);
-		this.data = (startIndex < totalDataSize) ? data.subList(startIndex, endIndex) : List.of();
+		this.list = (startIndex < totalDataSize) ? data.subList(startIndex, endIndex) : List.of();
 	}
 }
