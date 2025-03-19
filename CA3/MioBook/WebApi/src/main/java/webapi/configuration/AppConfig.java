@@ -1,9 +1,6 @@
 package webapi.configuration;
 
-import application.repositories.IAuthorRepository;
-import application.repositories.IBookRepository;
-import application.repositories.IUserRepository;
-import application.services.AdminService;
+import application.repositories.*;
 import application.usecase.admin.*;
 import application.usecase.customer.*;
 import application.usecase.user.*;
@@ -30,12 +27,6 @@ public class AppConfig {
 	public IBookRepository bookRepository() {
 		return context.getBookRepository();
 	}
-
-	@Bean
-	public AdminService adminService() {
-		return context.getAdminService();
-	}
-
 	@Bean
 	public AddUserUseCase addUserUseCase() {
 		return context.getAddUserUseCase();

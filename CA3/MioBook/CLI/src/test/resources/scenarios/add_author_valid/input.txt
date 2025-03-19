@@ -1,2 +1,0 @@
-add_user {"role":"admin","username":"admin_user","password":"1234","email":"my.mail@mail.com","address":{"country":"Iran","city":"Karaj"}}
-add_author {"username":"admin_user","name":"author name","penName":"abc","born":"1982-04-12","nationality":"meow"}

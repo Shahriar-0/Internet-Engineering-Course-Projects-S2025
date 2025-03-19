@@ -1,8 +1,0 @@
-{"success":true,"message":"User added successfully."}
-{"success":true,"message":"Credit added successfully."}
-{"success":false,"message":"Missing required creator property 'username' (index 0)"}
-{"success":false,"message":"Missing required creator property 'credit' (index 1)"}
-{"success":false,"message":"Validation failed: credit: Credit amount must be greater or equal to 100 cent,"}
-{"success":false,"message":"Entity with type of 'User' and key value of 'low_mist2' does not exist!"}
-{"success":false,"message":"Validation failed: credit: Credit amount must be greater or equal to 100 cent,"}
-{"success":true,"message":"Credit added successfully."}
