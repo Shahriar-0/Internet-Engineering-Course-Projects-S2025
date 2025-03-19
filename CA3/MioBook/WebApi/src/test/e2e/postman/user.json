@@ -17,8 +17,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", () => {\r",
-									"    pm.response.to.have.status(200);\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
 									"})\r",
 									""
 								],
@@ -58,8 +58,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", () => {\r",
-									"    pm.response.to.have.status(200);\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
 									"})\r",
 									""
 								],
@@ -104,7 +104,7 @@
 									"})\r",
 									"\r",
 									"pm.test(\"Validate response data\", () => {\r",
-									"    const actualCustomer =  pm.response.json();\r",
+									"    const actualCustomer =  pm.response.json().data;\r",
 									"    const expectedCustomer = {\r",
 									"        username: \"customerTest1\",\r",
 									"        role: \"customer\",\r",
@@ -152,8 +152,8 @@
 									"})\r",
 									"\r",
 									"pm.test(\"Validate response data\", () => {\r",
-									"    const actualCustomer =  pm.response.json();\r",
-									"    const expectedCustomer = {\r",
+									"    const actualAdmin =  pm.response.json().data;\r",
+									"    const expectedAdmin = {\r",
 									"        username: \"adminTest1\",\r",
 									"        role: \"admin\",\r",
 									"        email: \"adminTest1@test.com\",\r",
@@ -161,9 +161,8 @@
 									"            country: \"Iran\",\r",
 									"            city: \"Tehran\"\r",
 									"        },\r",
-									"        balance: 0\r",
 									"    }\r",
-									"    pm.expect(actualCustomer).to.deep.equal(expectedCustomer);\r",
+									"    pm.expect(actualAdmin).to.deep.equal(expectedAdmin);\r",
 									"})\r",
 									""
 								],
@@ -194,10 +193,253 @@
 			"name": "Failed Scenarios",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "user not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/users/randomUsernameThatNotExists",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users",
+								"randomUsernameThatNotExists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "null body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "null fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"password\", \"address\", \"role\", \"email\", \"username\")\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"password\", \"address.city\", \"address.country\", \"role\", \"email\", \"username\")\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"role\",\r\n    \"username\":\"shahnam feyzian\",\r\n    \"password\": \"12\",\r\n    \"email\":\"email\",\r\n    \"address\":{}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "username already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"User with username 'customerTest1' already exists!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"customer\",\r\n    \"username\":\"customerTest1\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"test@test.com\",\r\n    \"address\":{\r\n        \"country\":\"Iran\",\r\n        \"city\":\"Tehran\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "email already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"User with email 'adminTest1@test.com' already exists!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"customer\",\r\n    \"username\":\"adminTest2\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"adminTest1@test.com\",\r\n    \"address\":{\r\n        \"country\":\"Iran\",\r\n        \"city\":\"Tehran\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
 					},
 					"response": []
 				}
