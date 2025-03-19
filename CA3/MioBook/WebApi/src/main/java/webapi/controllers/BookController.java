@@ -66,7 +66,7 @@ public class BookController {
 		return ResponseEntity.ok(new BookContentView(result.getData()));
 	}
 
-	@GetMapping("/{title}/reviews")
+	@GetMapping("/{title}/reviews") // either change this or addReview
 	public ResponseEntity<Page<BookReviewsView>> getBookReviews(
 		@NotBlank @PathVariable String title,
 		@Positive @RequestParam Integer pageNumber,
