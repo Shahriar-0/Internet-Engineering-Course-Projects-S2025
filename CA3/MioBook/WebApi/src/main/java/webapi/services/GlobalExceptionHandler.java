@@ -1,6 +1,7 @@
 package webapi.services;
 
 import application.exceptions.businessexceptions.BusinessException;
+import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.exceptions.dataaccessexceptions.DataAccessException;
 import application.exceptions.dataaccessexceptions.EntityAlreadyExists;
 import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
@@ -18,6 +19,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	private static final String METHOD_ARGUMENT_VALIDATION_MESSAGE = "Method arguments are not valid";
+	private static final String PERMISSION_MESSAGE = "You don't have permission to access this resource";
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Response<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -38,6 +40,9 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(BusinessException.class)
 	public Response<?> handleBusinessExceptions(BusinessException ex) {
+		if (ex instanceof InvalidAccess)
+			return Response.of(FORBIDDEN, PERMISSION_MESSAGE);
+
 		return Response.of(BAD_REQUEST, ex.getMessage());
 	}
 
