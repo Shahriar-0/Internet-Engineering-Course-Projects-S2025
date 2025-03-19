@@ -7,11 +7,11 @@ import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import webapi.exceptions.AuthenticationException;
 import webapi.response.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -38,6 +38,14 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(BusinessException.class)
 	public Response<?> handleBusinessExceptions(BusinessException ex) {
+		return Response.of(BAD_REQUEST, ex.getMessage());
+	}
+
+	@ExceptionHandler(AuthenticationException.class)
+	public Response<?> handleAuthenticationExceptions(AuthenticationException ex) {
+		if (ex.isNoOneLoggedInException())
+			return Response.of(UNAUTHORIZED, ex.getMessage());
+
 		return Response.of(BAD_REQUEST, ex.getMessage());
 	}
 }
