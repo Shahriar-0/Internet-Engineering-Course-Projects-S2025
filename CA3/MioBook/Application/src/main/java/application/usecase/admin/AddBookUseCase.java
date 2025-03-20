@@ -1,6 +1,6 @@
 package application.usecase.admin;
 
-import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
+import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
@@ -14,9 +14,11 @@ import domain.valueobjects.BookContent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class AddBookUseCase implements IUseCase {
@@ -34,7 +36,7 @@ public class AddBookUseCase implements IUseCase {
 			return Result.failure(new InvalidAccess("admin"));
 
 		if (!authorRepository.exists(data.author))
-			return Result.failure(new AuthorAlreadyExists(data.author));
+			return Result.failure(new AuthorDoesNotExists(data.author));
 
 		if (bookRepository.exists(data.title))
 			return Result.failure(new BookAlreadyExists(data.title));
@@ -60,10 +62,16 @@ public class AddBookUseCase implements IUseCase {
 		@NotBlank String author,
 		@NotBlank String title,
 		@NotBlank String publisher,
-		@Positive int year,
-		@Positive long price,
 		@NotBlank String synopsis,
 		@NotBlank String content,
+
+		@NotNull
+		@Positive
+		Integer year,
+
+		@NotNull
+		@Positive
+		Long price,
 
 		@NotEmpty
 		@Valid

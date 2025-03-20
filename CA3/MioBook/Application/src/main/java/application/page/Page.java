@@ -24,7 +24,7 @@ public class Page<T> {
 		this.totalPageNumber = (int) Math.ceil((double) totalDataSize / pageSize);
 
 		int startIndex = (pageNumber - 1) * pageSize;
-		int endIndex = Math.min(startIndex + pageSize - 1, totalDataSize - 1);
+		int endIndex = Math.min(startIndex + pageSize, totalDataSize);
 		this.list = (startIndex < totalDataSize) ? data.subList(startIndex, endIndex) : List.of();
 	}
 }

@@ -24,9 +24,9 @@ public class GetBookReviewsUseCase implements IUseCase {
 		return UseCaseType.GET_BOOK_REVIEWS;
 	}
 
-	public Result<Page<Review>> perform(ReviewFilter filter) {
+	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
         ReviewFilter standardizeFilter = standardizeFilter(filter);
-        Result<Book> bookResult = bookRepository.get(standardizeFilter.bookTitle());
+        Result<Book> bookResult = bookRepository.get(title);
         if (bookResult.isFailure())
             return Result.failure(bookResult.getException());
 
@@ -35,7 +35,6 @@ public class GetBookReviewsUseCase implements IUseCase {
 
     private static ReviewFilter standardizeFilter(ReviewFilter filter) {
         return new ReviewFilter(
-            filter.bookTitle(),
             filter.pageNumber() == null ? DEFAULT_REVIEW_PAGE_NUMBER : filter.pageNumber(),
             standardizePageSizeField(filter.pageSize())
         );
@@ -52,7 +51,6 @@ public class GetBookReviewsUseCase implements IUseCase {
 	}
 
 	public record ReviewFilter(
-        String bookTitle,
         @Positive Integer pageNumber,
         @Positive Integer pageSize
     ) {}
