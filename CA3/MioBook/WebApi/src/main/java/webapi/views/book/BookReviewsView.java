@@ -23,7 +23,7 @@ public record BookReviewsView(
     public static Page<BookReviewsView> mapToView(Page<Review> reviewPage) {
         return Page
             .<BookReviewsView>builder()
-            .data(reviewPage.getData().stream().map(BookReviewsView::new).toList())
+            .list(reviewPage.getList().stream().map(BookReviewsView::new).toList())
             .pageNumber(reviewPage.getPageNumber())
             .pageSize(reviewPage.getPageSize())
             .totalPageNumber(reviewPage.getTotalPageNumber())

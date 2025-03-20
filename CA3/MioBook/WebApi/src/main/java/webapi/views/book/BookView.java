@@ -30,7 +30,7 @@ public record BookView(
 	public static Page<BookView> mapToView(Page<Book> bookPage) {
 		return Page
 			.<BookView>builder()
-			.data(bookPage.getData().stream().map(BookView::new).toList())
+			.list(bookPage.getList().stream().map(BookView::new).toList())
 			.pageNumber(bookPage.getPageNumber())
 			.pageSize(bookPage.getPageSize())
 			.totalPageNumber(bookPage.getTotalPageNumber())

@@ -114,7 +114,7 @@ public class DataInitializer implements ApplicationRunner {
 				String content = node.get("content").asText();
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
-				AddBookUseCase.AddBookData data = new AddBookUseCase.AddBookData(authorName, title, publisher, year, price, synopsis, content, genres);
+				AddBookUseCase.AddBookData data = new AddBookUseCase.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres);
 				Result<Book> result = addBook.perform(data, userResult.getData().getRole());
 				if (result.isFailure())
 					System.err.println(
@@ -146,9 +146,9 @@ public class DataInitializer implements ApplicationRunner {
 				int rating = node.get("rate").asInt();
 				String comment = node.get("comment").asText();
 
-				AddReviewUseCase.AddReviewData addReviewData = new AddReviewUseCase.AddReviewData(title, rating, comment);
+				AddReviewUseCase.AddReviewData addReviewData = new AddReviewUseCase.AddReviewData(rating, comment);
 
-				Result<Book> result = addReview.perform(addReviewData, username, userResult.getData().getRole());
+				Result<Book> result = addReview.perform(addReviewData, title, username, userResult.getData().getRole());
 				if (result.isFailure()) {
 					System.err.println(
 						"Failed to add review for book: " + title +

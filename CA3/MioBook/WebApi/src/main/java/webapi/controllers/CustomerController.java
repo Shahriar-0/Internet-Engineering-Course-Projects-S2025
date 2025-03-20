@@ -11,12 +11,16 @@ import domain.valueobjects.PurchasedCartSummary;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
+import webapi.views.customer.CartView;
 import webapi.views.customer.PurchaseHistoryView;
 import webapi.views.customer.PurchasedBooksView;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 
 @RequiredArgsConstructor
@@ -28,7 +32,7 @@ public class CustomerController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping("/cart")
-	public ResponseEntity<String> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
+	public Response<?> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
 		AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
@@ -36,11 +40,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok("Added book to cart.");
+		return Response.of(CREATED, "Added book to cart.");
 	}
 
 	@GetMapping("/cart")
-	public ResponseEntity<Cart> getCart() {
+	public Response<CartView> getCart() {
 		authenticationService.validateSomeOneLoggedIn();
 
 		GetCartUseCase useCase = (GetCartUseCase) useCaseService.getUseCase(UseCaseType.GET_CART);
@@ -48,11 +52,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok(result.getData());
+		return Response.of(new CartView(result.getData()), OK);
 	}
 
 	@GetMapping("/history")
-	public ResponseEntity<PurchaseHistoryView> getPurchaseHistory() {
+	public Response<PurchaseHistoryView> getPurchaseHistory() {
 		authenticationService.validateSomeOneLoggedIn();
 
 		GetPurchaseHistoryUseCase useCase = (GetPurchaseHistoryUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
@@ -60,11 +64,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok(new PurchaseHistoryView(result.getData()));
+		return Response.of(new PurchaseHistoryView(result.getData()), OK);
 	}
 
 	@GetMapping("/books")
-	public ResponseEntity<PurchasedBooksView> getPurchasedBooks() {
+	public Response<PurchasedBooksView> getPurchasedBooks() {
 		authenticationService.validateSomeOneLoggedIn();
 
 		GetPurchasedBooksUseCase useCase = (GetPurchasedBooksUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
@@ -72,11 +76,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok(new PurchasedBooksView(result.getData()));
+		return Response.of(new PurchasedBooksView(result.getData()), OK);
 	}
 
 	@DeleteMapping("/cart/{title}")
-	public ResponseEntity<String> removeCart(@NotBlank @PathVariable String title) {
+	public Response<?> removeCart(@NotBlank @PathVariable String title) {
 		authenticationService.validateSomeOneLoggedIn();
 
 		RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
@@ -84,11 +88,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok("Removed book from cart.");
+		return Response.of(OK, "Removed book from cart.");
 	}
 
 	@PatchMapping("credit")
-	public ResponseEntity<String> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
+	public Response<?> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
 		AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
@@ -96,11 +100,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok("Credit added successfully.");
+		return Response.of(OK, "Credit added successfully.");
 	}
 
 	@PostMapping("/purchase")
-	public ResponseEntity<PurchasedCartSummary> purchaseCart() {
+	public Response<PurchasedCartSummary> purchaseCart() {
 		authenticationService.validateSomeOneLoggedIn();
 
 		PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
@@ -108,11 +112,11 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok(result.getData());
+		return Response.of(result.getData(), CREATED);
 	}
 
 	@PostMapping("/borrow")
-	public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
+	public Response<?> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
 		BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
@@ -120,6 +124,6 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.getException();
 
-		return ResponseEntity.ok("Added borrowed book to cart.");
+		return Response.of(CREATED, "Added borrowed book to cart.");
 	}
 }

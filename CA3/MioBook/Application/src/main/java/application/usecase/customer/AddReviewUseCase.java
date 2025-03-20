@@ -34,7 +34,7 @@ public class AddReviewUseCase implements IUseCase {
 		return UseCaseType.ADD_REVIEW;
 	}
 
-	public Result<Book> perform(AddReviewData data, String userName, User.Role role) {
+	public Result<Book> perform(AddReviewData data, String title, String userName, User.Role role) {
         if (!User.Role.CUSTOMER.equals(role))
             return Result.failure(new InvalidAccess("customer"));
 
@@ -44,13 +44,13 @@ public class AddReviewUseCase implements IUseCase {
         assert userResult.getData() instanceof Customer: "we relay on role passing from presentation layer";
         Customer customer = (Customer) userResult.getData();
 
-        Result<Book> bookResult = bookRepository.get(data.title);
+        Result<Book> bookResult = bookRepository.get(title);
         if (bookResult.isFailure())
             return Result.failure(bookResult.getException());
         Book book = bookResult.getData();
 
         if (enforceAccessChecks && !customer.hasBought(book))
-            return Result.failure(new BookIsNotAccessible(data.title));
+            return Result.failure(new BookIsNotAccessible(title));
 
         book.addReview(mapToReview(data, customer));
         return Result.success(book);
@@ -61,9 +61,6 @@ public class AddReviewUseCase implements IUseCase {
     }
 
 	public record AddReviewData(
-        @NotBlank
-        String title,
-
         @NotNull
         @Min(value = 1)
         @Max(value = 5)

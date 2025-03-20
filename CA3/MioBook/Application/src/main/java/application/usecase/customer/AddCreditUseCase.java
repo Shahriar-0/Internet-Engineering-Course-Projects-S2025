@@ -30,12 +30,12 @@ public class AddCreditUseCase implements IUseCase {
 		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
 		Customer customer = (Customer) userResult.getData();
 
-		customer.addCredit(data.credit);
+		customer.addCredit(data.amount);
 		return Result.success(customer);
 	}
 
 	public record AddCreditData(
 		@Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
-		long credit
+		long amount
   ) {}
 }
