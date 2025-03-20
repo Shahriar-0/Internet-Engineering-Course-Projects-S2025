@@ -41,6 +41,6 @@ public class CustomerBook {
 	}
 
 	public Boolean isStillAccessible(LocalDateTime purchaseDate) {
-		return !isBorrowed || (isBorrowed && LocalDateTime.now().isBefore(purchaseDate.plusDays(borrowDays)));
+		return !isBorrowed || LocalDateTime.now().isBefore(purchaseDate.plusDays(borrowDays));
 	}
 }

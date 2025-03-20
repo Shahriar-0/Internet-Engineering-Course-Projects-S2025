@@ -1,5 +1,6 @@
 package application.usecase.customer;
 
+import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
@@ -35,7 +36,7 @@ public class AddCartUseCase implements IUseCase {
 
 		Result<Book> bookResult = bookRepository.get(data.title);
 		if (bookResult.isFailure())
-			return Result.failure(bookResult.getException());
+			return Result.failure(new BookDoesntExist(data.title));
 		Book book = bookResult.getData();
 
 		if (!customer.canAddBook(book))
