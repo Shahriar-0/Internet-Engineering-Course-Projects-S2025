@@ -5,7 +5,7 @@ import application.exceptions.businessexceptions.BusinessException;
 public class AuthorAlreadyExists extends BusinessException {
 
 	private static String message(String name) {
-		return "Author with name '" + name + "' already exists!";
+		return "Author with username '" + name + "' already exists!";
 	}
 
 	public AuthorAlreadyExists(String authorName) {

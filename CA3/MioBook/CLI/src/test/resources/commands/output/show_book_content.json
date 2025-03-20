@@ -1,8 +1,0 @@
-{
-    "success": true,
-    "message": "Book content retrieved successfully",
-    "data": {
-        "title": "book title",
-        "content": "Lorem ipsum."
-    }
-}

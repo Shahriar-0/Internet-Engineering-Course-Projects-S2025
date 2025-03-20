@@ -1,7 +1,5 @@
 package domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +10,25 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public abstract class User extends DomainEntity<String> {
 
+	@Getter
 	public enum Role {
-		CUSTOMER,
-		ADMIN,
+		CUSTOMER("customer"),
+		ADMIN("admin"),
+		NONE("none");
+
+		private final String value;
+
+		Role(String value) {
+			this.value = value;
+		}
+
+		public static Role getByValue(String value) {
+			for (Role role : Role.values()) {
+				if (role.value.equals(value))
+					return role;
+			}
+			return NONE;
+		}
 	}
 
 	protected Address address;
@@ -22,25 +36,20 @@ public abstract class User extends DomainEntity<String> {
 	protected String email;
 	protected Role role;
 
-    @JsonProperty("username")
-    public String getUsername() {
-        return super.getKey();
-    }
+	public String getUsername() {
+		return super.getKey();
+	}
 
-    @Override
-    @JsonIgnore
-    public String getKey() {
-        return super.getKey();
-    }
+	@Override
+	public String getKey() {
+		return super.getKey();
+	}
 
+	public String getRoleAsString() {
+		return role.name().toLowerCase();
+	}
 
-    @JsonProperty("role")
-    public String getRoleAsString() {
-        return role.name().toLowerCase();
-    }
-
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 }

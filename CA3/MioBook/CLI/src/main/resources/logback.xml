@@ -1,3 +1,0 @@
-<configuration>
-    <logger name="org.hibernate.validator" level="ERROR"/>
-</configuration>

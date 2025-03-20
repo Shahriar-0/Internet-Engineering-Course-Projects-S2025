@@ -1,9 +1,5 @@
 package domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import domain.valueobjects.BookContent;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;
@@ -17,27 +13,20 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Customer extends User {
 
-	@JsonIgnore
 	private Cart cart;
-
-	@JsonIgnore
+	private long credit;
 	private PurchaseHistory purchaseHistory;
 
 	protected Customer(CustomerBuilder<?, ?> builder) {
-        super(builder);
-        this.cart = new Cart(this);
+		super(builder);
+		this.cart = new Cart(this);
 		this.purchaseHistory = new PurchaseHistory(this);
-    }
+	}
 
-	@JsonIgnore
-	private long credit;
-
-	@JsonProperty("balance")
 	public long getBalance() {
 		return credit;
 	}
 
-	@JsonIgnore
 	public PurchasedBooks getPurchasedBooks() {
 		return new PurchasedBooks(this);
 	}
@@ -118,13 +107,13 @@ public class Customer extends User {
 		return purchasedCart;
 	}
 
+	/**
+	 * Checks if the customer has previously purchased a book with the given title and is still accessible.
+	 *
+	 * @param book The book to check if it has been bought.
+	 * @return True if the customer has bought the book, otherwise false.
+	 */
 	public Boolean hasBought(Book book) {
 		return purchaseHistory.hasBook(book.getTitle());
-	}
-
-	public BookContent showBookContent(String title) { // FIXME: improve this
-		PurchasedBooks purchasedBooks = getPurchasedBooks();
-		BookContent bookContent = purchasedBooks.getBookContent(title);
-		return bookContent;
 	}
 }

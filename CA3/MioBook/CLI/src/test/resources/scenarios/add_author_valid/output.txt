@@ -1,2 +1,0 @@
-{"success":true,"message":"User added successfully."}
-{"success":true,"message":"Author added successfully."}

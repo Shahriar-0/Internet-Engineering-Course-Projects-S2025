@@ -1,1 +1,0 @@
-{"success":true,"message":"Buy cart retrieved successfully.","data":{"username":"name","totalCost":200,"items":[{"title":"book1","author":"author1","publisher":"publisher1","genres":["horror"],"year":2024,"price":1000,"isBorrowed":true,"finalPrice":200,"borrowDays":2}]}}

@@ -6,8 +6,6 @@ import lombok.Getter;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Getter
 public class BookSearch {
 
@@ -24,7 +22,6 @@ public class BookSearch {
             this.query = params.toString();
     }
 
-    @JsonProperty("search")
     public String getQuery() {
         return query;
     }

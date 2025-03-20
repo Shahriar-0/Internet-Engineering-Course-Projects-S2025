@@ -1,7 +1,5 @@
 package domain.valueobjects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.entities.Customer;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,9 +8,7 @@ import lombok.Getter;
 @Getter
 public class PurchasedBooks {
 
-	@JsonIgnore
 	private final Customer customer;
-
 	private final List<CustomerBook> books;
 
 	public PurchasedBooks(Customer customer) {
@@ -28,12 +24,10 @@ public class PurchasedBooks {
 				.toList();
 	}
 
-	@JsonProperty("username")
 	public String getUsername() {
 		return customer.getUsername();
 	}
 
-	@JsonIgnore // Add this annotation to exclude totalCost from serialization
 	public long getTotalCost() {
 		return books.stream().mapToLong(CustomerBook::getFinalPrice).sum();
 	}
