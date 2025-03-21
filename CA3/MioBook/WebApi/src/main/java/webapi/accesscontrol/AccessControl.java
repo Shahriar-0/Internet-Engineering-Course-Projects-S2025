@@ -30,10 +30,11 @@ public class AccessControl {
             return;
 
         authenticationService.validateSomeOneLoggedIn();
-        boolean isRoleAppear = roles.contains(authenticationService.getUserRole());
+        User logedInUser = authenticationService.getUser();
 
+        boolean isRoleAppear = roles.contains(logedInUser.getRole());
         if ((isRoleAppear && !isWhiteList) || (!isRoleAppear && isWhiteList))
-            throw new InvalidAccess(roles, authenticationService.getUserRole(), isWhiteList);
+            throw new InvalidAccess(roles, logedInUser.getRole(), isWhiteList);
     }
 
     private static Access getAccessAnnotation(JoinPoint joinPoint) {

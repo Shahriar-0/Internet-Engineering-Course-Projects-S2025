@@ -21,14 +21,6 @@ public class AuthenticationService {
 			throw AuthenticationException.someOneLoggedIn();
 	}
 
-	public User.Role getUserRole() {
-		return user.getRole();
-	}
-
-	public String getUserName() {
-		return user.getUsername();
-	}
-
 	public void setLoggedInUser(User user) {
 		this.user = user;
 	}
