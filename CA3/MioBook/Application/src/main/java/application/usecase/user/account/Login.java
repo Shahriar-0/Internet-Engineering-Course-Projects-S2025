@@ -1,4 +1,4 @@
-package application.usecase.user;
+package application.usecase.user.account;
 
 import application.exceptions.businessexceptions.userexceptions.UserNotFound;
 import application.exceptions.businessexceptions.userexceptions.WrongPassword;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class LoginUseCase implements IUseCase {
+public class Login implements IUseCase {
 
 	private final IUserRepository userRepository;
 

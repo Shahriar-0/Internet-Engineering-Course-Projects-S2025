@@ -3,8 +3,8 @@ package infra.repositories;
 import application.pagination.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
-import application.usecase.user.GetBookReviewsUseCase;
-import application.usecase.user.GetBookUseCase;
+import application.usecase.user.book.GetBookReviews;
+import application.usecase.user.book.GetBook;
 import domain.entities.Book;
 import domain.valueobjects.BookSearch;
 import domain.valueobjects.Review;
@@ -54,7 +54,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	}
 
 	@Override
-	public Page<Book> filter(GetBookUseCase.BookFilter filter) {
+	public Page<Book> filter(GetBook.BookFilter filter) {
 		List<Book> books = new ArrayList<>(map.values());
 		if (filter.title() != null) books = filterTitle(books, filter.title());
 		if (filter.author() != null) books = filterAuthorName(books, filter.author());
@@ -72,7 +72,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	}
 
 	@Override
-	public Page<Review> filter(Book book, GetBookReviewsUseCase.ReviewFilter filter) { // FIXME: didnt have better solution for this
+	public Page<Review> filter(Book book, GetBookReviews.ReviewFilter filter) { // FIXME: didnt have better solution for this
 		return new Page<>(book.getReviewsList(), filter.pageNumber(), filter.pageSize());
 	}
 

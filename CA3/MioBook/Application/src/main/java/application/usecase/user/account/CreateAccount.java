@@ -1,4 +1,4 @@
-package application.usecase.user;
+package application.usecase.user.account;
 
 import application.exceptions.businessexceptions.userexceptions.EmailAlreadyExists;
 import application.exceptions.businessexceptions.userexceptions.UsernameAlreadyExists;
@@ -15,7 +15,7 @@ import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AddUserUseCase implements IUseCase {
+public class CreateAccount implements IUseCase {
 
 	private static final int DEFAULT_CREDIT_AT_CREATION = 0;
 
@@ -23,7 +23,7 @@ public class AddUserUseCase implements IUseCase {
 
 	@Override
 	public UseCaseType getType() {
-		return UseCaseType.ADD_USER;
+		return UseCaseType.CREATE_ACCOUNT;
 	}
 
 	public Result<User> perform(AddUserData data) {

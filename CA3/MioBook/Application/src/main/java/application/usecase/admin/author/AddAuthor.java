@@ -1,4 +1,4 @@
-package application.usecase.admin;
+package application.usecase.admin.author;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AddAuthorUseCase implements IUseCase {
+public class AddAuthor implements IUseCase {
 
 	private final IAuthorRepository authorRepository;
 

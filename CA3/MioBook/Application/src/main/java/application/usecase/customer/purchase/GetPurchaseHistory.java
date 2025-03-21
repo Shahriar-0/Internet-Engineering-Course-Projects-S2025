@@ -1,4 +1,4 @@
-package application.usecase.customer;
+package application.usecase.customer.purchase;
 
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IUserRepository;
@@ -11,7 +11,7 @@ import domain.valueobjects.PurchaseHistory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetPurchaseHistoryUseCase implements IUseCase {
+public class GetPurchaseHistory implements IUseCase {
 
     private final IUserRepository userRepository;
 

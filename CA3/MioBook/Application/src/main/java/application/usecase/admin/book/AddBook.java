@@ -1,4 +1,4 @@
-package application.usecase.admin;
+package application.usecase.admin.book;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class AddBookUseCase implements IUseCase {
+public class AddBook implements IUseCase {
 
 	private final IAuthorRepository authorRepository;
 	private final IBookRepository bookRepository;

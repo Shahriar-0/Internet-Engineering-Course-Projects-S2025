@@ -1,4 +1,4 @@
-package application.usecase.customer;
+package application.usecase.customer.cart;
 
 import application.exceptions.businessexceptions.cartexceptions.CantRemoveFromCart;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
@@ -13,7 +13,7 @@ import domain.entities.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RemoveCartUseCase implements IUseCase {
+public class RemoveCart implements IUseCase {
 
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;

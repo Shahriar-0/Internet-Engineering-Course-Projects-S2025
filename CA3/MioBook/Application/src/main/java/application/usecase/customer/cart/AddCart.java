@@ -1,4 +1,4 @@
-package application.usecase.customer;
+package application.usecase.customer.cart;
 
 import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AddCartUseCase implements IUseCase {
+public class AddCart implements IUseCase {
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 

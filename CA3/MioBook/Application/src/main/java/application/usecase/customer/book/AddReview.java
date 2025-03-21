@@ -1,4 +1,4 @@
-package application.usecase.customer;
+package application.usecase.customer.book;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +22,7 @@ import lombok.Setter;
 
 @Setter
 @RequiredArgsConstructor
-public class AddReviewUseCase implements IUseCase {
+public class AddReview implements IUseCase {
 
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;

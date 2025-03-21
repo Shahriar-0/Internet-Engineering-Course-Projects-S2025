@@ -9,7 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetUserUseCase implements IUseCase {
+public class GetUser implements IUseCase {
 
 	private final IUserRepository userRepository;
 

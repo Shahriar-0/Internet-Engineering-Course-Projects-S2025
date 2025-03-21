@@ -2,7 +2,14 @@ package webapi.controllers;
 
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.customer.*;
+import application.usecase.customer.book.GetPurchasedBooks;
+import application.usecase.customer.cart.AddCart;
+import application.usecase.customer.cart.BorrowBook;
+import application.usecase.customer.cart.GetCart;
+import application.usecase.customer.cart.RemoveCart;
+import application.usecase.customer.purchase.GetPurchaseHistory;
+import application.usecase.customer.purchase.PurchaseCart;
+import application.usecase.customer.wallet.AddCredit;
 import domain.entities.Customer;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
@@ -32,10 +39,10 @@ public class CustomerController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping("/cart")
-	public Response<?> addCart(@Valid @RequestBody AddCartUseCase.AddCartData data) {
+	public Response<?> addCart(@Valid @RequestBody AddCart.AddCartData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
+		AddCart useCase = (AddCart) useCaseService.getUseCase(UseCaseType.ADD_CART);
 		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -47,7 +54,7 @@ public class CustomerController {
 	public Response<CartView> getCart() {
 		authenticationService.validateSomeOneLoggedIn();
 
-		GetCartUseCase useCase = (GetCartUseCase) useCaseService.getUseCase(UseCaseType.GET_CART);
+		GetCart useCase = (GetCart) useCaseService.getUseCase(UseCaseType.GET_CART);
 		Result<Cart> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole()); // FIXME: clean this authentication
 		if (result.isFailure())
 			throw result.exception();
@@ -59,7 +66,7 @@ public class CustomerController {
 	public Response<PurchaseHistoryView> getPurchaseHistory() {
 		authenticationService.validateSomeOneLoggedIn();
 
-		GetPurchaseHistoryUseCase useCase = (GetPurchaseHistoryUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
+		GetPurchaseHistory useCase = (GetPurchaseHistory) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
 		Result<PurchaseHistory> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -71,7 +78,7 @@ public class CustomerController {
 	public Response<PurchasedBooksView> getPurchasedBooks() {
 		authenticationService.validateSomeOneLoggedIn();
 
-		GetPurchasedBooksUseCase useCase = (GetPurchasedBooksUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
+		GetPurchasedBooks useCase = (GetPurchasedBooks) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
 		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -83,7 +90,7 @@ public class CustomerController {
 	public Response<?> removeCart(@NotBlank @PathVariable String title) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
+		RemoveCart useCase = (RemoveCart) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
 		Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -92,10 +99,10 @@ public class CustomerController {
 	}
 
 	@PatchMapping("credit")
-	public Response<?> increaseCredit(@Valid @RequestBody AddCreditUseCase.AddCreditData data) {
+	public Response<?> increaseCredit(@Valid @RequestBody AddCredit.AddCreditData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
+		AddCredit useCase = (AddCredit) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
 		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -107,7 +114,7 @@ public class CustomerController {
 	public Response<PurchasedCartSummary> purchaseCart() {
 		authenticationService.validateSomeOneLoggedIn();
 
-		PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
+		PurchaseCart useCase = (PurchaseCart) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
 		Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -116,10 +123,10 @@ public class CustomerController {
 	}
 
 	@PostMapping("/borrow")
-	public Response<?> borrowBook(@Valid @RequestBody BorrowBookUseCase.BorrowBookData data) {
+	public Response<?> borrowBook(@Valid @RequestBody BorrowBook.BorrowBookData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
+		BorrowBook useCase = (BorrowBook) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
 		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();

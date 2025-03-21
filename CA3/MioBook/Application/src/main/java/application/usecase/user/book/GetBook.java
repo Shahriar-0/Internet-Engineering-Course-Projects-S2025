@@ -1,4 +1,4 @@
-package application.usecase.user;
+package application.usecase.user.book;
 
 import application.pagination.Page;
 import application.repositories.IBookRepository;
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetBookUseCase implements IUseCase {
+public class GetBook implements IUseCase {
 
 	private static final int MAX_BOOK_PAGE_SIZE = 100;
 	private static final int DEFAULT_BOOK_PAGE_SIZE = 20;

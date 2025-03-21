@@ -2,8 +2,8 @@ package webapi.controllers;
 
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.user.AddUserUseCase;
-import application.usecase.user.GetUserUseCase;
+import application.usecase.user.account.CreateAccount;
+import application.usecase.user.GetUser;
 import domain.entities.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -26,8 +26,8 @@ public class UserController {
 	private final UseCaseService useCaseService;
 
 	@PostMapping
-	public Response<?> addUser(@Valid @RequestBody AddUserUseCase.AddUserData data) {
-		AddUserUseCase useCase = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
+	public Response<?> addUser(@Valid @RequestBody CreateAccount.AddUserData data) {
+		CreateAccount useCase = (CreateAccount) useCaseService.getUseCase(UseCaseType.CREATE_ACCOUNT);
 		Result<User> result = useCase.perform(data);
 		if (result.isFailure())
 			throw result.exception();
@@ -37,7 +37,7 @@ public class UserController {
 
 	@GetMapping("/{username}")
 	public Response<UserView> getUser(@NotBlank @PathVariable String username) {
-		GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
+		GetUser useCase = (GetUser) useCaseService.getUseCase(UseCaseType.GET_USER);
 		Result<User> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.exception();

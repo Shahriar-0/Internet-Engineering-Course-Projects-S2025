@@ -3,10 +3,10 @@ package webapi.configuration;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.admin.AddAuthorUseCase;
-import application.usecase.admin.AddBookUseCase;
-import application.usecase.customer.AddReviewUseCase;
-import application.usecase.user.AddUserUseCase;
+import application.usecase.admin.author.AddAuthor;
+import application.usecase.admin.book.AddBook;
+import application.usecase.customer.book.AddReview;
+import application.usecase.user.account.CreateAccount;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,13 +44,13 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadUsers() {
-		AddUserUseCase addUser = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
+		CreateAccount addUser = (CreateAccount) useCaseService.getUseCase(UseCaseType.CREATE_ACCOUNT);
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(USERS_API_URL, String.class);
 
 			ObjectMapper objectMapper = new ObjectMapper();
-			List<AddUserUseCase.AddUserData> parsedUserData = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+			List<CreateAccount.AddUserData> parsedUserData = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
 			parsedUserData.forEach(addUser::perform);
 		}
@@ -60,7 +60,7 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadAuthors() {
-		AddAuthorUseCase addAuthor = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
+		AddAuthor addAuthor = (AddAuthor) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(AUTHORS_API_URL, String.class);
@@ -78,7 +78,7 @@ public class DataInitializer implements ApplicationRunner {
 				String born = node.get("born").asText();
 				String died = node.get("died") == null ? null : node.get("died").asText();
 
-				AddAuthorUseCase.AddAuthorData data = new AddAuthorUseCase.AddAuthorData(name, penName, nationality, born, died);
+				AddAuthor.AddAuthorData data = new AddAuthor.AddAuthorData(name, penName, nationality, born, died);
 				Result<Author> result = addAuthor.perform(data, userResult.data().getRole());
 				if (result.isFailure())
 					System.err.println(
@@ -93,7 +93,7 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadBooks() {
-		AddBookUseCase addBook = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
+		AddBook addBook = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(BOOKS_API_URL, String.class);
@@ -114,7 +114,7 @@ public class DataInitializer implements ApplicationRunner {
 				String content = node.get("content").asText();
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
-				AddBookUseCase.AddBookData data = new AddBookUseCase.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres);
+				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres);
 				Result<Book> result = addBook.perform(data, userResult.data().getRole());
 				if (result.isFailure())
 					System.err.println(
@@ -129,7 +129,7 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadReviews() {
-		AddReviewUseCase addReview = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
+		AddReview addReview = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
 		try {
 			addReview.setEnforceAccessChecks(false); // Disable access checks during initialization
 			RestTemplate restTemplate = new RestTemplate();
@@ -146,7 +146,7 @@ public class DataInitializer implements ApplicationRunner {
 				int rating = node.get("rate").asInt();
 				String comment = node.get("comment").asText();
 
-				AddReviewUseCase.AddReviewData addReviewData = new AddReviewUseCase.AddReviewData(rating, comment);
+				AddReview.AddReviewData addReviewData = new AddReview.AddReviewData(rating, comment);
 
 				Result<Book> result = addReview.perform(addReviewData, title, username, userResult.data().getRole());
 				if (result.isFailure()) {

@@ -1,5 +1,6 @@
-package application.usecase.customer;
+package application.usecase.customer.purchase;
 
+import application.exceptions.businessexceptions.cartexceptions.CantPurchaseCart;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IUserRepository;
 import application.result.Result;
@@ -7,20 +8,21 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Customer;
 import domain.entities.User;
-import jakarta.validation.constraints.Min;
+import domain.valueobjects.PurchasedCart;
+import domain.valueobjects.PurchasedCartSummary;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class AddCreditUseCase implements IUseCase {
+public class PurchaseCart implements IUseCase {
 
 	private final IUserRepository userRepository;
 
 	@Override
 	public UseCaseType getType() {
-		return UseCaseType.ADD_CREDIT;
+		return UseCaseType.PURCHASE_CART;
 	}
 
-	public Result<Customer> perform(AddCreditData data, String username, User.Role role) {
+	public Result<PurchasedCartSummary> perform(String username, User.Role role) {
 		if (!User.Role.CUSTOMER.equals(role))
 			return Result.failure(new InvalidAccess("customer"));
 
@@ -30,12 +32,10 @@ public class AddCreditUseCase implements IUseCase {
 		assert userResult.data() instanceof Customer : "we relay on role passing from presentation layer";
 		Customer customer = (Customer) userResult.data();
 
-		customer.addCredit(data.amount);
-		return Result.success(customer);
-	}
+		if (!customer.canPurchaseCart())
+			return Result.failure(new CantPurchaseCart(customer.findPurchaseCartErrors()));
 
-	public record AddCreditData(
-		@Min(value = 100, message = "Credit amount must be greater or equal to 100 cent")
-		long amount
-  ) {}
+		PurchasedCart purchasedCart = customer.purchaseCart();
+		return Result.success(new PurchasedCartSummary(purchasedCart));
+	}
 }

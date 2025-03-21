@@ -3,11 +3,11 @@ package webapi.controllers;
 import application.pagination.Page;
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.admin.AddBookUseCase;
-import application.usecase.customer.AddReviewUseCase;
-import application.usecase.customer.GetBookContentUseCase;
-import application.usecase.user.GetBookReviewsUseCase;
-import application.usecase.user.GetBookUseCase;
+import application.usecase.admin.book.AddBook;
+import application.usecase.customer.book.AddReview;
+import application.usecase.customer.book.GetBookContent;
+import application.usecase.user.book.GetBookReviews;
+import application.usecase.user.book.GetBook;
 import domain.entities.Book;
 import domain.valueobjects.BookContent;
 import domain.valueobjects.Review;
@@ -33,10 +33,10 @@ public class BookController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	public Response<?> addBook(@Valid @RequestBody AddBookUseCase.AddBookData data) {
+	public Response<?> addBook(@Valid @RequestBody AddBook.AddBookData data) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		AddBookUseCase useCase = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
+		AddBook useCase = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
 		Result<Book> result = useCase.perform(data, authenticationService.getUserRole());
 		if (result.isFailure())
 			throw result.exception();
@@ -46,7 +46,7 @@ public class BookController {
 
 	@GetMapping("/{title}")
 	public Response<BookView> getBook(@NotBlank @PathVariable String title) {
-		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Book> result = useCase.perform(title);
 		if (result.isFailure())
 			throw result.exception();
@@ -58,7 +58,7 @@ public class BookController {
 	public Response<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		GetBookContentUseCase useCase = (GetBookContentUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
+		GetBookContent useCase = (GetBookContent) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
 		Result<BookContent> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
 
 		if (result.isFailure())
@@ -70,9 +70,9 @@ public class BookController {
 	@GetMapping("/{title}/reviews")
 	public Response<Page<BookReviewsView>> getBookReviews(
 		@NotBlank @PathVariable String title,
-		@Valid @ModelAttribute GetBookReviewsUseCase.ReviewFilter filter
+		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
 	) {
-		GetBookReviewsUseCase useCase = (GetBookReviewsUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
+		GetBookReviews useCase = (GetBookReviews) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 		Result<Page<Review>> result = useCase.perform(title, filter);
 		if (result.isFailure())
 			throw result.exception();
@@ -81,8 +81,8 @@ public class BookController {
 	}
 
 	@GetMapping
-	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
-		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
+		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Page<Book>> result = useCase.perform(filter);
 		if (result.isFailure())
 			throw result.exception();
@@ -91,10 +91,10 @@ public class BookController {
 	}
 
 	@PostMapping("/{title}/reviews")
-	public Response<?> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data, @PathVariable String title) {
+	public Response<?> addReview(@Valid @RequestBody AddReview.AddReviewData data, @PathVariable String title) {
 		authenticationService.validateSomeOneLoggedIn();
 
-		AddReviewUseCase useCase = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
+		AddReview useCase = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
 		Result<Book> result = useCase.perform(
 			data,
 			title,

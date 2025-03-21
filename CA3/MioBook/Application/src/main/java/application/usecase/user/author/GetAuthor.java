@@ -1,4 +1,4 @@
-package application.usecase.user;
+package application.usecase.user.author;
 
 import application.repositories.IAuthorRepository;
 import application.result.Result;
@@ -9,7 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetAuthorUseCase implements IUseCase {
+public class GetAuthor implements IUseCase {
 
 	private final IAuthorRepository authorRepository;
 

@@ -1,4 +1,4 @@
-package application.usecase.customer;
+package application.usecase.customer.book;
 
 import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
@@ -14,7 +14,7 @@ import domain.valueobjects.BookContent;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetBookContentUseCase implements IUseCase {
+public class GetBookContent implements IUseCase {
 
 	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;

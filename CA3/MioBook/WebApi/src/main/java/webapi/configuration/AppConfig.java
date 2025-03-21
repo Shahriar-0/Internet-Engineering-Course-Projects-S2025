@@ -1,10 +1,25 @@
 package webapi.configuration;
 
 import application.repositories.*;
-import application.usecase.admin.*;
-import application.usecase.customer.*;
+import application.usecase.admin.author.AddAuthor;
+import application.usecase.admin.book.AddBook;
+import application.usecase.customer.book.AddReview;
+import application.usecase.customer.book.GetBookContent;
+import application.usecase.customer.book.GetPurchasedBooks;
+import application.usecase.customer.cart.AddCart;
+import application.usecase.customer.cart.BorrowBook;
+import application.usecase.customer.cart.GetCart;
+import application.usecase.customer.cart.RemoveCart;
+import application.usecase.customer.purchase.GetPurchaseHistory;
+import application.usecase.customer.purchase.PurchaseCart;
+import application.usecase.customer.wallet.AddCredit;
 import application.usecase.user.*;
 
+import application.usecase.user.account.CreateAccount;
+import application.usecase.user.account.Login;
+import application.usecase.user.author.GetAuthor;
+import application.usecase.user.book.GetBook;
+import application.usecase.user.book.GetBookReviews;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,92 +43,92 @@ public class AppConfig {
 		return context.getBookRepository();
 	}
 	@Bean
-	public AddUserUseCase addUserUseCase() {
+	public CreateAccount addUserUseCase() {
 		return context.getAddUserUseCase();
 	}
 
 	@Bean
-	public AddAuthorUseCase addAuthorUseCase() {
+	public AddAuthor addAuthorUseCase() {
 		return context.getAddAuthorUseCase();
 	}
 
 	@Bean
-	public AddBookUseCase addBookUseCase() {
+	public AddBook addBookUseCase() {
 		return context.getAddBookUseCase();
 	}
 
 	@Bean
-	public AddCartUseCase addCartUseCase() {
+	public AddCart addCartUseCase() {
 		return context.getAddCartUseCase();
 	}
 
 	@Bean
-	public RemoveCartUseCase removeCartUseCase() {
+	public RemoveCart removeCartUseCase() {
 		return context.getRemoveCartUseCase();
 	}
 
 	@Bean
-	public AddCreditUseCase addCreditUseCase() {
+	public AddCredit addCreditUseCase() {
 		return context.getAddCreditUseCase();
 	}
 
 	@Bean
-	public PurchaseCartUseCase purchaseCartUseCase() {
+	public PurchaseCart purchaseCartUseCase() {
 		return context.getPurchaseCartUseCase();
 	}
 
 	@Bean
-	public BorrowBookUseCase borrowBookUseCase() {
+	public BorrowBook borrowBookUseCase() {
 		return context.getBorrowBookUseCase();
 	}
 
 	@Bean
-	public GetUserUseCase getUserUseCase() {
+	public GetUser getUserUseCase() {
 		return context.getGetUserUseCase();
 	}
 
 	@Bean
-	public GetAuthorUseCase getAuthorUseCase() {
+	public GetAuthor getAuthorUseCase() {
 		return context.getGetAuthorUseCase();
 	}
 
 	@Bean
-	public GetBookUseCase getBookUseCase() {
+	public GetBook getBookUseCase() {
 		return context.getGetBookUseCase();
 	}
 
 	@Bean
-	public GetBookContentUseCase getBookContentUseCase() {
+	public GetBookContent getBookContentUseCase() {
 		return context.getGetBookContentUseCase();
 	}
 
 	@Bean
-	public GetBookReviewsUseCase getBookReviewsUseCase() {
+	public GetBookReviews getBookReviewsUseCase() {
 		return context.getGetBookReviewsUseCase();
 	}
 
 	@Bean
-	public GetCartUseCase getCartUseCase() {
+	public GetCart getCartUseCase() {
 		return context.getGetCartUseCase();
 	}
 
 	@Bean
-	public GetPurchaseHistoryUseCase getPurchaseHistoryUseCase() {
+	public GetPurchaseHistory getPurchaseHistoryUseCase() {
 		return context.getGetPurchaseHistoryUseCase();
 	}
 
 	@Bean
-	public GetPurchasedBooksUseCase getPurchasedBooksUseCase() {
+	public GetPurchasedBooks getPurchasedBooksUseCase() {
 		return context.getGetPurchasedBooksUseCase();
 	}
 
 	@Bean
-	public AddReviewUseCase addReviewUseCase() {
+	public AddReview addReviewUseCase() {
 		return context.getAddReviewUseCase();
 	}
 
 	@Bean
-	public LoginUseCase loginUseCase() {
+	public Login loginUseCase() {
 		return context.getLoginUseCase();
 	}
 }
