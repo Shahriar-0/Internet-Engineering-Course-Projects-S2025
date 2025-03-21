@@ -10,8 +10,9 @@ import domain.entities.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class Login implements IUseCase {
@@ -34,7 +35,7 @@ public class Login implements IUseCase {
 	}
 
 	private Result<User> loginByUsername(String username, String password) {
-		Result<User> userResult = userRepository.find(username);
+		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
 			return Result.failure(UserNotFound.usernameNotFound(username));
 

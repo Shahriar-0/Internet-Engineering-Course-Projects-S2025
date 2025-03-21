@@ -1,7 +1,9 @@
 package infra.repositories;
 
 import application.repositories.IUserRepository;
-import domain.entities.*;
+import domain.entities.Admin;
+import domain.entities.Customer;
+import domain.entities.User;
 
 import java.util.List;
 import java.util.Optional;

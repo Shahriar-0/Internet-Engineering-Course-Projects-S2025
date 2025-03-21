@@ -2,9 +2,7 @@ package application.usecase.customer.cart;
 
 import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
-import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
@@ -19,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BorrowBook implements IUseCase {
-
-	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 
 	@Override
@@ -28,15 +24,9 @@ public class BorrowBook implements IUseCase {
 		return UseCaseType.BORROW_BOOK;
 	}
 
-	public Result<Customer> perform(BorrowBookData data, String username, User.Role role) {
-		if (!User.Role.CUSTOMER.equals(role))
-			return Result.failure(new InvalidAccess("customer"));
-
-		Result<User> userResult = userRepository.get(username);
-		if (userResult.isFailure())
-			return Result.failure(userResult.exception());
-		assert userResult.data() instanceof Customer : "we relay on role passing from presentation layer";
-		Customer customer = (Customer) userResult.data();
+	public Result<Customer> perform(BorrowBookData data, User user) {
+		assert user instanceof Customer: "we relay on presentation layer access control";
+		Customer customer = (Customer) user;
 
 		Result<Book> bookResult = bookRepository.get(data.title);
 		if (bookResult.isFailure())

@@ -5,8 +5,9 @@ import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.User;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class GetUser implements IUseCase {
@@ -19,7 +20,7 @@ public class GetUser implements IUseCase {
 	}
 
 	public Result<User> perform(String username) {
-		assert username != null && !username.isBlank() : "we relay on @NotBlank validation on username field in presentation layer";
+		assert username != null && !username.isBlank() : "we relay on presentation layer validation for field username";
 
 		return userRepository.find(username);
 	}

@@ -1,6 +1,7 @@
 package webapi.views.customer;
 
 import domain.valueobjects.CustomerBook;
+
 import java.util.List;
 
 public record CustomerBookView(

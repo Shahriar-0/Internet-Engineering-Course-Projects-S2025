@@ -1,8 +1,9 @@
 package domain.entities;
 
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @Getter
 @SuperBuilder

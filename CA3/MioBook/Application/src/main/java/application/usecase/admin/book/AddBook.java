@@ -2,7 +2,6 @@ package application.usecase.admin.book;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.result.Result;
@@ -31,9 +30,8 @@ public class AddBook implements IUseCase {
 		return UseCaseType.ADD_BOOK;
 	}
 
-	public Result<Book> perform(AddBookData data, User.Role role) {
-		if (!User.Role.ADMIN.equals(role))
-			return Result.failure(new InvalidAccess("admin"));
+	public Result<Book> perform(AddBookData data, User user) {
+		assert User.Role.ADMIN.equals(user.getRole()): "we relay on presentation layer access control";
 
 		if (!authorRepository.exists(data.author))
 			return Result.failure(new AuthorDoesNotExists(data.author));

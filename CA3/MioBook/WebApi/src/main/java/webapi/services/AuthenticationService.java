@@ -1,10 +1,12 @@
 package webapi.services;
 
 import domain.entities.User;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import webapi.exceptions.AuthenticationException;
 
 @Service
+@Getter
 public class AuthenticationService {
 
 	private User user = null;

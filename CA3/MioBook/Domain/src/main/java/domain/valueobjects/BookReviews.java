@@ -1,10 +1,11 @@
 package domain.valueobjects;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
 
 @Getter
 public class BookReviews {

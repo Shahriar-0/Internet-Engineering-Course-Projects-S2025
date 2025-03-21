@@ -1,9 +1,7 @@
 package application.usecase.customer.cart;
 
 import application.exceptions.businessexceptions.cartexceptions.CantRemoveFromCart;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
-import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
@@ -14,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RemoveCart implements IUseCase {
-
-	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 
 	@Override
@@ -23,16 +19,11 @@ public class RemoveCart implements IUseCase {
 		return UseCaseType.REMOVE_CART;
 	}
 
-	public Result<Customer> perform(String title, String username, User.Role role) {
-		assert title != null && !title.isBlank() : "we relay on @NotBlank validation from presentation layer";
-        if (!User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
+	public Result<Customer> perform(String title, User user) {
+		assert title != null && !title.isBlank() : "we relay on presentation layer validation for field 'title'";
 
-		Result<User> userResult = userRepository.get(username);
-		if (userResult.isFailure())
-			return Result.failure(userResult.exception());
-		assert userResult.data() instanceof Customer : "we relay on role passing from presentation layer";
-		Customer customer = (Customer) userResult.data();
+		assert user instanceof Customer: "we relay on presentation layer access control";
+		Customer customer = (Customer) user;
 
 		Result<Book> bookResult = bookRepository.get(title);
 		if (bookResult.isFailure())

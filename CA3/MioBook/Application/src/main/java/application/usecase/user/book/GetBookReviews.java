@@ -5,7 +5,6 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
 import domain.valueobjects.Review;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,9 @@ public class GetBookReviews implements IUseCase {
 	}
 
 	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
-        ReviewFilter standardizeFilter = standardizeFilter(filter);
+        assert title != null && !title.isBlank(): "we relay on presentation layer validation for field 'title'";
+
+		ReviewFilter standardizeFilter = standardizeFilter(filter);
 		return bookRepository.filterReview(title, standardizeFilter);
 	}
 

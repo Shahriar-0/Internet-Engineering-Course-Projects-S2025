@@ -2,6 +2,7 @@ package webapi.views.book;
 
 import application.pagination.Page;
 import domain.entities.Book;
+
 import java.util.List;
 
 public record BookView(

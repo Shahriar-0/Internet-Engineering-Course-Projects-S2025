@@ -1,9 +1,7 @@
 package application.usecase.customer.book;
 
 import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
-import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetBookContent implements IUseCase {
 
-	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 
 	@Override
@@ -24,15 +21,9 @@ public class GetBookContent implements IUseCase {
 		return UseCaseType.GET_BOOK_CONTENT;
 	}
 
-	public Result<BookContent> perform(String title, String username, User.Role role) {
-		if (!User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
-
-		Result<User> userResult = userRepository.get(username);
-		if (userResult.isFailure())
-            return Result.failure(userResult.exception());
-		assert userResult.data() instanceof Customer : "we relay on role passing from presentation layer";
-		Customer customer = (Customer) userResult.data();
+	public Result<BookContent> perform(String title, User user) {
+		assert user instanceof Customer: "we relay on presentation layer access control";
+		Customer customer = (Customer) user;
 
 		Result<Book> bookResult = bookRepository.get(title);
 		if (bookResult.isFailure())

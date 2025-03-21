@@ -13,14 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.entities.Author;
 import domain.entities.Book;
 import domain.entities.User;
-
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import webapi.services.UseCaseService;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -79,7 +79,7 @@ public class DataInitializer implements ApplicationRunner {
 				String died = node.get("died") == null ? null : node.get("died").asText();
 
 				AddAuthor.AddAuthorData data = new AddAuthor.AddAuthorData(name, penName, nationality, born, died);
-				Result<Author> result = addAuthor.perform(data, userResult.data().getRole());
+				Result<Author> result = addAuthor.perform(data, userResult.data());
 				if (result.isFailure())
 					System.err.println(
 						"Failed to add author: " + result.exception().getMessage() +
@@ -115,7 +115,7 @@ public class DataInitializer implements ApplicationRunner {
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
 				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres);
-				Result<Book> result = addBook.perform(data, userResult.data().getRole());
+				Result<Book> result = addBook.perform(data, userResult.data());
 				if (result.isFailure())
 					System.err.println(
 						"Failed to add book: " + title +
@@ -148,7 +148,7 @@ public class DataInitializer implements ApplicationRunner {
 
 				AddReview.AddReviewData addReviewData = new AddReview.AddReviewData(rating, comment);
 
-				Result<Book> result = addReview.perform(addReviewData, title, username, userResult.data().getRole());
+				Result<Book> result = addReview.perform(addReviewData, title, userResult.data());
 				if (result.isFailure()) {
 					System.err.println(
 						"Failed to add review for book: " + title +

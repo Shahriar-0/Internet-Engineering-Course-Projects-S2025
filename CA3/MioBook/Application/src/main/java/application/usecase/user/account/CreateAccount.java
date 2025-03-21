@@ -38,9 +38,8 @@ public class CreateAccount implements IUseCase {
 
 	private static User mapToUser(AddUserData data) {
 		User.Role role = User.Role.valueOf(data.role.toUpperCase());
-		assert role != null : "Correctness of role field should be checked in presentation layer";
 
-		if (role == User.Role.CUSTOMER)
+        if (role == User.Role.CUSTOMER)
 			return Customer
 				.builder()
 				.key(data.username)

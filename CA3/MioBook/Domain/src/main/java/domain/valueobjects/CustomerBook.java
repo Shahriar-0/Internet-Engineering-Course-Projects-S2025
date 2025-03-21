@@ -1,8 +1,9 @@
 package domain.valueobjects;
 
 import domain.entities.Book;
-import java.time.LocalDateTime;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 public class CustomerBook {

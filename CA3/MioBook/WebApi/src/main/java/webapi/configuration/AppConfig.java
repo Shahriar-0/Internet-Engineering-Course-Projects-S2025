@@ -1,6 +1,8 @@
 package webapi.configuration;
 
-import application.repositories.*;
+import application.repositories.IAuthorRepository;
+import application.repositories.IBookRepository;
+import application.repositories.IUserRepository;
 import application.usecase.admin.author.AddAuthor;
 import application.usecase.admin.book.AddBook;
 import application.usecase.customer.book.AddReview;
@@ -13,8 +15,7 @@ import application.usecase.customer.cart.RemoveCart;
 import application.usecase.customer.purchase.GetPurchaseHistory;
 import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
-import application.usecase.user.*;
-
+import application.usecase.user.GetUser;
 import application.usecase.user.account.CreateAccount;
 import application.usecase.user.account.Login;
 import application.usecase.user.author.GetAuthor;

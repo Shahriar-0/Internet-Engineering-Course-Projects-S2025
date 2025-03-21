@@ -1,7 +1,6 @@
 package application.usecase.admin.author;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -11,8 +10,9 @@ import domain.entities.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 public class AddAuthor implements IUseCase {
@@ -24,9 +24,8 @@ public class AddAuthor implements IUseCase {
 		return UseCaseType.ADD_AUTHOR;
 	}
 
-	public Result<Author> perform(AddAuthorData data, User.Role role) {
-		if (!User.Role.ADMIN.equals(role))
-			return Result.failure(new InvalidAccess("admin"));
+	public Result<Author> perform(AddAuthorData data, User user) {
+		assert User.Role.ADMIN.equals(user.getRole()): "we relay on presentation layer access control";
 
 		if (authorRepository.exists(data.name))
 			return Result.failure(new AuthorAlreadyExists(data.name));

@@ -1,7 +1,8 @@
 package webapi.views.customer;
 
-import java.util.List;
 import domain.valueobjects.Cart;
+
+import java.util.List;
 
 public record CartView(
     String username,

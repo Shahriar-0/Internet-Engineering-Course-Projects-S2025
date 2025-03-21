@@ -10,6 +10,7 @@ import domain.entities.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import webapi.accesscontrol.Access;
 import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
@@ -30,6 +31,7 @@ public class AuthenticationController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping("login")
+	@Access(isWhiteList = false)
 	public Response<?> login(@Valid @RequestBody Login.LoginData data) {
 		authenticationService.validateNoOneLoggedIn();
 
@@ -43,6 +45,7 @@ public class AuthenticationController {
 	}
 
 	@DeleteMapping("logout")
+	@Access(isWhiteList = false)
 	public Response<?> logout() {
 		authenticationService.validateSomeOneLoggedIn();
 		authenticationService.unSetLoggedInUser();
