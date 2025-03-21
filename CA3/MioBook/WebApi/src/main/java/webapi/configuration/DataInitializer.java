@@ -71,7 +71,7 @@ public class DataInitializer implements ApplicationRunner {
 				String username = node.get("username").asText();
 				Result<User> userResult = userRepository.get(username);
 				if (userResult.isFailure())
-					throw userResult.getException();
+					throw userResult.exception();
 				String name = node.get("name").asText();
 				String penName = node.get("penName").asText();
 				String nationality = node.get("nationality").asText();
@@ -79,11 +79,11 @@ public class DataInitializer implements ApplicationRunner {
 				String died = node.get("died") == null ? null : node.get("died").asText();
 
 				AddAuthorUseCase.AddAuthorData data = new AddAuthorUseCase.AddAuthorData(name, penName, nationality, born, died);
-				Result<Author> result = addAuthor.perform(data, userResult.getData().getRole());
+				Result<Author> result = addAuthor.perform(data, userResult.data().getRole());
 				if (result.isFailure())
 					System.err.println(
-						"Failed to add author: " + result.getException().getMessage() +
-						" because of: " + result.getException().getMessage()
+						"Failed to add author: " + result.exception().getMessage() +
+						" because of: " + result.exception().getMessage()
 					);
 			}
 		}
@@ -104,7 +104,7 @@ public class DataInitializer implements ApplicationRunner {
 				String username = node.get("username").asText();
 				Result<User> userResult = userRepository.get(username);
 				if (userResult.isFailure())
-					throw userResult.getException();
+					throw userResult.exception();
 				String authorName = node.get("author").asText();
 				String title = node.get("title").asText();
 				String publisher = node.get("publisher").asText();
@@ -115,11 +115,11 @@ public class DataInitializer implements ApplicationRunner {
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
 				AddBookUseCase.AddBookData data = new AddBookUseCase.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres);
-				Result<Book> result = addBook.perform(data, userResult.getData().getRole());
+				Result<Book> result = addBook.perform(data, userResult.data().getRole());
 				if (result.isFailure())
 					System.err.println(
 						"Failed to add book: " + title +
-						" because: " + result.getException().getMessage()
+						" because: " + result.exception().getMessage()
 					);
 			}
 		}
@@ -141,18 +141,18 @@ public class DataInitializer implements ApplicationRunner {
 				String username = node.get("username").asText();
 				Result<User> userResult = userRepository.get(username);
 				if (userResult.isFailure())
-					throw userResult.getException();
+					throw userResult.exception();
 				String title = node.get("title").asText();
 				int rating = node.get("rate").asInt();
 				String comment = node.get("comment").asText();
 
 				AddReviewUseCase.AddReviewData addReviewData = new AddReviewUseCase.AddReviewData(rating, comment);
 
-				Result<Book> result = addReview.perform(addReviewData, title, username, userResult.getData().getRole());
+				Result<Book> result = addReview.perform(addReviewData, title, username, userResult.data().getRole());
 				if (result.isFailure()) {
 					System.err.println(
 						"Failed to add review for book: " + title +
-						" because: " + result.getException().getMessage()
+						" because: " + result.exception().getMessage()
 					);
 				}
 			}

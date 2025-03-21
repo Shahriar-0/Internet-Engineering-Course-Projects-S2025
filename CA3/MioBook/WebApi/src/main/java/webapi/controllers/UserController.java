@@ -30,7 +30,7 @@ public class UserController {
 		AddUserUseCase useCase = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
 		Result<User> result = useCase.perform(data);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, USER_ADDED);
 	}
@@ -40,9 +40,9 @@ public class UserController {
 		GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
 		Result<User> result = useCase.perform(username);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 
-		return Response.of(new UserView(result.getData()), OK);
+		return Response.of(new UserView(result.data()), OK);
 	}
 }

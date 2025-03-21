@@ -36,9 +36,9 @@ public class AuthenticationController {
 		LoginUseCase useCase = (LoginUseCase) useCaseService.getUseCase(UseCaseType.LOGIN);
 		Result<User> userResult = useCase.perform(data);
 		if (userResult.isFailure())
-			return processFailureOfLogin(userResult.getException());
+			return processFailureOfLogin(userResult.exception());
 
-		authenticationService.setLoggedInUser(userResult.getData());
+		authenticationService.setLoggedInUser(userResult.data());
 		return Response.of(OK, LOGIN_MESSAGE);
 	}
 

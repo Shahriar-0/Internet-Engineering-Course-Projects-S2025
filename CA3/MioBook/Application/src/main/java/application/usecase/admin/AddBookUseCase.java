@@ -48,7 +48,7 @@ public class AddBookUseCase implements IUseCase {
 		return Book
 			.builder()
 			.key(data.title)
-			.author(authorRepository.get(data.author).getData())
+			.author(authorRepository.get(data.author).data())
 			.publisher(data.publisher)
 			.year(data.year)
 			.price(data.price)

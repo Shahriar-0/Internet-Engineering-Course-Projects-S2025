@@ -11,7 +11,6 @@ import domain.entities.Book;
 import domain.entities.Customer;
 import domain.entities.User;
 import domain.valueobjects.BookContent;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -31,17 +30,17 @@ public class GetBookContentUseCase implements IUseCase {
 
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
-            return Result.failure(userResult.getException());
-		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
-		Customer customer = (Customer) userResult.getData();
+            return Result.failure(userResult.exception());
+		assert userResult.data() instanceof Customer : "we relay on role passing from presentation layer";
+		Customer customer = (Customer) userResult.data();
 
 		Result<Book> bookResult = bookRepository.get(title);
 		if (bookResult.isFailure())
-            return Result.failure(bookResult.getException());
+            return Result.failure(bookResult.exception());
 
-		if (!customer.hasBought(bookResult.getData()))
+		if (!customer.hasBought(bookResult.data()))
             return Result.failure(new BookIsNotAccessible(title));
 
-		return Result.success(bookResult.getData().getContent());
+		return Result.success(bookResult.data().getContent());
 	}
 }

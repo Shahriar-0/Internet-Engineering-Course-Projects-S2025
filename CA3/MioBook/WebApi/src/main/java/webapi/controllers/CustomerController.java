@@ -38,7 +38,7 @@ public class CustomerController {
 		AddCartUseCase useCase = (AddCartUseCase) useCaseService.getUseCase(UseCaseType.ADD_CART);
 		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, "Added book to cart.");
 	}
@@ -50,9 +50,9 @@ public class CustomerController {
 		GetCartUseCase useCase = (GetCartUseCase) useCaseService.getUseCase(UseCaseType.GET_CART);
 		Result<Cart> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole()); // FIXME: clean this authentication
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new CartView(result.getData()), OK);
+		return Response.of(new CartView(result.data()), OK);
 	}
 
 	@GetMapping("/history")
@@ -62,9 +62,9 @@ public class CustomerController {
 		GetPurchaseHistoryUseCase useCase = (GetPurchaseHistoryUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
 		Result<PurchaseHistory> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new PurchaseHistoryView(result.getData()), OK);
+		return Response.of(new PurchaseHistoryView(result.data()), OK);
 	}
 
 	@GetMapping("/books")
@@ -74,9 +74,9 @@ public class CustomerController {
 		GetPurchasedBooksUseCase useCase = (GetPurchasedBooksUseCase) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
 		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new PurchasedBooksView(result.getData()), OK);
+		return Response.of(new PurchasedBooksView(result.data()), OK);
 	}
 
 	@DeleteMapping("/cart/{title}")
@@ -86,7 +86,7 @@ public class CustomerController {
 		RemoveCartUseCase useCase = (RemoveCartUseCase) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
 		Result<Customer> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(OK, "Removed book from cart.");
 	}
@@ -98,7 +98,7 @@ public class CustomerController {
 		AddCreditUseCase useCase = (AddCreditUseCase) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
 		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(OK, "Credit added successfully.");
 	}
@@ -110,9 +110,9 @@ public class CustomerController {
 		PurchaseCartUseCase useCase = (PurchaseCartUseCase) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
 		Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(result.getData(), CREATED);
+		return Response.of(result.data(), CREATED);
 	}
 
 	@PostMapping("/borrow")
@@ -122,7 +122,7 @@ public class CustomerController {
 		BorrowBookUseCase useCase = (BorrowBookUseCase) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
 		Result<Customer> result = useCase.perform(data, authenticationService.getUserName(), authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, "Added borrowed book to cart.");
 	}

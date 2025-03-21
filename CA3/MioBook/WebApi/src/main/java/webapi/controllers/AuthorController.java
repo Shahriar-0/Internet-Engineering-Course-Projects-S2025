@@ -33,7 +33,7 @@ public class AuthorController {
 		AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
 		Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, ADD_AUTHOR_MESSAGE);
 	}
@@ -43,8 +43,8 @@ public class AuthorController {
 		GetAuthorUseCase useCase = (GetAuthorUseCase) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 		Result<Author> result = useCase.perform(name);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new AuthorView(result.getData()), OK);
+		return Response.of(new AuthorView(result.data()), OK);
 	}
 }

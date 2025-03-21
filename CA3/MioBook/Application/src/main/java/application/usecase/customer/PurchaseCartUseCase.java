@@ -28,9 +28,9 @@ public class PurchaseCartUseCase implements IUseCase {
 
 		Result<User> userResult = userRepository.get(username);
 		if (userResult.isFailure())
-			return Result.failure(userResult.getException());
-		assert userResult.getData() instanceof Customer : "we relay on role passing from presentation layer";
-		Customer customer = (Customer) userResult.getData();
+			return Result.failure(userResult.exception());
+		assert userResult.data() instanceof Customer : "we relay on role passing from presentation layer";
+		Customer customer = (Customer) userResult.data();
 
 		if (!customer.canPurchaseCart())
 			return Result.failure(new CantPurchaseCart(customer.findPurchaseCartErrors()));

@@ -38,7 +38,7 @@ public class LoginUseCase implements IUseCase {
 		if (userResult.isFailure())
 			return Result.failure(UserNotFound.usernameNotFound(username));
 
-		if (!userResult.getData().getPassword().equals(password))
+		if (!userResult.data().getPassword().equals(password))
 			return Result.failure(WrongPassword.usernameNotFound(username));
 
 		return userResult;

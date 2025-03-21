@@ -40,14 +40,14 @@ public class AddReviewUseCase implements IUseCase {
 
         Result<User> userResult = userRepository.get(userName);
         if (userResult.isFailure())
-            return Result.failure(userResult.getException());
-        assert userResult.getData() instanceof Customer: "we relay on role passing from presentation layer";
-        Customer customer = (Customer) userResult.getData();
+            return Result.failure(userResult.exception());
+        assert userResult.data() instanceof Customer: "we relay on role passing from presentation layer";
+        Customer customer = (Customer) userResult.data();
 
         Result<Book> bookResult = bookRepository.get(title);
         if (bookResult.isFailure())
-            return Result.failure(bookResult.getException());
-        Book book = bookResult.getData();
+            return Result.failure(bookResult.exception());
+        Book book = bookResult.data();
 
         if (enforceAccessChecks && !customer.hasBought(book))
             return Result.failure(new BookIsNotAccessible(title));

@@ -39,7 +39,7 @@ public class BookController {
 		AddBookUseCase useCase = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
 		Result<Book> result = useCase.perform(data, authenticationService.getUserRole());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, "Book added successfully.");
 	}
@@ -49,9 +49,9 @@ public class BookController {
 		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Book> result = useCase.perform(title);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new BookView(result.getData()), OK);
+		return Response.of(new BookView(result.data()), OK);
 	}
 
 	@GetMapping("/{title}/content")
@@ -62,9 +62,9 @@ public class BookController {
 		Result<BookContent> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
 
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new BookContentView(result.getData()), OK);
+		return Response.of(new BookContentView(result.data()), OK);
 	}
 
 	@GetMapping("/{title}/reviews")
@@ -75,9 +75,9 @@ public class BookController {
 		GetBookReviewsUseCase useCase = (GetBookReviewsUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 		Result<Page<Review>> result = useCase.perform(title, filter);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(BookReviewsView.mapToView(result.getData()), OK);
+		return Response.of(BookReviewsView.mapToView(result.data()), OK);
 	}
 
 	@GetMapping
@@ -85,9 +85,9 @@ public class BookController {
 		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Page<Book>> result = useCase.perform(filter);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(BookView.mapToView(result.getData()), OK);
+		return Response.of(BookView.mapToView(result.data()), OK);
 	}
 
 	@PostMapping("/{title}/reviews")
@@ -103,7 +103,7 @@ public class BookController {
 		);
 
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, "Review added successfully.");
 	}

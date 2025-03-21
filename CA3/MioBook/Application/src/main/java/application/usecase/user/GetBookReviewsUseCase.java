@@ -28,9 +28,9 @@ public class GetBookReviewsUseCase implements IUseCase {
         ReviewFilter standardizeFilter = standardizeFilter(filter);
         Result<Book> bookResult = bookRepository.get(title);
         if (bookResult.isFailure())
-            return Result.failure(bookResult.getException());
+            return Result.failure(bookResult.exception());
 
-        return Result.success(bookRepository.filter(bookResult.getData(), standardizeFilter));
+        return Result.success(bookRepository.filter(bookResult.data(), standardizeFilter));
 	}
 
     private static ReviewFilter standardizeFilter(ReviewFilter filter) {
