@@ -11,7 +11,6 @@ import domain.valueobjects.Review;
 import java.util.Map;
 
 public interface IBookRepository extends IBaseRepository<String, Book> {
-	Result<BookSearch> search(Map<String, String> params);
 	Page<Book> filter(GetBook.BookFilter filter);
-	Page<Review> filter(Book book, GetBookReviews.ReviewFilter filter);
+	Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter);
 }
