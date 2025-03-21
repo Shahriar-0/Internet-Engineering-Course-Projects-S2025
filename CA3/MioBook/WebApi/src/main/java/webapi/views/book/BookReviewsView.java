@@ -3,7 +3,7 @@ package webapi.views.book;
 import domain.valueobjects.Review;
 import java.time.LocalDateTime;
 
-import application.page.Page;
+import application.pagination.Page;
 
 public record BookReviewsView(
     Integer rating,

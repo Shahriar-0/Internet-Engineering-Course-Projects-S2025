@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.result.Result;
 import application.usecase.user.GetBookReviewsUseCase;
 import application.usecase.user.GetBookUseCase;

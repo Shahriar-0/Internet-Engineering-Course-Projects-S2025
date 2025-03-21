@@ -1,4 +1,4 @@
-package application.page;
+package application.pagination;
 
 import java.util.List;
 import lombok.AccessLevel;

@@ -1,6 +1,6 @@
 package webapi.controllers;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.result.Result;
 import application.usecase.UseCaseType;
 import application.usecase.admin.AddBookUseCase;

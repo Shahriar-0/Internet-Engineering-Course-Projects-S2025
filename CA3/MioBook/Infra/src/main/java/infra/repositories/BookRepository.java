@@ -1,6 +1,6 @@
 package infra.repositories;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.user.GetBookReviewsUseCase;
