@@ -36,6 +36,7 @@ public class AuthenticationController {
 		authenticationService.validateNoOneLoggedIn();
 
 		Login useCase = (Login) useCaseService.getUseCase(UseCaseType.LOGIN);
+		
 		Result<User> userResult = useCase.perform(data);
 		if (userResult.isFailure())
 			return processFailureOfLogin(userResult.exception());

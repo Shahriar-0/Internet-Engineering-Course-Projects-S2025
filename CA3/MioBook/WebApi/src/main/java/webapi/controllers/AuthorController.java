@@ -32,6 +32,7 @@ public class AuthorController {
 	@Access(roles = {ADMIN})
 	public Response<?> addAuthor(@Valid @RequestBody AddAuthor.AddAuthorData data) {
 		AddAuthor useCase = (AddAuthor) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
+
 		Result<Author> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -43,6 +44,7 @@ public class AuthorController {
 	@Access(isWhiteList = false)
 	public Response<AuthorView> getAuthor(@PathVariable String name) {
 		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
+		
 		Result<Author> result = useCase.perform(name);
 		if (result.isFailure())
 			throw result.exception();

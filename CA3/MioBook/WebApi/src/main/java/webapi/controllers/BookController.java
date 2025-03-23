@@ -40,6 +40,7 @@ public class BookController {
 	@Access(roles = {ADMIN})
 	public Response<?> addBook(@Valid @RequestBody AddBook.AddBookData data) {
 		AddBook useCase = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
+
 		Result<Book> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -51,6 +52,7 @@ public class BookController {
 	@Access(isWhiteList = false)
 	public Response<BookView> getBook(@NotBlank @PathVariable String title) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+
 		Result<Book> result = useCase.perform(title);
 		if (result.isFailure())
 			throw result.exception();
@@ -62,8 +64,8 @@ public class BookController {
 	@Access(roles = {CUSTOMER})
 	public Response<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
 		GetBookContent useCase = (GetBookContent) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
-		Result<BookContent> result = useCase.perform(title, authenticationService.getUser());
 
+		Result<BookContent> result = useCase.perform(title, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 
@@ -77,6 +79,7 @@ public class BookController {
 		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
 	) {
 		GetBookReviews useCase = (GetBookReviews) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
+
 		Result<Page<Review>> result = useCase.perform(title, filter);
 		if (result.isFailure())
 			throw result.exception();
@@ -88,6 +91,7 @@ public class BookController {
 	@Access(isWhiteList = false)
 	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+
 		Result<Page<Book>> result = useCase.perform(filter);
 		if (result.isFailure())
 			throw result.exception();
@@ -99,8 +103,8 @@ public class BookController {
 	@Access(roles = {CUSTOMER})
 	public Response<?> addReview(@Valid @RequestBody AddReview.AddReviewData data, @PathVariable String title) {
 		AddReview useCase = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
-		Result<Book> result = useCase.perform(data, title, authenticationService.getUser());
 
+		Result<Book> result = useCase.perform(data, title, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 

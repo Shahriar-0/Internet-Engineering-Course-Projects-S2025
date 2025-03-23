@@ -29,6 +29,7 @@ public class UserController {
 	@Access(isWhiteList = false)
 	public Response<?> addUser(@Valid @RequestBody CreateAccount.AddUserData data) {
 		CreateAccount useCase = (CreateAccount) useCaseService.getUseCase(UseCaseType.CREATE_ACCOUNT);
+
 		Result<User> result = useCase.perform(data);
 		if (result.isFailure())
 			throw result.exception();
@@ -40,10 +41,10 @@ public class UserController {
 	@Access(isWhiteList = false)
 	public Response<UserView> getUser(@PathVariable String username) {
 		GetUser useCase = (GetUser) useCaseService.getUseCase(UseCaseType.GET_USER);
+		
 		Result<User> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.exception();
-
 
 		return Response.of(new UserView(result.data()), OK);
 	}

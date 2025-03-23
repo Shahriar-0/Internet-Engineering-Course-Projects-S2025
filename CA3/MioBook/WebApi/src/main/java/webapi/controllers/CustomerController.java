@@ -43,6 +43,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<?> addCart(@Valid @RequestBody AddCart.AddCartData data) {
 		AddCart useCase = (AddCart) useCaseService.getUseCase(UseCaseType.ADD_CART);
+
 		Result<Customer> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -54,6 +55,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<CartView> getCart() {
 		GetCart useCase = (GetCart) useCaseService.getUseCase(UseCaseType.GET_CART);
+
 		Result<Cart> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -65,6 +67,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<PurchaseHistoryView> getPurchaseHistory() {
 		GetPurchaseHistory useCase = (GetPurchaseHistory) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
+
 		Result<PurchaseHistory> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -76,6 +79,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<PurchasedBooksView> getPurchasedBooks() {
 		GetPurchasedBooks useCase = (GetPurchasedBooks) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
+
 		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -87,6 +91,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<?> removeCart(@PathVariable String title) {
 		RemoveCart useCase = (RemoveCart) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
+
 		Result<Customer> result = useCase.perform(title, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -98,6 +103,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<?> increaseCredit(@Valid @RequestBody AddCredit.AddCreditData data) {
 		AddCredit useCase = (AddCredit) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
+
 		Result<Customer> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -109,6 +115,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<PurchasedCartSummary> purchaseCart() {
 		PurchaseCart useCase = (PurchaseCart) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
+
 		Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
@@ -120,6 +127,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<?> borrowBook(@Valid @RequestBody BorrowBook.BorrowBookData data) {
 		BorrowBook useCase = (BorrowBook) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
+		
 		Result<Customer> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
