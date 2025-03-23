@@ -41,10 +41,10 @@ public class Cart {
 
 	public String findPurchaseCartErrors(long credit) {
 		if (books.size() == 0)
-			return "Cart is empty! Cannot purchase cart.";
+			return "Cart is empty!";
 		if (credit < getTotalCost())
 			return (
-				"Not enough credit! Cannot purchase cart. Required credit: " +
+				"Not enough credit! Required credit: " +
 				getTotalCost() +
 				", Current credit: " +
 				credit
