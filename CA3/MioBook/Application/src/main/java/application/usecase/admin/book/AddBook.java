@@ -31,7 +31,7 @@ public class AddBook implements IUseCase {
 	}
 
 	public Result<Book> perform(AddBookData data, User user) {
-		assert User.Role.ADMIN.equals(user.getRole()): "we relay on presentation layer access control";
+		assert User.Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
 		if (!authorRepository.exists(data.author))
 			return Result.failure(new AuthorDoesNotExists(data.author));

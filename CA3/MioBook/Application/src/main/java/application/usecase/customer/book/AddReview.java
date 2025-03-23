@@ -32,7 +32,7 @@ public class AddReview implements IUseCase {
 	}
 
 	public Result<Book> perform(AddReviewData data, String title, User user) {
-        assert user instanceof Customer: "we relay on presentation layer access control";
+        assert user instanceof Customer: "we rely on presentation layer access control";
         Customer customer = (Customer) user;
 
         Result<Book> bookResult = bookRepository.get(title);

@@ -16,7 +16,7 @@ public class PurchaseCart implements IUseCase {
 	}
 
 	public Result<PurchasedCartSummary> perform(User user) {
-		assert user instanceof Customer: "we relay on presentation layer access control";
+		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
 		if (!customer.canPurchaseCart())

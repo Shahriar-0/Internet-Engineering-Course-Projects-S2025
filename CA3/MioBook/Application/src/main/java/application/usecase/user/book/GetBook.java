@@ -24,7 +24,7 @@ public class GetBook implements IUseCase {
 	}
 
 	public Result<Book> perform(String title) {
-		assert title != null && !title.isBlank() : "we relay on presentation layer validation for field 'title'";
+		assert title != null && !title.isBlank() : "we rely on presentation layer validation for field 'title'";
 
 		return bookRepository.find(title);
 	}

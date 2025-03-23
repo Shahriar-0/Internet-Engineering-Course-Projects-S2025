@@ -25,7 +25,7 @@ public class Login implements IUseCase {
 
 	public Result<User> perform(LoginData data) {
 		assert (data.username != null && !data.username.isBlank()) ||
-		(data.email != null && !data.email.isBlank()) : "we relay on valid input data, validation should be done in presentation layer";
+		(data.email != null && !data.email.isBlank()) : "we rely on valid input data, validation should be done in presentation layer";
 
 		if (data.username != null && !data.username.isBlank()) return loginByUsername(data.username, data.password); else return loginByEmail(
 			data.email,

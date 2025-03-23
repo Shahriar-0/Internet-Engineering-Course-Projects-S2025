@@ -7,7 +7,6 @@ import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.Book;
 import domain.valueobjects.Review;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -45,7 +44,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 		assert filter.ascendingSortByRating() != null &&
 		filter.pageSize() != null &&
-		filter.pageNumber() != null : "we relay on standard filter field that should be pass from application layer";
+		filter.pageNumber() != null : "we rely on standard filter field that should be pass from application layer";
 
 		books = sortByRating(books, filter.ascendingSortByRating());
 

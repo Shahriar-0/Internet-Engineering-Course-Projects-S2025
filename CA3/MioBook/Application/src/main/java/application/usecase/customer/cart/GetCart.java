@@ -14,7 +14,7 @@ public class GetCart implements IUseCase {
 	}
 
 	public Result<Cart> perform(User user) {
-		assert user instanceof Customer: "we relay on presentation layer access control";
+		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
 		return Result.success(customer.getCart());

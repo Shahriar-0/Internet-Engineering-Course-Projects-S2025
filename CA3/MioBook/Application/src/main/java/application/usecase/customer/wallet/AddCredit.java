@@ -14,7 +14,7 @@ public class AddCredit implements IUseCase {
 	}
 
 	public Result<Customer> perform(AddCreditData data, User user) {
-		assert user instanceof Customer: "we relay on presentation layer access control";
+		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
 		customer.addCredit(data.amount);

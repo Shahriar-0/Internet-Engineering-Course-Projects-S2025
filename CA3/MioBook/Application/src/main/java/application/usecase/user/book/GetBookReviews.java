@@ -24,7 +24,7 @@ public class GetBookReviews implements IUseCase {
 	}
 
 	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
-        assert title != null && !title.isBlank(): "we relay on presentation layer validation for field 'title'";
+        assert title != null && !title.isBlank(): "we rely on presentation layer validation for field 'title'";
 
 		ReviewFilter standardizeFilter = standardizeFilter(filter);
 		return bookRepository.filterReview(title, standardizeFilter);
