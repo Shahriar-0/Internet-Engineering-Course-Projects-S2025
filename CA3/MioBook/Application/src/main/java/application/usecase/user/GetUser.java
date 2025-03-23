@@ -25,11 +25,9 @@ public class GetUser implements IUseCase {
 		return userRepository.find(username);
 	}
 
-	// TODO: this feature added soon
 	public Result<List<User>> perform(UserFilter filter) {
 		throw new RuntimeException("Not implemented yet");
 	}
 
-	// TODO: this feature added soon
 	public record UserFilter() {}
 }
