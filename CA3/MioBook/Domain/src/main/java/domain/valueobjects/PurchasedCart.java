@@ -21,7 +21,11 @@ public class PurchasedCart {
 
 	public Boolean hasBook(String title) {
 		return books.stream().filter(
-			b -> b.isStillAccessible(LocalDateTime.now())).anyMatch(b -> b.getBook().getTitle().equals(title)
+			b -> b.isStillAccessible(datePurchased)).anyMatch(b -> b.getBook().getTitle().equals(title)
 		);
+	}
+
+	public List<CustomerBook> getAccessibleBooks() {
+		return books.stream().filter(b -> b.isStillAccessible(datePurchased)).toList();
 	}
 }

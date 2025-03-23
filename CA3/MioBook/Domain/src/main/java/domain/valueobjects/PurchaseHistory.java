@@ -33,4 +33,8 @@ public class PurchaseHistory {
 	public Boolean hasBook(String title) {
 		return this.purchasedCarts.stream().anyMatch(p -> p.hasBook(title));
 	}
+
+	public List<CustomerBook> getAccessibleBooks() {
+		return this.purchasedCarts.stream().flatMap(ph -> ph.getAccessibleBooks().stream()).toList();
+	}
 }

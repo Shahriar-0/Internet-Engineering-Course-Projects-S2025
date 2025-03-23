@@ -2,8 +2,6 @@ package domain.valueobjects;
 
 import domain.entities.Customer;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -14,15 +12,7 @@ public class PurchasedBooks {
 
 	public PurchasedBooks(Customer customer) {
 		this.customer = customer;
-		LocalDateTime now = LocalDateTime.now();
-		this.books =
-			customer
-				.getPurchaseHistory()
-				.getPurchasedCarts()
-				.stream()
-				.flatMap(ph -> ph.getBooks().stream())
-				.filter(b -> b.isStillAccessible(now))
-				.toList();
+		this.books = customer.getPurchaseHistory().getAccessibleBooks();
 	}
 
 	public String getUsername() {
