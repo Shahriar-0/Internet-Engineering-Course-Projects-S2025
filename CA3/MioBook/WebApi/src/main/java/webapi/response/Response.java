@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
-public class Response<T> extends ResponseEntity<Response.ResponseData<T>> {
+public class Response<T> extends ResponseEntity<ResponseData<T>> {
     private Response(ResponseData<T> body, HttpStatus status) {
         super(body, status);
     }
@@ -33,11 +33,4 @@ public class Response<T> extends ResponseEntity<Response.ResponseData<T>> {
     private static <T> ResponseData<T> createData(int status, String message, T data) {
         return new ResponseData<>(LocalDateTime.now(), status, message, data);
     }
-
-    record ResponseData<T> (
-            LocalDateTime timestamp,
-            int status,
-            String message,
-            T data
-    ) {}
 }

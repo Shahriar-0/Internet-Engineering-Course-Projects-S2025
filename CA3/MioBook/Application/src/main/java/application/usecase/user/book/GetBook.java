@@ -1,6 +1,6 @@
-package application.usecase.user;
+package application.usecase.user.book;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetBookUseCase implements IUseCase {
+public class GetBook implements IUseCase {
 
 	private static final int MAX_BOOK_PAGE_SIZE = 100;
 	private static final int DEFAULT_BOOK_PAGE_SIZE = 20;
@@ -24,7 +24,7 @@ public class GetBookUseCase implements IUseCase {
 	}
 
 	public Result<Book> perform(String title) {
-		assert title != null && !title.isBlank() : "we relay on @NotBlank validation on title field in presentation layer";
+		assert title != null && !title.isBlank() : "we relay on presentation layer validation for field 'title'";
 
 		return bookRepository.find(title);
 	}

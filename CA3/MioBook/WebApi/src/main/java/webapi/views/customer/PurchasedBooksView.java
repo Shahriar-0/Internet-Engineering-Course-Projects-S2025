@@ -1,8 +1,8 @@
 package webapi.views.customer;
 
-import java.util.List;
-
 import domain.valueobjects.PurchasedBooks;
+
+import java.util.List;
 
 public record PurchasedBooksView(
     List<CustomerBookView> books

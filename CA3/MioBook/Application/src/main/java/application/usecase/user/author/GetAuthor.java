@@ -1,15 +1,16 @@
-package application.usecase.user;
+package application.usecase.user.author;
 
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Author;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
-public class GetAuthorUseCase implements IUseCase {
+public class GetAuthor implements IUseCase {
 
 	private final IAuthorRepository authorRepository;
 
@@ -19,7 +20,7 @@ public class GetAuthorUseCase implements IUseCase {
 	}
 
 	public Result<Author> perform(String name) {
-		assert name != null && !name.isBlank() : "we relay on @NotBlank validation on name field in presentation layer";
+		assert name != null && !name.isBlank() : "we relay on presentation layer validation for field 'name'";
 
 		return authorRepository.find(name);
 	}

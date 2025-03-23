@@ -1,6 +1,7 @@
 package application.repositories;
 
 import domain.entities.User;
+
 import java.util.Optional;
 
 public interface IUserRepository extends IBaseRepository<String, User> {

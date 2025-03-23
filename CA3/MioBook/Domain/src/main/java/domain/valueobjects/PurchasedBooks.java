@@ -1,9 +1,10 @@
 package domain.valueobjects;
 
 import domain.entities.Customer;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Getter;
 
 @Getter
 public class PurchasedBooks {

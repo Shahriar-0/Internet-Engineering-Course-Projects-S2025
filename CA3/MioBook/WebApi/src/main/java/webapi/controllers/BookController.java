@@ -1,13 +1,13 @@
 package webapi.controllers;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.admin.AddBookUseCase;
-import application.usecase.customer.AddReviewUseCase;
-import application.usecase.customer.GetBookContentUseCase;
-import application.usecase.user.GetBookReviewsUseCase;
-import application.usecase.user.GetBookUseCase;
+import application.usecase.admin.book.AddBook;
+import application.usecase.customer.book.AddReview;
+import application.usecase.customer.book.GetBookContent;
+import application.usecase.user.book.GetBook;
+import application.usecase.user.book.GetBookReviews;
 import domain.entities.Book;
 import domain.valueobjects.BookContent;
 import domain.valueobjects.Review;
@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import webapi.accesscontrol.Access;
 import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
@@ -22,7 +23,10 @@ import webapi.views.book.BookContentView;
 import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
 
-import static org.springframework.http.HttpStatus.*;
+import static domain.entities.User.Role.ADMIN;
+import static domain.entities.User.Role.CUSTOMER;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,77 +37,72 @@ public class BookController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	public Response<?> addBook(@Valid @RequestBody AddBookUseCase.AddBookData data) {
-		authenticationService.validateSomeOneLoggedIn();
-
-		AddBookUseCase useCase = (AddBookUseCase) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
-		Result<Book> result = useCase.perform(data, authenticationService.getUserRole());
+	@Access(roles = {ADMIN})
+	public Response<?> addBook(@Valid @RequestBody AddBook.AddBookData data) {
+		AddBook useCase = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
+		Result<Book> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, "Book added successfully.");
 	}
 
 	@GetMapping("/{title}")
+	@Access(isWhiteList = false)
 	public Response<BookView> getBook(@NotBlank @PathVariable String title) {
-		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Book> result = useCase.perform(title);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new BookView(result.getData()), OK);
+		return Response.of(new BookView(result.data()), OK);
 	}
 
 	@GetMapping("/{title}/content")
+	@Access(roles = {CUSTOMER})
 	public Response<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
-		authenticationService.validateSomeOneLoggedIn();
-
-		GetBookContentUseCase useCase = (GetBookContentUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
-		Result<BookContent> result = useCase.perform(title, authenticationService.getUserName(), authenticationService.getUserRole());
+		GetBookContent useCase = (GetBookContent) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
+		Result<BookContent> result = useCase.perform(title, authenticationService.getUser());
 
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new BookContentView(result.getData()), OK);
+		return Response.of(new BookContentView(result.data()), OK);
 	}
 
 	@GetMapping("/{title}/reviews")
+	@Access(isWhiteList = false)
 	public Response<Page<BookReviewsView>> getBookReviews(
-		@NotBlank @PathVariable String title,
-		@Valid @ModelAttribute GetBookReviewsUseCase.ReviewFilter filter
+		@PathVariable String title,
+		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
 	) {
-		GetBookReviewsUseCase useCase = (GetBookReviewsUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
+		GetBookReviews useCase = (GetBookReviews) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 		Result<Page<Review>> result = useCase.perform(title, filter);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(BookReviewsView.mapToView(result.getData()), OK);
+		return Response.of(BookReviewsView.mapToView(result.data()), OK);
 	}
 
 	@GetMapping
-	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBookUseCase.BookFilter filter) {
-		GetBookUseCase useCase = (GetBookUseCase) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+	@Access(isWhiteList = false)
+	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
+		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 		Result<Page<Book>> result = useCase.perform(filter);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(BookView.mapToView(result.getData()), OK);
+		return Response.of(BookView.mapToView(result.data()), OK);
 	}
 
 	@PostMapping("/{title}/reviews")
-	public Response<?> addReview(@Valid @RequestBody AddReviewUseCase.AddReviewData data, @PathVariable String title) {
-		authenticationService.validateSomeOneLoggedIn();
-
-		AddReviewUseCase useCase = (AddReviewUseCase) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
-		Result<Book> result = useCase.perform(
-			data,
-			title,
-			authenticationService.getUserName(),
-			authenticationService.getUserRole()
-		);
+	@Access(roles = {CUSTOMER})
+	public Response<?> addReview(@Valid @RequestBody AddReview.AddReviewData data, @PathVariable String title) {
+		AddReview useCase = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
+		Result<Book> result = useCase.perform(data, title, authenticationService.getUser());
 
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, "Review added successfully.");
 	}

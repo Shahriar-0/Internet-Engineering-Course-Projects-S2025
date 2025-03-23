@@ -1,10 +1,12 @@
 package webapi.services;
 
 import domain.entities.User;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import webapi.exceptions.AuthenticationException;
 
 @Service
+@Getter
 public class AuthenticationService {
 
 	private User user = null;
@@ -17,14 +19,6 @@ public class AuthenticationService {
 	public void validateNoOneLoggedIn() {
 		if (user != null)
 			throw AuthenticationException.someOneLoggedIn();
-	}
-
-	public User.Role getUserRole() {
-		return user.getRole();
-	}
-
-	public String getUserName() {
-		return user.getUsername();
 	}
 
 	public void setLoggedInUser(User user) {

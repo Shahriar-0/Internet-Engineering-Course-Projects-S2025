@@ -1,17 +1,16 @@
-package application.usecase.user;
+package application.usecase.user.book;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
 import domain.valueobjects.Review;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class GetBookReviewsUseCase implements IUseCase {
+public class GetBookReviews implements IUseCase {
 
     private static final int MAX_REVIEW_PAGE_SIZE = 20;
 	private static final int DEFAULT_REVIEW_PAGE_SIZE = 5;
@@ -25,12 +24,10 @@ public class GetBookReviewsUseCase implements IUseCase {
 	}
 
 	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
-        ReviewFilter standardizeFilter = standardizeFilter(filter);
-        Result<Book> bookResult = bookRepository.get(title);
-        if (bookResult.isFailure())
-            return Result.failure(bookResult.getException());
+        assert title != null && !title.isBlank(): "we relay on presentation layer validation for field 'title'";
 
-        return Result.success(bookRepository.filter(bookResult.getData(), standardizeFilter));
+		ReviewFilter standardizeFilter = standardizeFilter(filter);
+		return bookRepository.filterReview(title, standardizeFilter);
 	}
 
     private static ReviewFilter standardizeFilter(ReviewFilter filter) {

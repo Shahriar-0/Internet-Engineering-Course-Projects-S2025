@@ -1,17 +1,16 @@
 package infra.repositories;
 
-import application.page.Page;
+import application.pagination.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
-import application.usecase.user.GetBookReviewsUseCase;
-import application.usecase.user.GetBookUseCase;
+import application.usecase.user.book.GetBook;
+import application.usecase.user.book.GetBookReviews;
 import domain.entities.Book;
-import domain.valueobjects.BookSearch;
 import domain.valueobjects.Review;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class BookRepository extends BaseRepository<String, Book> implements IBookRepository {
 
@@ -36,25 +35,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	}
 
 	@Override
-	public Result<BookSearch> search(Map<String, String> params) {
-		List<Book> books = new ArrayList<>(map.values());
-		if (params.containsKey("title"))
-			books = filterTitle(books, params.get("title"));
-		if (params.containsKey("username"))
-			books = filterAuthorName(books, params.get("username"));
-		if (params.containsKey("genre"))
-			books = filterGenre(books, params.get("genre"));
-		if (params.containsKey("from") && params.containsKey("to")) {
-			int from = Integer.parseInt(params.get("from"));
-			int to = Integer.parseInt(params.get("to"));
-			books = filterYear(books, from, to);
-		}
-
-		return Result.success(new BookSearch(books, params));
-	}
-
-	@Override
-	public Page<Book> filter(GetBookUseCase.BookFilter filter) {
+	public Page<Book> filter(GetBook.BookFilter filter) {
 		List<Book> books = new ArrayList<>(map.values());
 		if (filter.title() != null) books = filterTitle(books, filter.title());
 		if (filter.author() != null) books = filterAuthorName(books, filter.author());
@@ -72,8 +53,13 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	}
 
 	@Override
-	public Page<Review> filter(Book book, GetBookReviewsUseCase.ReviewFilter filter) { // FIXME: didnt have better solution for this
-		return new Page<>(book.getReviewsList(), filter.pageNumber(), filter.pageSize());
+	public Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter) {
+		Result<Book> bookResult = get(title);
+		if (bookResult.isFailure())
+			return Result.failure(bookResult.exception());
+
+		Page<Review> page = new Page<>(bookResult.data().getReviewsList(), filter.pageNumber(), filter.pageSize());
+		return Result.success(page);
 	}
 
 	private static List<Book> filterTitle(List<Book> books, String title) {
@@ -86,10 +72,6 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 	private static List<Book> filterGenre(List<Book> books, String genre) {
 		return books.stream().filter(book -> book.getGenres().contains(genre)).toList();
-	}
-
-	private static List<Book> filterYear(List<Book> books, int from, int to) {
-		return books.stream().filter(book -> book.getYear() >= from && book.getYear() <= to).toList();
 	}
 
 	private static List<Book> filterLowerBoundYear(List<Book> books, int lowerBound) {

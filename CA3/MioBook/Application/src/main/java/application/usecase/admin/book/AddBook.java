@@ -1,8 +1,7 @@
-package application.usecase.admin;
+package application.usecase.admin.book;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.result.Result;
@@ -21,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class AddBookUseCase implements IUseCase {
+public class AddBook implements IUseCase {
 
 	private final IAuthorRepository authorRepository;
 	private final IBookRepository bookRepository;
@@ -31,9 +30,8 @@ public class AddBookUseCase implements IUseCase {
 		return UseCaseType.ADD_BOOK;
 	}
 
-	public Result<Book> perform(AddBookData data, User.Role role) {
-		if (!User.Role.ADMIN.equals(role))
-			return Result.failure(new InvalidAccess("admin"));
+	public Result<Book> perform(AddBookData data, User user) {
+		assert User.Role.ADMIN.equals(user.getRole()): "we relay on presentation layer access control";
 
 		if (!authorRepository.exists(data.author))
 			return Result.failure(new AuthorDoesNotExists(data.author));
@@ -48,7 +46,7 @@ public class AddBookUseCase implements IUseCase {
 		return Book
 			.builder()
 			.key(data.title)
-			.author(authorRepository.get(data.author).getData())
+			.author(authorRepository.get(data.author).data())
 			.publisher(data.publisher)
 			.year(data.year)
 			.price(data.price)

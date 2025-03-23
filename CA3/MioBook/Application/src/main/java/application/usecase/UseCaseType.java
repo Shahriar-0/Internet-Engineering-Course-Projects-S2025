@@ -1,7 +1,7 @@
 package application.usecase;
 
 public enum UseCaseType {
-	ADD_USER,
+	CREATE_ACCOUNT,
 	ADD_AUTHOR,
 	ADD_BOOK,
 	ADD_CART,

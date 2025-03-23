@@ -1,11 +1,7 @@
-package application.usecase.customer;
-
-import java.time.LocalDateTime;
+package application.usecase.customer.book;
 
 import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
-import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
 import application.repositories.IBookRepository;
-import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
@@ -20,11 +16,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @RequiredArgsConstructor
-public class AddReviewUseCase implements IUseCase {
+public class AddReview implements IUseCase {
 
-	private final IUserRepository userRepository;
 	private final IBookRepository bookRepository;
 
     private boolean enforceAccessChecks = true; // for data initialization it would be false otherwise it would be true
@@ -34,20 +31,14 @@ public class AddReviewUseCase implements IUseCase {
 		return UseCaseType.ADD_REVIEW;
 	}
 
-	public Result<Book> perform(AddReviewData data, String title, String userName, User.Role role) {
-        if (!User.Role.CUSTOMER.equals(role))
-            return Result.failure(new InvalidAccess("customer"));
-
-        Result<User> userResult = userRepository.get(userName);
-        if (userResult.isFailure())
-            return Result.failure(userResult.getException());
-        assert userResult.getData() instanceof Customer: "we relay on role passing from presentation layer";
-        Customer customer = (Customer) userResult.getData();
+	public Result<Book> perform(AddReviewData data, String title, User user) {
+        assert user instanceof Customer: "we relay on presentation layer access control";
+        Customer customer = (Customer) user;
 
         Result<Book> bookResult = bookRepository.get(title);
         if (bookResult.isFailure())
-            return Result.failure(bookResult.getException());
-        Book book = bookResult.getData();
+            return Result.failure(bookResult.exception());
+        Book book = bookResult.data();
 
         if (enforceAccessChecks && !customer.hasBought(book))
             return Result.failure(new BookIsNotAccessible(title));

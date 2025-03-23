@@ -2,19 +2,21 @@ package webapi.controllers;
 
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.admin.AddAuthorUseCase;
-import application.usecase.user.GetAuthorUseCase;
+import application.usecase.admin.author.AddAuthor;
+import application.usecase.user.author.GetAuthor;
 import domain.entities.Author;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import webapi.accesscontrol.Access;
 import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.author.AuthorView;
 
-import static org.springframework.http.HttpStatus.*;
+import static domain.entities.User.Role.ADMIN;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,24 +29,24 @@ public class AuthorController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	public Response<?> addAuthor(@Valid @RequestBody AddAuthorUseCase.AddAuthorData data) {
-		authenticationService.validateSomeOneLoggedIn();
-
-		AddAuthorUseCase useCase = (AddAuthorUseCase) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
-		Result<Author> result = useCase.perform(data, authenticationService.getUserRole());
+	@Access(roles = {ADMIN})
+	public Response<?> addAuthor(@Valid @RequestBody AddAuthor.AddAuthorData data) {
+		AddAuthor useCase = (AddAuthor) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
+		Result<Author> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, ADD_AUTHOR_MESSAGE);
 	}
 
 	@GetMapping("/{name}")
-	public Response<AuthorView> getAuthor(@NotBlank @PathVariable String name) {
-		GetAuthorUseCase useCase = (GetAuthorUseCase) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
+	@Access(isWhiteList = false)
+	public Response<AuthorView> getAuthor(@PathVariable String name) {
+		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 		Result<Author> result = useCase.perform(name);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
-		return Response.of(new AuthorView(result.getData()), OK);
+		return Response.of(new AuthorView(result.data()), OK);
 	}
 }

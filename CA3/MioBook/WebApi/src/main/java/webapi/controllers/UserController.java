@@ -2,13 +2,13 @@ package webapi.controllers;
 
 import application.result.Result;
 import application.usecase.UseCaseType;
-import application.usecase.user.AddUserUseCase;
-import application.usecase.user.GetUserUseCase;
+import application.usecase.user.GetUser;
+import application.usecase.user.account.CreateAccount;
 import domain.entities.User;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import webapi.accesscontrol.Access;
 import webapi.response.Response;
 import webapi.services.UseCaseService;
 import webapi.views.user.UserView;
@@ -26,23 +26,25 @@ public class UserController {
 	private final UseCaseService useCaseService;
 
 	@PostMapping
-	public Response<?> addUser(@Valid @RequestBody AddUserUseCase.AddUserData data) {
-		AddUserUseCase useCase = (AddUserUseCase) useCaseService.getUseCase(UseCaseType.ADD_USER);
+	@Access(isWhiteList = false)
+	public Response<?> addUser(@Valid @RequestBody CreateAccount.AddUserData data) {
+		CreateAccount useCase = (CreateAccount) useCaseService.getUseCase(UseCaseType.CREATE_ACCOUNT);
 		Result<User> result = useCase.perform(data);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 		return Response.of(CREATED, USER_ADDED);
 	}
 
 	@GetMapping("/{username}")
-	public Response<UserView> getUser(@NotBlank @PathVariable String username) {
-		GetUserUseCase useCase = (GetUserUseCase) useCaseService.getUseCase(UseCaseType.GET_USER);
+	@Access(isWhiteList = false)
+	public Response<UserView> getUser(@PathVariable String username) {
+		GetUser useCase = (GetUser) useCaseService.getUseCase(UseCaseType.GET_USER);
 		Result<User> result = useCase.perform(username);
 		if (result.isFailure())
-			throw result.getException();
+			throw result.exception();
 
 
-		return Response.of(new UserView(result.getData()), OK);
+		return Response.of(new UserView(result.data()), OK);
 	}
 }

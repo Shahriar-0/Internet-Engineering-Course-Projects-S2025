@@ -2,9 +2,10 @@ package webapi.services;
 
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
