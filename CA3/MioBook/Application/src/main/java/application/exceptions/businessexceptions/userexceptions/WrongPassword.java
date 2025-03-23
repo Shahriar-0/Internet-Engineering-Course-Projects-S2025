@@ -18,13 +18,13 @@ public class WrongPassword extends BusinessException {
 		super(msg);
 	}
 
-	public static WrongPassword emailNotFound(String email) {
+	public static WrongPassword wrongPasswordForEmail(String email) {
 		WrongPassword e = new WrongPassword("Wrong password for email " + email);
 		e.byUsername = false;
 		return e;
 	}
 
-	public static WrongPassword usernameNotFound(String username) {
+	public static WrongPassword wrongPasswordForUsername(String username) {
 		WrongPassword e = new WrongPassword("Wrong password for username " + username);
 		e.byUsername = true;
 		return e;

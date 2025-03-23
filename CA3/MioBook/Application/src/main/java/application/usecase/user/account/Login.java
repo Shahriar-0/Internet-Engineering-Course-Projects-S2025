@@ -10,9 +10,8 @@ import domain.entities.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.RequiredArgsConstructor;
-
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Login implements IUseCase {
@@ -28,30 +27,26 @@ public class Login implements IUseCase {
 		assert (data.username != null && !data.username.isBlank()) ||
 		(data.email != null && !data.email.isBlank()) : "we relay on valid input data, validation should be done in presentation layer";
 
-		if (data.username != null && !data.username.isBlank())
-			return loginByUsername(data.username, data.password);
-		else
-			return loginByEmail(data.email,data.password);
+		if (data.username != null && !data.username.isBlank()) return loginByUsername(data.username, data.password); else return loginByEmail(
+			data.email,
+			data.password
+		);
 	}
 
 	private Result<User> loginByUsername(String username, String password) {
 		Result<User> userResult = userRepository.get(username);
-		if (userResult.isFailure())
-			return Result.failure(UserNotFound.usernameNotFound(username));
+		if (userResult.isFailure()) return Result.failure(UserNotFound.usernameNotFound(username));
 
-		if (!userResult.data().getPassword().equals(password))
-			return Result.failure(WrongPassword.usernameNotFound(username));
+		if (!userResult.data().getPassword().equals(password)) return Result.failure(WrongPassword.wrongPasswordForUsername(username));
 
 		return userResult;
 	}
 
 	private Result<User> loginByEmail(String email, String password) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isEmpty())
-			return Result.failure(UserNotFound.emailNotFound(email));
+		if (optionalUser.isEmpty()) return Result.failure(UserNotFound.emailNotFound(email));
 
-		if (!optionalUser.get().getPassword().equals(password))
-			return Result.failure(WrongPassword.emailNotFound(email));
+		if (!optionalUser.get().getPassword().equals(password)) return Result.failure(WrongPassword.wrongPasswordForEmail(email));
 
 		return Result.success(optionalUser.get());
 	}
@@ -61,8 +56,7 @@ public class Login implements IUseCase {
 		private boolean isBothEmailAndUsernameBlank() {
 			try {
 				return (username != null && !username.isBlank()) || (email != null && !email.isBlank());
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				return false;
 			}
 		}
