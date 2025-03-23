@@ -3,8 +3,8 @@
 		"_postman_id": "e9dee72d-54cc-4272-8a91-f40e5241ecb8",
 		"name": "e2e test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38187593",
-		"_collection_link": "https://blue-station-566561.postman.co/workspace/IE~1c4dc48c-134b-4309-af53-c3f557a9706f/collection/38187593-e9dee72d-54cc-4272-8a91-f40e5241ecb8?action=share&source=collection_link&creator=38187593"
+		"_exporter_id": "39073558",
+		"_collection_link": "https://blue-station-566561.postman.co/workspace/IE~1c4dc48c-134b-4309-af53-c3f557a9706f/collection/38187593-e9dee72d-54cc-4272-8a91-f40e5241ecb8?action=share&source=collection_link&creator=39073558"
 	},
 	"item": [
 		{
@@ -2586,13 +2586,20 @@
 									"\r",
 									"pm.test(\"Validate error message\", () => {\r",
 									"    const actualMessage = pm.response.json().message;\r",
-									"    const expectedMessage = \"Book with title 'bookTest1' is already in cart!\";\r",
+									"    const expectedMessage = \"Can't add to the cart because: Book with title 'bookTest1' is already in cart!\";\r",
 									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
 									"})\r",
 									""
 								],
 								"type": "text/javascript",
 								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -2634,7 +2641,7 @@
 									"\r",
 									"pm.test(\"Validate error message\", () => {\r",
 									"    const actualMessage = pm.response.json().message;\r",
-									"    const expectedMessage = \"Book with title 'Nightfall' has already been bought!\";\r",
+									"    const expectedMessage = \"Can't add to the cart because: Book with title 'Nightfall' has already been bought!\";\r",
 									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
 									"})\r",
 									""
@@ -2831,7 +2838,7 @@
 									"\r",
 									"pm.test(\"Validate error message\", () => {\r",
 									"    const actualMessage = pm.response.json().message;\r",
-									"    const expectedMessage = \"Book with title 'bookTest1' is not in cart!\";\r",
+									"    const expectedMessage = \"Can't remove from the cart because: Book with title 'bookTest1' is not in cart!\";\r",
 									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
 									"})\r",
 									""
@@ -3007,7 +3014,7 @@
 									"\r",
 									"pm.test(\"Validate error message\", () => {\r",
 									"    const actualMessage = pm.response.json().message;\r",
-									"    const expectedMessage = \"Book with title 'Nightfall' has already been bought!\";\r",
+									"    const expectedMessage = \"Can't add to the cart because: Book with title 'Nightfall' has already been bought!\";\r",
 									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
 									"})\r",
 									""
@@ -3097,7 +3104,7 @@
 									"\r",
 									"pm.test(\"Validate error message\", () => {\r",
 									"    const actualMessage = pm.response.json().message;\r",
-									"    const expectedMessage = \"Not enough credit! Cannot purchase cart. Required credit: 14000, Current credit: 910\";\r",
+									"    const expectedMessage = \"Can't purchase the cart because: Not enough credit! Required credit: 14000, Current credit: 910\";\r",
 									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
 									"})\r",
 									""
