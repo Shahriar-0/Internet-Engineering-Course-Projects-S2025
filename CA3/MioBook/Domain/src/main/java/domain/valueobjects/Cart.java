@@ -72,14 +72,6 @@ public class Cart {
 		books.clear();
 	}
 
-	public int getMAXIMUM_BOOKS() {
-		return MAXIMUM_BOOKS;
-	}
-
-	public List<CustomerBook> getBooks() {
-		return books;
-	}
-
 	public String getUsername() {
 		return customer.getUsername();
 	}
