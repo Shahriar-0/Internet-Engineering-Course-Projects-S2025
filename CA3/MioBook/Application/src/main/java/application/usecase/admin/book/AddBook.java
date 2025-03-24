@@ -7,6 +7,7 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
+import domain.entities.Author;
 import domain.entities.Book;
 import domain.entities.user.Role;
 import domain.entities.user.User;
@@ -34,20 +35,25 @@ public class AddBook implements IUseCase {
 	public Result<Book> perform(AddBookData data, User user) {
 		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
-		if (!authorRepository.exists(data.author))
+		Result<Author> authorResult = authorRepository.get(data.author);
+		if (authorResult.isFailure())
 			return Result.failure(new AuthorDoesNotExists(data.author));
+		Author author = authorResult.data();
 
 		if (bookRepository.exists(data.title))
 			return Result.failure(new BookAlreadyExists(data.title));
 
-		return bookRepository.add(mapToBook(data));
+
+		Book book = mapToBook(data, author);
+		author.addBook(book);
+		return bookRepository.add(book);
 	}
 
-	private Book mapToBook(AddBookData data) {
+	private static Book mapToBook(AddBookData data, Author author) {
 		return Book
 			.builder()
 			.key(data.title)
-			.author(authorRepository.get(data.author).data())
+			.author(author)
 			.publisher(data.publisher)
 			.year(data.year)
 			.price(data.price)

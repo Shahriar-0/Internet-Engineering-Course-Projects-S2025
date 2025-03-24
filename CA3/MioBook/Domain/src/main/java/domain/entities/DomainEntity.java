@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public abstract class DomainEntity<KT> {
 
-	private KT key;
+	protected KT key;
 
 	public DomainEntity(KT key) {
 		this.key = key;
