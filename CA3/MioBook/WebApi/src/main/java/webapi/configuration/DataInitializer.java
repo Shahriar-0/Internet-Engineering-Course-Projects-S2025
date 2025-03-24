@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.entities.Author;
-import domain.entities.Book;
+import domain.entities.book.Book;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;

@@ -5,7 +5,7 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
+import domain.entities.book.Book;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;

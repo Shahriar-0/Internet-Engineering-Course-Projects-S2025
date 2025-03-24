@@ -4,8 +4,8 @@ import application.pagination.Page;
 import application.result.Result;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
-import domain.entities.Book;
-import domain.valueobjects.Review;
+import domain.entities.book.Book;
+import domain.entities.book.Review;
 
 public interface IBookRepository extends IBaseRepository<String, Book> {
 	Page<Book> filter(GetBook.BookFilter filter);

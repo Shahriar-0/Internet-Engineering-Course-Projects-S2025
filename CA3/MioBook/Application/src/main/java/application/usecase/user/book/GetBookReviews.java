@@ -5,7 +5,7 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.valueobjects.Review;
+import domain.entities.book.Review;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 

@@ -1,6 +1,6 @@
 package webapi.views.book;
 
-import domain.valueobjects.BookContent;
+import domain.entities.book.BookContent;
 
 public record BookContentView(String content, String title) {
 	public BookContentView(BookContent entity) {

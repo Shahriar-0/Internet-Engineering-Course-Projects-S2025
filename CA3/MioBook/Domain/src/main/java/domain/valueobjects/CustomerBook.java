@@ -1,6 +1,6 @@
 package domain.valueobjects;
 
-import domain.entities.Book;
+import domain.entities.book.Book;
 import lombok.Getter;
 import java.time.LocalDateTime;
 

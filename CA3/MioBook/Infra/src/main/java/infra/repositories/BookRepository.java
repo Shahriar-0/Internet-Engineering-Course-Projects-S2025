@@ -5,8 +5,8 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
-import domain.entities.Book;
-import domain.valueobjects.Review;
+import domain.entities.book.Book;
+import domain.entities.book.Review;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +25,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 			.key(persistedEntity.getTitle())
 			.author(persistedEntity.getAuthor())
 			.publisher(persistedEntity.getPublisher())
-			.year(persistedEntity.getYear())
+			.publishedYear(persistedEntity.getPublishedYear())
 			.price(persistedEntity.getPrice())
 			.synopsis(persistedEntity.getSynopsis())
 			.content(persistedEntity.getContent())
@@ -57,7 +57,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		if (bookResult.isFailure())
 			return Result.failure(bookResult.exception());
 
-		Page<Review> page = new Page<>(bookResult.data().getReviewsList(), filter.pageNumber(), filter.pageSize());
+		Page<Review> page = new Page<>(bookResult.data().getReviews(), filter.pageNumber(), filter.pageSize());
 		return Result.success(page);
 	}
 
@@ -74,11 +74,11 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	}
 
 	private static List<Book> filterLowerBoundYear(List<Book> books, int lowerBound) {
-		return books.stream().filter(book -> book.getYear() >= lowerBound).toList();
+		return books.stream().filter(book -> book.getPublishedYear() >= lowerBound).toList();
 	}
 
 	private static List<Book> filterUpperBoundYear(List<Book> books, int upperBound) {
-		return books.stream().filter(book -> book.getYear() <= upperBound).toList();
+		return books.stream().filter(book -> book.getPublishedYear() <= upperBound).toList();
 	}
 
 	private static List<Book> sortByRating(List<Book> books, boolean isAscending) {

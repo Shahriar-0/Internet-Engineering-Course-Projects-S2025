@@ -1,6 +1,6 @@
 package domain.entities.user;
 
-import domain.entities.Book;
+import domain.entities.book.Book;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.cart.Cart;
 import lombok.Getter;

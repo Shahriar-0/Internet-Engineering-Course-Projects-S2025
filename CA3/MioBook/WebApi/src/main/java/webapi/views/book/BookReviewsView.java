@@ -1,7 +1,7 @@
 package webapi.views.book;
 
 import application.pagination.Page;
-import domain.valueobjects.Review;
+import domain.entities.book.Review;
 
 import java.time.LocalDateTime;
 

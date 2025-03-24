@@ -1,6 +1,6 @@
 package domain.entities.cart;
 
-import domain.entities.Book;
+import domain.entities.book.Book;
 import domain.entities.DomainEntity;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.booklicense.ExpiringBookLicense;

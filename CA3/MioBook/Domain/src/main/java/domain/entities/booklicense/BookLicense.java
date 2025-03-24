@@ -1,6 +1,6 @@
 package domain.entities.booklicense;
 
-import domain.entities.Book;
+import domain.entities.book.Book;
 import domain.entities.DomainEntity;
 import lombok.Getter;
 import lombok.Setter;

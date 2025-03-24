@@ -8,10 +8,10 @@ import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Author;
-import domain.entities.Book;
+import domain.entities.book.Book;
 import domain.entities.user.Role;
 import domain.entities.user.User;
-import domain.valueobjects.BookContent;
+import domain.entities.book.BookContent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -55,7 +55,7 @@ public class AddBook implements IUseCase {
 			.key(data.title)
 			.author(author)
 			.publisher(data.publisher)
-			.year(data.year)
+			.publishedYear(data.year)
 			.price(data.price)
 			.synopsis(data.synopsis)
 			.content(new BookContent(data.content, data.title))

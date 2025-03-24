@@ -1,6 +1,6 @@
 package domain.entities.booklicense;
 
-import domain.entities.Book;
+import domain.entities.book.Book;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

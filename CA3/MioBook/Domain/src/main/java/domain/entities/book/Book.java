@@ -1,35 +1,27 @@
-package domain.entities;
+package domain.entities.book;
 
-import domain.valueobjects.BookContent;
-import domain.valueobjects.BookReviews;
-import domain.valueobjects.Review;
-import lombok.Builder;
+import domain.entities.Author;
+import domain.entities.DomainEntity;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
-// TODO: create a package for user and move this and book content
 @Getter
 @SuperBuilder
 public class Book extends DomainEntity<String> {
 
 	private Author author;
 	private String publisher;
-	private int year; // published year
+	private int publishedYear;
 	private long price; // in cents
 	private String synopsis;
 	private List<String> genres;
-
 	private BookContent content;
-
-	@Builder.Default
-	private BookReviews reviews = new BookReviews();
-
-	@Override
-	public String getKey() {
-		return super.getKey();
-	}
-
+	private final List<Review> reviews = new ArrayList<>();
 	public String getTitle() {
 		return super.getKey();
 	}
@@ -39,14 +31,11 @@ public class Book extends DomainEntity<String> {
 	}
 
 	public float getAverageRating() {
-		return reviews.getAverageRating();
+		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0))
+				.setScale(1, RoundingMode.HALF_UP).floatValue();
 	}
 
 	public String getAuthorName() {
 		return author != null ? author.getName() : null;
-	}
-
-	public List<Review> getReviewsList() {
-		return reviews.getReviews();
 	}
 }

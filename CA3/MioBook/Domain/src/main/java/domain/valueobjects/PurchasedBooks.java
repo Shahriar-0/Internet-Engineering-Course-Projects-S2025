@@ -1,5 +1,6 @@
 package domain.valueobjects;
 
+import domain.entities.book.BookContent;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.user.Customer;
 import lombok.Getter;
