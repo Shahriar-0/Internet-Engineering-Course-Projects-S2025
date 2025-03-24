@@ -85,7 +85,7 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(new PurchasedBooksView(result.data()), OK);
+		return Response.of(PurchasedBooksView.create(result.data()), OK);
 	}
 
 	@DeleteMapping("/cart/{title}")

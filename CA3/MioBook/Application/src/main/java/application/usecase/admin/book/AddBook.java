@@ -58,7 +58,7 @@ public class AddBook implements IUseCase {
 			.publishedYear(data.year)
 			.price(data.price)
 			.synopsis(data.synopsis)
-			.content(new BookContent(data.content, data.title))
+			.content(new BookContent(data.title, data.content))
 			.genres(data.genres)
 			.build();
 	}

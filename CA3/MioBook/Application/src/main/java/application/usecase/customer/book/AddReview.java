@@ -43,12 +43,9 @@ public class AddReview implements IUseCase {
         if (enforceAccessChecks && !customer.hasAccess(book))
             return Result.failure(new BookIsNotAccessible(title));
 
-        book.addReview(mapToReview(data, customer));
+        Review review = new Review(data.rating, data.comment, customer, book);
+        book.addReview(review);
         return Result.success(book);
-    }
-
-    private Review mapToReview(AddReviewData data, Customer customer) {
-        return new Review(data.rating, data.comment, customer, LocalDateTime.now());
     }
 
 	public record AddReviewData(

@@ -4,6 +4,6 @@ import domain.entities.book.BookContent;
 
 public record BookContentView(String content, String title) {
 	public BookContentView(BookContent entity) {
-		this(entity.content(), entity.title());
+		this(entity.getContent(), entity.getTitle());
 	}
 }

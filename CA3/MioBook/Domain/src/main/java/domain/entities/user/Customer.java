@@ -108,6 +108,7 @@ public class Customer extends User {
 		credit -= cart.getTotalCost();
 		cart.purchase();
 		Cart purchasedCart = cart;
+        purchasedLicenses.addAll(cart.getLicenses());
 		cart = new Cart(this, purchaseHistory.size() + 1);
 		purchaseHistory.add(purchasedCart);
 		return purchasedCart;

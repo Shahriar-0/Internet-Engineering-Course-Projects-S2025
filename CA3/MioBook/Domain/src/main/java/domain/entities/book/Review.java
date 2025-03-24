@@ -25,13 +25,13 @@ public class Review extends DomainEntity<Review.Key> {
 		return key.bookTitle;
 	}
 
-	public Review(int rating, String comment, Customer customer, Book book, LocalDateTime dateTime) {
+	public Review(int rating, String comment, Customer customer, Book book) {
 		super(new Key(customer.getKey(), book.getKey()));
 		this.rating = rating;
 		this.comment = comment;
 		this.customer = customer;
 		this.book = book;
-		this.dateTime = dateTime;
+		this.dateTime = LocalDateTime.now();
 		assert this.rating <= MAX_RATING_NUMBER && this.rating >= MIN_RATING_NUMBER;
 	}
 

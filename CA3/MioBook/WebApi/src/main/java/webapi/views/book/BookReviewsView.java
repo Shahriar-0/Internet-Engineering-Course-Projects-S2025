@@ -13,10 +13,10 @@ public record BookReviewsView(
 ) {
     public BookReviewsView(Review review) {
         this(
-            review.rating(),
-            review.comment(),
-            review.customer().getUsername(),
-            review.date()
+            review.getRating(),
+            review.getComment(),
+            review.getCustomerName(),
+            review.getDateTime()
         );
     }
 

@@ -3,8 +3,8 @@
 		"_postman_id": "e9dee72d-54cc-4272-8a91-f40e5241ecb8",
 		"name": "e2e test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "39073558",
-		"_collection_link": "https://blue-station-566561.postman.co/workspace/IE~1c4dc48c-134b-4309-af53-c3f557a9706f/collection/38187593-e9dee72d-54cc-4272-8a91-f40e5241ecb8?action=share&source=collection_link&creator=39073558"
+		"_exporter_id": "38187593",
+		"_collection_link": "https://blue-station-566561.postman.co/workspace/IE~1c4dc48c-134b-4309-af53-c3f557a9706f/collection/38187593-e9dee72d-54cc-4272-8a91-f40e5241ecb8?action=share&source=collection_link&creator=38187593"
 	},
 	"item": [
 		{
@@ -2704,7 +2704,6 @@
 									"                \"year\": 1999,\r",
 									"                \"price\": 20000,\r",
 									"                \"isBorrowed\": false,\r",
-									"                \"borrowDays\": 0,\r",
 									"                \"finalPrice\": 20000\r",
 									"            }\r",
 									"        ]\r",
@@ -2761,7 +2760,6 @@
 									"                \"year\": 2021,\r",
 									"                \"price\": 290,\r",
 									"                \"isBorrowed\": false,\r",
-									"                \"borrowDays\": 0,\r",
 									"                \"finalPrice\": 290\r",
 									"            }\r",
 									"        ]\r",
@@ -3231,7 +3229,6 @@
 									"                \"year\": 2021,\r",
 									"                \"price\": 290,\r",
 									"                \"isBorrowed\": false,\r",
-									"                \"borrowDays\": 0,\r",
 									"                \"finalPrice\": 290\r",
 									"            },\r",
 									"            {\r",
