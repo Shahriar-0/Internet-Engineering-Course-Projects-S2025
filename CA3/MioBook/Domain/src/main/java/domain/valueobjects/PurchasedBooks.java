@@ -1,5 +1,6 @@
 package domain.valueobjects;
 
+import domain.entities.booklicense.BookLicense;
 import domain.entities.user.Customer;
 import lombok.Getter;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public class PurchasedBooks {
 
 	private final Customer customer;
-	private final List<CustomerBook> books;
+	private final List<BookLicense> books;
 
 	public PurchasedBooks(Customer customer) {
 		this.customer = customer;
@@ -21,7 +22,7 @@ public class PurchasedBooks {
 	}
 
 	public long getTotalCost() {
-		return books.stream().mapToLong(CustomerBook::getFinalPrice).sum();
+		return books.stream().mapToLong(BookLicense::getPrice).sum();
 	}
 
 	public BookContent getBookContent(String title) {

@@ -1,7 +1,7 @@
 package domain.entities.user;
 
 import domain.entities.Book;
-import domain.valueobjects.Cart;
+import domain.entities.cart.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;
 import domain.valueobjects.PurchasedCart;

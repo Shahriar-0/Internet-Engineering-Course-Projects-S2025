@@ -1,5 +1,6 @@
 package domain.valueobjects;
 
+import domain.entities.booklicense.BookLicense;
 import domain.entities.user.Customer;
 import lombok.Getter;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class PurchaseHistory {
 		return this.purchasedCarts.stream().anyMatch(p -> p.hasBook(title));
 	}
 
-	public List<CustomerBook> getAccessibleBooks() {
+	public List<BookLicense> getAccessibleBooks() {
 		return this.purchasedCarts.stream().flatMap(ph -> ph.getAccessibleBooks().stream()).toList();
 	}
 }

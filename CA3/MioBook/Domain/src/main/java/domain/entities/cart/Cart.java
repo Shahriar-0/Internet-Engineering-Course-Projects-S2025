@@ -1,32 +1,37 @@
-package domain.valueobjects;
+package domain.entities.cart;
 
 import domain.entities.Book;
+import domain.entities.DomainEntity;
+import domain.entities.booklicense.BookLicense;
+import domain.entities.booklicense.ExpiringBookLicense;
+import domain.entities.booklicense.PermanentBookLicense;
 import domain.entities.user.Customer;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
-public class Cart {
+@SuperBuilder
+public class Cart extends DomainEntity<Long> {
+	private static final int MAXIMUM_BOOKS = 10;
 
 	private final Customer customer;
-
-	private final List<CustomerBook> books;
+	private final List<BookLicense> licenses = new ArrayList<>();
+	public Long getId() {
+		return super.getKey();
+	}
 
 	public Cart(Customer customer) {
 		this.customer = customer;
-		this.books = new ArrayList<>();
 	}
 
-	private final transient int MAXIMUM_BOOKS = 10;
 
 	public String findAddBookErrors(Book book) {
-		if (books.size() >= MAXIMUM_BOOKS)
+		if (licenses.size() >= MAXIMUM_BOOKS)
 			return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
-		if (books.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
+		if (licenses.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
 			return ("Book with title '" + book.getTitle() + "' is already in cart!");
 		if (customer.hasBought(book))
 			return ("Book with title '" + book.getTitle() + "' has already been bought!");
@@ -34,13 +39,13 @@ public class Cart {
 	}
 
 	public String findRemoveBookErrors(Book book) {
-		if (!books.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
+		if (licenses.stream().noneMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
 			return ("Book with title '" + book.getTitle() + "' is not in cart!");
 		return null;
 	}
 
 	public String findPurchaseCartErrors(long credit) {
-		if (books.size() == 0)
+		if (licenses.isEmpty())
 			return "Cart is empty!";
 		if (credit < getTotalCost())
 			return (
@@ -53,23 +58,23 @@ public class Cart {
 	}
 
 	public void addBook(Book book) {
-		books.add(new CustomerBook(book));
+		licenses.add(new PermanentBookLicense(book));
 	}
 
 	public void borrowBook(Book book, int borrowDays) {
-		books.add(new CustomerBook(book, borrowDays));
+		licenses.add(new ExpiringBookLicense(book, borrowDays));
 	}
 
 	public void removeBook(Book book) {
-		books.removeIf(b -> b.getBook().getTitle().equals(book.getTitle()));
+		licenses.removeIf(b -> b.getBook().getTitle().equals(book.getTitle()));
 	}
 
 	public long getTotalCost() {
-		return books.stream().mapToLong(b -> b.getPrice()).sum();
+		return licenses.stream().mapToLong(BookLicense::getPrice).sum();
 	}
 
 	public void emptyCart() {
-		books.clear();
+		licenses.clear();
 	}
 
 	public String getUsername() {

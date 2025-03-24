@@ -11,7 +11,7 @@ import application.usecase.customer.purchase.GetPurchaseHistory;
 import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
 import domain.entities.user.Customer;
-import domain.valueobjects.Cart;
+import domain.entities.cart.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;
 import domain.valueobjects.PurchasedCartSummary;

@@ -5,7 +5,7 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
-import domain.valueobjects.Cart;
+import domain.entities.cart.Cart;
 
 public class GetCart implements IUseCase {
 	@Override

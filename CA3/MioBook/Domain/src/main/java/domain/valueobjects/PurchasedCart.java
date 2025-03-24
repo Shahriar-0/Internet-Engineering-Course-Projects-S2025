@@ -1,5 +1,7 @@
 package domain.valueobjects;
 
+import domain.entities.booklicense.BookLicense;
+import domain.entities.cart.Cart;
 import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,21 +13,21 @@ public class PurchasedCart {
 
 	private final LocalDateTime datePurchased;
 	private final long totalCost;
-	private final List<CustomerBook> books;
+	private final List<BookLicense> books;
 
 	public PurchasedCart(Cart cart) {
-		this.books = new ArrayList<>(cart.getBooks());
+		this.books = new ArrayList<>(cart.getLicenses());
 		this.datePurchased = LocalDateTime.now();
 		this.totalCost = cart.getTotalCost();
 	}
 
 	public Boolean hasBook(String title) {
 		return books.stream().filter(
-			b -> b.isStillAccessible(datePurchased)).anyMatch(b -> b.getBook().getTitle().equals(title)
+                BookLicense::isValid).anyMatch(b -> b.getBook().getTitle().equals(title)
 		);
 	}
 
-	public List<CustomerBook> getAccessibleBooks() {
-		return books.stream().filter(b -> b.isStillAccessible(datePurchased)).toList();
+	public List<BookLicense> getAccessibleBooks() {
+		return books.stream().filter(BookLicense::isValid).toList();
 	}
 }
