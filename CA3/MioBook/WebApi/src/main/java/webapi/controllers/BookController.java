@@ -33,6 +33,9 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/books")
 public class BookController {
 
+    private static final String ADD_BOOK_MESSAGE = "Book added successfully.";
+    private static final String ADD_REVIEW_MESSAGE = "Review added successfully.";
+
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
 
@@ -45,7 +48,7 @@ public class BookController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Book added successfully.");
+		return Response.of(CREATED, ADD_BOOK_MESSAGE);
 	}
 
 	@GetMapping("/{title}")
@@ -108,6 +111,6 @@ public class BookController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Review added successfully.");
+		return Response.of(CREATED, ADD_REVIEW_MESSAGE);
 	}
 }

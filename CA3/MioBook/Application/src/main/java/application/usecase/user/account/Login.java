@@ -28,10 +28,9 @@ public class Login implements IUseCase {
 		(data.email != null && !data.email.isBlank()) : "we rely on valid input data, validation should be done in presentation layer";
 
 		if (data.username != null && !data.username.isBlank())
-			return loginByUsername(data.username, data.password); else return loginByEmail(
-				data.email,
-				data.password
-			);
+			return loginByUsername(data.username, data.password);
+        else
+            return loginByEmail(data.email, data.password);
 	}
 
 	private Result<User> loginByUsername(String username, String password) {

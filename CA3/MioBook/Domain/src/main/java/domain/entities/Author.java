@@ -21,7 +21,23 @@ public class Author extends DomainEntity<String> {
 		return super.getKey();
 	}
 
-	public void addBook(Book book) {
+    private Author(String name, String penName, String nationality, LocalDate born, LocalDate died) {
+        super(name);
+        this.penName = penName;
+        this.nationality = nationality;
+        this.born = born;
+        this.died = died;
+    }
+
+    public static Author createLivingAuthor(String name, String penName, String nationality, LocalDate born) {
+        return new Author(name, penName, nationality, born, null);
+    }
+
+    public static Author createDeadAuthor(String name, String penName, String nationality, LocalDate born, LocalDate died) {
+        return new Author(name, penName, nationality, born, died);
+    }
+
+    public void addBook(Book book) {
 		assert book.getAuthor().getKey().equals(key);
 		books.add(book);
 	}

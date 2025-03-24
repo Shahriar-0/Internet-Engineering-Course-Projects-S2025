@@ -17,16 +17,27 @@ public class Book extends DomainEntity<String> {
 	private Author author;
 	private String publisher;
 	private int publishedYear;
-	private long price; // in cents
+	private long basePrice; // in cents
 	private String synopsis;
-	private List<String> genres;
-	private BookContent content;
+	private final List<String> genres;
+	private final BookContent content;
 	private final List<Review> reviews = new ArrayList<>();
 	public String getTitle() {
 		return super.getKey();
 	}
 
+    public Book(String title, Author author, String publisher, long basePrice, String synopsis, List<String> genres, String content) {
+        super(title);
+        this.author = author;
+        this.publisher = publisher;
+        this.basePrice = basePrice;
+        this.synopsis = synopsis;
+        this.genres = genres;
+        this.content = new BookContent(title, content);
+    }
+
 	public void addReview(Review review) {
+        assert review.getBook().isKeyEqual(key);
 		reviews.add(review);
 	}
 

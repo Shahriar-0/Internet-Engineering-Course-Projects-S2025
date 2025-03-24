@@ -10,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class PermanentBookLicense extends BookLicense {
     public PermanentBookLicense(Book book) {
-        super(book, book.getPrice());
+        super(book, book.getBasePrice());
     }
 }

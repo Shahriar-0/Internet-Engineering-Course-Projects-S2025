@@ -23,7 +23,7 @@ public record CustomerBookView(
 			license.getBook().getPublisher(),
 			license.getBook().getGenres(),
 			license.getBook().getPublishedYear(),
-			license.getBook().getPrice(),
+			license.getBook().getBasePrice(),
 			license instanceof ExpiringBookLicense,
 			(license instanceof ExpiringBookLicense el) ? el.getValidityDays() : null,
 			license.getPrice()

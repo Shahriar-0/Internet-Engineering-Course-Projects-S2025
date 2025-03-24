@@ -26,7 +26,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 			.author(persistedEntity.getAuthor())
 			.publisher(persistedEntity.getPublisher())
 			.publishedYear(persistedEntity.getPublishedYear())
-			.price(persistedEntity.getPrice())
+			.basePrice(persistedEntity.getBasePrice())
 			.synopsis(persistedEntity.getSynopsis())
 			.content(persistedEntity.getContent())
 			.genres(persistedEntity.getGenres())

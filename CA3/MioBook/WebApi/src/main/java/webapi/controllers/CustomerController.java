@@ -37,6 +37,8 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/profile")
 public class CustomerController {
 
+    private static final String ADD_BOOK_TO_CART_MESSAGE = "Added book to cart.";
+
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
 
@@ -49,7 +51,7 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Added book to cart.");
+		return Response.of(CREATED, ADD_BOOK_TO_CART_MESSAGE);
 	}
 
 	@GetMapping("/cart")

@@ -1,6 +1,5 @@
 package application.usecase.admin.author;
 
-import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -28,21 +27,25 @@ public class AddAuthor implements IUseCase {
 	public Result<Author> perform(AddAuthorData data, User user) {
 		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
-		if (authorRepository.exists(data.name))
-			return Result.failure(new AuthorAlreadyExists(data.name));
-
 		return authorRepository.add(mapToAuthor(data));
 	}
 
 	private static Author mapToAuthor(AddAuthorData data) {
-		return Author
-			.builder()
-			.key(data.name)
-			.penName(data.penName)
-			.nationality(data.nationality)
-			.born(LocalDate.parse(data.born))
-			.died(data.died == null ? null : LocalDate.parse(data.died))
-			.build();
+		if (data.died == null)
+            return Author.createLivingAuthor(
+                data.name,
+                data.penName,
+                data.name,
+                LocalDate.parse(data.born)
+            );
+        else
+            return Author.createDeadAuthor(
+                data.name,
+                data.penName,
+                data.name,
+                LocalDate.parse(data.born),
+                LocalDate.parse(data.died)
+            );
 	}
 
 	public record AddAuthorData(

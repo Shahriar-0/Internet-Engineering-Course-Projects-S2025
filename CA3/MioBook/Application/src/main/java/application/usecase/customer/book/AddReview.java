@@ -40,7 +40,7 @@ public class AddReview implements IUseCase {
             return Result.failure(bookResult.exception());
         Book book = bookResult.data();
 
-        if (enforceAccessChecks && !customer.hasAccess(book))
+        if (enforceAccessChecks && !customer.hasAccess(title))
             return Result.failure(new BookIsNotAccessible(title));
 
         Review review = new Review(data.rating, data.comment, customer, book);

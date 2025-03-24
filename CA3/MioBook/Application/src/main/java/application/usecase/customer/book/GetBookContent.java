@@ -29,7 +29,7 @@ public class GetBookContent implements IUseCase {
 		if (bookResult.isFailure())
             return Result.failure(bookResult.exception());
 
-		if (!customer.hasAccess(bookResult.data()))
+		if (!customer.hasAccess(title))
             return Result.failure(new BookIsNotAccessible(title));
 
 		return Result.success(bookResult.data().getContent());

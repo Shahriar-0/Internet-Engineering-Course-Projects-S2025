@@ -17,7 +17,7 @@ public class ExpiringBookLicense extends BookLicense {
     private int validityDays;
 
     public ExpiringBookLicense(Book book, int validityDays) {
-        super(book, calcLicensePrice(book.getPrice(), validityDays));
+        super(book, calcLicensePrice(book.getBasePrice(), validityDays));
         this.validityDays = validityDays;
         assert validityDays <= MAX_VALIDITY_DAYS && validityDays >= MIN_VALIDITY_DAYS;
     }

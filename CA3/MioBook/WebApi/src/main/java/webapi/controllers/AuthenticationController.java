@@ -53,7 +53,7 @@ public class AuthenticationController {
 		return Response.of(OK ,LOGOUT_MESSAGE);
 	}
 
-	private Response<?> processFailureOfLogin(BaseException exception) {
+	private static Response<?> processFailureOfLogin(BaseException exception) {
 		if (!(exception instanceof UserNotFound || exception instanceof WrongPassword))
 			throw exception;
 

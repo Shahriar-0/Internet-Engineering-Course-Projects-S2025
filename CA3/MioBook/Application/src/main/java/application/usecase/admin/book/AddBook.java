@@ -11,7 +11,6 @@ import domain.entities.Author;
 import domain.entities.book.Book;
 import domain.entities.user.Role;
 import domain.entities.user.User;
-import domain.entities.book.BookContent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -50,17 +49,15 @@ public class AddBook implements IUseCase {
 	}
 
 	private static Book mapToBook(AddBookData data, Author author) {
-		return Book
-			.builder()
-			.key(data.title)
-			.author(author)
-			.publisher(data.publisher)
-			.publishedYear(data.year)
-			.price(data.price)
-			.synopsis(data.synopsis)
-			.content(new BookContent(data.title, data.content))
-			.genres(data.genres)
-			.build();
+		return new Book(
+            data.title,
+            author,
+            data.publisher,
+            data.price,
+            data.synopsis,
+            data.genres,
+            data.content
+        );
 	}
 
 	public record AddBookData(

@@ -22,7 +22,7 @@ public record BookView(
 			entity.getPublisher(),
 			entity.getGenres(),
 			entity.getPublishedYear(),
-			entity.getPrice(),
+			entity.getBasePrice(),
 			entity.getSynopsis(),
 			entity.getAverageRating()
 		);
