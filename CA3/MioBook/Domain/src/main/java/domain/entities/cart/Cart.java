@@ -15,17 +15,21 @@ import java.util.List;
 
 @Getter
 @SuperBuilder
-public class Cart extends DomainEntity<Long> {
+public class Cart extends DomainEntity<Cart.Key> {
 	private static final int MAXIMUM_BOOKS = 10;
 
 	private final Customer customer;
 	private final List<BookLicense> licenses = new ArrayList<>();
 	private LocalDateTime purchaseDate;
+	public String getCustomerName() {
+		return key.customerName;
+	}
 	public Long getId() {
-		return super.getKey();
+		return key.id;
 	}
 
-	public Cart(Customer customer) {
+	public Cart(Customer customer, long id) {
+		super(new Key(customer.getKey(), id));
 		this.customer = customer;
 	}
 
@@ -84,4 +88,6 @@ public class Cart extends DomainEntity<Long> {
 	public String getUsername() {
 		return customer.getUsername();
 	}
+
+	public record Key(String customerName, long id) {};
 }

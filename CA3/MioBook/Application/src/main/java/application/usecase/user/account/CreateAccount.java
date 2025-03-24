@@ -41,15 +41,7 @@ public class CreateAccount implements IUseCase {
 		Role role = Role.valueOf(data.role.toUpperCase());
 
         if (role == Role.CUSTOMER)
-			return Customer
-				.builder()
-				.key(data.username)
-				.address(data.address)
-				.password(data.password)
-				.email(data.email)
-				.role(role)
-				.credit(DEFAULT_CREDIT_AT_CREATION)
-				.build();
+			return new Customer(data.username, data.password, data.email, data.address);
 		else
 			return Admin
 				.builder()

@@ -3,6 +3,7 @@ package domain.entities.user;
 import domain.entities.book.Book;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.cart.Cart;
+import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -14,11 +15,19 @@ import java.util.List;
 @Setter
 @SuperBuilder
 public class Customer extends User {
+	private static final int FIRST_CART_ID = 1;
+	public static final int INITIAL_CREDIT_AMOUNT = 0;
 
 	private long credit;
 	private Cart cart;
 	private final List<BookLicense> purchasedLicenses = new ArrayList<>();
 	private final List<Cart> purchaseHistory = new ArrayList<>();
+
+	public Customer(String username, String password, String email, Address address) {
+		super(username, password, email, address, Role.CUSTOMER);
+		this.cart = new Cart(this, 1);
+		this.credit = 0;
+	}
 
 	public List<BookLicense> getValidLicenses() {
 		return purchasedLicenses.stream()
@@ -99,7 +108,7 @@ public class Customer extends User {
 		credit -= cart.getTotalCost();
 		cart.purchase();
 		Cart purchasedCart = cart;
-		cart = new Cart(this);
+		cart = new Cart(this, purchaseHistory.size() + 1);
 		purchaseHistory.add(purchasedCart);
 		return purchasedCart;
 	}
