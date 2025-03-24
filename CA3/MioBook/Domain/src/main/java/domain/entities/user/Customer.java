@@ -35,20 +35,8 @@ public class Customer extends User {
 				.toList();
 	}
 
-	public Boolean canRemoveBook(Book book) {
-		return cart.findRemoveBookErrors(book) == null;
-	}
-
 	public Boolean canPurchaseCart() {
 		return cart.findPurchaseCartErrors(credit) == null;
-	}
-
-	/**
-	 * @return A string containing the reason why a book cannot be removed from the cart.
-	 *         If a book can be removed, this method returns null.
-	 */
-	public String findRemoveBookErrors(Book book) {
-		return cart.findRemoveBookErrors(book);
 	}
 
 	/**
@@ -57,13 +45,6 @@ public class Customer extends User {
 	 */
 	public String findPurchaseCartErrors() {
 		return cart.findPurchaseCartErrors(credit);
-	}
-
-	public void removeBook(Book book) {
-		if (!canRemoveBook(book))
-			throw new RuntimeException(findRemoveBookErrors(book));
-
-		cart.removeBook(book);
 	}
 
 	public void addCredit(long amount) {

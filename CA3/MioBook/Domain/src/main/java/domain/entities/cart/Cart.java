@@ -8,6 +8,7 @@ import domain.entities.booklicense.PermanentBookLicense;
 import domain.entities.user.Customer;
 import domain.exceptions.DomainException;
 import domain.exceptions.cart.BookAlreadyInCart;
+import domain.exceptions.cart.BookDoesNotExistInCart;
 import domain.exceptions.cart.CartIsFull;
 import domain.exceptions.cart.CustomerAlreadyHasAccess;
 import lombok.Getter;
@@ -50,10 +51,12 @@ public class Cart extends DomainEntity<Cart.Key> {
         return exceptions;
 	}
 
-	public String findRemoveBookErrors(Book book) {
-		if (licenses.stream().noneMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
-			return ("Book with title '" + book.getTitle() + "' is not in cart!");
-		return null;
+	public List<DomainException> getRemoveBookErrors(String bookTitle) {
+		List<DomainException> exceptions = new ArrayList<>();
+        if (licenses.stream().noneMatch(b -> b.getBook().getTitle().equals(bookTitle)))
+			exceptions.add(new BookDoesNotExistInCart(bookTitle));
+
+		return exceptions;
 	}
 
 	public String findPurchaseCartErrors(long credit) {
@@ -80,7 +83,8 @@ public class Cart extends DomainEntity<Cart.Key> {
 	}
 
 	public void removeBook(Book book) {
-		licenses.removeIf(b -> b.getBook().getTitle().equals(book.getTitle()));
+        assert getRemoveBookErrors(book.getTitle()).isEmpty();
+		licenses.removeIf(b -> b.getBook().isKeyEqual(book.getKey()));
 	}
 
 	public long getTotalCost() {

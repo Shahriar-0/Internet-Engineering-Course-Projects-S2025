@@ -53,7 +53,7 @@ public class BookController {
 
 	@GetMapping("/{title}")
 	@Access(isWhiteList = false)
-	public Response<BookView> getBook(@NotBlank @PathVariable String title) {
+	public Response<BookView> getBook(@PathVariable String title) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
 		Result<Book> result = useCase.perform(title);

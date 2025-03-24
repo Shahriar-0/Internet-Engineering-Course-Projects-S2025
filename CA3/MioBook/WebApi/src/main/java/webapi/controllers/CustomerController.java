@@ -38,6 +38,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class CustomerController {
 
     private static final String ADD_BOOK_TO_CART_MESSAGE = "Added book to cart.";
+    private static final String REMOVE_BOOK_FROM_CART_MESSAGE = "Removed book from cart.";
 
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
@@ -99,7 +100,7 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(OK, "Removed book from cart.");
+		return Response.of(OK, REMOVE_BOOK_FROM_CART_MESSAGE);
 	}
 
 	@PatchMapping("credit")
