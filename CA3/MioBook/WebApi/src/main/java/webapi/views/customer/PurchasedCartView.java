@@ -1,6 +1,6 @@
 package webapi.views.customer;
 
-import domain.valueobjects.PurchasedCart;
+import domain.entities.cart.Cart;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,11 +10,11 @@ public record PurchasedCartView(
     Long totalCost,
     List<CustomerBookView> books
 ) {
-    public PurchasedCartView(PurchasedCart cart) {
+    public PurchasedCartView(Cart cart) {
         this(
-            cart.getDatePurchased(),
+            cart.getPurchaseDate(),
             cart.getTotalCost(),
-            cart.getBooks().stream().map(CustomerBookView::new).toList()
+            cart.getLicenses().stream().map(CustomerBookView::new).toList()
         );
     }
 }

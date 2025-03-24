@@ -7,8 +7,6 @@ import application.usecase.UseCaseType;
 import domain.entities.cart.Cart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
-import domain.valueobjects.PurchasedCart;
-import domain.valueobjects.PurchasedCartSummary;
 
 public class PurchaseCart implements IUseCase {
 	@Override
@@ -16,7 +14,7 @@ public class PurchaseCart implements IUseCase {
 		return UseCaseType.PURCHASE_CART;
 	}
 
-	public Result<PurchasedCartSummary> perform(User user) {
+	public Result<Cart> perform(User user) {
 		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
@@ -24,6 +22,6 @@ public class PurchaseCart implements IUseCase {
 			return Result.failure(new CantPurchaseCart(customer.findPurchaseCartErrors()));
 
 		Cart purchasedCart = customer.purchaseCart();
-		return Result.success(new PurchasedCartSummary(purchasedCart));
+		return Result.success(purchasedCart);
 	}
 }
