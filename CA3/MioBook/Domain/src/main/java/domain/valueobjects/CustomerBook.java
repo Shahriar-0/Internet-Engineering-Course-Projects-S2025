@@ -2,9 +2,9 @@ package domain.valueobjects;
 
 import domain.entities.Book;
 import lombok.Getter;
-
 import java.time.LocalDateTime;
 
+// TODO: convert this to license
 @Getter
 public class CustomerBook {
 

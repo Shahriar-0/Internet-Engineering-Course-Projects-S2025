@@ -14,6 +14,8 @@ public class Author extends DomainEntity<String> {
 	private LocalDate born;
 	private LocalDate died;
 
+	// TODO: list of published books
+
 	@Override
 	public String getKey() {
 		return super.getKey();

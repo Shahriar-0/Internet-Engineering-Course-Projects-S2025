@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+// TODO: create a package for user and move this and customer and admin there, also make role a separate enum
 @Getter
 @Setter
 @SuperBuilder

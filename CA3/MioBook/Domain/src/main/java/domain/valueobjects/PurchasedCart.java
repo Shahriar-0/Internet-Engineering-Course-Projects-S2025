@@ -1,11 +1,11 @@
 package domain.valueobjects;
 
 import lombok.Getter;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: remove this and merge it with cart
 @Getter
 public class PurchasedCart {
 

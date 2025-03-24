@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+// TODO: move this to view
 @Getter
 public class PurchasedCartSummary {
 

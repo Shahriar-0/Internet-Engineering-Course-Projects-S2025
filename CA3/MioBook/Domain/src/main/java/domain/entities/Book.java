@@ -6,9 +6,9 @@ import domain.valueobjects.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
 import java.util.List;
 
+// TODO: create a package for user and move this and book content
 @Getter
 @SuperBuilder
 public class Book extends DomainEntity<String> {

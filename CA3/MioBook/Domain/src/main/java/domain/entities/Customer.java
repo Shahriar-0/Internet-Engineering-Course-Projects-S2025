@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+// TODO: update buy and borrow functionality 
 @Getter
 @Setter
 @SuperBuilder

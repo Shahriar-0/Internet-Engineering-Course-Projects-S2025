@@ -2,10 +2,10 @@ package domain.valueobjects;
 
 import domain.entities.Customer;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 
+//  TODO: move this into customer
 @Getter
 public class PurchaseHistory {
 

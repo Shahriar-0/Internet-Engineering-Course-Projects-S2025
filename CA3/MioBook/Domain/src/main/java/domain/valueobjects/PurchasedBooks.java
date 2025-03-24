@@ -4,6 +4,7 @@ import domain.entities.Customer;
 import lombok.Getter;
 import java.util.List;
 
+// TODO: move this to view
 @Getter
 public class PurchasedBooks {
 

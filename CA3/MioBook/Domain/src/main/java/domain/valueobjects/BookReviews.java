@@ -7,6 +7,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: move this list to customer
 @Getter
 public class BookReviews {
 
