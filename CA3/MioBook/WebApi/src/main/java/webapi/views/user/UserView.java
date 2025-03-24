@@ -17,7 +17,7 @@ public record UserView(
 			entity.getRole().getValue(),
 			entity.getEmail(),
 			entity.getAddress(),
-			(entity instanceof Customer c) ? c.getBalance() : null
+			(entity instanceof Customer c) ? c.getCredit() : null
 		);
 	}
 }

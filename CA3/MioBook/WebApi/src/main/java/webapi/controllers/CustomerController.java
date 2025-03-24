@@ -10,6 +10,7 @@ import application.usecase.customer.cart.RemoveCart;
 import application.usecase.customer.purchase.GetPurchaseHistory;
 import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
+import domain.entities.booklicense.BookLicense;
 import domain.entities.user.Customer;
 import domain.entities.cart.Cart;
 import domain.valueobjects.PurchaseHistory;
@@ -25,6 +26,8 @@ import webapi.services.UseCaseService;
 import webapi.views.customer.CartView;
 import webapi.views.customer.PurchaseHistoryView;
 import webapi.views.customer.PurchasedBooksView;
+
+import java.util.List;
 
 import static domain.entities.user.Role.CUSTOMER;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -80,7 +83,7 @@ public class CustomerController {
 	public Response<PurchasedBooksView> getPurchasedBooks() {
 		GetPurchasedBooks useCase = (GetPurchasedBooks) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
 
-		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUser());
+		Result<List<BookLicense>> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 

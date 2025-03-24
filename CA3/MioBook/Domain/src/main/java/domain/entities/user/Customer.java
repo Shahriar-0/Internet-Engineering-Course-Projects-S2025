@@ -1,36 +1,29 @@
 package domain.entities.user;
 
 import domain.entities.Book;
+import domain.entities.booklicense.BookLicense;
 import domain.entities.cart.Cart;
-import domain.valueobjects.PurchaseHistory;
-import domain.valueobjects.PurchasedBooks;
-import domain.valueobjects.PurchasedCart;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-// TODO: update buy and borrow functionality 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @SuperBuilder
 public class Customer extends User {
 
-	private Cart cart;
 	private long credit;
-	private PurchaseHistory purchaseHistory;
+	private Cart cart;
+	private final List<BookLicense> purchasedLicenses = new ArrayList<>();
+	private final List<Cart> purchaseHistory = new ArrayList<>();
 
-	protected Customer(CustomerBuilder<?, ?> builder) {
-		super(builder);
-		this.cart = new Cart(this);
-		this.purchaseHistory = new PurchaseHistory(this);
-	}
-
-	public long getBalance() {
-		return credit;
-	}
-
-	public PurchasedBooks getPurchasedBooks() {
-		return new PurchasedBooks(this);
+	public List<BookLicense> getValidLicenses() {
+		return purchasedLicenses.stream()
+				.filter(BookLicense::isValid)
+				.toList();
 	}
 
 	public Boolean canAddBook(Book book) {
@@ -99,13 +92,15 @@ public class Customer extends User {
 		credit += amount;
 	}
 
-	public PurchasedCart purchaseCart() {
+	public Cart purchaseCart() {
 		if (!canPurchaseCart())
 			throw new RuntimeException(findPurchaseCartErrors());
 
-		PurchasedCart purchasedCart = purchaseHistory.addPurchasedCart(new PurchasedCart(cart));
 		credit -= cart.getTotalCost();
-		cart.emptyCart();
+		cart.purchase();
+		Cart purchasedCart = cart;
+		cart = new Cart(this);
+		purchaseHistory.add(purchasedCart);
 		return purchasedCart;
 	}
 
@@ -115,7 +110,11 @@ public class Customer extends User {
 	 * @param book The book to check if it has been bought.
 	 * @return True if the customer has bought the book, otherwise false.
 	 */
-	public Boolean hasBought(Book book) {
-		return purchaseHistory.hasBook(book.getTitle());
+	public Boolean hasAccess(Book book) {
+		for (BookLicense license : purchasedLicenses)
+			if (license.getBook().getTitle().equals(book.getTitle()))
+				return license.isValid();
+
+		return false;
 	}
 }

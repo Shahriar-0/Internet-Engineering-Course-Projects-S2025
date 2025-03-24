@@ -4,6 +4,7 @@ import application.exceptions.businessexceptions.cartexceptions.CantPurchaseCart
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
+import domain.entities.cart.Cart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import domain.valueobjects.PurchasedCart;
@@ -22,7 +23,7 @@ public class PurchaseCart implements IUseCase {
 		if (!customer.canPurchaseCart())
 			return Result.failure(new CantPurchaseCart(customer.findPurchaseCartErrors()));
 
-		PurchasedCart purchasedCart = customer.purchaseCart();
+		Cart purchasedCart = customer.purchaseCart();
 		return Result.success(new PurchasedCartSummary(purchasedCart));
 	}
 }

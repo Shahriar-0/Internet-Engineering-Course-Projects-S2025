@@ -9,6 +9,7 @@ import domain.entities.user.Customer;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Cart extends DomainEntity<Long> {
 
 	private final Customer customer;
 	private final List<BookLicense> licenses = new ArrayList<>();
+	private LocalDateTime purchaseDate;
 	public Long getId() {
 		return super.getKey();
 	}
@@ -33,7 +35,7 @@ public class Cart extends DomainEntity<Long> {
 			return "Cart is full! Cannot add more books. Maximum books: " + MAXIMUM_BOOKS;
 		if (licenses.stream().anyMatch(b -> b.getBook().getTitle().equals(book.getTitle())))
 			return ("Book with title '" + book.getTitle() + "' is already in cart!");
-		if (customer.hasBought(book))
+		if (customer.hasAccess(book))
 			return ("Book with title '" + book.getTitle() + "' has already been bought!");
 		return null;
 	}
@@ -73,8 +75,10 @@ public class Cart extends DomainEntity<Long> {
 		return licenses.stream().mapToLong(BookLicense::getPrice).sum();
 	}
 
-	public void emptyCart() {
-		licenses.clear();
+	public void purchase() {
+		assert purchaseDate == null;
+		purchaseDate = LocalDateTime.now();
+		licenses.forEach(l -> l.setPurchaseDate(purchaseDate));
 	}
 
 	public String getUsername() {

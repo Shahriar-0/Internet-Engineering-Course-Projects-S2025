@@ -1,5 +1,6 @@
 package domain.valueobjects;
 
+import domain.entities.cart.Cart;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -12,9 +13,9 @@ public class PurchasedCartSummary {
 	private final long totalCost;
 	private final int bookCount;
 
-	public PurchasedCartSummary(PurchasedCart cart) {
-		this.datePurchased = cart.getDatePurchased();
+	public PurchasedCartSummary(Cart cart) {
+		this.datePurchased = cart.getPurchaseDate();
 		this.totalCost = cart.getTotalCost();
-		this.bookCount = cart.getBooks().size();
+		this.bookCount = cart.getLicenses().size();
 	}
 }

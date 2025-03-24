@@ -1,5 +1,7 @@
 package webapi.views.customer;
 
+import domain.entities.booklicense.BookLicense;
+import domain.entities.booklicense.ExpiringBookLicense;
 import domain.valueobjects.CustomerBook;
 
 import java.util.List;
@@ -15,17 +17,17 @@ public record CustomerBookView(
 	Integer borrowDays,
 	Long finalPrice
 ) {
-	public CustomerBookView(CustomerBook book) {
+	public CustomerBookView(BookLicense license) {
 		this(
-			book.getBook().getTitle(),
-			book.getBook().getAuthorName(),
-			book.getBook().getPublisher(),
-			book.getBook().getGenres(),
-			book.getBook().getYear(),
-			book.getBook().getPrice(),
-			book.getIsBorrowed(),
-			book.getBorrowDays(),
-			book.getFinalPrice()
+			license.getBook().getTitle(),
+			license.getBook().getAuthorName(),
+			license.getBook().getPublisher(),
+			license.getBook().getGenres(),
+			license.getBook().getYear(),
+			license.getBook().getPrice(),
+			license instanceof ExpiringBookLicense,
+			(license instanceof ExpiringBookLicense el) ? el.getValidityDays() : null,
+			license.getPrice()
 		);
 	}
 }
