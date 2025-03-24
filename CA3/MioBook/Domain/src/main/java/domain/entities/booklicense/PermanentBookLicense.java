@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class PermanentBookLicense extends BookLicense {
-    public PermanentBookLicense(Long id, Book book) {
-        super(id, book, book.getPrice());
+    public PermanentBookLicense(Book book) {
+        super(book, book.getPrice());
     }
 }

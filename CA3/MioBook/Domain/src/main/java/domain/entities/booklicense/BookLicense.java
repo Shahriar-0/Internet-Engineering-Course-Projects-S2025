@@ -19,8 +19,7 @@ public abstract class BookLicense extends DomainEntity<Long> {
         return super.getKey();
     }
 
-    public BookLicense(Long id, Book book, long price) {
-        super(id);
+    public BookLicense(Book book, long price) {
         this.book = book;
         this.price = price;
         purchaseDate = null;

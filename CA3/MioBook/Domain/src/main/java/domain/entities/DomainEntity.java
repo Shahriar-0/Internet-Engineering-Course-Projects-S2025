@@ -1,10 +1,12 @@
 package domain.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
+@NoArgsConstructor
 public abstract class DomainEntity<KT> {
 
 	private KT key;
