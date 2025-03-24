@@ -1,7 +1,7 @@
 package domain.valueobjects;
 
 import domain.entities.Book;
-import domain.entities.Customer;
+import domain.entities.user.Customer;
 import lombok.Getter;
 import lombok.Setter;
 

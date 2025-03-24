@@ -6,7 +6,7 @@ import application.exceptions.businessexceptions.userexceptions.WrongPassword;
 import application.result.Result;
 import application.usecase.UseCaseType;
 import application.usecase.user.account.Login;
-import domain.entities.User;
+import domain.entities.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

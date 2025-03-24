@@ -10,7 +10,7 @@ import application.usecase.customer.cart.RemoveCart;
 import application.usecase.customer.purchase.GetPurchaseHistory;
 import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
-import domain.entities.Customer;
+import domain.entities.user.Customer;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;
@@ -26,7 +26,7 @@ import webapi.views.customer.CartView;
 import webapi.views.customer.PurchaseHistoryView;
 import webapi.views.customer.PurchasedBooksView;
 
-import static domain.entities.User.Role.CUSTOMER;
+import static domain.entities.user.Role.CUSTOMER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 

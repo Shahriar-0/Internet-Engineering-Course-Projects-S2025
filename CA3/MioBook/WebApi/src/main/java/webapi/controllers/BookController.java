@@ -23,8 +23,8 @@ import webapi.views.book.BookContentView;
 import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
 
-import static domain.entities.User.Role.ADMIN;
-import static domain.entities.User.Role.CUSTOMER;
+import static domain.entities.user.Role.ADMIN;
+import static domain.entities.user.Role.CUSTOMER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 

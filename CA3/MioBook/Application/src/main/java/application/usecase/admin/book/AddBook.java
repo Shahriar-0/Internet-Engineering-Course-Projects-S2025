@@ -8,7 +8,8 @@ import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Book;
-import domain.entities.User;
+import domain.entities.user.Role;
+import domain.entities.user.User;
 import domain.valueobjects.BookContent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +32,7 @@ public class AddBook implements IUseCase {
 	}
 
 	public Result<Book> perform(AddBookData data, User user) {
-		assert User.Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
+		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
 		if (!authorRepository.exists(data.author))
 			return Result.failure(new AuthorDoesNotExists(data.author));

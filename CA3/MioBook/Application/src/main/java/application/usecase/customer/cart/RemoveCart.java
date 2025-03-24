@@ -6,8 +6,8 @@ import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Book;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

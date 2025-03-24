@@ -1,6 +1,6 @@
 package domain.valueobjects;
 
-import domain.entities.Customer;
+import domain.entities.user.Customer;
 import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;

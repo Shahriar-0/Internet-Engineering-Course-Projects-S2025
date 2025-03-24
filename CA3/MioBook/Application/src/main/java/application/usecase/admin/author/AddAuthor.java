@@ -6,7 +6,8 @@ import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.Author;
-import domain.entities.User;
+import domain.entities.user.Role;
+import domain.entities.user.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -25,7 +26,7 @@ public class AddAuthor implements IUseCase {
 	}
 
 	public Result<Author> perform(AddAuthorData data, User user) {
-		assert User.Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
+		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
 		if (authorRepository.exists(data.name))
 			return Result.failure(new AuthorAlreadyExists(data.name));

@@ -1,6 +1,6 @@
 package application.repositories;
 
-import domain.entities.User;
+import domain.entities.user.User;
 
 import java.util.Optional;
 

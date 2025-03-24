@@ -4,7 +4,7 @@ import application.result.Result;
 import application.usecase.UseCaseType;
 import application.usecase.user.GetUser;
 import application.usecase.user.account.CreateAccount;
-import domain.entities.User;
+import domain.entities.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

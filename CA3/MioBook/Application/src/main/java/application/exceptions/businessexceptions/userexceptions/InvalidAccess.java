@@ -1,7 +1,7 @@
 package application.exceptions.businessexceptions.userexceptions;
 
 import application.exceptions.businessexceptions.BusinessException;
-import domain.entities.User;
+import domain.entities.user.Role;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class InvalidAccess extends BusinessException {
 		return "User does not have " + access + " access!";
 	}
 
-	private static String message(List<User.Role> roles, User.Role targetRole, boolean isWhiteList) {
+	private static String message(List<Role> roles, Role targetRole, boolean isWhiteList) {
 		if (isWhiteList)
 			return "The role '" + targetRole.getValue() + "' has not appear in white list" +
 					roles.stream().map(r -> " '" + r.getValue() + "'") + "!";
@@ -24,7 +24,7 @@ public class InvalidAccess extends BusinessException {
 		super(message(access));
 	}
 
-	public InvalidAccess(List<User.Role> roles, User.Role targetRole, boolean isWhiteList) {
+	public InvalidAccess(List<Role> roles, Role targetRole, boolean isWhiteList) {
 		super(message(roles, targetRole, isWhiteList));
 	}
 }

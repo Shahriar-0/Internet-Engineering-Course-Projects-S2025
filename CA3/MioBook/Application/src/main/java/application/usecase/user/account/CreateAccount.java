@@ -6,9 +6,10 @@ import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Admin;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.user.Admin;
+import domain.entities.user.Customer;
+import domain.entities.user.Role;
+import domain.entities.user.User;
 import domain.valueobjects.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -37,9 +38,9 @@ public class CreateAccount implements IUseCase {
 	}
 
 	private static User mapToUser(AddUserData data) {
-		User.Role role = User.Role.valueOf(data.role.toUpperCase());
+		Role role = Role.valueOf(data.role.toUpperCase());
 
-        if (role == User.Role.CUSTOMER)
+        if (role == Role.CUSTOMER)
 			return Customer
 				.builder()
 				.key(data.username)

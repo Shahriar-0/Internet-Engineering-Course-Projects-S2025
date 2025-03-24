@@ -1,6 +1,6 @@
 package domain.valueobjects;
 
-import domain.entities.User;
+import domain.entities.user.User;
 import java.time.LocalDateTime;
 
 // TODO: make this class and add update method, add minimum and maximum rating, add validation, User -> Customer, move to domain entity

@@ -1,7 +1,7 @@
 package webapi.views.user;
 
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
 import domain.valueobjects.Address;
 
 public record UserView(

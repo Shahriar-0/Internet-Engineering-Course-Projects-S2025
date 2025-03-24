@@ -1,5 +1,6 @@
-package domain.entities;
+package domain.entities.user;
 
+import domain.entities.Book;
 import domain.valueobjects.Cart;
 import domain.valueobjects.PurchaseHistory;
 import domain.valueobjects.PurchasedBooks;

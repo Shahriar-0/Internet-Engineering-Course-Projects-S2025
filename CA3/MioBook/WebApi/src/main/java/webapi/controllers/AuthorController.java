@@ -14,7 +14,7 @@ import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.author.AuthorView;
 
-import static domain.entities.User.Role.ADMIN;
+import static domain.entities.user.Role.ADMIN;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 

@@ -3,8 +3,8 @@ package application.usecase.customer.purchase;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
 import domain.valueobjects.PurchaseHistory;
 
 public class GetPurchaseHistory implements IUseCase {
