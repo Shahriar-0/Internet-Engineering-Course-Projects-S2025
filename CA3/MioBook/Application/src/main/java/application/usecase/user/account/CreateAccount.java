@@ -18,8 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateAccount implements IUseCase {
 
-	private static final int DEFAULT_CREDIT_AT_CREATION = 0;
-
 	private final IUserRepository userRepository;
 
 	@Override
@@ -43,14 +41,7 @@ public class CreateAccount implements IUseCase {
         if (role == Role.CUSTOMER)
 			return new Customer(data.username, data.password, data.email, data.address);
 		else
-			return Admin
-				.builder()
-				.key(data.username)
-				.address(data.address)
-				.password(data.password)
-				.email(data.email)
-				.role(role)
-				.build();
+			return new Admin(data.username, data.password, data.email, data.address);
 	}
 
 	public record AddUserData(

@@ -10,8 +10,9 @@ import domain.entities.user.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class Login implements IUseCase {

@@ -11,8 +11,8 @@ import application.usecase.customer.purchase.GetPurchaseHistory;
 import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
 import domain.entities.booklicense.BookLicense;
-import domain.entities.user.Customer;
 import domain.entities.cart.Cart;
+import domain.entities.user.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +40,7 @@ public class CustomerController {
     private static final String ADD_BOOK_TO_CART_MESSAGE = "Added book to cart.";
     private static final String REMOVE_BOOK_FROM_CART_MESSAGE = "Removed book from cart.";
     private static final String ADD_CREDIT_MESSAGE = "Credit added successfully.";
+    private static final String ADD_BORROW_BOOK_TO_CART = "Added borrowed book to cart.";
 
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
@@ -137,6 +138,6 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Added borrowed book to cart.");
+		return Response.of(CREATED, ADD_BORROW_BOOK_TO_CART);
 	}
 }

@@ -2,7 +2,6 @@ package domain.entities.user;
 
 import domain.entities.DomainEntity;
 import domain.valueobjects.Address;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

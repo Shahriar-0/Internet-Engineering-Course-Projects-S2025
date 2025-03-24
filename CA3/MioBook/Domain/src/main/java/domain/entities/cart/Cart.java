@@ -1,7 +1,7 @@
 package domain.entities.cart;
 
-import domain.entities.book.Book;
 import domain.entities.DomainEntity;
+import domain.entities.book.Book;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.booklicense.ExpiringBookLicense;
 import domain.entities.booklicense.PermanentBookLicense;
