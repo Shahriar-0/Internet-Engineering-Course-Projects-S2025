@@ -39,6 +39,7 @@ public class CustomerController {
 
     private static final String ADD_BOOK_TO_CART_MESSAGE = "Added book to cart.";
     private static final String REMOVE_BOOK_FROM_CART_MESSAGE = "Removed book from cart.";
+    private static final String ADD_CREDIT_MESSAGE = "Credit added successfully.";
 
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
@@ -112,7 +113,7 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(OK, "Credit added successfully.");
+		return Response.of(OK, ADD_CREDIT_MESSAGE);
 	}
 
 	@PostMapping("/purchase")

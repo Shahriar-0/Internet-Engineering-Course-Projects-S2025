@@ -59,19 +59,6 @@ public class Cart extends DomainEntity<Cart.Key> {
 		return exceptions;
 	}
 
-	public String findPurchaseCartErrors(long credit) {
-		if (licenses.isEmpty())
-			return "Cart is empty!";
-		if (credit < getTotalCost())
-			return (
-				"Not enough credit! Required credit: " +
-				getTotalCost() +
-				", Current credit: " +
-				credit
-			);
-		return null;
-	}
-
 	public void addBook(Book book) {
         assert getAddBookErrors(book.getTitle()).isEmpty();
 		licenses.add(new PermanentBookLicense(book));
@@ -95,10 +82,6 @@ public class Cart extends DomainEntity<Cart.Key> {
 		assert purchaseDate == null;
 		purchaseDate = LocalDateTime.now();
 		licenses.forEach(l -> l.setPurchaseDate(purchaseDate));
-	}
-
-	public String getUsername() {
-		return customer.getUsername();
 	}
 
 	public record Key(String customerName, long id) {};

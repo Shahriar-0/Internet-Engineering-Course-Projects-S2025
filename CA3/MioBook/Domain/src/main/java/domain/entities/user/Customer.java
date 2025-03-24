@@ -1,8 +1,10 @@
 package domain.entities.user;
 
-import domain.entities.book.Book;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.cart.Cart;
+import domain.exceptions.DomainException;
+import domain.exceptions.customer.CartIsEmpty;
+import domain.exceptions.customer.NotEnoughCredit;
 import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,28 +37,26 @@ public class Customer extends User {
 				.toList();
 	}
 
-	public Boolean canPurchaseCart() {
-		return cart.findPurchaseCartErrors(credit) == null;
-	}
+	public List<DomainException> getPurchaseCartErrors() {
+        List<DomainException> exceptions = new ArrayList<>();
 
-	/**
-	 * @return A string containing the reason why the cart cannot be purchased.
-	 *         If the cart can be purchased, this method returns null.
-	 */
-	public String findPurchaseCartErrors() {
-		return cart.findPurchaseCartErrors(credit);
+        if (cart.getLicenses().isEmpty())
+            exceptions.add(new CartIsEmpty());
+
+        long cartTotalCost = cart.getTotalCost();
+        if (credit < cartTotalCost)
+            exceptions.add(new NotEnoughCredit(cartTotalCost, credit));
+
+		return exceptions;
 	}
 
 	public void addCredit(long amount) {
-		if (amount < 0)
-			throw new RuntimeException("Amount must be positive.");
-
+		assert amount > 0;
 		credit += amount;
 	}
 
 	public Cart purchaseCart() {
-		if (!canPurchaseCart())
-			throw new RuntimeException(findPurchaseCartErrors());
+		assert getPurchaseCartErrors().isEmpty();
 
 		credit -= cart.getTotalCost();
 		cart.purchase();
