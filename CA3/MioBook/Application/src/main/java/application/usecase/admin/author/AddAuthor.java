@@ -35,14 +35,14 @@ public class AddAuthor implements IUseCase {
             return Author.createLivingAuthor(
                 data.name,
                 data.penName,
-                data.name,
+                data.nationality,
                 LocalDate.parse(data.born)
             );
         else
             return Author.createDeadAuthor(
                 data.name,
                 data.penName,
-                data.name,
+                data.nationality,
                 LocalDate.parse(data.born),
                 LocalDate.parse(data.died)
             );

@@ -1167,13 +1167,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 400\", () => {\r",
-									"    pm.response.to.have.status(400);\r",
+									"pm.test(\"Status code is 409\", () => {\r",
+									"    pm.response.to.have.status(409);\r",
 									"})\r",
 									"\r",
 									"pm.test(\"Validate error message\", () => {\r",
 									"    const actualMessage = pm.response.json().message;\r",
-									"    const expectedMessage = \"Author with username 'authorTest1' already exists!\";\r",
+									"    const expectedMessage = \"Entity with type of 'Author' and key value of 'authorTest1' already exists!\";\r",
 									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
 									"})\r",
 									""

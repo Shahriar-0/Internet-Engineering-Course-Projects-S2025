@@ -26,10 +26,11 @@ public class Book extends DomainEntity<String> {
 		return super.getKey();
 	}
 
-    public Book(String title, Author author, String publisher, long basePrice, String synopsis, List<String> genres, String content) {
+    public Book(String title, Author author, String publisher, int publishedYear, long basePrice, String synopsis, List<String> genres, String content) {
         super(title);
         this.author = author;
         this.publisher = publisher;
+        this.publishedYear = publishedYear;
         this.basePrice = basePrice;
         this.synopsis = synopsis;
         this.genres = genres;

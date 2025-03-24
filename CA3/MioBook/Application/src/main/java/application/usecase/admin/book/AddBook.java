@@ -53,6 +53,7 @@ public class AddBook implements IUseCase {
             data.title,
             author,
             data.publisher,
+            data.year,
             data.price,
             data.synopsis,
             data.genres,
