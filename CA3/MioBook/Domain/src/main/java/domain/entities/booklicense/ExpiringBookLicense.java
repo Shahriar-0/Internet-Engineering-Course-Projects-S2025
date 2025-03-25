@@ -1,6 +1,7 @@
 package domain.entities.booklicense;
 
 import domain.entities.book.Book;
+import domain.entities.user.Customer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -16,8 +17,8 @@ public class ExpiringBookLicense extends BookLicense {
 
     private int validityDays;
 
-    public ExpiringBookLicense(Book book, int validityDays) {
-        super(book, calcLicensePrice(book.getBasePrice(), validityDays));
+    public ExpiringBookLicense(Customer customer, long id, Book book, long price, LocalDateTime purchaseDate, int validityDays) {
+        super(customer, id, book, price, purchaseDate);
         this.validityDays = validityDays;
         assert validityDays <= MAX_VALIDITY_DAYS && validityDays >= MIN_VALIDITY_DAYS;
     }
@@ -28,11 +29,7 @@ public class ExpiringBookLicense extends BookLicense {
     }
 
     private boolean isExpired() {
-        assert purchaseDate != null;
+        assert super.isValid();
         return LocalDateTime.now().isAfter(purchaseDate.plusDays(validityDays));
-    }
-
-    private static long calcLicensePrice(long basePrice, int validityDays) {
-        return basePrice * validityDays / MAX_VALIDITY_DAYS;
     }
 }

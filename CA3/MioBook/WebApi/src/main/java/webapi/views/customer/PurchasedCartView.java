@@ -14,7 +14,7 @@ public record PurchasedCartView(
         this(
             cart.getPurchaseDate(),
             cart.getTotalCost(),
-            cart.getLicenses().stream().map(CustomerBookView::new).toList()
+            cart.getItems().stream().map(CustomerBookView::new).toList()
         );
     }
 }

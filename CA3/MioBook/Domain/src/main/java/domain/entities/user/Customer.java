@@ -1,7 +1,10 @@
 package domain.entities.user;
 
 import domain.entities.booklicense.BookLicense;
+import domain.entities.booklicense.ExpiringBookLicense;
+import domain.entities.booklicense.PermanentBookLicense;
 import domain.entities.cart.Cart;
+import domain.entities.cart.CartItem;
 import domain.exceptions.DomainException;
 import domain.exceptions.customer.CartIsEmpty;
 import domain.exceptions.customer.NotEnoughCredit;
@@ -10,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +21,6 @@ import java.util.List;
 @Setter
 @SuperBuilder
 public class Customer extends User {
-	private static final int FIRST_CART_ID = 1;
 	public static final int INITIAL_CREDIT_AMOUNT = 0;
 
 	private long credit;
@@ -40,7 +43,7 @@ public class Customer extends User {
 	public List<DomainException> getPurchaseCartErrors() {
         List<DomainException> exceptions = new ArrayList<>();
 
-        if (cart.getLicenses().isEmpty())
+        if (cart.getItems().isEmpty())
             exceptions.add(new CartIsEmpty());
 
         long cartTotalCost = cart.getTotalCost();
@@ -58,14 +61,39 @@ public class Customer extends User {
 	public Cart purchaseCart() {
 		assert getPurchaseCartErrors().isEmpty();
 
+        LocalDateTime purchaseDate = LocalDateTime.now();
+		cart.setPurchaseDate(purchaseDate);
+        cart.getItems().forEach(item -> addCartItemToLicenses(item, purchaseDate));
 		credit -= cart.getTotalCost();
-		cart.purchase();
+		purchaseHistory.add(cart);
 		Cart purchasedCart = cart;
-        purchasedLicenses.addAll(cart.getLicenses());
 		cart = new Cart(this, purchaseHistory.size() + 1);
-		purchaseHistory.add(purchasedCart);
 		return purchasedCart;
 	}
+
+    private void addCartItemToLicenses(CartItem item, LocalDateTime purchaseDate) {
+        BookLicense license;
+        long id = purchasedLicenses.size() + 1;
+        if (item.isBorrow())
+            license = new ExpiringBookLicense(
+                this,
+                id,
+                item.getBook(),
+                item.getPrice(),
+                purchaseDate,
+                item.getBorrowDays()
+            );
+        else
+            license = new PermanentBookLicense(
+                this,
+                id,
+                item.getBook(),
+                item.getPrice(),
+                purchaseDate
+            );
+
+        purchasedLicenses.add(license);
+    }
 
 	public Boolean hasAccess(String bookTitle) {
 		for (BookLicense license : purchasedLicenses)

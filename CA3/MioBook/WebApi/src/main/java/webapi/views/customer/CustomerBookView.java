@@ -2,6 +2,7 @@ package webapi.views.customer;
 
 import domain.entities.booklicense.BookLicense;
 import domain.entities.booklicense.ExpiringBookLicense;
+import domain.entities.cart.CartItem;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public record CustomerBookView(
 	public CustomerBookView(BookLicense license) {
 		this(
 			license.getBook().getTitle(),
-			license.getBook().getAuthorName(),
+			license.getBook().getAuthor().getName(),
 			license.getBook().getPublisher(),
 			license.getBook().getGenres(),
 			license.getBook().getPublishedYear(),
@@ -29,4 +30,18 @@ public record CustomerBookView(
 			license.getPrice()
 		);
 	}
+
+    public CustomerBookView(CartItem item) {
+        this(
+            item.getBook().getTitle(),
+            item.getBook().getAuthor().getName(),
+            item.getBook().getPublisher(),
+            item.getBook().getGenres(),
+            item.getBook().getPublishedYear(),
+            item.getBook().getBasePrice(),
+            item.isBorrow(),
+            item.isBorrow() ? item.getBorrowDays() : null,
+            item.getPrice()
+        );
+    }
 }

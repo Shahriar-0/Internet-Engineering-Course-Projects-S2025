@@ -39,15 +39,13 @@ public class Book extends DomainEntity<String> {
 
 	public void addReview(Review review) {
         assert review.getBook().isKeyEqual(key);
+
+        reviews.removeIf(r -> r.isKeyEqual(review.getKey()));
 		reviews.add(review);
 	}
 
 	public float getAverageRating() {
 		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0))
 				.setScale(1, RoundingMode.HALF_UP).floatValue();
-	}
-
-	public String getAuthorName() {
-		return author != null ? author.getName() : null;
 	}
 }

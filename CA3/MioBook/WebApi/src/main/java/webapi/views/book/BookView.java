@@ -18,7 +18,7 @@ public record BookView(
 	public BookView(Book entity) {
 		this(
 			entity.getTitle(),
-			entity.getAuthorName(),
+			entity.getAuthor().getName(),
 			entity.getPublisher(),
 			entity.getGenres(),
 			entity.getPublishedYear(),

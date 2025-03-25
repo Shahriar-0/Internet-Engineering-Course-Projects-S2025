@@ -13,7 +13,7 @@ public record PurchasedCartSummaryView(
         this (
             purchasedCart.getPurchaseDate(),
             purchasedCart.getTotalCost(),
-            purchasedCart.getLicenses().size()
+            purchasedCart.getItems().size()
         );
     }
 }

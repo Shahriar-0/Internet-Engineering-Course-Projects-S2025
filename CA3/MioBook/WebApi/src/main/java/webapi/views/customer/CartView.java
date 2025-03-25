@@ -13,7 +13,7 @@ public record CartView(
         this(
             cart.getCustomerName(),
             cart.getTotalCost(),
-            cart.getLicenses().stream().map(CustomerBookView::new).toList()
+            cart.getItems().stream().map(CustomerBookView::new).toList()
         );
     }
 }
