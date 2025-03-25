@@ -25,11 +25,10 @@ public class ExpiringBookLicense extends BookLicense {
 
     @Override
     public boolean isValid() {
-        return super.isValid() && !isExpired();
+        return !isExpired();
     }
 
     private boolean isExpired() {
-        assert super.isValid();
         return LocalDateTime.now().isAfter(purchaseDate.plusDays(validityDays));
     }
 }

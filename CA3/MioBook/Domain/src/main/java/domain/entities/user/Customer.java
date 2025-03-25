@@ -97,8 +97,8 @@ public class Customer extends User {
 
 	public Boolean hasAccess(String bookTitle) {
 		for (BookLicense license : purchasedLicenses)
-			if (license.getBook().isKeyEqual(bookTitle))
-				return license.isValid();
+			if (license.getBook().isKeyEqual(bookTitle) && license.isValid())
+				return true;
 
 		return false;
 	}

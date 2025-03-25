@@ -32,9 +32,7 @@ public abstract class BookLicense extends DomainEntity<BookLicense.Key> {
         this.purchaseDate = purchaseDate;
     }
 
-    public boolean isValid() {
-        return purchaseDate != null;
-    }
+    public abstract boolean isValid();
 
     public record Key(String customerName, long id) {} ;
 }

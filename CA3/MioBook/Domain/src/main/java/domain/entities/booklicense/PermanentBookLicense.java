@@ -15,4 +15,9 @@ public class PermanentBookLicense extends BookLicense {
     public PermanentBookLicense(Customer customer, long id, Book book, long price, LocalDateTime purchaseDate) {
         super(customer, id, book, price, purchaseDate);
     }
+
+    @Override
+    public boolean isValid() {
+        return true;
+    }
 }
