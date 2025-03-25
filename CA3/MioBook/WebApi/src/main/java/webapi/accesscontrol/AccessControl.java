@@ -1,7 +1,8 @@
 package webapi.accesscontrol;
 
 import application.exceptions.businessexceptions.userexceptions.InvalidAccess;
-import domain.entities.User;
+import domain.entities.user.Role;
+import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,7 +24,7 @@ public class AccessControl {
     @Before("@annotation(webapi.accesscontrol.Access)")
     public void checkAccess(JoinPoint joinPoint) {
         Access access = getAccessAnnotation(joinPoint);
-        List<User.Role> roles = Arrays.stream(access.roles()).toList();
+        List<Role> roles = Arrays.stream(access.roles()).toList();
         boolean isWhiteList = access.isWhiteList();
 
         if (!isWhiteList && roles.isEmpty())

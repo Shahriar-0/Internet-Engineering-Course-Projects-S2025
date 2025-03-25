@@ -6,11 +6,14 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.book.Book;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
+import domain.exceptions.DomainException;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class AddCart implements IUseCase {
@@ -30,10 +33,11 @@ public class AddCart implements IUseCase {
 			return Result.failure(new BookDoesntExist(data.title));
 		Book book = bookResult.data();
 
-		if (!customer.canAddBook(book))
-			return Result.failure(new CantAddToCart(customer.findAddBookErrors(book)));
+        List<DomainException> exceptions = customer.getCart().getAddBookErrors(data.title);
+		if (!exceptions.isEmpty())
+			return Result.failure(new CantAddToCart(exceptions.getFirst().getMessage()));
 
-		customer.addBook(book);
+		customer.getCart().addBook(book);
 		return Result.success(customer);
 	}
 

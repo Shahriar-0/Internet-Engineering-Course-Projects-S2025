@@ -10,11 +10,9 @@ import application.usecase.customer.cart.RemoveCart;
 import application.usecase.customer.purchase.GetPurchaseHistory;
 import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
-import domain.entities.Customer;
-import domain.valueobjects.Cart;
-import domain.valueobjects.PurchaseHistory;
-import domain.valueobjects.PurchasedBooks;
-import domain.valueobjects.PurchasedCartSummary;
+import domain.entities.booklicense.BookLicense;
+import domain.entities.cart.Cart;
+import domain.entities.user.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +23,11 @@ import webapi.services.UseCaseService;
 import webapi.views.customer.CartView;
 import webapi.views.customer.PurchaseHistoryView;
 import webapi.views.customer.PurchasedBooksView;
+import webapi.views.customer.PurchasedCartSummaryView;
 
-import static domain.entities.User.Role.CUSTOMER;
+import java.util.List;
+
+import static domain.entities.user.Role.CUSTOMER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -35,6 +36,11 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/profile")
 public class CustomerController {
+
+    private static final String ADD_BOOK_TO_CART_MESSAGE = "Added book to cart.";
+    private static final String REMOVE_BOOK_FROM_CART_MESSAGE = "Removed book from cart.";
+    private static final String ADD_CREDIT_MESSAGE = "Credit added successfully.";
+    private static final String ADD_BORROW_BOOK_TO_CART = "Added borrowed book to cart.";
 
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
@@ -48,7 +54,7 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Added book to cart.");
+		return Response.of(CREATED, ADD_BOOK_TO_CART_MESSAGE);
 	}
 
 	@GetMapping("/cart")
@@ -68,11 +74,11 @@ public class CustomerController {
 	public Response<PurchaseHistoryView> getPurchaseHistory() {
 		GetPurchaseHistory useCase = (GetPurchaseHistory) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
 
-		Result<PurchaseHistory> result = useCase.perform(authenticationService.getUser());
+		Result<List<Cart>> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(new PurchaseHistoryView(result.data()), OK);
+		return Response.of(new PurchaseHistoryView(result.data(), authenticationService.getUser().getUsername()), OK);
 	}
 
 	@GetMapping("/books")
@@ -80,11 +86,11 @@ public class CustomerController {
 	public Response<PurchasedBooksView> getPurchasedBooks() {
 		GetPurchasedBooks useCase = (GetPurchasedBooks) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
 
-		Result<PurchasedBooks> result = useCase.perform(authenticationService.getUser());
+		Result<List<BookLicense>> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(new PurchasedBooksView(result.data()), OK);
+		return Response.of(PurchasedBooksView.create(result.data()), OK);
 	}
 
 	@DeleteMapping("/cart/{title}")
@@ -96,7 +102,7 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(OK, "Removed book from cart.");
+		return Response.of(OK, REMOVE_BOOK_FROM_CART_MESSAGE);
 	}
 
 	@PatchMapping("credit")
@@ -108,19 +114,19 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(OK, "Credit added successfully.");
+		return Response.of(OK, ADD_CREDIT_MESSAGE);
 	}
 
 	@PostMapping("/purchase")
 	@Access(roles = {CUSTOMER})
-	public Response<PurchasedCartSummary> purchaseCart() {
+	public Response<PurchasedCartSummaryView> purchaseCart() {
 		PurchaseCart useCase = (PurchaseCart) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
 
-		Result<PurchasedCartSummary> result = useCase.perform(authenticationService.getUser());
+		Result<Cart> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(result.data(), CREATED);
+		return Response.of(new PurchasedCartSummaryView(result.data()), CREATED);
 	}
 
 	@PostMapping("/borrow")
@@ -132,6 +138,6 @@ public class CustomerController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Added borrowed book to cart.");
+		return Response.of(CREATED, ADD_BORROW_BOOK_TO_CART);
 	}
 }

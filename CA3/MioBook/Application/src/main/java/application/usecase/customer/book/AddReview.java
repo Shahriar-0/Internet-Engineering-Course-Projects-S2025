@@ -5,18 +5,16 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
-import domain.entities.Customer;
-import domain.entities.User;
-import domain.valueobjects.Review;
+import domain.entities.book.Book;
+import domain.entities.book.Review;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Setter
 @RequiredArgsConstructor
@@ -40,15 +38,12 @@ public class AddReview implements IUseCase {
             return Result.failure(bookResult.exception());
         Book book = bookResult.data();
 
-        if (enforceAccessChecks && !customer.hasBought(book))
+        if (enforceAccessChecks && !customer.hasAccess(title))
             return Result.failure(new BookIsNotAccessible(title));
 
-        book.addReview(mapToReview(data, customer));
+        Review review = new Review(data.rating, data.comment, customer, book);
+        book.addReview(review);
         return Result.success(book);
-    }
-
-    private Review mapToReview(AddReviewData data, Customer customer) {
-        return new Review(data.rating, data.comment, customer, LocalDateTime.now());
     }
 
 	public record AddReviewData(

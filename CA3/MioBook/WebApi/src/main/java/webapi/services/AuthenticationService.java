@@ -1,6 +1,6 @@
 package webapi.services;
 
-import domain.entities.User;
+import domain.entities.user.User;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 import webapi.exceptions.AuthenticationException;

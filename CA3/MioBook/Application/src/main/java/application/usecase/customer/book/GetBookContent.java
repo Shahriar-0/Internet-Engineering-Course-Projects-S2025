@@ -5,10 +5,10 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
-import domain.entities.Customer;
-import domain.entities.User;
-import domain.valueobjects.BookContent;
+import domain.entities.book.Book;
+import domain.entities.book.BookContent;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class GetBookContent implements IUseCase {
 		if (bookResult.isFailure())
             return Result.failure(bookResult.exception());
 
-		if (!customer.hasBought(bookResult.data()))
+		if (!customer.hasAccess(title))
             return Result.failure(new BookIsNotAccessible(title));
 
 		return Result.success(bookResult.data().getContent());

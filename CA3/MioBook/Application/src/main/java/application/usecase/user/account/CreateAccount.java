@@ -6,9 +6,10 @@ import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Admin;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.user.Admin;
+import domain.entities.user.Customer;
+import domain.entities.user.Role;
+import domain.entities.user.User;
 import domain.valueobjects.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -16,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CreateAccount implements IUseCase {
-
-	private static final int DEFAULT_CREDIT_AT_CREATION = 0;
 
 	private final IUserRepository userRepository;
 
@@ -37,27 +36,12 @@ public class CreateAccount implements IUseCase {
 	}
 
 	private static User mapToUser(AddUserData data) {
-		User.Role role = User.Role.valueOf(data.role.toUpperCase());
+		Role role = Role.valueOf(data.role.toUpperCase());
 
-        if (role == User.Role.CUSTOMER)
-			return Customer
-				.builder()
-				.key(data.username)
-				.address(data.address)
-				.password(data.password)
-				.email(data.email)
-				.role(role)
-				.credit(DEFAULT_CREDIT_AT_CREATION)
-				.build();
+        if (role == Role.CUSTOMER)
+			return new Customer(data.username, data.password, data.email, data.address);
 		else
-			return Admin
-				.builder()
-				.key(data.username)
-				.address(data.address)
-				.password(data.password)
-				.email(data.email)
-				.role(role)
-				.build();
+			return new Admin(data.username, data.password, data.email, data.address);
 	}
 
 	public record AddUserData(

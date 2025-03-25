@@ -5,10 +5,13 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.book.Book;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
+import domain.exceptions.DomainException;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class RemoveCart implements IUseCase {
@@ -30,10 +33,11 @@ public class RemoveCart implements IUseCase {
 			return Result.failure(bookResult.exception());
 		Book book = bookResult.data();
 
-		if (!customer.canRemoveBook(book))
-			return Result.failure(new CantRemoveFromCart(customer.findRemoveBookErrors(book)));
+        List<DomainException> exceptions = customer.getCart().getRemoveBookErrors(title);
+		if (!exceptions.isEmpty())
+			return Result.failure(new CantRemoveFromCart(exceptions.getFirst().getMessage()));
 
-		customer.removeBook(book);
+		customer.getCart().removeBook(book);
 		return Result.success(customer);
 	}
 }

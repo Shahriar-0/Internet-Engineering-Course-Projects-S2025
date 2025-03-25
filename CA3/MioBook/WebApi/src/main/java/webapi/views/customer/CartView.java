@@ -1,6 +1,6 @@
 package webapi.views.customer;
 
-import domain.valueobjects.Cart;
+import domain.entities.cart.Cart;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ public record CartView(
 ) {
     public CartView(Cart cart) {
         this(
-            cart.getUsername(),
+            cart.getCustomerName(),
             cart.getTotalCost(),
-            cart.getBooks().stream().map(CustomerBookView::new).toList()
+            cart.getItems().stream().map(CustomerBookView::new).toList()
         );
     }
 }

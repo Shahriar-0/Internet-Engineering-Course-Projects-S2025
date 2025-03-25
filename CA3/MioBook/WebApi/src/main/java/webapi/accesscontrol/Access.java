@@ -1,6 +1,6 @@
 package webapi.accesscontrol;
 
-import domain.entities.User;
+import domain.entities.user.Role;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Access {
-    User.Role[] roles() default {};
+    Role[] roles() default {};
     boolean isWhiteList() default true;
 }

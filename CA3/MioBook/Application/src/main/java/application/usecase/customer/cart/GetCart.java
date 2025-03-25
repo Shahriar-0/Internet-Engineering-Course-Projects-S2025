@@ -3,9 +3,9 @@ package application.usecase.customer.cart;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Customer;
-import domain.entities.User;
-import domain.valueobjects.Cart;
+import domain.entities.cart.Cart;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
 
 public class GetCart implements IUseCase {
 	@Override

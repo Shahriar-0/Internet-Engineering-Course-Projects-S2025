@@ -8,9 +8,9 @@ import application.usecase.customer.book.AddReview;
 import application.usecase.customer.book.GetBookContent;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
-import domain.entities.Book;
-import domain.valueobjects.BookContent;
-import domain.valueobjects.Review;
+import domain.entities.book.Book;
+import domain.entities.book.BookContent;
+import domain.entities.book.Review;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ import webapi.views.book.BookContentView;
 import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
 
-import static domain.entities.User.Role.ADMIN;
-import static domain.entities.User.Role.CUSTOMER;
+import static domain.entities.user.Role.ADMIN;
+import static domain.entities.user.Role.CUSTOMER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -32,6 +32,9 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/books")
 public class BookController {
+
+    private static final String ADD_BOOK_MESSAGE = "Book added successfully.";
+    private static final String ADD_REVIEW_MESSAGE = "Review added successfully.";
 
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
@@ -45,12 +48,12 @@ public class BookController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Book added successfully.");
+		return Response.of(CREATED, ADD_BOOK_MESSAGE);
 	}
 
 	@GetMapping("/{title}")
 	@Access(isWhiteList = false)
-	public Response<BookView> getBook(@NotBlank @PathVariable String title) {
+	public Response<BookView> getBook(@PathVariable String title) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
 		Result<Book> result = useCase.perform(title);
@@ -108,6 +111,6 @@ public class BookController {
 		if (result.isFailure())
 			throw result.exception();
 
-		return Response.of(CREATED, "Review added successfully.");
+		return Response.of(CREATED, ADD_REVIEW_MESSAGE);
 	}
 }

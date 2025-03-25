@@ -1,6 +1,6 @@
 package webapi.views.customer;
 
-import domain.valueobjects.PurchaseHistory;
+import domain.entities.cart.Cart;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ public record PurchaseHistoryView(
     String username,
     List<PurchasedCartView> purchaseHistory
 ) {
-    public PurchaseHistoryView(PurchaseHistory history) {
+    public PurchaseHistoryView(List<Cart> history, String username) {
         this(
-            history.getUsername(),
-            history.getPurchaseHistory().stream().map(PurchasedCartView::new).toList()
+            username,
+            history.stream().map(PurchasedCartView::new).toList()
         );
     }
 }

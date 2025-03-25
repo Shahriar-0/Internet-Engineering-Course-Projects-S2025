@@ -1,7 +1,7 @@
 package webapi.views.book;
 
 import application.pagination.Page;
-import domain.valueobjects.Review;
+import domain.entities.book.Review;
 
 import java.time.LocalDateTime;
 
@@ -13,10 +13,10 @@ public record BookReviewsView(
 ) {
     public BookReviewsView(Review review) {
         this(
-            review.rating(),
-            review.comment(),
-            review.customer().getUsername(),
-            review.date()
+            review.getRating(),
+            review.getComment(),
+            review.getCustomerName(),
+            review.getDateTime()
         );
     }
 

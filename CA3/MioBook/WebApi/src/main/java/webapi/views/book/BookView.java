@@ -1,7 +1,7 @@
 package webapi.views.book;
 
 import application.pagination.Page;
-import domain.entities.Book;
+import domain.entities.book.Book;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ public record BookView(
 	public BookView(Book entity) {
 		this(
 			entity.getTitle(),
-			entity.getAuthorName(),
+			entity.getAuthor().getName(),
 			entity.getPublisher(),
 			entity.getGenres(),
-			entity.getYear(),
-			entity.getPrice(),
+			entity.getPublishedYear(),
+			entity.getBasePrice(),
 			entity.getSynopsis(),
 			entity.getAverageRating()
 		);

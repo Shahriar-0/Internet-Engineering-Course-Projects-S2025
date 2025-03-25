@@ -1,6 +1,8 @@
 package webapi.views.customer;
 
-import domain.valueobjects.CustomerBook;
+import domain.entities.booklicense.BookLicense;
+import domain.entities.booklicense.ExpiringBookLicense;
+import domain.entities.cart.CartItem;
 
 import java.util.List;
 
@@ -15,17 +17,31 @@ public record CustomerBookView(
 	Integer borrowDays,
 	Long finalPrice
 ) {
-	public CustomerBookView(CustomerBook book) {
+	public CustomerBookView(BookLicense license) {
 		this(
-			book.getBook().getTitle(),
-			book.getBook().getAuthorName(),
-			book.getBook().getPublisher(),
-			book.getBook().getGenres(),
-			book.getBook().getYear(),
-			book.getBook().getPrice(),
-			book.getIsBorrowed(),
-			book.getBorrowDays(),
-			book.getFinalPrice()
+			license.getBook().getTitle(),
+			license.getBook().getAuthor().getName(),
+			license.getBook().getPublisher(),
+			license.getBook().getGenres(),
+			license.getBook().getPublishedYear(),
+			license.getBook().getBasePrice(),
+			license instanceof ExpiringBookLicense,
+			(license instanceof ExpiringBookLicense el) ? el.getValidityDays() : null,
+			license.getPrice()
 		);
 	}
+
+    public CustomerBookView(CartItem item) {
+        this(
+            item.getBook().getTitle(),
+            item.getBook().getAuthor().getName(),
+            item.getBook().getPublisher(),
+            item.getBook().getGenres(),
+            item.getBook().getPublishedYear(),
+            item.getBook().getBasePrice(),
+            item.isBorrow(),
+            item.isBorrow() ? item.getBorrowDays() : null,
+            item.getPrice()
+        );
+    }
 }

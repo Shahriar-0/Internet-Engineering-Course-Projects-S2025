@@ -6,14 +6,17 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Book;
-import domain.entities.Customer;
-import domain.entities.User;
+import domain.entities.book.Book;
+import domain.entities.user.Customer;
+import domain.entities.user.User;
+import domain.exceptions.DomainException;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class BorrowBook implements IUseCase {
@@ -33,10 +36,11 @@ public class BorrowBook implements IUseCase {
 			return Result.failure(new BookDoesntExist(data.title));
 		Book book = bookResult.data();
 
-		if (!customer.canAddBook(book))
-			return Result.failure(new CantAddToCart(customer.findAddBookErrors(book))); // for now their validations are the same
+        List<DomainException> exceptions = customer.getCart().getAddBookErrors(data.title);
+        if (!exceptions.isEmpty())
+            return Result.failure(new CantAddToCart(exceptions.getFirst().getMessage()));
 
-		customer.borrowBook(book, data.borrowedDays);
+		customer.getCart().borrowBook(book, data.borrowedDays);
 		return Result.success(customer);
 	}
 

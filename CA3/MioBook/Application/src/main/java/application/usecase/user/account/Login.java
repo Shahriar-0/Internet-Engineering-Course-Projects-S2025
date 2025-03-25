@@ -6,12 +6,13 @@ import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.User;
+import domain.entities.user.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class Login implements IUseCase {
@@ -28,10 +29,9 @@ public class Login implements IUseCase {
 		(data.email != null && !data.email.isBlank()) : "we rely on valid input data, validation should be done in presentation layer";
 
 		if (data.username != null && !data.username.isBlank())
-			return loginByUsername(data.username, data.password); else return loginByEmail(
-				data.email,
-				data.password
-			);
+			return loginByUsername(data.username, data.password);
+        else
+            return loginByEmail(data.email, data.password);
 	}
 
 	private Result<User> loginByUsername(String username, String password) {
