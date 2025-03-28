@@ -1,0 +1,40 @@
+﻿.green-btn {
+    background-color: var(--c-green);
+    color: white;
+    border-color: var(--c-green);
+}
+
+.green-btn:hover {
+    background-color: var(--c-khaki);
+    color: var(--c-green);
+    border-color: var(--c-green);
+}
+
+.green-btn:active {
+    background-color: var(--c-khaki) !important;
+    color: var(--c-green) !important;
+    border-color: var(--c-green) !important;
+}
+
+.green-btn:disabled {
+    background-color: var(--c-gray);
+    border-color: var(--c-gray);
+}
+
+.pagination-item:hover {
+    cursor: pointer;
+    background-color: var(--c-gray);
+}
+
+.pagination-item.active {
+    background-color: var(--c-green) !important;
+    color: white !important;
+}
+
+.profile-img-container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
