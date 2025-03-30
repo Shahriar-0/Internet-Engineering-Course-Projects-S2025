@@ -17,9 +17,7 @@ footer {
 }
 
 a {
-    text-decoration: none;
-    color: var(--c-green);
-    font-weight: bold;
+    text-decoration: none !important;
 }
 
 [type="search"]::-webkit-search-cancel-button,
