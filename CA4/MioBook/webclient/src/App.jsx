@@ -1,19 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./layout/header/Header";
-import Footer from "./layout/footer/Footer";
-import SignIn from "./layout/main/sign-in/SignIn";
+import Header from "layout/header/Header";
+import Footer from "layout/footer/Footer";
+import SignIn from "layout/main/sign-in/SignIn";
+
+import UrlService from "services/UrlService";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/home" element={<div>Home</div>} />
-        <Route path="/sign-in" element={<SignIn />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
-  );
+    const urls = UrlService.urls;
+
+    return (
+        <BrowserRouter>
+            <Header/>
+            <Routes>
+                <Route path={urls.signIn} element={<SignIn />} />
+                <Route path={urls.home} element={<div>Home</div>} />
+            </Routes>
+            <Footer />
+        </BrowserRouter>
+    );
 }
 
 export default App;
