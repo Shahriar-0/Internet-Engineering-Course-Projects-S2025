@@ -29,7 +29,7 @@ public class Author extends DomainEntity<String> {
         this.died = died;
     }
 
-    public static Author createLivingAuthor(String name, String penName, String nationality, LocalDate born) {
+    public static Author createAliveAuthor(String name, String penName, String nationality, LocalDate born) {
         return new Author(name, penName, nationality, born, null);
     }
 
