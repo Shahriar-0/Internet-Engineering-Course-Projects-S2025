@@ -41,11 +41,6 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 	}
 
 	@Override
-	public Boolean doesEmailExist(String email) {
-		return map.values().stream().anyMatch(user -> user.getEmail().equals(email));
-	}
-
-	@Override
 	public Optional<User> findByEmail(String email) {
 		List<User> userList = map.values().stream().filter(u -> u.getEmail().equals(email)).toList();
 		if (userList.isEmpty())

@@ -14,7 +14,7 @@ public class Page<T> {
 
 	private final List<T> list;
 	private final int pageNumber;
-	private final int pageSize; // TODO: #21 handle this in output json, probably create page view
+	private final int pageSize;
 	private final int totalPageNumber;
 	private final int totalDataSize;
 
