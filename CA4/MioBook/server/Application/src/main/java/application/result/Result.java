@@ -22,14 +22,6 @@ public record Result<T>(T data, BaseException exception) {
 	}
 
 	/**
-	 * Create a successful result without any data, it can be used for void return values.
-	 * @return a successful result
-	 */
-	public static <T> Result<T> success() {
-		return new Result<>(null, null);
-	}
-
-	/**
 	 * Create a failed result with the given exception.
 	 * @param exception exception to be stored in the result
 	 * @return a failed result
