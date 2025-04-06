@@ -10,7 +10,8 @@ import application.usecase.user.account.CreateAccount;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.entities.Author;
+
+import domain.entities.author.Author;
 import domain.entities.book.Book;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,8 @@
 package domain.entities.book;
 
-import domain.entities.Author;
 import domain.entities.DomainEntity;
+import domain.entities.author.Author;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class Book extends DomainEntity<String> {
 	public void addReview(Review review) {
 		assert review.getBook().isKeyEqual(key);
 
-		reviews.removeIf(r -> r.isKeyEqual(review.getKey()));
+		reviews.removeIf(r -> r.isKeyEqual(review.getKey())); // replace previous review of the same customer
 		reviews.add(review);
 	}
 

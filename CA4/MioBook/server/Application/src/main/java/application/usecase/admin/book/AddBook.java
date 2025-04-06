@@ -6,7 +6,7 @@ import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Author;
+import domain.entities.author.Author;
 import domain.entities.book.Book;
 import domain.entities.user.Role;
 import domain.entities.user.User;
