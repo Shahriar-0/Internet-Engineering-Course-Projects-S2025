@@ -22,12 +22,12 @@ public abstract class BookLicense extends DomainEntity<BookLicense.Key> {
 		return key.customerName;
 	}
 
-	public long getId() {
-		return key.id;
+	public String getId() {
+		return key.bookTitle;
 	}
 
-	public BookLicense(Customer customer, long id, Book book, long price, LocalDateTime purchaseDate) {
-		super(new Key(customer.getKey(), id));
+	public BookLicense(Customer customer, Book book, long price, LocalDateTime purchaseDate) {
+		super(new Key(customer.getKey(), book.getTitle()));
 		this.customer = customer;
 		this.book = book;
 		this.price = price;
@@ -36,5 +36,5 @@ public abstract class BookLicense extends DomainEntity<BookLicense.Key> {
 
 	public abstract boolean isValid();
 
-	public record Key(String customerName, long id) {}
+	public record Key(String customerName, String bookTitle) {}
 }

@@ -72,11 +72,10 @@ public class Customer extends User {
 
     private void addCartItemToLicenses(CartItem item, LocalDateTime purchaseDate) {
         BookLicense license;
-        long id = purchasedLicenses.size() + 1;
+
         if (item.isBorrow())
             license = new TemporaryBookLicense(
                 this,
-                id,
                 item.getBook(),
                 item.getPrice(),
                 purchaseDate,
@@ -85,20 +84,20 @@ public class Customer extends User {
         else
             license = new PermanentBookLicense(
                 this,
-                id,
                 item.getBook(),
                 item.getPrice(),
                 purchaseDate
             );
 
-        purchasedLicenses.add(license);
+		updateLicense(license);
     }
 
-	public Boolean hasAccess(String bookTitle) {
-		for (BookLicense license : purchasedLicenses)
-			if (license.getBook().isKeyEqual(bookTitle) && license.isValid())
-				return true;
+	private void updateLicense(BookLicense license) {
+		purchasedLicenses.removeIf(l -> l.isKeyEqual(license.getKey()));
+		purchasedLicenses.add(license);
+	}
 
-		return false;
+	public Boolean hasAccess(String bookTitle) {
+		return purchasedLicenses.stream().anyMatch(b -> b.getBook().isKeyEqual(bookTitle) && b.isValid());
 	}
 }

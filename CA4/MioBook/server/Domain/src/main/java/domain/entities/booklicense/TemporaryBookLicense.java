@@ -17,10 +17,10 @@ public class TemporaryBookLicense extends BookLicense {
 
 	private int validityDays;
 
-	public TemporaryBookLicense(Customer customer, long id, Book book, long price, LocalDateTime purchaseDate, int validityDays) {
-		super(customer, id, book, price, purchaseDate);
-		this.validityDays = validityDays;
+	public TemporaryBookLicense(Customer customer, Book book, long price, LocalDateTime purchaseDate, int validityDays) {
+		super(customer, book, price, purchaseDate);
 		assert validityDays <= MAX_VALIDITY_DAYS && validityDays >= MIN_VALIDITY_DAYS;
+		this.validityDays = validityDays;
 	}
 
 	@Override
