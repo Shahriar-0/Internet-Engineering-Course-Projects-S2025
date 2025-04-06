@@ -12,6 +12,7 @@ import application.usecase.customer.purchase.PurchaseCart;
 import application.usecase.customer.wallet.AddCredit;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.cart.Cart;
+import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -74,7 +75,7 @@ public class CustomerController {
 	public Response<PurchaseHistoryView> getPurchaseHistory() {
 		GetPurchaseHistory useCase = (GetPurchaseHistory) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
 
-		Result<List<Cart>> result = useCase.perform(authenticationService.getUser());
+		Result<List<PurchasedCart>> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 
@@ -122,7 +123,7 @@ public class CustomerController {
 	public Response<PurchasedCartSummaryView> purchaseCart() {
 		PurchaseCart useCase = (PurchaseCart) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
 
-		Result<Cart> result = useCase.perform(authenticationService.getUser());
+		Result<PurchasedCart> result = useCase.perform(authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();
 
@@ -133,7 +134,7 @@ public class CustomerController {
 	@Access(roles = {CUSTOMER})
 	public Response<?> borrowBook(@Valid @RequestBody BorrowBook.BorrowBookData data) {
 		BorrowBook useCase = (BorrowBook) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
-		
+
 		Result<Customer> result = useCase.perform(data, authenticationService.getUser());
 		if (result.isFailure())
 			throw result.exception();

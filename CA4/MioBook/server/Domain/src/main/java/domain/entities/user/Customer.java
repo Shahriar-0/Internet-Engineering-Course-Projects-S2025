@@ -5,6 +5,7 @@ import domain.entities.booklicense.TemporaryBookLicense;
 import domain.entities.booklicense.PermanentBookLicense;
 import domain.entities.cart.Cart;
 import domain.entities.cart.CartItem;
+import domain.entities.cart.PurchasedCart;
 import domain.exceptions.DomainException;
 import domain.exceptions.customer.CartIsEmpty;
 import domain.exceptions.customer.NotEnoughCredit;
@@ -25,11 +26,11 @@ public class Customer extends User {
 	private long credit;
 	private Cart cart;
 	private final List<BookLicense> purchasedLicenses = new ArrayList<>();
-	private final List<Cart> purchaseHistory = new ArrayList<>();
+	private final List<PurchasedCart> purchaseHistory = new ArrayList<>();
 
 	public Customer(String username, String password, String email, Address address) {
 		super(username, password, email, address, Role.CUSTOMER);
-		this.cart = new Cart(this, 1);
+		this.cart = new Cart(this);
 		this.credit = 0;
 	}
 
@@ -57,16 +58,15 @@ public class Customer extends User {
 		credit += amount;
 	}
 
-	public Cart purchaseCart() {
+	public PurchasedCart purchaseCart() {
 		assert getPurchaseCartErrors().isEmpty();
 
         LocalDateTime purchaseDate = LocalDateTime.now();
-		cart.setPurchaseDate(purchaseDate);
         cart.getItems().forEach(item -> addCartItemToLicenses(item, purchaseDate));
 		credit -= cart.getTotalCost();
-		purchaseHistory.add(cart);
-		Cart purchasedCart = cart;
-		cart = new Cart(this, purchaseHistory.size() + 1);
+		PurchasedCart purchasedCart = new PurchasedCart(cart, purchaseHistory.size() + 1, purchaseDate);
+		purchaseHistory.add(purchasedCart);
+		cart = new Cart(this);
 		return purchasedCart;
 	}
 
