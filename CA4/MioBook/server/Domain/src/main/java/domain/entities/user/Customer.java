@@ -1,7 +1,7 @@
 package domain.entities.user;
 
 import domain.entities.booklicense.BookLicense;
-import domain.entities.booklicense.ExpiringBookLicense;
+import domain.entities.booklicense.TemporaryBookLicense;
 import domain.entities.booklicense.PermanentBookLicense;
 import domain.entities.cart.Cart;
 import domain.entities.cart.CartItem;
@@ -12,7 +12,6 @@ import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +74,7 @@ public class Customer extends User {
         BookLicense license;
         long id = purchasedLicenses.size() + 1;
         if (item.isBorrow())
-            license = new ExpiringBookLicense(
+            license = new TemporaryBookLicense(
                 this,
                 id,
                 item.getBook(),
