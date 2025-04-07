@@ -84,6 +84,22 @@
 .bg-custom-white {
     background-color: var(--c-custom-white) !important;
 }
+
+.text-khaki {
+    color: var(--c-khaki) !important;
+}
+
+.text-green {
+    color: var(--c-green) !important;
+}
+
+.text-gray {
+    color: var(--c-gray) !important;
+}
+
+.text-custom-white {
+    color: var(--c-custom-white) !important;
+}
 /*--------------------  Color Utils End  --------------------*/
 
 
