@@ -4,15 +4,14 @@ import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Author;
+import domain.entities.author.Author;
 import domain.entities.user.Role;
 import domain.entities.user.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.RequiredArgsConstructor;
-
 import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AddAuthor implements IUseCase {
@@ -32,7 +31,7 @@ public class AddAuthor implements IUseCase {
 
 	private static Author mapToAuthor(AddAuthorData data) {
 		if (data.died == null)
-            return Author.createLivingAuthor(
+            return Author.createAliveAuthor(
                 data.name,
                 data.penName,
                 data.nationality,

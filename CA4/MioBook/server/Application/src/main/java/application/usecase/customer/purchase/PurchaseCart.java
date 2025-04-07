@@ -4,7 +4,7 @@ import application.exceptions.businessexceptions.cartexceptions.CantPurchaseCart
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.cart.Cart;
+import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import domain.exceptions.DomainException;
@@ -17,7 +17,7 @@ public class PurchaseCart implements IUseCase {
 		return UseCaseType.PURCHASE_CART;
 	}
 
-	public Result<Cart> perform(User user) {
+	public Result<PurchasedCart> perform(User user) {
 		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
@@ -25,7 +25,7 @@ public class PurchaseCart implements IUseCase {
 		if (!exceptions.isEmpty())
 			return Result.failure(new CantPurchaseCart(exceptions.getFirst().getMessage()));
 
-		Cart purchasedCart = customer.purchaseCart();
+		PurchasedCart purchasedCart = customer.purchaseCart();
 		return Result.success(purchasedCart);
 	}
 }

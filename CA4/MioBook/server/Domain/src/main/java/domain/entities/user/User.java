@@ -15,6 +15,7 @@ public abstract class User extends DomainEntity<String> {
 	protected String password;
 	protected String email;
 	protected Role role;
+	
 	public String getUsername() {
 		return super.getKey();
 	}

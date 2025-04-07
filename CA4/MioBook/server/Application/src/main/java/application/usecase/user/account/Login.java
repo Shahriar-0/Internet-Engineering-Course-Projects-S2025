@@ -56,7 +56,11 @@ public class Login implements IUseCase {
 		return Result.success(optionalUser.get());
 	}
 
-	public record LoginData(String username, @Email String email, @NotBlank String password) {
+	public record LoginData(
+		String username,
+		@Email String email,
+		@NotBlank String password
+	) {
 		@AssertTrue(message = "Both email and username can't be blank")
 		private boolean isBothEmailAndUsernameBlank() {
 			try {

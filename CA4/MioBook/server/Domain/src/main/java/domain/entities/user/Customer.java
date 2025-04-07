@@ -1,10 +1,11 @@
 package domain.entities.user;
 
 import domain.entities.booklicense.BookLicense;
-import domain.entities.booklicense.ExpiringBookLicense;
+import domain.entities.booklicense.TemporaryBookLicense;
 import domain.entities.booklicense.PermanentBookLicense;
 import domain.entities.cart.Cart;
 import domain.entities.cart.CartItem;
+import domain.entities.cart.PurchasedCart;
 import domain.exceptions.DomainException;
 import domain.exceptions.customer.CartIsEmpty;
 import domain.exceptions.customer.NotEnoughCredit;
@@ -12,7 +13,6 @@ import domain.valueobjects.Address;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ public class Customer extends User {
 	private long credit;
 	private Cart cart;
 	private final List<BookLicense> purchasedLicenses = new ArrayList<>();
-	private final List<Cart> purchaseHistory = new ArrayList<>();
+	private final List<PurchasedCart> purchaseHistory = new ArrayList<>();
 
 	public Customer(String username, String password, String email, Address address) {
 		super(username, password, email, address, Role.CUSTOMER);
-		this.cart = new Cart(this, 1);
+		this.cart = new Cart(this);
 		this.credit = 0;
 	}
 
@@ -58,26 +58,24 @@ public class Customer extends User {
 		credit += amount;
 	}
 
-	public Cart purchaseCart() {
+	public PurchasedCart purchaseCart() {
 		assert getPurchaseCartErrors().isEmpty();
 
         LocalDateTime purchaseDate = LocalDateTime.now();
-		cart.setPurchaseDate(purchaseDate);
         cart.getItems().forEach(item -> addCartItemToLicenses(item, purchaseDate));
 		credit -= cart.getTotalCost();
-		purchaseHistory.add(cart);
-		Cart purchasedCart = cart;
-		cart = new Cart(this, purchaseHistory.size() + 1);
+		PurchasedCart purchasedCart = new PurchasedCart(cart, purchaseHistory.size() + 1, purchaseDate);
+		purchaseHistory.add(purchasedCart);
+		cart = new Cart(this);
 		return purchasedCart;
 	}
 
     private void addCartItemToLicenses(CartItem item, LocalDateTime purchaseDate) {
         BookLicense license;
-        long id = purchasedLicenses.size() + 1;
+
         if (item.isBorrow())
-            license = new ExpiringBookLicense(
+            license = new TemporaryBookLicense(
                 this,
-                id,
                 item.getBook(),
                 item.getPrice(),
                 purchaseDate,
@@ -86,20 +84,20 @@ public class Customer extends User {
         else
             license = new PermanentBookLicense(
                 this,
-                id,
                 item.getBook(),
                 item.getPrice(),
                 purchaseDate
             );
 
-        purchasedLicenses.add(license);
+		updateLicense(license);
     }
 
-	public Boolean hasAccess(String bookTitle) {
-		for (BookLicense license : purchasedLicenses)
-			if (license.getBook().isKeyEqual(bookTitle) && license.isValid())
-				return true;
+	private void updateLicense(BookLicense license) {
+		purchasedLicenses.removeIf(l -> l.isKeyEqual(license.getKey()));
+		purchasedLicenses.add(license);
+	}
 
-		return false;
+	public Boolean hasAccess(String bookTitle) {
+		return purchasedLicenses.stream().anyMatch(b -> b.getBook().isKeyEqual(bookTitle) && b.isValid());
 	}
 }

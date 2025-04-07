@@ -2,14 +2,14 @@ package domain.entities.book;
 
 import domain.entities.DomainEntity;
 import domain.entities.user.Customer;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 
 @Getter
 @SuperBuilder
 public class Review extends DomainEntity<Review.Key> {
+
 	public static final int MIN_RATING_NUMBER = 1;
 	public static final int MAX_RATING_NUMBER = 5;
 
@@ -18,9 +18,11 @@ public class Review extends DomainEntity<Review.Key> {
 	private final Customer customer;
 	private final Book book;
 	private final LocalDateTime dateTime;
+
 	public String getCustomerName() {
 		return key.customerName;
 	}
+
 	public String getBookTitle() {
 		return key.bookTitle;
 	}
@@ -35,5 +37,5 @@ public class Review extends DomainEntity<Review.Key> {
 		assert this.rating <= MAX_RATING_NUMBER && this.rating >= MIN_RATING_NUMBER;
 	}
 
-	public record Key(String customerName, String bookTitle){};
+	public record Key(String customerName, String bookTitle) {}
 }

@@ -3,7 +3,7 @@ package application.usecase.customer.purchase;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.cart.Cart;
+import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 
@@ -15,7 +15,7 @@ public class GetPurchaseHistory implements IUseCase {
         return UseCaseType.GET_PURCHASE_HISTORY;
     }
 
-    public Result<List<Cart>> perform(User user) {
+    public Result<List<PurchasedCart>> perform(User user) {
         assert user instanceof Customer: "we rely on presentation layer access control";
         Customer customer = (Customer) user;
 

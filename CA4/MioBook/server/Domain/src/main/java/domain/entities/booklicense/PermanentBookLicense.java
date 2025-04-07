@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 public class PermanentBookLicense extends BookLicense {
-    public PermanentBookLicense(Customer customer, long id, Book book, long price, LocalDateTime purchaseDate) {
-        super(customer, id, book, price, purchaseDate);
+    public PermanentBookLicense(Customer customer, Book book, long price, LocalDateTime purchaseDate) {
+        super(customer, book, price, purchaseDate);
     }
 
     @Override

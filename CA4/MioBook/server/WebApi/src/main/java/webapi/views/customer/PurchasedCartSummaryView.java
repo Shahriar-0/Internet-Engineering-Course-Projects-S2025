@@ -1,6 +1,6 @@
 package webapi.views.customer;
 
-import domain.entities.cart.Cart;
+import domain.entities.cart.PurchasedCart;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ public record PurchasedCartSummaryView(
     long totalCost,
     int bookCount)
 {
-    public PurchasedCartSummaryView(Cart purchasedCart) {
+    public PurchasedCartSummaryView(PurchasedCart purchasedCart) {
         this (
             purchasedCart.getPurchaseDate(),
             purchasedCart.getTotalCost(),

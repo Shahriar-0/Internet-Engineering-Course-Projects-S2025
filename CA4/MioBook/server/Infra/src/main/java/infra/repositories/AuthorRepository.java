@@ -1,7 +1,7 @@
 package infra.repositories;
 
 import application.repositories.IAuthorRepository;
-import domain.entities.Author;
+import domain.entities.author.Author;
 
 public class AuthorRepository extends BaseRepository<String, Author> implements IAuthorRepository {
 

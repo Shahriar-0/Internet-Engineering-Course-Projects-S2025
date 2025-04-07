@@ -1,13 +1,12 @@
 package application.usecase.admin.book;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
-import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Author;
+import domain.entities.author.Author;
 import domain.entities.book.Book;
 import domain.entities.user.Role;
 import domain.entities.user.User;
@@ -16,9 +15,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AddBook implements IUseCase {
@@ -39,13 +37,12 @@ public class AddBook implements IUseCase {
 			return Result.failure(new AuthorDoesNotExists(data.author));
 		Author author = authorResult.data();
 
-		if (bookRepository.exists(data.title))
-			return Result.failure(new BookAlreadyExists(data.title));
-
-
 		Book book = mapToBook(data, author);
-		author.addBook(book);
-		return bookRepository.add(book);
+		Result<Book> bookResult = bookRepository.add(book);
+		if (bookResult.isSuccessful())
+			author.addBook(book);
+
+		return bookResult;
 	}
 
 	private static Book mapToBook(AddBookData data, Author author) {

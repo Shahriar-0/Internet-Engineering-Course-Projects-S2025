@@ -1,8 +1,8 @@
 package webapi.views.author;
 
-import domain.entities.Author;
-
 import java.time.LocalDate;
+
+import domain.entities.author.Author;
 
 public record AuthorView(
 	String name,

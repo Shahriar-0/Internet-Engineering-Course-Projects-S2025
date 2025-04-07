@@ -4,7 +4,7 @@ import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
-import domain.entities.Author;
+import domain.entities.author.Author;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
