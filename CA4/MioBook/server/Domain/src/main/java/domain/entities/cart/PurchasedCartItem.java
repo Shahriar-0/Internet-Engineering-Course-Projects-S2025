@@ -17,6 +17,18 @@ public class PurchasedCartItem extends DomainEntity<PurchasedCartItem.Key> {
     private final int borrowDays;
     private final long price;
 
+    public String getCustomerName() {
+        return key.customerName;
+    }
+
+    public String getBookTitle() {
+        return key.bookTitle;
+    }
+
+    public long getCartId() {
+        return key.cartId;
+    }
+
     public PurchasedCartItem(CartItem item, long cartId) {
         super(new Key(item.getCustomer().getUsername(), cartId, item.getBook().getTitle()));
         this.cart = item.getCart();
@@ -27,5 +39,5 @@ public class PurchasedCartItem extends DomainEntity<PurchasedCartItem.Key> {
         this.price = item.getPrice();
     }
 
-    public record Key(String username, long cartId, String bookTitle) {}
+    public record Key(String customerName, long cartId, String bookTitle) {}
 }

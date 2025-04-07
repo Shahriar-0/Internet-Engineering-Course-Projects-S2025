@@ -25,7 +25,7 @@ public class Cart extends DomainEntity<String> {
 	private final List<CartItem> items = new ArrayList<>();
 
 	public String getCustomerName() {
-		return super.getKey();
+		return key;
 	}
 
 	public Cart(Customer customer) {

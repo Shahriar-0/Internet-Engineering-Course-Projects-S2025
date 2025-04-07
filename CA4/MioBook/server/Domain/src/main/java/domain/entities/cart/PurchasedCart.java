@@ -21,6 +21,10 @@ public class PurchasedCart extends DomainEntity<PurchasedCart.Key> {
 		return key.id;
 	}
 
+    public String getCustomerName() {
+        return key.customerName;
+    }
+
     public PurchasedCart(Cart cart, long id) {
         super(new Key(cart.getCustomer().getUsername(), id));
         this.customer = cart.getCustomer();
@@ -37,5 +41,5 @@ public class PurchasedCart extends DomainEntity<PurchasedCart.Key> {
         cart.getItems().forEach(item -> items.add(new PurchasedCartItem(item, id)));
     }
 
-	public record Key(String username, long id) {}
+	public record Key(String customerName, long id) {}
 }
