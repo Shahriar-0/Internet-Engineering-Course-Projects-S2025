@@ -1,4 +1,6 @@
-﻿let currentUser = null;
+﻿import ApiService from "./ApiService";
+
+let currentUser = null;
 
 const isAnyUserLoggedIn = () => currentUser !== null;
 
@@ -11,10 +13,14 @@ const isUserLoggedIn = (username) => {
 
 const getCurrentUser = () => structuredClone(currentUser);
 
-const login = (username, password) => {
-    console.log("Logging in...");
-    console.log("username: " + username + " password: " + password);
-    currentUser = {username: username, password: password};
+const login = async (username, password) => {
+    const response = await ApiService.signIn(username, password);
+    const data = await response.json();
+
+    if (data.status === ApiService.statusCode.OK)
+        currentUser = {username: username, password: password};
+
+    return data;
 };
 
 const logout = () => {
