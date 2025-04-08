@@ -2,7 +2,7 @@
 import adminIcon from "assets/icons/admin-role-icon.svg";
 import {useState} from "react";
 
-const RolePicker = () => {
+const RolePicker = ({onChange}) => {
     const role = Object.freeze({
         customer: "customer",
         admin: "admin"
@@ -13,14 +13,22 @@ const RolePicker = () => {
 
     const [roleValue, setRoleValue] = useState(role.customer);
 
+    const setRoleCustomer = () => {
+        onChange(role.customer);
+        setRoleValue(role.customer);
+    }
 
+    const setRoleAdmin = () => {
+        onChange(role.admin);
+        setRoleValue(role.admin);
+    }
 
     return (
         <>
             <p className="fw-bold text-start p-0 mb-1 w-sm-100">I am</p>
             <div className="mb-2 mb-sm-3 col-12 col-sm-6 px-0 pe-sm-1">
                 <button className={roleValue === role.customer ? activeStyle : inactiveStyle}
-                        onClick={() => setRoleValue(role.customer)}>
+                        onClick={setRoleCustomer}>
                     <i className="position-absolute top-50 start-0 translate-middle-y ms-2 ms-xl-4 ms-xxl-5"><img
                         src={customerIcon} alt="customer-icon"/></i>
                     Customer
@@ -29,7 +37,7 @@ const RolePicker = () => {
 
             <div className="mb-3 col-12 col-sm-6 px-0 ps-sm-1">
                 <button className={roleValue === role.admin ? activeStyle : inactiveStyle}
-                        onClick={() => setRoleValue(role.admin)}>
+                        onClick={setRoleAdmin}>
                     <i className="position-absolute top-50 start-0 translate-middle-y ms-2 ms-xl-4 ms-xxl-5"><img
                         src={adminIcon} alt="manager-icon"/></i>
                     Admin
