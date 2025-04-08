@@ -6,12 +6,14 @@ const signInUrl = baseUrl + "auth/login";
 
 const signIn = async (username, password) => {
     const body = {username: username, password: password};
-    return await fetch(signInUrl, {
+    const response = await fetch(signInUrl, {
             method: "POST",
             headers: defaultHeader,
             body: JSON.stringify(body)
         }
     );
+    const data = await response.json();
+    return {response, data};
 }
 
 

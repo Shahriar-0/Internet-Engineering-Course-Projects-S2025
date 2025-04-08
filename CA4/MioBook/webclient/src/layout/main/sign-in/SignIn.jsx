@@ -1,5 +1,6 @@
 ﻿import SignInForm from "./sign-in-form/SignInForm";
 import {Link} from "react-router-dom";
+import UrlService from "services/UrlService";
 
 const SignIn = () => {
     return (
@@ -9,7 +10,7 @@ const SignIn = () => {
               <p className="text-muted">MioBook</p>
               <SignInForm />
               <p className="text-center text-muted mt-3 mb-4">Not a member yet?
-                  <></> <Link to="/sign-up" className="text-green fw-bold">Sign Up</Link></p>
+                  <></> <Link to={UrlService.urls.signUp} className="text-green fw-bold">Sign Up</Link></p>
           </div>
       </main>
     );

@@ -14,8 +14,7 @@ const isUserLoggedIn = (username) => {
 const getCurrentUser = () => structuredClone(currentUser);
 
 const login = async (username, password) => {
-    const response = await ApiService.signIn(username, password);
-    const data = await response.json();
+    const {data} = await ApiService.signIn(username, password);
 
     if (data.status === ApiService.statusCode.OK)
         currentUser = {username: username, password: password};

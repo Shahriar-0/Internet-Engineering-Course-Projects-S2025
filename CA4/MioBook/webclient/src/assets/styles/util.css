@@ -100,6 +100,22 @@
 .text-custom-white {
     color: var(--c-custom-white) !important;
 }
+
+.border-khaki {
+    border-color: var(--c-khaki) !important;
+}
+
+.border-green {
+    border-color: var(--c-green) !important;
+}
+
+.border-gray {
+    border-color: var(--c-gray) !important;
+}
+
+.border-custom-white {
+    border-color: var(--c-custom-white) !important;
+}
 /*--------------------  Color Utils End  --------------------*/
 
 
