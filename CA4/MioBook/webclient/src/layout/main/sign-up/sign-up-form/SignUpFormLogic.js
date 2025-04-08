@@ -35,6 +35,34 @@ export const validateForm = (formState) => {
     return state;
 }
 
+export const isKnownBadRequestError = (errorData) => {
+    return errorData.username || errorData.email;
+}
+
+export const setError = (formState, errorData) => {
+    const state = structuredClone(formState);
+
+    if (errorData.username)
+        state.username.error = errorData.username;
+    else
+        state.username.error = '';
+
+    if (errorData.email)
+        state.email.error = errorData.email;
+    else
+        state.email.error = '';
+
+    return state;
+}
+
+export const clearError = (formState) => {
+    const state = structuredClone(formState);
+    state.username.error = '';
+    state.password.error = '';
+    state.email.error = '';
+    return state;
+}
+
 
 const validateUsername = (username) => {
     const usernameRegex = /^[a-zA-Z0-9_-]+$/;

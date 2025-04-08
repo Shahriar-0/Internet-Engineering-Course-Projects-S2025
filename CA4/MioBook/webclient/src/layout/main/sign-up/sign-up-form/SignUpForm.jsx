@@ -1,7 +1,15 @@
 ﻿import PasswordInput from "library/form-assets/PasswordInput";
 import RolePicker from "./RolePicker";
 import {useState} from "react";
-import {canSubmit, getInitFormState, hasAnyError, validateForm} from "./SignUpFormLogic";
+import {
+    canSubmit, clearError,
+    getInitFormState,
+    hasAnyError,
+    isKnownBadRequestError,
+    setError,
+    validateForm
+} from "./SignUpFormLogic";
+import ApiService from "services/ApiService";
 
 const SignUpForm = () => {
     const [formState, setFormState] = useState(getInitFormState());
@@ -35,25 +43,47 @@ const SignUpForm = () => {
         setFormState({...formState, role: role});
     }
 
-    const submit = () => {
+    const submit = async () => {
         const tempState = validateForm(formState);
-        setFormState(tempState);
-        if (hasAnyError(tempState))
+        if (hasAnyError(tempState)) {
+            setFormState(tempState);
             return;
+        }
 
-        console.log(formState);
+        const {body} = await ApiService.signUp(
+            formState.username.value,
+            formState.password.value,
+            formState.email.value,
+            formState.country,
+            formState.city,
+            formState.role
+        );
+
+        if (body.status === ApiService.statusCode.CREATED) {
+            // TODO: Add toast message for success
+            setFormState(clearError(formState));
+        }
+        else if (body.status === ApiService.statusCode.BAD_REQUEST) {
+            if (isKnownBadRequestError(body.data))
+                setFormState(setError(formState, body.data));
+            else
+                // TODO: Add toast message for unknown bad request error
+            ;
+        }
+        else {
+            // TODO: Add toast message for unknown status
+        }
     }
-
     return (
         <div className="row">
             <input type="text" className="form-control form-control-lg mb-3" placeholder="Username" onChange={changeName}/>
-            <p className="text-danger text-start">{formState?.username.error}</p>
+            {formState.username.error && <p className="text-danger text-start">{formState.username.error}</p>}
 
             <PasswordInput divClassName="mb-3 p-0" inputClassName="form-control form-control-lg" onChange={changePassword}/>
-            <p className="text-danger text-start">{formState?.password.error}</p>
+            {formState.password.error && <p className="text-danger text-start">{formState.password.error}</p>}
 
             <input type="email" className="form-control form-control-lg mb-3" placeholder="Email" onChange={changeEmail}/>
-            <p className="text-danger text-start">{formState?.email.error}</p>
+            {formState.email.error && <p className="text-danger text-start">{formState.email.error}</p>}
 
             <div className="mb-3 col-12 col-sm-6 px-0 pe-sm-1">
                 <input type="text" className="form-control form-control-lg" placeholder="Country" onChange={changeCountry}/>

@@ -14,12 +14,12 @@ const isUserLoggedIn = (username) => {
 const getCurrentUser = () => structuredClone(currentUser);
 
 const login = async (username, password) => {
-    const {data} = await ApiService.signIn(username, password);
+    const {body} = await ApiService.signIn(username, password);
 
-    if (data.status === ApiService.statusCode.OK)
+    if (body.status === ApiService.statusCode.OK)
         currentUser = {username: username, password: password};
 
-    return data;
+    return body;
 };
 
 const logout = () => {

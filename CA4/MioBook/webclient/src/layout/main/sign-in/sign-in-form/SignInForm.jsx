@@ -37,8 +37,8 @@ const SignInForm = () => {
 
     const submit = async () => {
         try {
-            const data = await AuthenticationService.login(name, password);
-            const status = data.status;
+            const body = await AuthenticationService.login(name, password);
+            const status = body.status;
             if (status === ApiService.statusCode.OK)
                 navigate(UrlService.urls.home);
             else if (status === ApiService.statusCode.UNAUTHORIZED)
