@@ -1,5 +1,8 @@
 package webapi.controllers;
 
+import application.exceptions.BaseException;
+import application.exceptions.businessexceptions.userexceptions.EmailAlreadyExists;
+import application.exceptions.businessexceptions.userexceptions.UsernameAlreadyExists;
 import application.result.Result;
 import application.usecase.UseCaseType;
 import application.usecase.user.GetUser;
@@ -13,8 +16,10 @@ import webapi.response.Response;
 import webapi.services.UseCaseService;
 import webapi.views.user.UserView;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,7 +37,7 @@ public class UserController {
 
 		Result<User> result = useCase.perform(data);
 		if (result.isFailure())
-			throw result.exception();
+			return processFailureOfAddUser(result.exception());
 
 		return Response.of(CREATED, USER_ADDED);
 	}
@@ -48,4 +53,16 @@ public class UserController {
 
 		return Response.of(new UserView(result.data()), OK);
 	}
+
+    private Response<?> processFailureOfAddUser(BaseException exception) {
+        Map<String, String> errors = new HashMap<>();
+        if (exception instanceof UsernameAlreadyExists)
+            errors.put("username", exception.getMessage());
+        else if (exception instanceof EmailAlreadyExists)
+            errors.put("email", exception.getMessage());
+        else
+            throw exception;
+
+        return Response.of(errors, BAD_REQUEST, exception.getMessage());
+    }
 }
