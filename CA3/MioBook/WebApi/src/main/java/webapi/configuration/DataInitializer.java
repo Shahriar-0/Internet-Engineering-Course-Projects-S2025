@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 
-	private static final String API_URL = "http://194.60.230.196:8000";
+	private static final String API_URL = "http://194.60.231.242:8000";
 	private static final String USERS_API_URL = API_URL + "/users";
 	private static final String AUTHORS_API_URL = API_URL + "/authors";
 	private static final String BOOKS_API_URL = API_URL + "/books";
