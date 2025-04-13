@@ -8,7 +8,7 @@ const Header = () => {
     const location = useLocation();
 
     const headerContent = (
-        <header className="shadow py-3 px-5 mb-5">
+        <header className="shadow py-3 px-5 sticky-top bg-custom-white">
             <div
                 className="container p-0 m-0 mx-auto d-flex flex-wrap align-items-center justify-content-between">
                 <MioBookLogo/>
