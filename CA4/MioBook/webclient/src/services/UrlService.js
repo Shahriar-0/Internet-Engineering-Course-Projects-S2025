@@ -13,6 +13,12 @@ const doNotShowHeaderUrls = Object.freeze([
     urls.unexpectedError
 ]);
 
+const defaultAccessUrls = Object.freeze([
+    urls.unexpectedError,
+    urls.signUp,
+    urls.signIn
+]);
+
 const mustShowHeader = (url) => {
     if (!Object.values(urls).includes(url))
         return false;
@@ -20,8 +26,16 @@ const mustShowHeader = (url) => {
     return !doNotShowHeaderUrls.includes(url);
 }
 
+const hasDefaultAccess = (url) => {
+    if (!Object.values(urls).includes(url))
+        return true;
+
+    return defaultAccessUrls.includes(url);
+}
+
 const UrlService = Object.freeze({
     mustShowHeader,
+    hasDefaultAccess,
     urls
 });
 
