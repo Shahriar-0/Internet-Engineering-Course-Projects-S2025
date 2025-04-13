@@ -3,8 +3,10 @@ import ApiService from "services/ApiService";
 import AuthenticationService from "services/AuthenticationService";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import UrlService from "../../../../services/UrlService";
+import UrlService from "services/UrlService";
 import {toast} from "react-toastify";
+import SpinnerButton from "library/spinner-button/SpinnerButton";
+
 
 const SignInForm = () => {
     const incorrectMessage = "Username or password is incorrect.";
@@ -15,6 +17,7 @@ const SignInForm = () => {
     const [password, setPassword] = useState('');
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const changeName = (e) => {
         const name = e.target.value;
@@ -37,6 +40,7 @@ const SignInForm = () => {
     }
 
     const submit = async () => {
+        setLoading(true);
         const body = await AuthenticationService.login(name, password);
         if (body === null) {
             navigate(UrlService.urls.unexpectedError);
@@ -51,6 +55,8 @@ const SignInForm = () => {
             setErrorMessage(incorrectMessage);
         else
             toast.error(body.message);
+
+        setLoading(false);
     }
 
     return (
@@ -62,8 +68,7 @@ const SignInForm = () => {
                            onChange={changePassword}/>
 
             <p className="text-danger">{errorMessage}</p>
-            <button className="btn btn-lg w-100 fw-bold border-2 green-btn" disabled={btnDisabled}
-                    onClick={() => submit()}>Sign in</button>
+            <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn" loading={loading} onClick={submit}>Sign in</SpinnerButton>
         </div>
     );
 }

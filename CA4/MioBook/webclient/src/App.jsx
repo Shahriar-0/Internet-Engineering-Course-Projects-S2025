@@ -17,8 +17,8 @@ function App() {
             <Routes>
                 <Route path={urls.signIn} element={<SignIn />} />
                 <Route path={urls.signUp} element={<SignUp />}/>
-                <Route path={urls.home} element={<div>Home</div>} />
-                <Route path={urls.unexpectedError} element={<div>Unexpected Error</div>} />
+                <Route path={urls.home} element={<h1>Home</h1>} />
+                <Route path={urls.unexpectedError} element={<h1>Unexpected error</h1>} />
             </Routes>
             <Footer />
         </BrowserRouter>

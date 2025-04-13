@@ -14,9 +14,11 @@ import {toast} from "react-toastify";
 import AuthenticationService from "services/AuthenticationService";
 import {useNavigate} from "react-router-dom";
 import UrlService from "services/UrlService";
+import SpinnerButton from "library/spinner-button/SpinnerButton";
 
 const SignUpForm = () => {
     const [formState, setFormState] = useState(getInitFormState());
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const changeName = (e) => {
@@ -49,9 +51,11 @@ const SignUpForm = () => {
     }
 
     const submit = async () => {
+        setLoading(true);
         const tempState = validateForm(formState);
         if (hasAnyError(tempState)) {
             setFormState(tempState);
+            setLoading(false);
             return;
         }
 
@@ -81,6 +85,8 @@ const SignUpForm = () => {
             setFormState(setError(formState, body.data));
         else
             toast.error(body.message);
+
+        setLoading(false);
     }
 
     return (
@@ -101,8 +107,7 @@ const SignUpForm = () => {
                 <input type="text" className="form-control form-control-lg" placeholder="City" onChange={changeCity}/>
             </div>
             <RolePicker onChange={changeRole}/>
-            <button className="btn btn-lg w-100 fw-bold border-2 green-btn" disabled={!canSubmit(formState)}
-                    onClick={submit}>Sign up</button>
+            <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn" spinnerClassName="border-green" disabled={!canSubmit(formState)} loading={loading} onClick={submit}>Sign up</SpinnerButton>
         </div>
     );
 }
