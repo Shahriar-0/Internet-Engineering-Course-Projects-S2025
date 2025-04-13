@@ -4,12 +4,13 @@
     home: "/home",
     profile: "/profile",
     user: "/user",
-    unexpectedError: "/unexpected-error"
+    unexpectedError: "/unexpected-errors"
 });
 
 const doNotShowHeaderUrls = Object.freeze([
     urls.signIn,
-    urls.signUp
+    urls.signUp,
+    urls.unexpectedError
 ]);
 
 const mustShowHeader = (url) => {
