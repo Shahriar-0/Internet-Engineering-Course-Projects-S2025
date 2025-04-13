@@ -1,13 +1,15 @@
 ﻿import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import UrlService from "./UrlService";
+import AuthenticationService from "./AuthenticationService";
 
 const UrlAccessControl = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        checkDefaultAccess();
+        if(!AuthenticationService.isAnyUserLoggedIn())
+            checkDefaultAccess();
     }, [location]);
 
     const checkDefaultAccess = () => {
