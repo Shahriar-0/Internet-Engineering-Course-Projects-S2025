@@ -2,29 +2,28 @@
 
 let currentUser = null;
 
-const isAnyUserLoggedIn = () => currentUser !== null;
+const isAnyUserLoggedIn = () => localStorage.getItem("user") !== null;
 
 const isUserLoggedIn = (username) => {
     if (!isAnyUserLoggedIn())
         return false;
 
-    return currentUser.username === username;
+    return JSON.parse(localStorage.getItem("user")).username === username;
 }
 
-const getCurrentUser = () => structuredClone(currentUser);
+const getCurrentUser = () => structuredClone(JSON.parse(localStorage.getItem("user")));
 
 const login = async (username, password) => {
     const {body} = await ApiService.signIn(username, password);
 
     if (body !== null && body.status === ApiService.statusCode.OK)
-        currentUser = {username: username, password: password};
+        localStorage.setItem("user", JSON.stringify({username: username, password: password}));
 
     return body;
 };
 
 const logout = () => {
-    console.log("Logging out...");
-    currentUser = null;
+    localStorage.removeItem("user");
 };
 
 const AuthenticationService = Object.freeze({
@@ -34,6 +33,5 @@ const AuthenticationService = Object.freeze({
     login,
     logout,
 });
-
 
 export default AuthenticationService;
