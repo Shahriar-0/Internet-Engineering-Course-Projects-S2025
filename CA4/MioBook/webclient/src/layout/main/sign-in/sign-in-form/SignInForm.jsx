@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import UrlService from "services/UrlService";
 import {toast} from "react-toastify";
 import SpinnerButton from "library/spinner-button/SpinnerButton";
+import CustomInput from "library/form-assets/CustomInput";
 
 
 const SignInForm = () => {
@@ -61,14 +62,15 @@ const SignInForm = () => {
 
     return (
         <div>
-            <input type="text" className="form-control form-control-lg mb-3"
+            <CustomInput type="text" className="form-control form-control-lg mb-3"
                    placeholder="Username" onChange={changeName}/>
 
             <PasswordInput divClassName="mb-3" inputClassName="form-control form-control-lg"
                            onChange={changePassword}/>
 
             <p className="text-danger">{errorMessage}</p>
-            <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn" loading={loading} onClick={submit}>Sign in</SpinnerButton>
+            <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn"
+                           disabled={btnDisabled} loading={loading} onClick={submit}>Sign in</SpinnerButton>
         </div>
     );
 }

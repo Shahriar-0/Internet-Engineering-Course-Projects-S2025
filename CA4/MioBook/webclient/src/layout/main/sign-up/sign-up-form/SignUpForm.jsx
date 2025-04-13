@@ -15,6 +15,7 @@ import AuthenticationService from "services/AuthenticationService";
 import {useNavigate} from "react-router-dom";
 import UrlService from "services/UrlService";
 import SpinnerButton from "library/spinner-button/SpinnerButton";
+import CustomInput from "library/form-assets/CustomInput";
 
 const SignUpForm = () => {
     const [formState, setFormState] = useState(getInitFormState());
@@ -91,20 +92,20 @@ const SignUpForm = () => {
 
     return (
         <div className="row">
-            <input type="text" className="form-control form-control-lg mb-3" placeholder="Username" onChange={changeName}/>
-            {formState.username.error && <p className="text-danger text-start">{formState.username.error}</p>}
+            <CustomInput type="text" errorClassName="p-0" className="form-control form-control-lg mb-3" placeholder="Username"
+                   error={formState.username.error} onChange={changeName}/>
 
-            <PasswordInput divClassName="mb-3 p-0" inputClassName="form-control form-control-lg" onChange={changePassword}/>
-            {formState.password.error && <p className="text-danger text-start">{formState.password.error}</p>}
+            <PasswordInput divClassName="mb-3 p-0" inputClassName="form-control form-control-lg" errorClassName="p-0"
+                           error={formState.password.error} onChange={changePassword}/>
 
-            <input type="email" className="form-control form-control-lg mb-3" placeholder="Email" onChange={changeEmail}/>
-            {formState.email.error && <p className="text-danger text-start">{formState.email.error}</p>}
+            <CustomInput type="email" errorClassName="p-0" className="form-control form-control-lg mb-3" placeholder="Email"
+                   error={formState.email.error} onChange={changeEmail}/>
 
             <div className="mb-3 col-12 col-sm-6 px-0 pe-sm-1">
-                <input type="text" className="form-control form-control-lg" placeholder="Country" onChange={changeCountry}/>
+                <CustomInput type="text" className="form-control form-control-lg" placeholder="Country" onChange={changeCountry}/>
             </div>
             <div className="mb-3 col-sm-6 col-12 px-0 ps-sm-1">
-                <input type="text" className="form-control form-control-lg" placeholder="City" onChange={changeCity}/>
+                <CustomInput type="text" className="form-control form-control-lg" placeholder="City" onChange={changeCity}/>
             </div>
             <RolePicker onChange={changeRole}/>
             <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn" spinnerClassName="border-green" disabled={!canSubmit(formState)} loading={loading} onClick={submit}>Sign up</SpinnerButton>

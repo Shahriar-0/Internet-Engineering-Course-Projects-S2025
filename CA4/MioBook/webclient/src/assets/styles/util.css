@@ -116,6 +116,10 @@
 .border-custom-white {
     border-color: var(--c-custom-white) !important;
 }
+
+.danger-shadow {
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25) !important;
+}
 /*--------------------  Color Utils End  --------------------*/
 
 

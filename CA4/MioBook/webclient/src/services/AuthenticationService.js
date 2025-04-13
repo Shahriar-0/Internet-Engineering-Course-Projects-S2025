@@ -16,7 +16,7 @@ const getCurrentUser = () => structuredClone(currentUser);
 const login = async (username, password) => {
     const {body} = await ApiService.signIn(username, password);
 
-    if (body.status === ApiService.statusCode.OK)
+    if (body !== null && body.status === ApiService.statusCode.OK)
         currentUser = {username: username, password: password};
 
     return body;

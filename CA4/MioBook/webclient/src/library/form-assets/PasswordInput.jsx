@@ -1,6 +1,6 @@
 ﻿import {useState} from "react";
 
-const PasswordInput = ({divClassName, inputClassName, onChange}) => {
+const PasswordInput = ({divClassName, inputClassName, errorClassName, onChange, error}) => {
     const [isVisible, setIsVisible] = useState(false);
 
 
@@ -15,11 +15,15 @@ const PasswordInput = ({divClassName, inputClassName, onChange}) => {
     );
 
     return (
-        <div className={"position-relative " + divClassName}>
-            <input type={ isVisible ? "text" : "password"} placeholder="Password" className={inputClassName}
-                   onChange={onChange}/>
-            {isVisible ? eyeIcon : slashEyeIcon}
-        </div>
+        <>
+            <div className={"position-relative " + divClassName}>
+                <input type={ isVisible ? "text" : "password"} placeholder="Password"
+                       className={`${inputClassName} ${error ? "danger-shadow border-danger" : ""}`}
+                       onChange={onChange}/>
+                {isVisible ? eyeIcon : slashEyeIcon}
+            </div>
+            {error && <p className={`${errorClassName} text-danger text-start`}>{error}</p>}
+        </>
     );
 }
 
