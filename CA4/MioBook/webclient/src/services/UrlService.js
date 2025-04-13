@@ -4,6 +4,7 @@
     home: "/home",
     profile: "/profile",
     user: "/user",
+    unexpectedError: "/unexpected-error"
 });
 
 const doNotShowHeaderUrls = Object.freeze([

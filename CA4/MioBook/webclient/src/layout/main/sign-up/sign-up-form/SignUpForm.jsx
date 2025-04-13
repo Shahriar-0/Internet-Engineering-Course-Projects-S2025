@@ -2,7 +2,7 @@
 import RolePicker from "./RolePicker";
 import {useState} from "react";
 import {
-    canSubmit, clearError,
+    canSubmit,
     getInitFormState,
     hasAnyError,
     isKnownBadRequestError,
@@ -10,9 +10,14 @@ import {
     validateForm
 } from "./SignUpFormLogic";
 import ApiService from "services/ApiService";
+import {toast} from "react-toastify";
+import AuthenticationService from "services/AuthenticationService";
+import {useNavigate} from "react-router-dom";
+import UrlService from "services/UrlService";
 
 const SignUpForm = () => {
     const [formState, setFormState] = useState(getInitFormState());
+    const navigate = useNavigate();
 
     const changeName = (e) => {
         const username = e.target.value;
@@ -50,7 +55,7 @@ const SignUpForm = () => {
             return;
         }
 
-        const {body} = await ApiService.signUp(
+        const {response, body} = await ApiService.signUp(
             formState.username.value,
             formState.password.value,
             formState.email.value,
@@ -59,21 +64,27 @@ const SignUpForm = () => {
             formState.role
         );
 
-        if (body.status === ApiService.statusCode.CREATED) {
-            // TODO: Add toast message for success
-            setFormState(clearError(formState));
+        if (response === null) {
+            navigate(UrlService.urls.unexpectedError)
+            return;
         }
-        else if (body.status === ApiService.statusCode.BAD_REQUEST) {
-            if (isKnownBadRequestError(body.data))
-                setFormState(setError(formState, body.data));
+
+        if (body.status === ApiService.statusCode.CREATED) {
+            toast.success("You have successfully signed up.");
+            const loginBody = await AuthenticationService.login(formState.username.value, formState.password.value);
+            if (loginBody.status === ApiService.statusCode.OK)
+                navigate(UrlService.urls.home);
             else
-                // TODO: Add toast message for unknown bad request error
-            ;
+                navigate(UrlService.urls.unexpectedError);
+        }
+        else if (body.status === ApiService.statusCode.BAD_REQUEST && isKnownBadRequestError(body.data)) {
+            setFormState(setError(formState, body.data));
         }
         else {
-            // TODO: Add toast message for unknown status
+            toast.error(body.message);
         }
     }
+
     return (
         <div className="row">
             <input type="text" className="form-control form-control-lg mb-3" placeholder="Username" onChange={changeName}/>
