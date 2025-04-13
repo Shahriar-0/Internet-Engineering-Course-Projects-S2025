@@ -4,6 +4,7 @@ import AuthenticationService from "services/AuthenticationService";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import UrlService from "../../../../services/UrlService";
+import {toast} from "react-toastify";
 
 const SignInForm = () => {
     const incorrectMessage = "Username or password is incorrect.";
@@ -36,21 +37,20 @@ const SignInForm = () => {
     }
 
     const submit = async () => {
-        try {
-            const body = await AuthenticationService.login(name, password);
-            const status = body.status;
-            if (status === ApiService.statusCode.OK)
-                navigate(UrlService.urls.home);
-            else if (status === ApiService.statusCode.UNAUTHORIZED)
-                setErrorMessage(incorrectMessage);
-            // TODO: Add toast and use it in unknown status
-            else throw new Error("unknown status");
+        const body = await AuthenticationService.login(name, password);
+        if (body === null) {
+            navigate(UrlService.urls.unexpectedError);
+            return;
         }
-        catch (e) {
-            console.error(e);
-            // TODO: Add toast and use it in unknown status
-            throw e;
+
+        if (body.status === ApiService.statusCode.OK) {
+            toast.success("You have successfully signed in.");
+            navigate(UrlService.urls.home);
         }
+        else if (body.status === ApiService.statusCode.UNAUTHORIZED)
+            setErrorMessage(incorrectMessage);
+        else
+            toast.error(body.message);
     }
 
     return (

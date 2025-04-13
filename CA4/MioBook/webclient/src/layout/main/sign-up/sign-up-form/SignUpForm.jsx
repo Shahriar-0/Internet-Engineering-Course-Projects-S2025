@@ -77,12 +77,10 @@ const SignUpForm = () => {
             else
                 navigate(UrlService.urls.unexpectedError);
         }
-        else if (body.status === ApiService.statusCode.BAD_REQUEST && isKnownBadRequestError(body.data)) {
+        else if (body.status === ApiService.statusCode.BAD_REQUEST && isKnownBadRequestError(body.data))
             setFormState(setError(formState, body.data));
-        }
-        else {
+        else
             toast.error(body.message);
-        }
     }
 
     return (
