@@ -5,40 +5,12 @@ const signInUrl = baseUrl + "/auth/login";
 const signUpUrl = baseUrl + "/users";
 
 
-const signUp = async (username, password, email, country, city, role) => {
-    const response = await fetch(signUpUrl, {
-            method: "POST",
-            headers: defaultHeader,
-            body: JSON.stringify({
-                username: username,
-                password: password,
-                email: email,
-                address: {
-                    country: country,
-                    city: city
-                },
-                role: role
-            })
-        }
-    );
-    const body = await response.json();
-    return {response, body};
-}
-
-const signIn = async (username, password) => {
-    const response = await fetch(signInUrl, {
-            method: "POST",
-            headers: defaultHeader,
-            body: JSON.stringify({
-                username: username,
-                password: password
-            })
-        }
-    );
-    const body = await response.json();
-    return {response, body};
-}
-
+const HttpMethod = Object.freeze({
+    GET: "GET",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE"
+});
 
 const statusCode = Object.freeze({
     OK: 200,
@@ -46,6 +18,45 @@ const statusCode = Object.freeze({
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401
 })
+
+
+const apiCallTemplate = async (httpMethod, url, reqBody) => {
+    try {
+        const response = await fetch(url, {
+                method: httpMethod,
+                headers: defaultHeader,
+                body: JSON.stringify(reqBody)
+            }
+        );
+        const body = await response.json();
+        return {response, body, error : null};
+    }
+    catch (e) {
+        return {response: null, body: null, error: e};
+    }
+}
+
+const signUp = async (username, password, email, country, city, role) => {
+    const reqBody = {
+        username: username,
+        password: password,
+        email: email,
+        address: {
+            country: country,
+            city: city
+        },
+        role: role
+    };
+    return await apiCallTemplate(HttpMethod.POST, signUpUrl, reqBody);
+}
+
+const signIn = async (username, password) => {
+    const reqBody = {
+        username: username,
+        password: password
+    };
+    return await apiCallTemplate(HttpMethod.POST, signInUrl, reqBody);
+}
 
 
 const ApiService = Object.freeze({
