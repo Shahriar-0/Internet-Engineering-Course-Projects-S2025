@@ -1,7 +1,8 @@
 ﻿.profile-menu {
-    position: fixed;
-    top: 80px;
-    right: 30px;
+    position: absolute;
+    top: calc(100% + 30px);
+    left: 50%;
+    transform: translateX(-50%);
     background-color: var(--c-custom-white);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
