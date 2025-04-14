@@ -10,12 +10,11 @@ import AuthenticationService from "services/AuthenticationService";
 import urlService from "services/UrlService";
 import ApiService from "services/ApiService";
 import { toast } from "react-toastify";
-import { useEffect, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 
 const ProfileMenu = ({ isOpen, username, onClose }) => {
     const navigate = useNavigate();
     const menuRef = useRef(null);
-
 
     const close = useCallback(() => onClose && onClose(), [onClose]);
 
@@ -31,19 +30,6 @@ const ProfileMenu = ({ isOpen, username, onClose }) => {
 
         close();
     }
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                close();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [close, onClose]);
 
     return (
         <div ref={menuRef} className={`${styles["profile-menu"]} ${isOpen ? " d-block" : ""}`}>
