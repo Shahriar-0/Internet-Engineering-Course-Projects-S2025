@@ -4,7 +4,7 @@ const defaultHeader = { "Content-Type": "application/json" };
 const signInUrl = baseUrl + "/auth/login";
 const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
-
+const booksUrl = baseUrl + "/books";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
@@ -22,12 +22,16 @@ const statusCode = Object.freeze({
 
 const apiCallTemplate = async (httpMethod, url, reqBody) => {
     try {
-        const response = await fetch(url, {
+        const options = {
             method: httpMethod,
-            headers: defaultHeader,
-            body: JSON.stringify(reqBody)
+            headers: defaultHeader
+        };
+
+        if (reqBody && httpMethod !== "GET") {
+            options.body = JSON.stringify(reqBody);
         }
-        );
+
+        const response = await fetch(url, options);
         const body = await response.json();
         return { response, body, error: null };
     }
@@ -62,10 +66,15 @@ const signOut = async () => {
     return await apiCallTemplate(HttpMethod.DELETE, signOutUrl, null);
 }
 
+const getBooks = async (url) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + url, null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
     signUp,
+    getBooks,
     statusCode
 });
 
