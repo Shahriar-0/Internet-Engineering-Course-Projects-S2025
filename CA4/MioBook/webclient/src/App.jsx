@@ -12,6 +12,7 @@ import AccessDenied from "layout/main/errors/AccessDenied";
 
 import UrlAccessControl from "services/UrlAccessControl";
 import UrlService from "services/UrlService";
+import AuthenticationService from "services/AuthenticationService";
 
 function App() {
     const urls = UrlService.urls;
@@ -23,7 +24,7 @@ function App() {
                 <UrlAccessControl />
                 <Header />
                 <Routes>
-                    <Route path="" element={<Navigate to={urls.home} replace />} />
+                    <Route path="" element={<Navigate to={AuthenticationService.isAnyUserLoggedIn() ? urls.home : urls.signIn} replace />} />
                     <Route path={urls.signIn} element={<SignIn />} />
                     <Route path={urls.signUp} element={<SignUp />} />
                     <Route path={urls.home} element={<Home />} />

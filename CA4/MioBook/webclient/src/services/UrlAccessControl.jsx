@@ -13,6 +13,8 @@ const UrlAccessControl = () => {
 
         if(!AuthenticationService.isAnyUserLoggedIn())
             checkDefaultAccess();
+
+        // TODO: add check access for a user
     }, [location]);
 
     const checkDefaultAccess = () => {
