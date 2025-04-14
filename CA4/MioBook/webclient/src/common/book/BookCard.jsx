@@ -4,6 +4,8 @@ import emptyStar from "assets/icons/empty-star.svg";
 import halfStar from "assets/icons/half-star.svg";
 import quarterStar from "assets/icons/one-fourth-filled-star.svg";
 import threeQuarterStar from "assets/icons/three-fourth-filled-star.svg";
+import { Link } from "react-router-dom";
+import UrlService from "services/UrlService";
 
 const BookCard = ({ title, author, price, averageRating, bookImage = defaultBookCardImage }) => {
     const renderStars = () => {
@@ -23,12 +25,25 @@ const BookCard = ({ title, author, price, averageRating, bookImage = defaultBook
         return stars;
     };
 
+    const formattedTitle = title.replace(/\s+/g, "%20");
+    const formattedAuthor = author.replace(/\s+/g, "%20");
+
     return (
         <div className="card text-center shadow rounded-4 bg-khaki">
-            <img className="card-img-top rounded-top-4" src={bookImage} alt="book-image" />
+            <Link to={`${UrlService.urls.books}/${formattedTitle}`} className="text-decoration-none">
+                <img
+                    className="card-img-top rounded-top-4"
+                    src={bookImage}
+                    alt="book-image"
+                />
+            </Link>
             <div className="card-body">
-                <p className="card-title fw-bold">{title}</p>
-                <p className="card-text">{author}</p>
+                <Link to={`${UrlService.urls.books}/${formattedTitle}`} className="text-decoration-none">
+                    <p className="card-title fw-bold text-dark">{title}</p>
+                </Link>
+                <Link to={`${UrlService.urls.books}/${formattedAuthor}`} className="text-decoration-none">
+                    <p className="card-text text-dark">{author}</p>
+                </Link>
                 <div className="d-flex justify-content-between mb-2">
                     <div className="d-flex">{renderStars()}</div>
                     <span>${price}</span>
@@ -37,6 +52,6 @@ const BookCard = ({ title, author, price, averageRating, bookImage = defaultBook
             </div>
         </div>
     );
-}
+};
 
 export default BookCard;
