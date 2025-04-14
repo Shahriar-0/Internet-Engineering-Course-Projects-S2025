@@ -1,5 +1,5 @@
-﻿import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+﻿import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useCallback } from "react";
 import UrlService from "./UrlService";
 import AuthenticationService from "./AuthenticationService";
 
@@ -7,22 +7,23 @@ const UrlAccessControl = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const checkAccess = useCallback(() => {
+        if (!AuthenticationService.isAnyUserLoggedIn()) {
+            if (!UrlService.hasDefaultAccess(location.pathname)) {
+                navigate(UrlService.urls.accessDenied);
+            }
+        }
+        else {
+            // Define logic for authenticated users
+        }
+    }, [location.pathname, navigate]);
+
     useEffect(() => {
         if (!UrlService.isAvailable(location.pathname))
             navigate(UrlService.urls.notFound);
-
-        checkAccess();
-    }, [location]);
-
-    const checkAccess = () => {
-        if (!AuthenticationService.isAnyUserLoggedIn())
-            if (!UrlService.hasDefaultAccess(location.pathname))
-                navigate(UrlService.urls.accessDenied);
-
-        else {
-            //? maybe define a list of protected urls which are not available for all users (other than things for admin and customer)
-        }
-    }
+        else
+            checkAccess();
+    }, [location.pathname, navigate, checkAccess]);
 }
 
 export default UrlAccessControl;

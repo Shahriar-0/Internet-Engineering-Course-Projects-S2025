@@ -1,5 +1,5 @@
 ﻿const baseUrl = process.env.REACT_APP_API_URL + "/api";
-const defaultHeader = {"Content-Type": "application/json"};
+const defaultHeader = { "Content-Type": "application/json" };
 
 const signInUrl = baseUrl + "/auth/login";
 const signOutUrl = baseUrl + "/auth/logout";
@@ -20,20 +20,19 @@ const statusCode = Object.freeze({
     UNAUTHORIZED: 401
 })
 
-
 const apiCallTemplate = async (httpMethod, url, reqBody) => {
     try {
         const response = await fetch(url, {
-                method: httpMethod,
-                headers: defaultHeader,
-                body: JSON.stringify(reqBody)
-            }
+            method: httpMethod,
+            headers: defaultHeader,
+            body: JSON.stringify(reqBody)
+        }
         );
         const body = await response.json();
-        return {response, body, error : null};
+        return { response, body, error: null };
     }
     catch (e) {
-        return {response: null, body: null, error: e};
+        return { response: null, body: null, error: e };
     }
 }
 

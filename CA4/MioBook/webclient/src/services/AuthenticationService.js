@@ -12,16 +12,16 @@ const isUserLoggedIn = (username) => {
 const getCurrentUser = () => structuredClone(JSON.parse(localStorage.getItem("user")));
 
 const login = async (username, password) => {
-    const {body} = await ApiService.signIn(username, password);
+    const { body } = await ApiService.signIn(username, password);
 
     if (body !== null && body.status === ApiService.statusCode.OK)
-        localStorage.setItem("user", JSON.stringify({username: username, password: password}));
+        localStorage.setItem("user", JSON.stringify({ username: username, password: password }));
 
     return body;
 };
 
 const logout = async () => {
-    const {body} = await ApiService.signOut();
+    const { body } = await ApiService.signOut();
     if (body)
         localStorage.removeItem("user");
 
