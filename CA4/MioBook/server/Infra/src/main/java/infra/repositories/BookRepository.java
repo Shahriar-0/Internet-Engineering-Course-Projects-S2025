@@ -8,7 +8,6 @@ import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -85,14 +84,11 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	}
 
 	private static List<Book> sortByDateAdded(List<Book> books, boolean isAscending) {
-		// TODO: right now we don't store date added, and we just use the order of the list
-		if (isAscending)
-			return books;
-		else {
-			List<Book> reversedBooks = new ArrayList<>(books);
-			Collections.reverse(reversedBooks);
-			return reversedBooks;
-		}
+		return books
+			.stream()
+			.sorted(isAscending ? Comparator.comparing(Book::getDateAdded) :
+								Comparator.comparing(Book::getDateAdded).reversed())
+			.toList();
 	}
 
 	private static List<Book> sortByRating(List<Book> books, boolean isAscending) {
