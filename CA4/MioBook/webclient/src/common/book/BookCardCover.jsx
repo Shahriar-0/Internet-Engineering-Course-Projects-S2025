@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import UrlService from "services/UrlService";
 
-const BookCover = ({ cover }) => {
+const BookCardCover = ({ cover }) => {
     const formattedTitle = cover.replace(/\s+/g, "%20");
     // TODO: fetch image
     return (
@@ -15,4 +15,4 @@ const BookCover = ({ cover }) => {
     );
 };
 
-export default BookCover;
+export default BookCardCover;
