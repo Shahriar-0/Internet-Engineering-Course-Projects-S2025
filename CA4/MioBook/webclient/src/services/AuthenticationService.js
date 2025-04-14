@@ -22,8 +22,12 @@ const login = async (username, password) => {
     return body;
 };
 
-const logout = () => {
-    localStorage.removeItem("user");
+const logout = async () => {
+    const {body} = await ApiService.signOut();
+    if (body)
+        localStorage.removeItem("user");
+
+    return body;
 };
 
 const AuthenticationService = Object.freeze({

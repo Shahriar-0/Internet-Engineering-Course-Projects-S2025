@@ -2,6 +2,7 @@
 const defaultHeader = {"Content-Type": "application/json"};
 
 const signInUrl = baseUrl + "/auth/login";
+const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 
 
@@ -58,9 +59,14 @@ const signIn = async (username, password) => {
     return await apiCallTemplate(HttpMethod.POST, signInUrl, reqBody);
 }
 
+const signOut = async () => {
+    return await apiCallTemplate(HttpMethod.DELETE, signOutUrl, null);
+}
+
 
 const ApiService = Object.freeze({
     signIn,
+    signOut,
     signUp,
     statusCode
 });

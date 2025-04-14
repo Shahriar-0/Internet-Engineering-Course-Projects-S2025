@@ -1,0 +1,13 @@
+﻿.profile-menu {
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background-color: var(--c-custom-white);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    display: none;
+    z-index: 1000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}

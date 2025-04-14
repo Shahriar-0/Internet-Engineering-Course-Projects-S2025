@@ -60,11 +60,6 @@
     font-size: 0.75em;
 }
 
-.text-truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 /*--------------------  Text Utils End  --------------------*/
 
 
@@ -115,6 +110,11 @@
 
 .border-custom-white {
     border-color: var(--c-custom-white) !important;
+}
+
+.hover-gray:hover {
+    background-color: var(--c-gray) !important;
+    transition: background-color 0.2s ease;
 }
 
 .danger-shadow {

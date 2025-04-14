@@ -3,8 +3,10 @@
     signUp: "/sign-up",
     home: "/home",
     profile: "/profile",
-    user: "/user",
-    unexpectedError: "/unexpected-errors"
+    myBooks: "/purchased-books",
+    cart: "/cart",
+    history: "/purchased-history",
+    unexpectedError: "/unexpected-errors",
 });
 
 const doNotShowHeaderUrls = Object.freeze([
