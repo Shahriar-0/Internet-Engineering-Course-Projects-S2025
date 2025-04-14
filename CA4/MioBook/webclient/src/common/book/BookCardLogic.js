@@ -3,7 +3,7 @@ export const transformBook = (book) => {
         title: book.title,
         author: book.author,
         price: book.price,
-        rating: book.rating,
+        averageRating: book.averageRating,
         cover: book.cover
     }
 }

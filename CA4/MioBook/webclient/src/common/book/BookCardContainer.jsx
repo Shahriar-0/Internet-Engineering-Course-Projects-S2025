@@ -17,7 +17,6 @@ const BookCardContainer = ({ bookList = null, url }) => {
         if (bookList == null) {
             const fetchBooks = async () => {
                 const { body, error } = await ApiService.getBooks(url);
-                console.log(body);
                 if (error) {
                     setErrorMessage(error);
                     navigate(UrlService.urls.unexpectedError);
@@ -25,6 +24,7 @@ const BookCardContainer = ({ bookList = null, url }) => {
                 else if (body && body.status === ApiService.statusCode.OK) {
                     const transformedBooks = body.data.list.map((book) => transformBook(book));
                     setBooks(transformedBooks);
+                    setErrorMessage(null);
                 }
             }
 
