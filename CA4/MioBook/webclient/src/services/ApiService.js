@@ -1,4 +1,4 @@
-﻿const baseUrl = process.env.REACT_APP_API_URL + "/api";
+const baseUrl = process.env.REACT_APP_API_URL + "/api";
 const defaultHeader = { "Content-Type": "application/json" };
 
 const signInUrl = baseUrl + "/auth/login";

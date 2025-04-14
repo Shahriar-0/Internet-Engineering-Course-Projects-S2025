@@ -1,4 +1,4 @@
-﻿import {Link, useNavigate} from "react-router-dom";
+﻿import { Link, useNavigate } from "react-router-dom";
 import styles from "./ProfileMenu.module.css";
 import profileIcon from "assets/icons/profile-icon.svg";
 import cartIcon from "assets/icons/cart-icon.svg";
@@ -9,15 +9,15 @@ import UrlService from "services/UrlService";
 import AuthenticationService from "services/AuthenticationService";
 import urlService from "services/UrlService";
 import ApiService from "services/ApiService";
-import {toast} from "react-toastify";
-import {useEffect, useRef} from "react";
+import { toast } from "react-toastify";
+import { useEffect, useRef, useCallback } from "react";
 
-const ProfileMenu = ({isOpen, username, onClose}) => {
+const ProfileMenu = ({ isOpen, username, onClose }) => {
     const navigate = useNavigate();
     const menuRef = useRef(null);
 
 
-    const close = () => onClose && onClose();
+    const close = useCallback(() => onClose && onClose(), [onClose]);
 
     const onLogout = async () => {
         const body = await AuthenticationService.logout();
@@ -43,7 +43,7 @@ const ProfileMenu = ({isOpen, username, onClose}) => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [onClose]);
+    }, [close, onClose]);
 
     return (
         <div ref={menuRef} className={`${styles["profile-menu"]} ${isOpen ? " d-block" : ""}`}>
@@ -62,7 +62,7 @@ const ProfileMenu = ({isOpen, username, onClose}) => {
                 <img className="me-2" src={historyIcon} alt="history-icon" />  Purchase History
             </Link>
             <hr className="my-2" />
-            <button onClick={onLogout} className="btn hover-gray w-100 text-start"><img className="me-2" src={logoutIcon}  alt="logout"/>Logout</button>
+            <button onClick={onLogout} className="btn hover-gray w-100 text-start"><img className="me-2" src={logoutIcon} alt="logout" />Logout</button>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-﻿const urls = Object.freeze({
+const urls = Object.freeze({
     signIn: "/sign-in",
     signUp: "/sign-up",
     home: "/home",

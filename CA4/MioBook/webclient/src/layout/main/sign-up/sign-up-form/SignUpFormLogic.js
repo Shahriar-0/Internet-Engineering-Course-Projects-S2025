@@ -1,4 +1,4 @@
-﻿export const getInitFormState = () => {
+export const getInitFormState = () => {
     return {
         username: {
             value: '',

@@ -1,4 +1,4 @@
-﻿import ApiService from "./ApiService";
+import ApiService from "./ApiService";
 
 const isAnyUserLoggedIn = () => localStorage.getItem("user") !== null;
 
