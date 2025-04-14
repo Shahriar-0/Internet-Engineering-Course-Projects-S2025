@@ -17,7 +17,7 @@ const UrlAccessControl = () => {
 
     const checkDefaultAccess = () => {
         if (!UrlService.hasDefaultAccess(location.pathname)) {
-            navigate(UrlService.urls.signIn);
+            navigate(UrlService.urls.accessDenied);
         }
     }
 }

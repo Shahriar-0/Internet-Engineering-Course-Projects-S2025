@@ -8,20 +8,23 @@
     history: "/purchased-history",
     unexpectedError: "/unexpected-errors",
     notFound: "/not-found",
+    accessDenied: "/access-denied",
 });
 
 const doNotShowHeaderUrls = Object.freeze([
     urls.signIn,
     urls.signUp,
     urls.unexpectedError,
-    urls.notFound
+    urls.notFound,
+    urls.accessDenied,
 ]);
 
 const defaultAccessUrls = Object.freeze([
+    urls.signIn,
+    urls.signUp,
     urls.unexpectedError,
     urls.notFound,
-    urls.signUp,
-    urls.signIn
+    urls.accessDenied,
 ]);
 
 const mustShowHeader = (url) => {

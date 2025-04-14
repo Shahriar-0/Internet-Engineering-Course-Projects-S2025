@@ -63,7 +63,6 @@ const signOut = async () => {
     return await apiCallTemplate(HttpMethod.DELETE, signOutUrl, null);
 }
 
-
 const ApiService = Object.freeze({
     signIn,
     signOut,
