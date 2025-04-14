@@ -1,7 +1,5 @@
 ﻿import ApiService from "./ApiService";
 
-let currentUser = null;
-
 const isAnyUserLoggedIn = () => localStorage.getItem("user") !== null;
 
 const isUserLoggedIn = (username) => {

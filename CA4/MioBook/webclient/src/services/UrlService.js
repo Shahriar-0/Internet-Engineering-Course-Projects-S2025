@@ -7,16 +7,19 @@
     cart: "/cart",
     history: "/purchased-history",
     unexpectedError: "/unexpected-errors",
+    notFound: "/not-found",
 });
 
 const doNotShowHeaderUrls = Object.freeze([
     urls.signIn,
     urls.signUp,
-    urls.unexpectedError
+    urls.unexpectedError,
+    urls.notFound
 ]);
 
 const defaultAccessUrls = Object.freeze([
     urls.unexpectedError,
+    urls.notFound,
     urls.signUp,
     urls.signIn
 ]);
@@ -35,11 +38,15 @@ const hasDefaultAccess = (url) => {
     return defaultAccessUrls.includes(url);
 }
 
+const isAvailable = (url) => {
+    return Object.values(urls).includes(url);
+}
+
 const UrlService = Object.freeze({
     mustShowHeader,
     hasDefaultAccess,
+    isAvailable,
     urls
 });
-
 
 export default UrlService;

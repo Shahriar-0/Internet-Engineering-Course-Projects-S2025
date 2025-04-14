@@ -8,6 +8,9 @@ const UrlAccessControl = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!UrlService.isAvailable(location.pathname))
+            navigate(UrlService.urls.notFound);
+
         if(!AuthenticationService.isAnyUserLoggedIn())
             checkDefaultAccess();
     }, [location]);
