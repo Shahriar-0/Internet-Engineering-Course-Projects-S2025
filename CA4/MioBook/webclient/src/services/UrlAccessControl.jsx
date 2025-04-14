@@ -11,15 +11,16 @@ const UrlAccessControl = () => {
         if (!UrlService.isAvailable(location.pathname))
             navigate(UrlService.urls.notFound);
 
-        if(!AuthenticationService.isAnyUserLoggedIn())
-            checkDefaultAccess();
-
-        // TODO: add check access for a user
+        checkAccess();
     }, [location]);
 
-    const checkDefaultAccess = () => {
-        if (!UrlService.hasDefaultAccess(location.pathname)) {
-            navigate(UrlService.urls.accessDenied);
+    const checkAccess = () => {
+        if (!AuthenticationService.isAnyUserLoggedIn())
+            if (!UrlService.hasDefaultAccess(location.pathname))
+                navigate(UrlService.urls.accessDenied);
+
+        else {
+            //? maybe define a list of protected urls which are not available for all users (other than things for admin and customer)
         }
     }
 }
