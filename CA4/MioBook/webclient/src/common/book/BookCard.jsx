@@ -1,30 +1,10 @@
 ﻿import defaultBookCardImage from "assets/images/books/book-card-image.svg";
-import filledStar from "assets/icons/filled-star.svg";
-import emptyStar from "assets/icons/empty-star.svg";
-import halfStar from "assets/icons/half-star.svg";
-import quarterStar from "assets/icons/one-fourth-filled-star.svg";
-import threeQuarterStar from "assets/icons/three-fourth-filled-star.svg";
 import AddCart from "./AddCart";
 import { Link } from "react-router-dom";
 import UrlService from "services/UrlService";
+import Rating from "common/rating/Rating";
 
 const BookCard = ({ title, author, price, averageRating, bookImage = defaultBookCardImage }) => {
-    const renderStars = () => {
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            if (averageRating >= i)
-                stars.push(<img key={i} src={filledStar} alt="filled-star" />);
-            else if (averageRating >= i - 0.75)
-                stars.push(<img key={i} src={threeQuarterStar} alt="three-fourth-filled-star" />);
-            else if (averageRating >= i - 0.5)
-                stars.push(<img key={i} src={halfStar} alt="half-star" />);
-            else if (averageRating >= i - 0.25)
-                stars.push(<img key={i} src={quarterStar} alt="one-fourth-filled-star" />);
-            else
-                stars.push(<img key={i} src={emptyStar} alt="empty-star" />);
-        }
-        return stars;
-    };
 
     const formattedTitle = title.replace(/\s+/g, "%20");
     const formattedAuthor = author.replace(/\s+/g, "%20");
@@ -46,7 +26,7 @@ const BookCard = ({ title, author, price, averageRating, bookImage = defaultBook
                     <p className="card-text text-dark">{author}</p>
                 </Link>
                 <div className="d-flex justify-content-between mb-2">
-                    <div className="d-flex">{renderStars()}</div>
+                    <Rating rating={averageRating} />
                     <span>${price}</span>
                 </div>
                 <AddCart />
