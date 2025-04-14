@@ -4,6 +4,7 @@ import emptyStar from "assets/icons/empty-star.svg";
 import halfStar from "assets/icons/half-star.svg";
 import quarterStar from "assets/icons/one-fourth-filled-star.svg";
 import threeQuarterStar from "assets/icons/three-fourth-filled-star.svg";
+import AddCart from "./AddCart";
 import { Link } from "react-router-dom";
 import UrlService from "services/UrlService";
 
@@ -48,7 +49,7 @@ const BookCard = ({ title, author, price, averageRating, bookImage = defaultBook
                     <div className="d-flex">{renderStars()}</div>
                     <span>${price}</span>
                 </div>
-                <button className="btn border-1 fw-bold green-btn w-100">Add to Cart</button>
+                <AddCart />
             </div>
         </div>
     );
