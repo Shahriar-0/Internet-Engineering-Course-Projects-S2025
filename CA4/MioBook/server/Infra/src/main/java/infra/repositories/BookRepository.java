@@ -7,8 +7,8 @@ import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -43,11 +43,13 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		if (filter.from() != null) books = filterLowerBoundYear(books, filter.from());
 		if (filter.to() != null) books = filterUpperBoundYear(books, filter.to());
 
-		assert filter.ascendingSortByRating() != null &&
-		filter.pageSize() != null &&
+		assert filter.pageSize() != null &&
 		filter.pageNumber() != null : "we rely on standard filter field that should be pass from application layer";
 
-		books = sortByRating(books, filter.ascendingSortByRating());
+		if (filter.ascendingSortByDateAdded() != null)
+			books = sortByDateAdded(books, filter.ascendingSortByDateAdded());
+		else if (filter.ascendingSortByRating() != null)
+			books = sortByRating(books, filter.ascendingSortByRating()); // for now we don't combine sorts
 
 		return new Page<>(books, filter.pageNumber(), filter.pageSize());
 	}
@@ -82,10 +84,22 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		return books.stream().filter(book -> book.getPublishedYear() <= upperBound).toList();
 	}
 
+	private static List<Book> sortByDateAdded(List<Book> books, boolean isAscending) {
+		// TODO: right now we don't store date added, and we just use the order of the list
+		if (isAscending)
+			return books;
+		else {
+			List<Book> reversedBooks = new ArrayList<>(books);
+			Collections.reverse(reversedBooks);
+			return reversedBooks;
+		}
+	}
+
 	private static List<Book> sortByRating(List<Book> books, boolean isAscending) {
 		return books
 			.stream()
-			.sorted(isAscending ? Comparator.comparing(Book::getAverageRating) : Comparator.comparing(Book::getAverageRating).reversed())
+			.sorted(isAscending ? Comparator.comparing(Book::getAverageRating) :
+								Comparator.comparing(Book::getAverageRating).reversed())
 			.toList();
 	}
 }

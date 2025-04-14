@@ -41,7 +41,8 @@ public class GetBook implements IUseCase {
 			filter.genre,
 			filter.from,
 			filter.to,
-			(filter.ascendingSortByRating != null) ? filter.ascendingSortByRating : true,
+			filter.ascendingSortByRating,
+			filter.ascendingSortByDateAdded,
 			(filter.pageNumber != null) ? filter.pageNumber : DEFAULT_BOOK_PAGE_NUMBER,
 			standardizePageSizeField(filter.pageSize)
 		);
@@ -64,6 +65,7 @@ public class GetBook implements IUseCase {
 		@Positive Integer from,
 		@Positive Integer to,
 		Boolean ascendingSortByRating,
+		Boolean ascendingSortByDateAdded,
 		@Positive Integer pageNumber,
 		@Positive Integer pageSize
 	) {}
