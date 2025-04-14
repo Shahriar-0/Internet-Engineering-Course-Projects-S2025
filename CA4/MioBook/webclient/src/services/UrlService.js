@@ -2,6 +2,7 @@ const urls = Object.freeze({
     signIn: "/sign-in",
     signUp: "/sign-up",
     home: "/home",
+    searchResult: "/search-result",
     profile: "/profile",
     myBooks: "/purchased-books",
     cart: "/cart",
