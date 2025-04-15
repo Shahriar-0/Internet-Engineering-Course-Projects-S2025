@@ -112,8 +112,23 @@
     border-color: var(--c-custom-white) !important;
 }
 
+.hover-khaki:hover {
+    background-color: var(--c-khaki) !important;
+    transition: background-color 0.2s ease;
+}
+
+.hover-green:hover {
+    background-color: var(--c-green) !important;
+    transition: background-color 0.2s ease;
+}
+
 .hover-gray:hover {
     background-color: var(--c-gray) !important;
+    transition: background-color 0.2s ease;
+}
+
+.hover-custom-white:hover {
+    background-color: var(--c-custom-white) !important;
     transition: background-color 0.2s ease;
 }
 
@@ -125,6 +140,13 @@
 
 .outline-0 {
     outline: none !important;
+}
+
+.pointer {
+    user-select: none;
+    -webkit-user-select: none; /* for Safari */
+    -moz-user-select: none;    /* for Firefox */
+    -ms-user-select: none;     /* for IE/Edge */
 }
 
 .pointer:hover {
