@@ -41,6 +41,20 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
     }
 }
 
+const createFilterQueryForSearchBook = (filter) => {
+    let query = "?";
+    if (filter.pageSize != null) {
+        query += `pageSize=${filter.pageSize}&`;
+    }
+    if (filter.pageNumber != null) {
+        query += `pageNumber=${filter.pageNumber}&`;
+    }
+    query = query.endsWith("&") ? query.slice(0, -1) : query;
+
+    return query;
+}
+
+
 const signUp = async (username, password, email, country, city, role) => {
     const reqBody = {
         username: username,
@@ -84,8 +98,12 @@ const getBooksByAuthor = async (author) => {
 }
 
 const getAuthor = async (name) => {
-    console.log("author url:", )
+    console.log("author url:",)
     return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
+}
+
+const searchBooks = async (filter) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
 }
 
 const ApiService = Object.freeze({
@@ -97,6 +115,7 @@ const ApiService = Object.freeze({
     getBookReviews,
     getBooksByAuthor,
     getAuthor,
+    searchBooks,
     statusCode
 });
 

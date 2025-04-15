@@ -1,16 +1,39 @@
 ﻿import BookCardContainer from "common/book/BookCardContainer";
 import PagedContainer from "library/paged-container/PagedContainer";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import ApiService from "services/ApiService";
+import UrlService from "services/UrlService";
 
 const SearchResult = () => {
-    const tempBookList = Array.from({ length: 10 }, (_, i) => ({
-        bookTitle: "Book Title",
-        authorName: "Author McName",
-        price: 10.25,
-        rating: 4,
-    }));
+    const DEFAULT_PAGE_SIZE = 10;
+
+    const [books, setBooks] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchBooks(1);
+    }, []);
+
+    const fetchBooks = async (pageNumber) => {
+        const {body} = await ApiService.searchBooks({
+            pageSize: DEFAULT_PAGE_SIZE,
+            pageNumber: pageNumber
+        });
+
+        if (body === null || body.status !== ApiService.statusCode.OK) {
+            navigate(UrlService.urls.unexpectedError);
+            return;
+        }
+
+        setBooks(body.data.list);
+        setTotalPages(body.data.totalPageNumber);
+    }
 
     const onPageChange = (page) => {
-        console.log(`Page ${page} selected`);
+        fetchBooks(page);
     };
 
     return (
@@ -20,9 +43,9 @@ const SearchResult = () => {
 
                 <PagedContainer pageNumberClassName="px-3 py-2 mx-1 rounded-3 hover-gray fw-bold"
                                 currentPageNumberClassName="px-3 py-2 mx-1 rounded-3 bg-green text-white fw-bold"
-                                totalPages={10}
+                                totalPages={totalPages}
                                 onPageChange={onPageChange}>
-                    <BookCardContainer bookList={tempBookList}  />
+                    <BookCardContainer bookList={books}/>
                 </PagedContainer>
             </section>
         </main>
