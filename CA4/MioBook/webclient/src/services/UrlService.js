@@ -2,6 +2,7 @@ const urls = Object.freeze({
     signIn: "/sign-in",
     signUp: "/sign-up",
     home: "/home",
+    searchResult: "/search-result",
     profile: "/profile",
     myBooks: "/purchased-books",
     cart: "/cart",
@@ -30,21 +31,21 @@ const defaultAccessUrls = Object.freeze([
 ]);
 
 const mustShowHeader = (url) => {
-    if (!Object.values(urls).includes(url))
+    if (!Object.values(urls).some(baseUrl => url.startsWith(baseUrl)))
         return false;
 
     return !doNotShowHeaderUrls.includes(url);
 }
 
 const hasDefaultAccess = (url) => {
-    if (!Object.values(urls).includes(url))
+    if (!Object.values(urls).some(baseUrl => url.startsWith(baseUrl)))
         return true;
 
     return defaultAccessUrls.includes(url);
 }
 
 const isAvailable = (url) => {
-    return Object.values(urls).includes(url);
+    return Object.values(urls).some(baseUrl => url.startsWith(baseUrl));
 }
 
 const UrlService = Object.freeze({

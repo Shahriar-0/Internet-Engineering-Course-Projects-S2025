@@ -30,6 +30,9 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 			.synopsis(persistedEntity.getSynopsis())
 			.content(persistedEntity.getContent())
 			.genres(persistedEntity.getGenres())
+			.reviews(persistedEntity.getReviews())
+			.dateAdded(persistedEntity.getDateAdded())
+			.coverLink(persistedEntity.getCoverLink())
 			.build();
 	}
 

@@ -70,11 +70,21 @@ const getBooks = async (url) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + url, null);
 }
 
+const getBook = async (title) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + "/" + title, null);
+}
+
+const getBookReviews = async (title) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + "/" + title + "/reviews", null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
     signUp,
     getBooks,
+    getBook,
+    getBookReviews,
     statusCode
 });
 

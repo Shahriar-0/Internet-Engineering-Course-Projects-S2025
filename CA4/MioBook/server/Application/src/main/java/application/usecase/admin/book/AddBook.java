@@ -8,6 +8,7 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.author.Author;
 import domain.entities.book.Book;
+import domain.entities.book.BookContent;
 import domain.entities.user.Role;
 import domain.entities.user.User;
 import jakarta.validation.Valid;
@@ -30,32 +31,31 @@ public class AddBook implements IUseCase {
 	}
 
 	public Result<Book> perform(AddBookData data, User user) {
-		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
+		assert Role.ADMIN.equals(user.getRole()) : "we rely on presentation layer access control";
 
 		Result<Author> authorResult = authorRepository.get(data.author);
-		if (authorResult.isFailure())
-			return Result.failure(new AuthorDoesNotExists(data.author));
+		if (authorResult.isFailure()) return Result.failure(new AuthorDoesNotExists(data.author));
 		Author author = authorResult.data();
 
 		Book book = mapToBook(data, author);
 		Result<Book> bookResult = bookRepository.add(book);
-		if (bookResult.isSuccessful())
-			author.addBook(book);
+		if (bookResult.isSuccessful()) author.addBook(book);
 
 		return bookResult;
 	}
 
 	private static Book mapToBook(AddBookData data, Author author) {
-		return new Book(
-            data.title,
-            author,
-            data.publisher,
-            data.year,
-            data.price,
-            data.synopsis,
-            data.genres,
-            data.content
-        );
+		return Book
+			.builder()
+			.key(data.title)
+			.author(author)
+			.publisher(data.publisher)
+			.publishedYear(data.year)
+			.basePrice(data.price)
+			.synopsis(data.synopsis)
+			.genres(data.genres)
+			.content(BookContent.builder().content(data.content).key(data.title).build())
+			.build();
 	}
 
 	public record AddBookData(
@@ -65,16 +65,10 @@ public class AddBook implements IUseCase {
 		@NotBlank String synopsis,
 		@NotBlank String content,
 
-		@NotNull
-		@Positive
-		Integer year,
+		@NotNull @Positive Integer year,
 
-		@NotNull
-		@Positive
-		Long price,
+		@NotNull @Positive Long price,
 
-		@NotEmpty
-		@Valid
-		List<@NotBlank String> genres
+		@NotEmpty @Valid List<@NotBlank String> genres
 	) {}
 }

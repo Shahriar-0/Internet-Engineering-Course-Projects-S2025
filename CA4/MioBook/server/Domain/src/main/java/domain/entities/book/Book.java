@@ -7,6 +7,8 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -21,9 +23,15 @@ public class Book extends DomainEntity<String> {
 	private String synopsis;
 	private final List<String> genres;
 	private final BookContent content;
-	private final List<Review> reviews = new ArrayList<>();
-	private final LocalDateTime dateAdded = LocalDateTime.now();
-	private final String coverLink = null;
+
+	@Builder.Default
+	private List<Review> reviews = new ArrayList<>();
+
+	@Builder.Default
+	private LocalDateTime dateAdded = LocalDateTime.now();
+
+	@Builder.Default
+	private String coverLink = null;
 
 	public String getTitle() {
 		return super.getKey();
@@ -59,4 +67,12 @@ public class Book extends DomainEntity<String> {
 	public float getAverageRating() {
 		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0)).setScale(1, RoundingMode.HALF_UP).floatValue();
 	}
+
+	// public void debug() {
+	// 	System.out.println("address is " + this);
+	// 	System.out.println(BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0)).setScale(1, RoundingMode.HALF_UP).floatValue());
+	// 	for (Review review : reviews) {
+	// 		System.out.println(review + " " + review.getRating());
+	// 	}
+	// }
 }
