@@ -42,4 +42,8 @@ public class Author extends DomainEntity<String> {
 		assert book.getAuthor().getKey().equals(key);
 		books.add(book);
 	}
+
+	public int getBookCount() {
+		return books.size();
+	}
 }

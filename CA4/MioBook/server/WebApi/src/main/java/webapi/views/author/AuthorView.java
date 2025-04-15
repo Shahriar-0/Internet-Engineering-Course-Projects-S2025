@@ -9,7 +9,8 @@ public record AuthorView(
 	String penName,
 	String nationality,
 	LocalDate born,
-	LocalDate died
+	LocalDate died,
+	int bookCount
 ) {
 	public AuthorView(Author entity) {
 		this(
@@ -17,7 +18,8 @@ public record AuthorView(
 			entity.getPenName(),
 			entity.getNationality(),
 			entity.getBorn(),
-			entity.getDied()
+			entity.getDied(),
+			entity.getBookCount()
 		);
 	}
 }
