@@ -3,7 +3,7 @@ import logo from "assets/icons/mio-book-logo.svg";
 
 const MioBookLogo = () => {
     return (
-      <Link to="/home"><img src={logo} alt="MioBook"/></Link>
+        <Link to="/home"><img src={logo} alt="MioBook"/></Link>
     );
 }
 

@@ -13,7 +13,8 @@ public record BookView(
 	Integer year,
 	Long price,
 	String synopsis,
-	Float averageRating
+	Float averageRating,
+	String cover
 ) {
 	public BookView(Book entity) {
 		this(
@@ -24,7 +25,8 @@ public record BookView(
 			entity.getPublishedYear(),
 			entity.getBasePrice(),
 			entity.getSynopsis(),
-			entity.getAverageRating()
+			entity.getAverageRating(),
+			entity.getCoverLink()
 		);
 	}
 

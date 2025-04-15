@@ -102,6 +102,38 @@ public class BookController {
 		return Response.of(BookView.mapToView(result.data()), OK);
 	}
 
+	@GetMapping("/top")
+	@Access(isWhiteList = false)
+	public Response<Page<BookView>> getTopBooks() {
+		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		GetBook.BookFilter filter = new GetBook.BookFilter(
+			null, null, null, null, null, false, null,
+			1, 5
+		);
+
+		Result<Page<Book>> result = useCase.perform(filter);
+		if (result.isFailure())
+			throw result.exception();
+
+		return Response.of(BookView.mapToView(result.data()), OK);
+	}
+
+	@GetMapping("/new")
+	@Access(isWhiteList = false)
+	public Response<Page<BookView>> getNewBooks() {
+		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
+		GetBook.BookFilter filter = new GetBook.BookFilter(
+			null, null, null, null, null, null, false,
+			1, 5
+		);
+
+		Result<Page<Book>> result = useCase.perform(filter);
+		if (result.isFailure())
+			throw result.exception();
+
+		return Response.of(BookView.mapToView(result.data()), OK);
+	}
+
 	@PostMapping("/{title}/reviews")
 	@Access(roles = {CUSTOMER})
 	public Response<?> addReview(@Valid @RequestBody AddReview.AddReviewData data, @PathVariable String title) {

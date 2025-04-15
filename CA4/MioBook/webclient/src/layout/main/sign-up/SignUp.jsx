@@ -1,5 +1,5 @@
 ﻿import SignUpForm from "./sign-up-form/SignUpForm";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import UrlService from "services/UrlService";
 
 

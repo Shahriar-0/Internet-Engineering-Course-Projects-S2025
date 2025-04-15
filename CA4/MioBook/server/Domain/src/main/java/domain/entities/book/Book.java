@@ -2,9 +2,9 @@ package domain.entities.book;
 
 import domain.entities.DomainEntity;
 import domain.entities.author.Author;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -22,6 +22,8 @@ public class Book extends DomainEntity<String> {
 	private final List<String> genres;
 	private final BookContent content;
 	private final List<Review> reviews = new ArrayList<>();
+	private final LocalDateTime dateAdded = LocalDateTime.now();
+	private final String coverLink = null;
 
 	public String getTitle() {
 		return super.getKey();

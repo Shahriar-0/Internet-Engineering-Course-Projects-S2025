@@ -1,9 +1,10 @@
-﻿const baseUrl = process.env.REACT_APP_API_URL + "/api";
-const defaultHeader = {"Content-Type": "application/json"};
+const baseUrl = process.env.REACT_APP_API_URL + "/api";
+const defaultHeader = { "Content-Type": "application/json" };
 
 const signInUrl = baseUrl + "/auth/login";
+const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
-
+const booksUrl = baseUrl + "/books";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
@@ -19,20 +20,23 @@ const statusCode = Object.freeze({
     UNAUTHORIZED: 401
 })
 
-
 const apiCallTemplate = async (httpMethod, url, reqBody) => {
     try {
-        const response = await fetch(url, {
-                method: httpMethod,
-                headers: defaultHeader,
-                body: JSON.stringify(reqBody)
-            }
-        );
+        const options = {
+            method: httpMethod,
+            headers: defaultHeader
+        };
+
+        if (reqBody && httpMethod !== "GET") {
+            options.body = JSON.stringify(reqBody);
+        }
+
+        const response = await fetch(url, options);
         const body = await response.json();
-        return {response, body, error : null};
+        return { response, body, error: null };
     }
     catch (e) {
-        return {response: null, body: null, error: e};
+        return { response: null, body: null, error: e };
     }
 }
 
@@ -58,10 +62,19 @@ const signIn = async (username, password) => {
     return await apiCallTemplate(HttpMethod.POST, signInUrl, reqBody);
 }
 
+const signOut = async () => {
+    return await apiCallTemplate(HttpMethod.DELETE, signOutUrl, null);
+}
+
+const getBooks = async (url) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + url, null);
+}
 
 const ApiService = Object.freeze({
     signIn,
+    signOut,
     signUp,
+    getBooks,
     statusCode
 });
 
