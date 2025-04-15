@@ -5,6 +5,7 @@ const signInUrl = baseUrl + "/auth/login";
 const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 const booksUrl = baseUrl + "/books";
+const authorsUrl = baseUrl + "/authors";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
@@ -78,6 +79,15 @@ const getBookReviews = async (title) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + "/" + title + "/reviews", null);
 }
 
+const getBooksByAuthor = async (author) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + "?author=" + author, null);
+}
+
+const getAuthor = async (name) => {
+    console.log("author url:", )
+    return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -85,6 +95,8 @@ const ApiService = Object.freeze({
     getBooks,
     getBook,
     getBookReviews,
+    getBooksByAuthor,
+    getAuthor,
     statusCode
 });
 
