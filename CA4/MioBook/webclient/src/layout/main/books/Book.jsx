@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import UrlService from "services/UrlService";
-import BookCover from "./BookCover";
+import HomeEntityCover from "common/HomeEntity/HomeEntityCover";
 import Rating from "common/rating/Rating";
 import AuthorName from "common/author/AuthorName";
 import AddCart from "common/book/AddCart";
@@ -49,7 +49,7 @@ const Book = () => {
     return (
         <main class="container">
             <section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
-                <BookCover title={book?.title} rating={book?.averageRating} cover={book?.cover} />
+                <HomeEntityCover title={book?.title} rating={book?.averageRating} cover={book?.cover} />
 
                 <div class="col-12 col-md-7 col-lg-8 d-flex flex-column">
                     <p class="fw-bold fs-3 d-none d-md-block">{book?.title}</p>

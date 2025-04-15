@@ -3,7 +3,7 @@ import UrlService from "services/UrlService";
 import BookCoverImg from "assets/images/books/book-img.svg"
 import Rating from "common/rating/Rating";
 
-const BookCover = ({ title, rating, cover }) => {
+const HomeEntityCover = ({ title, rating, cover }) => {
     // Difference between this and the card one is mostly size so i don't know if we even need this
     const formattedTitle = title?.replace(/\s+/g, "%20");
     // TODO: fetch image
@@ -20,4 +20,4 @@ const BookCover = ({ title, rating, cover }) => {
     );
 };
 
-export default BookCover;
+export default HomeEntityCover;
