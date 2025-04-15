@@ -7,6 +7,8 @@ const urls = Object.freeze({
     myBooks: "/purchased-books",
     cart: "/cart",
     history: "/purchased-history",
+    books: "/books",
+    authors: "/authors",
     unexpectedError: "/unexpected-errors",
     notFound: "/not-found",
     accessDenied: "/access-denied",

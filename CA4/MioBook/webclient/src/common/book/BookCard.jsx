@@ -1,21 +1,25 @@
-﻿import bookCardImage from "assets/images/books/book-card-image.svg";
-import stars from "assets/icons/stars.svg";
+﻿import defaultBookCardImage from "assets/images/books/book-card-image.svg";
+import AddCart from "./AddCart";
+import Rating from "common/rating/Rating";
+import BookCardCover from "./BookCardCover";
+import BookTitle from "./BookTitle";
+import AuthorName from "common/author/AuthorName";
 
-const BookCard = ({bookTitle, authorName, price, rating, bookImage = bookCardImage}) => {
+const BookCard = ({ title, author, price, averageRating, bookImage = defaultBookCardImage }) => {
     return (
         <div className="card text-center shadow rounded-4 bg-khaki">
-            <img className="card-img-top rounded-top-4" src={bookImage} alt="book-image"/>
+            <BookCardCover cover={bookImage} />
             <div className="card-body">
-                <p className="card-title fw-bold">{bookTitle}</p>
-                <p className="card-text">{authorName}</p>
+                <BookTitle title={title} />
+                <AuthorName author={author} />
                 <div className="d-flex justify-content-between mb-2">
-                    <img src={stars} alt="stars-rate"/>
+                    <Rating rating={averageRating} />
                     <span>${price}</span>
                 </div>
-                <button className="btn border-1 fw-bold green-btn w-100">Add to Cart</button>
+                <AddCart />
             </div>
         </div>
     );
-}
+};
 
 export default BookCard;
