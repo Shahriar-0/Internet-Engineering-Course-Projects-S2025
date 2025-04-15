@@ -31,14 +31,14 @@ const defaultAccessUrls = Object.freeze([
 ]);
 
 const mustShowHeader = (url) => {
-    if (!Object.values(urls).includes(url))
+    if (!Object.values(urls).some(baseUrl => url.startsWith(baseUrl)))
         return false;
 
     return !doNotShowHeaderUrls.includes(url);
 }
 
 const hasDefaultAccess = (url) => {
-    if (!Object.values(urls).includes(url))
+    if (!Object.values(urls).some(baseUrl => url.startsWith(baseUrl)))
         return true;
 
     return defaultAccessUrls.includes(url);
