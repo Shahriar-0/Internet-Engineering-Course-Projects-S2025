@@ -67,12 +67,4 @@ public class Book extends DomainEntity<String> {
 	public float getAverageRating() {
 		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0)).setScale(1, RoundingMode.HALF_UP).floatValue();
 	}
-
-	// public void debug() {
-	// 	System.out.println("address is " + this);
-	// 	System.out.println(BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0)).setScale(1, RoundingMode.HALF_UP).floatValue());
-	// 	for (Review review : reviews) {
-	// 		System.out.println(review + " " + review.getRating());
-	// 	}
-	// }
 }
