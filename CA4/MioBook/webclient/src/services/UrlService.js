@@ -45,7 +45,7 @@ const hasDefaultAccess = (url) => {
 }
 
 const isAvailable = (url) => {
-    return Object.values(urls).includes(url);
+    return Object.values(urls).some(baseUrl => url.startsWith(baseUrl));
 }
 
 const UrlService = Object.freeze({
