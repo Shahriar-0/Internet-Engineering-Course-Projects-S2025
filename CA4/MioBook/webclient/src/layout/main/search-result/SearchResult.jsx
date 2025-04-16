@@ -39,10 +39,15 @@ const SearchResult = () => {
         fetchBooks(page);
     };
 
+    const onFilterApply = (filter) => {
+        // TODO: Call proper api and rerender books
+        console.log(filter);
+    };
+
     return (
         <main className="container">
             <section>
-                <BookFilterModal isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)}/>
+                <BookFilterModal isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)} onApply={onFilterApply}/>
 
                 <div className="d-flex justify-content-between mb-3">
                     <p className="fw-bold fs-3 mb-0">Result for <br className="d-sm-none"/> &lt;Search Parameters&gt;</p>
