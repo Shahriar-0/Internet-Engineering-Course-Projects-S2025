@@ -43,12 +43,15 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
 
 const createFilterQueryForSearchBook = (filter) => {
     let query = "?";
-    if (filter.pageSize != null) {
-        query += `pageSize=${filter.pageSize}&`;
-    }
-    if (filter.pageNumber != null) {
-        query += `pageNumber=${filter.pageNumber}&`;
-    }
+    if (filter.title) query += `title=${filter.title}&`;
+    if (filter.author) query += `author=${filter.author}&`;
+    if (filter.genre) query += `genre=${filter.genre}&`;
+    if (filter.from) query += `from=${filter.from}&`;
+    if (filter.to) query += `to=${filter.to}&`;
+    if (filter.sortBy) query += `sortBy=${filter.sortBy}&`;
+    if (filter.isAscending) query += `isAscending=${filter.isAscending}&`;
+    if (filter.pageNumber) query += `pageNumber=${filter.pageNumber}&`;
+    if (filter.pageSize) query += `pageSize=${filter.pageSize}&`;
     query = query.endsWith("&") ? query.slice(0, -1) : query;
 
     return query;

@@ -6,6 +6,7 @@ import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
 import filterIcon from "assets/icons/filter-icon.svg";
 import BookFilterModal from "./book-filter-modal/BookFilterModal";
+import {getInitialFilterState} from "./book-filter-modal/BookFilterLogic";
 
 const SearchResult = () => {
     const DEFAULT_PAGE_SIZE = 10;
@@ -16,14 +17,24 @@ const SearchResult = () => {
 
     const navigate = useNavigate();
 
+    let currentFilter = getInitialFilterState();
+    let currentPage = 1;
+
     useEffect(() => {
-        fetchBooks(1);
+        fetchBooks();
     }, []);
 
-    const fetchBooks = async (pageNumber) => {
+    const fetchBooks = async () => {
         const {body} = await ApiService.searchBooks({
-            pageSize: DEFAULT_PAGE_SIZE,
-            pageNumber: pageNumber
+            title: currentFilter.bookName,
+            author: currentFilter.authorName,
+            genre: currentFilter.genre,
+            from: currentFilter.publishedYear,
+            to: currentFilter.publishedYear,
+            sortBy: currentFilter.sortBy,
+            isAscending: currentFilter.isAscending,
+            pageNumber: currentPage,
+            pageSize: DEFAULT_PAGE_SIZE
         });
 
         if (body === null || body.status !== ApiService.statusCode.OK) {
@@ -36,12 +47,13 @@ const SearchResult = () => {
     }
 
     const onPageChange = (page) => {
-        fetchBooks(page);
+        currentPage = page;
+        fetchBooks();
     };
 
     const onFilterApply = (filter) => {
-        // TODO: Call proper api and rerender books
-        console.log(filter);
+        currentFilter = filter;
+        fetchBooks();
     };
 
     return (
