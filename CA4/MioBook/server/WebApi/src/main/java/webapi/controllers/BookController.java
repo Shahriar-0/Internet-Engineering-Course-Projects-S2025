@@ -8,6 +8,7 @@ import application.usecase.customer.book.AddReview;
 import application.usecase.customer.book.GetBookContent;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
+import application.usecase.user.book.GetGenres;
 import domain.entities.book.Book;
 import domain.entities.book.BookContent;
 import domain.entities.book.Review;
@@ -22,6 +23,8 @@ import webapi.services.UseCaseService;
 import webapi.views.book.BookContentView;
 import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
+
+import java.util.List;
 
 import static domain.entities.user.Role.ADMIN;
 import static domain.entities.user.Role.CUSTOMER;
@@ -145,4 +148,13 @@ public class BookController {
 
 		return Response.of(CREATED, ADD_REVIEW_MESSAGE);
 	}
+
+    @GetMapping("/genres")
+    @Access(isWhiteList = false)
+    public Response<List<String>> getGenres() {
+        GetGenres useCase = (GetGenres) useCaseService.getUseCase(UseCaseType.GET_GENRES);
+
+        List<String> genres = useCase.perform();
+        return Response.of(genres, OK);
+    }
 }

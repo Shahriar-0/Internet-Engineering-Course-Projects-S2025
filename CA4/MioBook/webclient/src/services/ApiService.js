@@ -6,6 +6,7 @@ const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 const booksUrl = baseUrl + "/books";
 const authorsUrl = baseUrl + "/authors";
+const genresUrl = booksUrl + "/genres";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
@@ -40,6 +41,24 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
         return { response: null, body: null, error: e };
     }
 }
+
+const createFilterQueryForSearchBook = (filter) => {
+    let query = "?";
+    console.log(filter)
+    if (filter.title) query += `title=${filter.title}&`;
+    if (filter.author) query += `author=${filter.author}&`;
+    if (filter.genre) query += `genre=${filter.genre}&`;
+    if (filter.from) query += `from=${filter.from}&`;
+    if (filter.to) query += `to=${filter.to}&`;
+    if (filter.sortBy) query += `sortBy=${filter.sortBy}&`;
+    query += (filter.isAscending) ? "isAscending=true&" : "isAscending=false&";
+    if (filter.pageNumber) query += `pageNumber=${filter.pageNumber}&`;
+    if (filter.pageSize) query += `pageSize=${filter.pageSize}&`;
+    query = query.endsWith("&") ? query.slice(0, -1) : query;
+
+    return query;
+}
+
 
 const signUp = async (username, password, email, country, city, role) => {
     const reqBody = {
@@ -84,8 +103,16 @@ const getBooksByAuthor = async (author) => {
 }
 
 const getAuthor = async (name) => {
-    console.log("author url:", )
+    console.log("author url:",)
     return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
+}
+
+const searchBooks = async (filter) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
+}
+
+const getGenres = async () => {
+    return await apiCallTemplate(HttpMethod.GET, genresUrl, null);
 }
 
 const ApiService = Object.freeze({
@@ -97,6 +124,8 @@ const ApiService = Object.freeze({
     getBookReviews,
     getBooksByAuthor,
     getAuthor,
+    searchBooks,
+    getGenres,
     statusCode
 });
 
