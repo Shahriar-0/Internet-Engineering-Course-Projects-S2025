@@ -87,7 +87,7 @@ const CustomerProfile = () => {
                             <label for="credit-amount" class="visually-hidden">Credit Amount</label>
                             <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount" type="number" placeholder="$Amount" />
                             <button onClick={handleAddCreditClick} class="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
-                            {/* FIXME: it should be enable until a value is entered */}
+                            {/* FIXME: it should be enable when a value is entered */}
                         </div>
                     </div>
                 </div>
