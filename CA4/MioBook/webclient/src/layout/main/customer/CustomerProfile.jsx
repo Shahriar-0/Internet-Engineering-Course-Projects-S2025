@@ -32,7 +32,7 @@ const CustomerProfile = () => {
             if (error)
                 toast.error(error);
             else if (body && body.status === ApiService.statusCode.OK)
-                setBooks(body.data.list);
+                setBooks(body.data.books);
             else
                 navigate(UrlService.urls.unexpectedError);
         }
@@ -116,7 +116,7 @@ const CustomerProfile = () => {
                         </p>
                         <div class="text-center">
                             {books && books.length > 0 ? (
-                                <BookList books={books} />
+                                <BookList bookList={books} />
                             ) : (
                                 <img src={NoResult} alt="no-product" />
                             )}

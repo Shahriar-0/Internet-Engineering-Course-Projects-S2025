@@ -1,4 +1,7 @@
+import BookListRow from "./BookListRow";
+
 const BookList = ({ bookList = null }) => {
+    console.log(bookList);
     return (
         <table class="table">
             <thead>
@@ -11,10 +14,15 @@ const BookList = ({ bookList = null }) => {
                     <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Genre</th>
                     <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Publisher</th>
                     <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Published Year</th>
+                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Status</th>
+                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">PlaceHolder</th>
+                    {/* FIXME: shahnammmmmmmmmmmmmmm, it should be empty */}
                 </tr>
             </thead>
-            <tbody>
-                {/* TODO */}
+            <tbody class="align-middle">
+                {bookList && bookList.map((book, index) => (
+                    <BookListRow key={index} book={book} />
+                ))}
             </tbody>
         </table>
     );
