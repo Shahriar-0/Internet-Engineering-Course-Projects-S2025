@@ -1,6 +1,6 @@
 ﻿import BookCardContainer from "common/book/BookCardContainer";
 import PagedContainer from "library/paged-container/PagedContainer";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
@@ -17,23 +17,23 @@ const SearchResult = () => {
 
     const navigate = useNavigate();
 
-    let currentFilter = getInitialFilterState();
-    let currentPage = 1;
+    const filter = useRef(getInitialFilterState());
+    const page = useRef(1);
 
     useEffect(() => {
-        fetchBooks();
+        fetchBooks(filter.current, page.current);
     }, []);
 
-    const fetchBooks = async () => {
+    const fetchBooks = async (filter, page) => {
         const {body} = await ApiService.searchBooks({
-            title: currentFilter.bookName,
-            author: currentFilter.authorName,
-            genre: currentFilter.genre,
-            from: currentFilter.publishedYear,
-            to: currentFilter.publishedYear,
-            sortBy: currentFilter.sortBy,
-            isAscending: currentFilter.isAscending,
-            pageNumber: currentPage,
+            title: filter.bookName,
+            author: filter.authorName,
+            genre: filter.genre,
+            from: filter.publishedYear,
+            to: filter.publishedYear,
+            sortBy: filter.sortBy,
+            isAscending: filter.isAscending,
+            pageNumber: page,
             pageSize: DEFAULT_PAGE_SIZE
         });
 
@@ -46,20 +46,20 @@ const SearchResult = () => {
         setTotalPages(body.data.totalPageNumber);
     }
 
-    const onPageChange = (page) => {
-        currentPage = page;
-        fetchBooks();
+    const onPageChange = (newPage) => {
+        page.current = newPage;
+        fetchBooks(filter.current, page.current);
     };
 
-    const onFilterApply = (filter) => {
-        currentFilter = filter;
-        fetchBooks();
+    const onFilterApply = (newFilter) => {
+        filter.current = newFilter;
+        fetchBooks(filter.current, page.current);
     };
 
     return (
         <main className="container">
             <section>
-                <BookFilterModal isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)} onApply={onFilterApply}/>
+                <BookFilterModal state={filter.current} isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)} onApply={onFilterApply}/>
 
                 <div className="d-flex justify-content-between mb-3">
                     <p className="fw-bold fs-3 mb-0">Result for <br className="d-sm-none"/> &lt;Search Parameters&gt;</p>

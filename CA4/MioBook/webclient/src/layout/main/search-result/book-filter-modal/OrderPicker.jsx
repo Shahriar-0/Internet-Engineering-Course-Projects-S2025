@@ -1,10 +1,10 @@
 import {useState} from "react";
 
-const OrderPicker = ({onChange, className}) => {
+const OrderPicker = ({state, onChange, className}) => {
     const activeStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-khaki text-green border-green";
     const inactiveStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-gray";
 
-    const [isAscending, setIsAscending] = useState(true);
+    const [isAscending, setIsAscending] = useState(state);
 
     const setOrderDescending = () => {
         onChange(false);

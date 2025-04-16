@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const SortByPicker = ({onChange, className}) => {
+const SortByPicker = ({state, onChange, className}) => {
     const sortBy = Object.freeze({
         rating: "rating",
         review: "review"
@@ -9,7 +9,7 @@ const SortByPicker = ({onChange, className}) => {
     const activeStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-khaki text-green border-green";
     const inactiveStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-gray";
 
-    const [sortByValue, setSortByValue] = useState(sortBy.rating);
+    const [sortByValue, setSortByValue] = useState(state);
 
     const setSortByRating = () => {
         onChange(sortBy.rating);

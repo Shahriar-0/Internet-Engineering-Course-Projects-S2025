@@ -5,7 +5,7 @@ export const getInitialFilterState = () => {
         genre: "",
         publishedYear: "",
         sortBy: "rating",
-        isAscending: true
+        isAscending: false
     };
 }
 
