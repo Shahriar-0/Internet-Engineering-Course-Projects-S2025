@@ -7,7 +7,6 @@ import historyIcon from "assets/icons/history-icon.svg";
 import myBooksIcon from "assets/icons/my-books-icon.svg";
 import UrlService from "services/UrlService";
 import AuthenticationService from "services/AuthenticationService";
-import urlService from "services/UrlService";
 import ApiService from "services/ApiService";
 import { toast } from "react-toastify";
 import { useRef, useCallback } from "react";
@@ -22,11 +21,11 @@ const ProfileMenu = ({ isOpen, username, onClose }) => {
         const body = await AuthenticationService.logout();
 
         if (!body)
-            navigate(urlService.urls.unexpectedError);
+            navigate(UrlService.urls.unexpectedError);
         else if (body.status !== ApiService.statusCode.OK)
             toast.error(body.message);
         else
-            navigate(urlService.urls.signIn);
+            navigate(UrlService.urls.signIn);
 
         close();
     }
