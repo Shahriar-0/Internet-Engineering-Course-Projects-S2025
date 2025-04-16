@@ -21,6 +21,7 @@ import application.usecase.user.account.Login;
 import application.usecase.user.author.GetAuthor;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
+import application.usecase.user.book.GetGenres;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -132,4 +133,9 @@ public class AppConfig {
 	public Login loginUseCase() {
 		return context.getLoginUseCase();
 	}
+
+    @Bean
+    public GetGenres getGenres() {
+        return context.getGetGenres();
+    }
 }

@@ -7,9 +7,8 @@ import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+
+import java.util.*;
 
 public class BookRepository extends BaseRepository<String, Book> implements IBookRepository {
 
@@ -65,6 +64,17 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		Page<Review> page = new Page<>(bookResult.data().getReviews(), filter.pageNumber(), filter.pageSize());
 		return Result.success(page);
 	}
+
+    @Override
+    public List<String> getGenres() {
+        List<Book> books = new ArrayList<>(map.values());
+        List<List<String>> genresList = books.stream().map(Book::getGenres).toList();
+        Set<String> genresSet = new HashSet<>();
+        for (List<String> genres : genresList)
+            genresSet.addAll(genres);
+
+        return genresSet.stream().toList();
+    }
 
 	private static List<Book> filterTitle(List<Book> books, String title) {
 		return books.stream().filter(book -> book.getTitle().contains(title)).toList();
