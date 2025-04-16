@@ -15,7 +15,8 @@ const HttpMethod = Object.freeze({
     GET: "GET",
     POST: "POST",
     PUT: "PUT",
-    DELETE: "DELETE"
+    DELETE: "DELETE",
+    PATCH: "PATCH"
 });
 
 const statusCode = Object.freeze({
@@ -88,7 +89,6 @@ const getBooksByAuthor = async (author) => {
 }
 
 const getAuthor = async (name) => {
-    console.log("author url:", )
     return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
 }
 
@@ -98,6 +98,13 @@ const getProfile = async () => {
 
 const getProfileBooks = async () => {
     return await apiCallTemplate(HttpMethod.GET, profileUrl + "/books", null);
+}
+
+const addCredit = async (amount) => {
+    const reqBody = {
+        amount: amount
+    }
+    return await apiCallTemplate(HttpMethod.PATCH, profileUrl + "/credit", reqBody);
 }
 
 const ApiService = Object.freeze({
@@ -111,6 +118,7 @@ const ApiService = Object.freeze({
     getAuthor,
     getProfile,
     getProfileBooks,
+    addCredit,
     statusCode
 });
 

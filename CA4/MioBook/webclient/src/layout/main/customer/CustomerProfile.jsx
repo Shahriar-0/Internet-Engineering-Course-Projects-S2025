@@ -52,6 +52,31 @@ const CustomerProfile = () => {
             navigate(UrlService.urls.signIn);
     }
 
+    const handleAddCreditClick = () => {
+        const raw = document.getElementById("credit-amount").value;
+        const amount = parseFloat(raw);
+        if (!isNaN(amount))
+            addCredit(amount);
+        else
+            toast.error("Please enter a valid number");
+
+    };
+
+    const addCredit = async (amount) => {
+        const { body, error } = await ApiService.addCredit(amount);
+        if (error)
+            toast.error(error);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else if (body && body.status === ApiService.statusCode.OK) {
+            toast.success(body.message);
+            setUser((prevUser) => ({ ...prevUser, balance: prevUser.balance + amount })); // TODO: maybe find a better way to do this
+            document.getElementById("credit-amount").value = "";
+        }
+        else
+            navigate(UrlService.urls.unexpectedError);
+    }
+
     return (
         <main class="d-flex flex-column align-items-center">
             <section class="container row mb-5">
@@ -61,7 +86,7 @@ const CustomerProfile = () => {
                         <div class="d-flex flex-wrap">
                             <label for="credit-amount" class="visually-hidden">Credit Amount</label>
                             <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount" type="number" placeholder="$Amount" />
-                            <button class="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
+                            <button onClick={handleAddCreditClick} class="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
                             {/* FIXME: it should be enable until a value is entered */}
                         </div>
                     </div>
