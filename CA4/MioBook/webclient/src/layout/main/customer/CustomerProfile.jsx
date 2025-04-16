@@ -6,11 +6,11 @@ import UrlService from "services/UrlService";
 import ProfileIcon from "assets/icons/profile-icon.svg";
 import UserEmailIcon from "assets/icons/user-email-icon.svg";
 import MyBooks from "assets/icons/profile-books-icon.svg";
-import NoProduct from "assets/images/user/no-product.svg";
 import NoResult from "assets/images/user/no-result.svg";
 import AuthenticationService from "services/AuthenticationService";
+import BookList from "common/user/BookList";
 
-const Profile = () => {
+const CustomerProfile = () => {
     const [user, setUser] = useState(null);
     const [books, setBooks] = useState(null);
 
@@ -18,7 +18,7 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-        const { body, error } = await ApiService.getProfile();
+            const { body, error } = await ApiService.getProfile();
             if (error)
                 toast.error(error);
             else if (body && body.status === ApiService.statusCode.OK)
@@ -90,8 +90,11 @@ const Profile = () => {
                             MyBooks
                         </p>
                         <div class="text-center">
-                            <img src={NoResult} alt="no-product" />
-                            {/* TODO */}
+                            {books && books.length > 0 ? (
+                                <BookList books={books} />
+                            ) : (
+                                <img src={NoResult} alt="no-product" />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -100,4 +103,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default CustomerProfile;
