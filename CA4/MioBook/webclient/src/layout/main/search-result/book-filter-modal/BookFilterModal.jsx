@@ -3,10 +3,16 @@ import CustomInput from "library/form-assets/CustomInput";
 import SortByPicker from "./SortByPicker";
 import OrderPicker from "./OrderPicker";
 import {useEffect, useState} from "react";
+import GenreSelector from "./GenreSelector";
+import {useNavigate} from "react-router-dom";
+import ApiService from "services/ApiService";
+import UrlService from "services/UrlService";
 
 const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
 
     const [filterState, setFilterState] = useState(state);
+    const [genreList, setGenreList] = useState([]);
+    const navigate = useNavigate();
 
     const onApplyClick = () => {
         onApply(filterState);
@@ -15,7 +21,17 @@ const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
 
     useEffect(() => {
        setFilterState(state);
+        fetchGenres();
     }, [isOpen]);
+
+    const fetchGenres = async () => {
+        const {body} = await ApiService.getGenres();
+        if (body === null || body.status !== ApiService.statusCode.OK) {
+            navigate(UrlService.urls.unexpectedError);
+            return;
+        }
+        setGenreList(body.data);
+    }
 
     return (
         <Modal className="d-flex flex-column overflow-auto w-100 w-md-75 w-lg-66 w-xl-50 w-xxl-33 h-100 bg-custom-white align-self-start me-auto p-4"
@@ -39,13 +55,14 @@ const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
                 </div>
                 <div className="d-flex flex-wrap align-items-center mb-4">
                     <p className="w-100 w-sm-25 mb-0">Genre:</p>
-                    <CustomInput onChange={(e) => {setFilterState({...filterState, genre: e.target.value})}}
-                                 className="form-control w-100 w-sm-75"
-                                 value={filterState.genre}/>
+                    <GenreSelector onChange={(value) => {setFilterState({...filterState, genre: value})}}
+                                   className="form-control w-100 w-sm-75"
+                                   genreList={genreList}
+                                   value={filterState.genre}/>
                 </div>
                 <div className="d-flex flex-wrap align-items-center mb-4">
                     <p className="w-100 w-sm-25 mb-0">Published Year:</p>
-                    <CustomInput onChange={(e) => {setFilterState({...filterState, publishedYear: e.target.value})}}
+                    <CustomInput type="number" onChange={(e) => {setFilterState({...filterState, publishedYear: e.target.value})}}
                                  className="form-control w-100 w-sm-75"
                                  value={filterState.publishedYear}/>
                 </div>

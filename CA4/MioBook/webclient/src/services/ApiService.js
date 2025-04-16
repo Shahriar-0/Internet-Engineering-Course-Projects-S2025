@@ -6,6 +6,7 @@ const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 const booksUrl = baseUrl + "/books";
 const authorsUrl = baseUrl + "/authors";
+const genresUrl = booksUrl + "/genres";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
@@ -110,6 +111,10 @@ const searchBooks = async (filter) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
 }
 
+const getGenres = async () => {
+    return await apiCallTemplate(HttpMethod.GET, genresUrl, null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -120,6 +125,7 @@ const ApiService = Object.freeze({
     getBooksByAuthor,
     getAuthor,
     searchBooks,
+    getGenres,
     statusCode
 });
 
