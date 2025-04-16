@@ -9,7 +9,7 @@ import Home from "layout/main/home/Home";
 import SearchResult from "layout/main/search-result/SearchResult";
 import Book from "layout/main/books/Book";
 import Author from "layout/main/author/Author";
-import Profile from "layout/main/customer/Profile";
+import CustomerProfile from "layout/main/customer/CustomerProfile";
 
 import UnexpectedError from "layout/main/errors/UnexpectedError";
 import NotFound from "layout/main/errors/NotFound";
@@ -34,7 +34,7 @@ function App() {
                     <Route path={urls.signUp} element={<SignUp />} />
                     <Route path={urls.home} element={<Home />} />
                     <Route path={urls.searchResult} element={<SearchResult />} />
-                    <Route path={urls.profile} element={<Profile />} />
+                    <Route path={urls.profile} element={<CustomerProfile />} />
                     <Route path={`${urls.books}/:title`} element={<Book />} />
                     <Route path={`${urls.authors}/:name`} element={<Author />} />
                     <Route path={urls.unexpectedError} element={<UnexpectedError />} />
