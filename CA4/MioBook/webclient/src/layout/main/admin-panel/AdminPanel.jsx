@@ -8,55 +8,57 @@ import { useNavigate } from "react-router-dom";
 import AuthenticationService from "services/AuthenticationService";
 import BooksIcon from "assets/icons/admin-books-icon.svg";
 import AuthorsIcon from "assets/icons/admin-authors-icon.svg";
-import BookList from "../../../common/user/BookList";
 import AuthorList from "common/author/AuthorList";
+import BookList from "common/user/BookList";
+import AddAuthorModal from "./add-author-modal/AddAuthorModal";
+import AddBookModal from "./add-book-modal/AddBookModal";
 
 const AdminPanel = () => {
 
     const [authors, setAuthors] = useState(null);
     const [user, setUser] = useState(null);
     const [books, setBooks] = useState(null);
+    const [addAuthorModalOpen, setAddAuthorModalOpen] = useState(false);
+    const [addBookModalOpen, setAddBookModalOpen] = useState(false);
 
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchAuthors = async () => {
-            const { body } = await ApiService.getAllAuthors();
-            if (body && body.status === ApiService.statusCode.OK)
-                setAuthors(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        };
-
-        const fetchUser = async () => {
-            const { body, error } = await ApiService.getProfile();
-            if (body && body.status === ApiService.statusCode.OK)
-                setUser(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        };
-
-        const fetchBooks = async () => {
-            const { body } = await ApiService.searchBooks();
-            if (body && body.status === ApiService.statusCode.OK)
-                setBooks(body.data.list.map(book => ({ ...book, finalPrice: book.price })));
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        };
-
         fetchAuthors();
         fetchBooks();
         fetchUser();
     }, [navigate]);
 
-    console.log(authors);
+    const fetchAuthors = async () => {
+        const { body } = await ApiService.getAllAuthors();
+        if (body && body.status === ApiService.statusCode.OK)
+            setAuthors(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
+
+    const fetchUser = async () => {
+        const { body, error } = await ApiService.getProfile();
+        if (body && body.status === ApiService.statusCode.OK)
+            setUser(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
+
+    const fetchBooks = async () => {
+        const { body } = await ApiService.searchBooks();
+        if (body && body.status === ApiService.statusCode.OK)
+            setBooks(body.data.list.map(book => ({ ...book, finalPrice: book.price })));
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
 
     const onLogout = async () => {
         const body = await AuthenticationService.logout();
@@ -71,6 +73,9 @@ const AdminPanel = () => {
 
     return (
         <main className="container">
+            <AddAuthorModal onSubmit={fetchAuthors} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
+            <AddBookModal onSubmit={fetchBooks} isOpen={addBookModalOpen} onClose={() => setAddBookModalOpen(false)} />
+
             <section className="shadow rounded-3 p-3 mb-5 h-100 d-flex justify-content-between align-items-center">
                 <div>
                     <p className="text-nowrap overflow-auto">
@@ -88,8 +93,8 @@ const AdminPanel = () => {
 
             <section>
                 <div className="d-flex justify-content-center mb-5">
-                    <button className="btn btn-lg green-btn mx-4">Add Author</button>
-                    <button className="btn btn-lg green-btn mx-4">Add Book</button>
+                    <button onClick={() => setAddAuthorModalOpen(true)} className="btn btn-lg green-btn mx-4">Add Author</button>
+                    <button onClick={() => setAddBookModalOpen(true)} className="btn btn-lg green-btn mx-4">Add Book</button>
                 </div>
 
                 <div className="shadow rounded-3 p-3 mb-4">

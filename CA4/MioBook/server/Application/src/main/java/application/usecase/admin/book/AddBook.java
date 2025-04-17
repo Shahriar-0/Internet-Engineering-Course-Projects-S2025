@@ -56,12 +56,13 @@ public class AddBook implements IUseCase {
 			.synopsis(data.synopsis)
 			.genres(data.genres)
 			.content(
-				BookContent
-					.builder()
+				BookContent.builder()
 					.content(data.content)
 					.key(data.title)
-					.authorName(author.getName()).build()
-				)
+					.authorName(author.getName())
+                    .build()
+            )
+            .imageLink(data.imageLink)
 			.build();
 	}
 
@@ -71,11 +72,9 @@ public class AddBook implements IUseCase {
 		@NotBlank String publisher,
 		@NotBlank String synopsis,
 		@NotBlank String content,
-
 		@NotNull @Positive Integer year,
-
 		@NotNull @Positive Long price,
-
-		@NotEmpty @Valid List<@NotBlank String> genres
+		@NotEmpty @Valid List<@NotBlank String> genres,
+        String imageLink
 	) {}
 }

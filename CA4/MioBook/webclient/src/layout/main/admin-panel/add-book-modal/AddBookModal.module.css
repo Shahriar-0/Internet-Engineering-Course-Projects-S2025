@@ -1,0 +1,13 @@
+﻿.synopsis-textarea {
+    height: 120px !important;
+    resize: none;
+}
+
+.content-textarea {
+    height: 230px !important;
+    resize: none;
+}
+
+.add-book-form {
+    height: 400px !important;
+}
