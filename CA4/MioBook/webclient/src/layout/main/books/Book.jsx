@@ -48,6 +48,7 @@ const Book = () => {
 
     const reviewSubmit = () => {
         fetchReviews();
+        fetchBook();
     }
 
 
