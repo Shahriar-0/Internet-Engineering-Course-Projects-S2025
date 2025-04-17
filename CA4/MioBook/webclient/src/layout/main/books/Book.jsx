@@ -22,34 +22,40 @@ const Book = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchBook = async () => {
-            const { body, error } = await ApiService.getBook(title);
-            if (body && body.status === ApiService.statusCode.OK)
-                setBook(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        }
-
-        const fetchReviews = async () => {
-            const { body, error } = await ApiService.getBookReviews(title);
-            if (body && body.status === ApiService.statusCode.OK)
-                setReviews(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        }
-
         fetchBook();
         fetchReviews();
     }, [navigate, title]);
 
+    const fetchBook = async () => {
+        const { body, error } = await ApiService.getBook(title);
+        if (body && body.status === ApiService.statusCode.OK)
+            setBook(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    }
+
+    const fetchReviews = async () => {
+        const { body, error } = await ApiService.getBookReviews(title);
+        if (body && body.status === ApiService.statusCode.OK)
+            setReviews(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    }
+
+    const reviewSubmit = () => {
+        fetchReviews();
+    }
+
+
     return (
         <main class="container">
             <section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
-                <AddReviewModal isOpen={addReviewModalOpen} onClose={() => setAddReviewModalOpen(false)} />
+                <AddReviewModal title={book?.title} isOpen={addReviewModalOpen}
+                                onSubmit={reviewSubmit} onClose={() => setAddReviewModalOpen(false)} />
                 <HomeEntityCover title={book?.title} rating={book?.averageRating} cover={book?.cover || BookCoverImg} />
 
                 <div class="col-12 col-md-7 col-lg-8 d-flex flex-column">

@@ -4,8 +4,14 @@ import styles from "./AddReviewModal.module.css";
 import SpinnerButton from "library/spinner-button/SpinnerButton";
 import {getModalInitialState} from "./AddReviewModalLogic";
 import {useEffect, useState} from "react";
+import ApiService from "services/ApiService";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import UrlService from "services/UrlService";
 
-const AddReviewModal = ({isOpen, onClose}) => {
+const AddReviewModal = ({isOpen, onClose, onSubmit, title}) => {
+    const navigate = useNavigate();
+
     const [state, setState] = useState(getModalInitialState());
 
     useEffect(() => {
@@ -16,8 +22,19 @@ const AddReviewModal = ({isOpen, onClose}) => {
         return state.rating !== 0 && state.review !== "";
     }
 
-    const submit = () => {
-        console.log(state);
+    const submit = async () => {
+        const {body} = await ApiService.addReview(title, state.rating, state.review);
+
+        if (body == null)
+            navigate(UrlService.urls.unexpectedError);
+        else if (body.status !== ApiService.statusCode.CREATED)
+            toast.error(body.message);
+        else {
+            toast.success("Review added successfully.");
+            if (onSubmit) onSubmit();
+        }
+
+        onClose();
     }
 
     return (
