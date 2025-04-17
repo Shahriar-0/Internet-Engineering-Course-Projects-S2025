@@ -1,7 +1,6 @@
 import BookListRow from "./BookListRow";
 
 const BookList = ({ bookList = null }) => {
-    console.log(bookList);
     return (
         <table class="table">
             <thead>

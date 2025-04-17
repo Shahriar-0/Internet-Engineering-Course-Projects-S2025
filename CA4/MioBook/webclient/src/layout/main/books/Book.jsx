@@ -44,9 +44,6 @@ const Book = () => {
         fetchReviews();
     }, [navigate, title]);
 
-    console.log(reviews, reviews?.list.length);
-    console.log(book)
-
     return (
         <main class="container">
             <section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
