@@ -6,6 +6,7 @@ import application.usecase.admin.author.AddAuthor;
 import application.usecase.user.author.GetAuthor;
 import domain.entities.author.Author;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import webapi.accesscontrol.Access;
@@ -17,6 +18,7 @@ import webapi.views.author.AuthorView;
 import static domain.entities.user.Role.ADMIN;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -50,5 +52,17 @@ public class AuthorController {
 			throw result.exception();
 
 		return Response.of(new AuthorView(result.data()), OK);
+	}
+
+	@GetMapping("/")
+	@Access(isWhiteList = false)
+	public Response<List<AuthorView>> getAuthors() {
+		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
+
+		Result<List<Author>> result = useCase.perform();
+		if (result.isFailure())
+			throw result.exception();
+
+		return Response.of(AuthorView.mapToView(result.data()), OK);
 	}
 }
