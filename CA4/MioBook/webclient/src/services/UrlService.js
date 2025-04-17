@@ -4,7 +4,7 @@ const urls = Object.freeze({
     home: "/home",
     searchResult: "/search-result",
     profile: "/profile",
-    myBooks: "/purchased-books",
+    myBooks: "/profile",
     cart: "/cart",
     history: "/purchased-history",
     books: "/books",

@@ -48,7 +48,7 @@ const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
                                  value={filterState.bookName}/>
                 </div>
                 <div className="d-flex flex-wrap align-items-center mb-4">
-                    <p className="w-100 w-sm-25 mb-sm-0">Author Name:</p>
+                    <p className="w-100 w-sm-25 mb-0">Author Name:</p>
                     <CustomInput onChange={(e) => {setFilterState({...filterState, authorName: e.target.value})}}
                                  className="form-control w-100 w-sm-75"
                                  value={filterState.authorName}/>

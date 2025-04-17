@@ -8,7 +8,7 @@ import AuthorName from "common/author/AuthorName";
 const BookCard = ({ title, author, price, averageRating, bookImage = defaultBookCardImage }) => {
     return (
         <div className="card text-center shadow rounded-4 bg-khaki">
-            <BookCardCover cover={bookImage} />
+            <BookCardCover cover={bookImage} title={title} />
             <div className="card-body">
                 <BookTitle title={title} />
                 <AuthorName author={author} />

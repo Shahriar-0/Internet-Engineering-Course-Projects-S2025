@@ -22,7 +22,7 @@ const Review = ({ user, review, rating, date }) => {
                 <p class="mb-0 fs-7">{review}</p>
             </div>
             <div class="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
-                <Rating rating={rating} />
+                <Rating className="justify-content-end" rating={rating} />
                 <span class="align-middle fs-8 text-muted">{formattedDate}</span>
             </div>
         </div>

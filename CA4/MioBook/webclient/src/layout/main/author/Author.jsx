@@ -51,23 +51,23 @@ const Author = () => {
                 <div class="col-12 col-md-7 col-lg-8 d-flex flex-column">
                     <p class="fw-bold fs-3 d-none d-md-block">{author?.name}</p>
                     <div class="row mb-auto">
-                        <div class="col-4 col-lg-3">
+                        <div class="col-4 col-lg">
                             <p class="mb-1 fs-7 text-secondary">PenName</p>
                             <p class="text-truncate">{author?.penName}</p>
                         </div>
-                        <div class="col-4 col-lg-3">
+                        <div class="col-4 col-lg">
                             <p class="mb-1 fs-7 text-secondary">Nationality</p>
                             <p class="text-truncate">{author?.nationality}</p>
                         </div>
-                        <div class="col-4 col-lg-3">
+                        <div class="col-4 col-lg">
                             <p class="mb-1 fs-7 text-secondary">Born</p>
                             <p class="text-truncate">{author?.born}</p>
                         </div>
-                        <div class="col-4 col-lg-3">
+                        <div class="col-4 col-lg">
                             <p class="mb-1 fs-7 text-secondary">Died</p>
                             <p class="text-truncate">{author?.died || "-"}</p>
                         </div>
-                        <div class="col-4 col-lg-3">
+                        <div class="col-4 col-lg">
                             <p class="mb-1 fs-7 text-secondary">Books</p>
                             <p class="text-truncate">{author?.bookCount}</p>
                         </div>

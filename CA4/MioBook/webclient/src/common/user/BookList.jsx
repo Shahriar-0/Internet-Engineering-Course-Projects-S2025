@@ -15,8 +15,7 @@ const BookList = ({ bookList = null }) => {
                     <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Published Year</th>
                     <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Status</th>
                     <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">BorrowDays</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">PlaceHolder</th>
-                    {/* FIXME: shahnammmmmmmmmmmmmmm, it should be empty */}
+                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted"></th>
                 </tr>
             </thead>
             <tbody class="align-middle">

@@ -33,8 +33,8 @@ const Cart = () => {
             <section class="container row mb-5">
                 <div class="col-12">
                     <div class="shadow rounded-3 p-3">
-                        <p class="fw-bold fs-3">
-                            <img src={CartIcon} alt="buy-basket" />
+                        <p class="fw-bold fs-3 flex align-items-center">
+                            <img className="me-2" src={CartIcon} alt="buy-basket" />
                             Cart
                         </p>
                         <div class="text-center">

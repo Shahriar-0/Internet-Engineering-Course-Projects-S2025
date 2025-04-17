@@ -13,6 +13,7 @@ import BookList from "common/user/BookList";
 const CustomerProfile = () => {
     const [user, setUser] = useState(null);
     const [books, setBooks] = useState(null);
+    const [amountInput, setAmountInput] = useState("");
 
     const navigate = useNavigate();
 
@@ -71,7 +72,7 @@ const CustomerProfile = () => {
         else if (body && body.status === ApiService.statusCode.OK) {
             toast.success(body.message);
             setUser((prevUser) => ({ ...prevUser, balance: prevUser.balance + amount })); // TODO: maybe find a better way to do this
-            document.getElementById("credit-amount").value = "";
+            setAmountInput("");
         }
         else
             navigate(UrlService.urls.unexpectedError);
@@ -85,7 +86,9 @@ const CustomerProfile = () => {
                         <p class="fw-bold fs-3">${user?.balance}</p>
                         <div class="d-flex flex-wrap">
                             <label for="credit-amount" class="visually-hidden">Credit Amount</label>
-                            <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount" type="number" placeholder="$Amount" />
+                            <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount"
+                                   type="number" placeholder="$Amount"
+                                   value={amountInput} onChange={(e) => setAmountInput(e.target.value)}/>
                             <button onClick={handleAddCreditClick} class="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
                             {/* FIXME: it should be enable when a value is entered */}
                         </div>
@@ -110,8 +113,8 @@ const CustomerProfile = () => {
             <section class="container row mb-5">
                 <div class="col-12">
                     <div class="shadow rounded-3 p-3">
-                        <p class="fw-bold fs-3">
-                            <img src={MyBooks} alt="buy-basket" />
+                        <p class="fw-bold fs-3 d-flex align-items-center">
+                            <img className="me-2" src={MyBooks} alt="buy-basket" />
                             MyBooks
                         </p>
                         <div class="text-center">

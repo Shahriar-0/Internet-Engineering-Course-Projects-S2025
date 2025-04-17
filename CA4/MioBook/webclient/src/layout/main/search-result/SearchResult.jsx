@@ -61,12 +61,9 @@ const SearchResult = () => {
             <section>
                 <BookFilterModal state={filter.current} isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)} onApply={onFilterApply}/>
 
-                <div className="d-flex justify-content-between mb-3">
-                    <p className="fw-bold fs-3 mb-0">Result for <br className="d-sm-none"/> &lt;Search Parameters&gt;</p>
-                    <button className="d-flex align-items-center btn btn-lg green-btn px-3" onClick={() => setFilterModalOpen(true)}>
-                        <img className="me-1" src={filterIcon} alt="filter icon"/>Filter
-                    </button>
-                </div>
+                <button className="ms-auto mb-3 d-flex align-items-center btn btn-lg green-btn px-3" onClick={() => setFilterModalOpen(true)}>
+                    <img className="me-1" src={filterIcon} alt="filter icon"/>Filter
+                </button>
 
                 <PagedContainer pageNumberClassName="px-3 py-2 mx-1 rounded-3 hover-gray fw-bold"
                                 currentPageNumberClassName="px-3 py-2 mx-1 rounded-3 bg-green text-white fw-bold"

@@ -4,7 +4,7 @@ import halfStar from "assets/icons/half-star.svg";
 import quarterStar from "assets/icons/one-fourth-filled-star.svg";
 import threeQuarterStar from "assets/icons/three-fourth-filled-star.svg";
 
-const Rating = ({ rating }) => {
+const Rating = ({ rating, ...props }) => {
     const renderStars = () => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -23,7 +23,7 @@ const Rating = ({ rating }) => {
     };
 
     return (
-        <div className="d-flex flex-row">
+        <div {...props}>
             {renderStars()}
         </div>
     );

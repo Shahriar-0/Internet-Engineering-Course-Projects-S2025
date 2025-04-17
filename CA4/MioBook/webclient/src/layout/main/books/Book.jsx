@@ -51,9 +51,9 @@ const Book = () => {
 
                 <div class="col-12 col-md-7 col-lg-8 d-flex flex-column">
                     <p class="fw-bold fs-3 d-none d-md-block">{book?.title}</p>
-                    <div class="mb-4 d-none d-md-block">
+                    <div class="mb-4 d-none d-md-flex align-items-end">
                         <Rating rating={book?.averageRating} />
-                        <span class="align-middle ms-2">{book?.averageRating?.toFixed(1)}</span> {/* FIXME: fix alignment*/}
+                        <span class="align-middle ms-2 fs-7">{book?.averageRating?.toFixed(1)}</span> {/* FIXME: fix alignment*/}
                     </div>
 
                     <div class="row mb-auto">

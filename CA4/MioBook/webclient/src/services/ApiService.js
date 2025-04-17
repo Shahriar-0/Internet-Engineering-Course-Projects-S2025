@@ -128,8 +128,6 @@ const addCredit = async (amount) => {
 
 const getCart = async () => {
     return await apiCallTemplate(HttpMethod.GET, profileUrl + "/cart", null);
-    console.log("author url:",)
-    return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
 }
 
 const searchBooks = async (filter) => {
