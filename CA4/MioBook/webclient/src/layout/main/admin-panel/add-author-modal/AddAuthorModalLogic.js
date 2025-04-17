@@ -9,15 +9,13 @@
     };
 }
 
-export const hasEmptyFields = (author) => {
-    if (!author) return true;
+export const canSubmit = (author) => {
+    if (!author) return false;
 
     return (
-        !author.name ||
-        !author.penName ||
-        !author.nationality ||
-        !author.born ||
-        !author.died ||
-        !author.imageLink
+        author.name &&
+        author.penName &&
+        author.nationality &&
+        author.born
     );
 }

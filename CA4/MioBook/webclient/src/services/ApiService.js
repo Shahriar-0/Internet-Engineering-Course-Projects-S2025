@@ -120,6 +120,19 @@ const getAuthor = async (name) => {
     return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
 }
 
+const addAuthor = async (name, penName, nationality, born, died, imageLink) => {
+    const reqBody = {
+        name: name,
+        penName: penName,
+        nationality: nationality,
+        born: born,
+        died: (died) ? died : null,
+        imageLink: (imageLink) ? imageLink : null
+    };
+
+    return await apiCallTemplate(HttpMethod.POST, authorsUrl, reqBody);
+}
+
 const getProfile = async () => {
     return await apiCallTemplate(HttpMethod.GET, usersUrl + "/" + AuthenticationService.getCurrentUser().username, null);
 }
@@ -188,6 +201,7 @@ const ApiService = Object.freeze({
     getBookReviews,
     getBooksByAuthor,
     getAuthor,
+    addAuthor,
     getProfile,
     getProfileBooks,
     addCredit,

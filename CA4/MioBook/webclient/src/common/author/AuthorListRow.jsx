@@ -1,10 +1,7 @@
 import AuthorName from "./AuthorName";
-import BookTitle from "common/book/BookTitle";
 import AuthorImg from "assets/images/authors/author-img.svg";
 
 const AuthorListRow = ({ author, status, button }) => {
-    console.log("author", author);
-
     return (
         <tr>
             <td className="d-sm-none text-center"><i class="bi bi-info-circle-fill"></i></td>

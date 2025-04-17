@@ -23,42 +23,40 @@ const AdminPanel = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchAuthors = async () => {
-            const { body } = await ApiService.getAllAuthors();
-            if (body && body.status === ApiService.statusCode.OK)
-                setAuthors(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        };
-
-        const fetchUser = async () => {
-            const { body, error } = await ApiService.getProfile();
-            if (body && body.status === ApiService.statusCode.OK)
-                setUser(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        };
-
-        const fetchBooks = async () => {
-            const { body } = await ApiService.searchBooks();
-            if (body && body.status === ApiService.statusCode.OK)
-                setBooks(body.data.list.map(book => ({ ...book, finalPrice: book.price })));
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        };
-
         fetchAuthors();
         fetchBooks();
         fetchUser();
     }, [navigate]);
 
-    console.log(authors);
+    const fetchAuthors = async () => {
+        const { body } = await ApiService.getAllAuthors();
+        if (body && body.status === ApiService.statusCode.OK)
+            setAuthors(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
+
+    const fetchUser = async () => {
+        const { body, error } = await ApiService.getProfile();
+        if (body && body.status === ApiService.statusCode.OK)
+            setUser(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
+
+    const fetchBooks = async () => {
+        const { body } = await ApiService.searchBooks();
+        if (body && body.status === ApiService.statusCode.OK)
+            setBooks(body.data.list.map(book => ({ ...book, finalPrice: book.price })));
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
 
     const onLogout = async () => {
         const body = await AuthenticationService.logout();
@@ -71,13 +69,13 @@ const AdminPanel = () => {
             navigate(UrlService.urls.signIn);
     }
 
-    const submitAuthor = (author) => {
-        console.log(author);
+    const newAuthorSubmitted = () => {
+        fetchAuthors();
     }
 
     return (
         <main className="container">
-            <AddAuthorModal onSubmit={submitAuthor} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
+            <AddAuthorModal onSubmit={newAuthorSubmitted} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
 
             <section className="shadow rounded-3 p-3 mb-5 h-100 d-flex justify-content-between align-items-center">
                 <div>
