@@ -138,6 +138,10 @@ const getGenres = async () => {
     return await apiCallTemplate(HttpMethod.GET, genresUrl, null);
 }
 
+const purchaseCart = async () => {
+    return await apiCallTemplate(HttpMethod.POST, profileUrl + "/purchase", null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -153,6 +157,7 @@ const ApiService = Object.freeze({
     getCart,
     searchBooks,
     getGenres,
+    purchaseCart,
     statusCode
 });
 
