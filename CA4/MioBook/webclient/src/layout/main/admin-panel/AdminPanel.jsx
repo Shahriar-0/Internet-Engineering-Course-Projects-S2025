@@ -11,13 +11,15 @@ import AuthorsIcon from "assets/icons/admin-authors-icon.svg";
 import AuthorList from "common/author/AuthorList";
 import BookList from "common/user/BookList";
 import AddAuthorModal from "./add-author-modal/AddAuthorModal";
+import AddBookModal from "./add-book-modal/AddBookModal";
 
 const AdminPanel = () => {
 
     const [authors, setAuthors] = useState(null);
     const [user, setUser] = useState(null);
     const [books, setBooks] = useState(null);
-    const [addAuthorModalOpen, setAddAuthorModalOpen] = useState(null);
+    const [addAuthorModalOpen, setAddAuthorModalOpen] = useState(false);
+    const [addBookModalOpen, setAddBookModalOpen] = useState(false);
 
 
     const navigate = useNavigate();
@@ -76,6 +78,7 @@ const AdminPanel = () => {
     return (
         <main className="container">
             <AddAuthorModal onSubmit={newAuthorSubmitted} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
+            <AddBookModal isOpen={addBookModalOpen} onClose={() => setAddBookModalOpen(false)} />
 
             <section className="shadow rounded-3 p-3 mb-5 h-100 d-flex justify-content-between align-items-center">
                 <div>
@@ -95,7 +98,7 @@ const AdminPanel = () => {
             <section>
                 <div className="d-flex justify-content-center mb-5">
                     <button onClick={() => setAddAuthorModalOpen(true)} className="btn btn-lg green-btn mx-4">Add Author</button>
-                    <button className="btn btn-lg green-btn mx-4">Add Book</button>
+                    <button onClick={() => setAddBookModalOpen(true)} className="btn btn-lg green-btn mx-4">Add Book</button>
                 </div>
 
                 <div className="shadow rounded-3 p-3 mb-4">
