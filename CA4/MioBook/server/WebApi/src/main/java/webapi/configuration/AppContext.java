@@ -21,6 +21,7 @@ import application.usecase.user.account.Login;
 import application.usecase.user.author.GetAuthor;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
+import application.usecase.user.book.GetGenres;
 import infra.repositories.AuthorRepository;
 import infra.repositories.BookRepository;
 import infra.repositories.UserRepository;
@@ -52,4 +53,5 @@ public class AppContext {
 	private final GetPurchaseHistory getPurchaseHistoryUseCase = new GetPurchaseHistory();
 	private final GetPurchasedBooks getPurchasedBooksUseCase = new GetPurchasedBooks();
 	private final Login loginUseCase = new Login(userRepository);
+    private final GetGenres getGenres = new GetGenres(bookRepository);
 }

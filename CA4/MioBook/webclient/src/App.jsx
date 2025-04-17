@@ -10,7 +10,6 @@ import SearchResult from "layout/main/search-result/SearchResult";
 import Book from "layout/main/books/Book";
 import Author from "layout/main/author/Author";
 import CustomerProfile from "layout/main/customer/CustomerProfile";
-
 import UnexpectedError from "layout/main/errors/UnexpectedError";
 import NotFound from "layout/main/errors/NotFound";
 import AccessDenied from "layout/main/errors/AccessDenied";
