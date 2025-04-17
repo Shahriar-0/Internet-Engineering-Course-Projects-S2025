@@ -49,6 +49,8 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
 }
 
 const createFilterQueryForSearchBook = (filter) => {
+    if (!filter) return "";
+
     let query = "?";
     console.log(filter)
     if (filter.title) query += `title=${filter.title}&`;
@@ -136,7 +138,7 @@ const getCart = async () => {
     return await apiCallTemplate(HttpMethod.GET, profileUrl + "/cart", null);
 }
 
-const searchBooks = async (filter) => {
+const searchBooks = async (filter = null) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
 }
 
