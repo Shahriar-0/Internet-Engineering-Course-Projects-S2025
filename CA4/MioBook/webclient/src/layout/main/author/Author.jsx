@@ -19,20 +19,20 @@ const Author = () => {
     useEffect(() => {
         const fetchAuthor = async () => {
             const { body, error } = await ApiService.getAuthor(name);
-            if (error)
-                toast.error(error);
-            else if (body && body.status === ApiService.statusCode.OK)
+            if (body && body.status === ApiService.statusCode.OK)
                 setAuthor(body.data);
+            else if (body && body.status !== ApiService.statusCode.OK)
+                toast.error(body.message);
             else
                 navigate(UrlService.urls.unexpectedError);
         };
 
         const fetchBooks = async () => {
             const { body, error } = await ApiService.getBooksByAuthor(name);
-            if (error)
-                toast.error(error);
-            else if (body && body.status === ApiService.statusCode.OK)
+            if (body && body.status === ApiService.statusCode.OK)
                 setBook(body.data.list);
+            else if (body && body.status !== ApiService.statusCode.OK)
+                toast.error(body.message);
             else
                 navigate(UrlService.urls.unexpectedError);
         };

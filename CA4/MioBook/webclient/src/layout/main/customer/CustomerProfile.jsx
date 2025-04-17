@@ -20,20 +20,20 @@ const CustomerProfile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             const { body, error } = await ApiService.getProfile();
-            if (error)
-                toast.error(error);
-            else if (body && body.status === ApiService.statusCode.OK)
+            if (body && body.status === ApiService.statusCode.OK)
                 setUser(body.data);
+            else if (body && body.status !== ApiService.statusCode.OK)
+                toast.error(body.message);
             else
                 navigate(UrlService.urls.unexpectedError);
         }
 
         const fetchBooks = async () => {
             const { body, error } = await ApiService.getProfileBooks();
-            if (error)
-                toast.error(error);
-            else if (body && body.status === ApiService.statusCode.OK)
+            if (body && body.status === ApiService.statusCode.OK)
                 setBooks(body.data.books);
+            else if (body && body.status !== ApiService.statusCode.OK)
+                toast.error(body.message);
             else
                 navigate(UrlService.urls.unexpectedError);
         }
@@ -65,9 +65,7 @@ const CustomerProfile = () => {
 
     const addCredit = async (amount) => {
         const { body, error } = await ApiService.addCredit(amount);
-        if (error)
-            toast.error(error);
-        else if (body && body.status !== ApiService.statusCode.OK)
+        if (body && body.status !== ApiService.statusCode.OK)
             toast.error(body.message);
         else if (body && body.status === ApiService.statusCode.OK) {
             toast.success(body.message);

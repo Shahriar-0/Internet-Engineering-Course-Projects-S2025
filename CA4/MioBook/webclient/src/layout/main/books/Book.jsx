@@ -22,20 +22,20 @@ const Book = () => {
     useEffect(() => {
         const fetchBook = async () => {
             const { body, error } = await ApiService.getBook(title);
-            if (error)
-                toast.error(error);
-            else if (body && body.status === ApiService.statusCode.OK)
+            if (body && body.status === ApiService.statusCode.OK)
                 setBook(body.data);
+            else if (body && body.status !== ApiService.statusCode.OK)
+                toast.error(body.message);
             else
                 navigate(UrlService.urls.unexpectedError);
         }
 
         const fetchReviews = async () => {
             const { body, error } = await ApiService.getBookReviews(title);
-            if (error)
-                toast.error(error);
-            else if (body && body.status === ApiService.statusCode.OK)
+            if (body && body.status === ApiService.statusCode.OK)
                 setReviews(body.data);
+            else if (body && body.status !== ApiService.statusCode.OK)
+                toast.error(body.message);
             else
                 navigate(UrlService.urls.unexpectedError);
         }
