@@ -7,6 +7,7 @@ const signInUrl = baseUrl + "/auth/login";
 const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 const booksUrl = baseUrl + "/books";
+const getReviewsUrlByTitle = (title) => booksUrl + "/" + title + "/reviews";
 const authorsUrl = baseUrl + "/authors";
 const usersUrl = baseUrl + "/users";
 const profileUrl = baseUrl + "/profile";
@@ -100,7 +101,12 @@ const getBook = async (title) => {
 }
 
 const getBookReviews = async (title) => {
-    return await apiCallTemplate(HttpMethod.GET, booksUrl + "/" + title + "/reviews", null);
+    return await apiCallTemplate(HttpMethod.GET, getReviewsUrlByTitle(title), null);
+}
+
+const addReview = async (title, rating, review) => {
+    const reqBody = { rating: rating, comment: review };
+    return await apiCallTemplate(HttpMethod.POST, getReviewsUrlByTitle(title), reqBody);
 }
 
 const getBooksByAuthor = async (author) => {
@@ -161,6 +167,7 @@ const ApiService = Object.freeze({
     getCart,
     searchBooks,
     getGenres,
+    addReview,
     purchaseCart,
     getBookContent,
     statusCode
