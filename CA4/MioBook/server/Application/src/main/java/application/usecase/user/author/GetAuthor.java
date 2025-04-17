@@ -25,6 +25,10 @@ public class GetAuthor implements IUseCase {
 		return authorRepository.find(name);
 	}
 
+	public Result<List<Author>> perform() {
+		return authorRepository.getAll();
+	}
+
 	public Result<List<Author>> perform(AuthorFilter filter) {
 		throw new RuntimeException("Not implemented yet");
 	}
