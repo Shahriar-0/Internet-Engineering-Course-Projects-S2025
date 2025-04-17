@@ -146,6 +146,10 @@ const getGenres = async () => {
     return await apiCallTemplate(HttpMethod.GET, genresUrl, null);
 }
 
+const getAllAuthors = async () => {
+    return await apiCallTemplate(HttpMethod.GET, authorsUrl, null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -162,6 +166,7 @@ const ApiService = Object.freeze({
     searchBooks,
     getGenres,
     addReview,
+    getAllAuthors,
     statusCode
 });
 

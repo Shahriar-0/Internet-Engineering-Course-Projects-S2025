@@ -54,7 +54,7 @@ public class AuthorController {
 		return Response.of(new AuthorView(result.data()), OK);
 	}
 
-	@GetMapping("/")
+	@GetMapping
 	@Access(isWhiteList = false)
 	public Response<List<AuthorView>> getAuthors() {
 		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
