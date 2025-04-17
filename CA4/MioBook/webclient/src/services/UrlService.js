@@ -5,6 +5,7 @@ const urls = Object.freeze({
     searchResult: "/search-result",
     profile: "/profile",
     myBooks: "/profile",
+    adminPanel: "/admin-panel",
     cart: "/cart",
     history: "/purchased-history",
     books: "/books",
