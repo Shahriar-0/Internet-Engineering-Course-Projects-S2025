@@ -50,6 +50,8 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
 }
 
 const createFilterQueryForSearchBook = (filter) => {
+    if (!filter) return "";
+
     let query = "?";
     console.log(filter)
     if (filter.title) query += `title=${filter.title}&`;
@@ -137,12 +139,16 @@ const getCart = async () => {
     return await apiCallTemplate(HttpMethod.GET, profileUrl + "/cart", null);
 }
 
-const searchBooks = async (filter) => {
+const searchBooks = async (filter = null) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
 }
 
 const getGenres = async () => {
     return await apiCallTemplate(HttpMethod.GET, genresUrl, null);
+}
+
+const getAllAuthors = async () => {
+    return await apiCallTemplate(HttpMethod.GET, authorsUrl, null);
 }
 
 const purchaseCart = async () => {
@@ -174,6 +180,7 @@ const ApiService = Object.freeze({
     searchBooks,
     getGenres,
     addReview,
+    getAllAuthors,
     purchaseCart,
     getBookContent,
     deleteFromCart,

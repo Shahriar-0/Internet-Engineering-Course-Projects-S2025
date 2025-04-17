@@ -5,8 +5,8 @@ import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IBaseRepository;
 import application.result.Result;
 import domain.entities.DomainEntity;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements IBaseRepository<KT, T> {
@@ -65,5 +65,10 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
 
 		return Result.success(entity);
+	}
+
+	@Override
+	public Result<List<T>> getAll() {
+		return Result.success(map.values().stream().map(this::copyOf).toList());
 	}
 }

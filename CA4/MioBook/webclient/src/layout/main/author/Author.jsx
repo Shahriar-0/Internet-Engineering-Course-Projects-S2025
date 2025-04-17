@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import UrlService from "services/UrlService";
 import BookCardContainer from "common/book/BookCardContainer";
 import HomeEntityCover from "common/HomeEntity/HomeEntityCover";
-import AuthorCoverImg from "assets/images/authors/author-img.svg"
+import AuthorCoverImg from "assets/images/authors/author-cover.svg"
 import AuthorHeaderImg from "assets/images/authors/author-header-img.svg"
 
 const Author = () => {

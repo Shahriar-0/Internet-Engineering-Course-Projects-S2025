@@ -35,11 +35,10 @@ const ProfileMenu = ({ isOpen, username, onClose }) => {
             <p className="px-2 pt-2 fw-bold fs-5 text-truncate">{username}</p>
             <hr className="my-2 border-2 opacity-100" />
             <Link onClick={close} className="d-flex text-black hover-gray p-2 rounded align-middle"
-                  to={AuthenticationService.isLoggedInUserAdmin() ? UrlService.urls.adminPanel : UrlService.urls.profile}>
+                  to={UrlService.urls.profile}>
                 <img className="me-2" src={profileIcon} alt="profile-icon" />  Profile
             </Link>
-            <Link onClick={close} className="d-flex text-black hover-gray p-2 rounded align-middle"
-                  to={AuthenticationService.isLoggedInUserAdmin() ? UrlService.urls.adminPanel : UrlService.urls.myBooks}>
+            <Link onClick={close} className="d-flex text-black hover-gray p-2 rounded align-middle" to={UrlService.urls.myBooks}>
                 <img className="me-2" src={myBooksIcon} alt="my-books-icon" />  My Books
             </Link>
             <Link onClick={close} className="d-flex text-black hover-gray p-2 rounded align-middle" to={UrlService.urls.cart}>

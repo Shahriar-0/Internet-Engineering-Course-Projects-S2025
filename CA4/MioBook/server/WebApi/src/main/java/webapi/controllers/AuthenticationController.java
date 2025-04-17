@@ -42,7 +42,7 @@ public class AuthenticationController {
 			return processFailureOfLogin(userResult.exception());
 
 		authenticationService.setLoggedInUser(userResult.data());
-		return Response.of(OK, LOGIN_MESSAGE);
+		return Response.of(userResult.data().getRole().getValue(), OK, LOGIN_MESSAGE);
 	}
 
 	@DeleteMapping("logout")
