@@ -26,6 +26,18 @@ const Cart = () => {
         fetchCart();
     }, [navigate]);
 
+    const deleteFromCart = async (title) => {
+        const { body, error } = await ApiService.deleteFromCart(title);
+        if (body && body.status === ApiService.statusCode.OK) {
+            toast.success(body.message);
+            setItems((prevItems) => prevItems.filter((item) => item.title !== title));
+        }
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    }
+
     const purchase = async () => {
         const { body, error } = await ApiService.purchaseCart();
         if (body && body.status === ApiService.statusCode.CREATED) {
@@ -49,7 +61,7 @@ const Cart = () => {
                         </p>
                         <div class="text-center">
                             {items && items.length > 0 ? (
-                                <BookList bookList={items} />
+                                <BookList bookList={items} action={deleteFromCart} actionName={"Remove"} />
                             ) : (
                                 <img src={NoProduct} alt="no-product" />
                             )}

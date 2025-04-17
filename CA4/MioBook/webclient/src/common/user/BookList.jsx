@@ -1,6 +1,6 @@
 import BookListRow from "./BookListRow";
 
-const BookList = ({ bookList = null }) => {
+const BookList = ({ bookList = null, actionName = null, action = null }) => {
     return (
         <table class="table">
             <thead>
@@ -20,7 +20,7 @@ const BookList = ({ bookList = null }) => {
             </thead>
             <tbody class="align-middle">
                 {bookList && bookList.map((book, index) => (
-                    <BookListRow key={index} book={book} />
+                    <BookListRow key={index} book={book} action={action} actionName={actionName} />
                 ))}
             </tbody>
         </table>
