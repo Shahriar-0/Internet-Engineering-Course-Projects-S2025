@@ -1,12 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import ProfileBook from "assets/images/user/book.svg";
 import AuthorName from "../author/AuthorName";
 import BookTitle from "../book/BookTitle";
 
-const BookListRow = ({ book, status, button }) => {
-    const navigate = useNavigate();
-
-    {/* FIXME: use other components here as well like author name */ }
+const BookListRow = ({ book, status, action, actionName }) => {
 
     const getExpirationDate = () => {
         const borrowDate = new Date(book.borrowDate);
@@ -16,8 +12,8 @@ const BookListRow = ({ book, status, button }) => {
 
     return (
         <tr>
-            <td className="d-sm-none text-center"><i class="bi bi-info-circle-fill"></i></td>
-            <td><img src={ProfileBook} alt="book-image"/></td>
+            <td className="d-sm-none text-center"><i className="bi bi-info-circle-fill"></i></td>
+            <td><img src={ProfileBook} alt="book-image" /></td>
             <td className="d-none d-sm-table-cell"><BookTitle title={book.title} isBold={false} /></td>
             <td className="d-none d-sm-table-cell">
                 {book.isBorrowed && <span className="me-1 text-decoration-line-through">${book.price}</span>}
@@ -29,10 +25,14 @@ const BookListRow = ({ book, status, button }) => {
             <td className="d-none d-md-table-cell">{book.year}</td>
             <td className="d-none d-md-table-cell">{book.isBorrowed ? (<>
                 <div>Borrowed</div>
-                <div style={{fontSize: '0.8em'}}>Until: {getExpirationDate()}</div>
+                <div style={{ fontSize: '0.8em' }}>Until: {getExpirationDate()}</div>
             </>) : "Owned"}</td>
             <td className="d-none d-md-table-cell">{book.borrowDays || "-"}</td>
-            <td className="d-none d-md-table-cell">button</td>
+            <td className="d-none d-md-table-cell">
+                {action && <button className="btn green-btn" onClick={() => action(book.title)}>
+                    {actionName}
+                </button>}
+            </td>
         </tr>
     );
 };

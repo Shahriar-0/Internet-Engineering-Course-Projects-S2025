@@ -76,6 +76,10 @@ const CustomerProfile = () => {
             navigate(UrlService.urls.unexpectedError);
     }
 
+    const readAction = (title) => {
+        navigate(UrlService.getContentUrlByTitle(title));
+    }
+
     return (
         <main class="d-flex flex-column align-items-center">
             <section class="container row mb-5">
@@ -88,7 +92,6 @@ const CustomerProfile = () => {
                                    type="number" placeholder="$Amount"
                                    value={amountInput} onChange={(e) => setAmountInput(e.target.value)}/>
                             <button onClick={handleAddCreditClick} class="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
-                            {/* FIXME: it should be enable when a value is entered */}
                         </div>
                     </div>
                 </div>
@@ -117,7 +120,7 @@ const CustomerProfile = () => {
                         </p>
                         <div class="text-center">
                             {books && books.length > 0 ? (
-                                <BookList bookList={books} />
+                                <BookList bookList={books} action={readAction} actionName={"Read"} />
                             ) : (
                                 <img src={NoProduct} alt="no-product" />
                             )}

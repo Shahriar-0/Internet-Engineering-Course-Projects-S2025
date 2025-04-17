@@ -8,10 +8,11 @@ const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 const booksUrl = baseUrl + "/books";
 const getReviewsUrlByTitle = (title) => booksUrl + "/" + title + "/reviews";
+const genresUrl = booksUrl + "/genres";
 const authorsUrl = baseUrl + "/authors";
 const usersUrl = baseUrl + "/users";
 const profileUrl = baseUrl + "/profile";
-const genresUrl = booksUrl + "/genres";
+const cartUrl = profileUrl + "/cart";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
@@ -150,6 +151,19 @@ const getAllAuthors = async () => {
     return await apiCallTemplate(HttpMethod.GET, authorsUrl, null);
 }
 
+const purchaseCart = async () => {
+    return await apiCallTemplate(HttpMethod.POST, profileUrl + "/purchase", null);
+}
+
+const getBookContent = async (title) => {
+    return await apiCallTemplate(HttpMethod.GET, booksUrl + "/" + title + "/content", null);
+}
+
+const deleteFromCart = async (title) => {
+    console.log(title);
+    return await apiCallTemplate(HttpMethod.DELETE, cartUrl + "/" + title);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -167,6 +181,9 @@ const ApiService = Object.freeze({
     getGenres,
     addReview,
     getAllAuthors,
+    purchaseCart,
+    getBookContent,
+    deleteFromCart,
     statusCode
 });
 

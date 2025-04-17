@@ -49,10 +49,13 @@ const isAvailable = (url) => {
     return Object.values(urls).some(baseUrl => url.startsWith(baseUrl));
 }
 
+const getContentUrlByTitle = (title) => UrlService.urls.books + "/" + title + "/content";
+
 const UrlService = Object.freeze({
     mustShowHeader,
     hasDefaultAccess,
     isAvailable,
+    getContentUrlByTitle,
     urls
 });
 
