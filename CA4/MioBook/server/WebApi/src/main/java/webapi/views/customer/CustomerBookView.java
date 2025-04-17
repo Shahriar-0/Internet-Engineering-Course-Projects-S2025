@@ -5,6 +5,7 @@ import domain.entities.booklicense.TemporaryBookLicense;
 import domain.entities.cart.CartItem;
 import domain.entities.cart.PurchasedCartItem;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public record CustomerBookView(
 	String title,
@@ -15,6 +16,7 @@ public record CustomerBookView(
 	Long price,
 	Boolean isBorrowed,
 	Integer borrowDays,
+	LocalDateTime borrowDate,
 	Long finalPrice
 ) {
 	public CustomerBookView(BookLicense license) {
@@ -27,6 +29,7 @@ public record CustomerBookView(
 			license.getBook().getBasePrice(),
 			license instanceof TemporaryBookLicense,
 			(license instanceof TemporaryBookLicense el) ? el.getValidityDays() : null,
+			license.getPurchaseDate(),
 			license.getPrice()
 		);
 	}
@@ -41,6 +44,7 @@ public record CustomerBookView(
 			item.getBook().getBasePrice(),
 			item.isBorrow(),
 			item.isBorrow() ? item.getBorrowDays() : null,
+			null, // FIXME: this is technical debt
 			item.getPrice()
 		);
 	}
@@ -55,6 +59,7 @@ public record CustomerBookView(
 			item.getBook().getBasePrice(),
 			item.isBorrow(),
 			item.isBorrow() ? item.getBorrowDays() : null,
+			null,
 			item.getPrice()
 		);
 	}
