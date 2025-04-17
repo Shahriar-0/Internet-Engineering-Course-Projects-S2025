@@ -54,7 +54,7 @@ public class Book extends DomainEntity<String> {
 		this.basePrice = basePrice;
 		this.synopsis = synopsis;
 		this.genres = genres;
-		this.content = new BookContent(title, content);
+		this.content = new BookContent(title, content, author.getName());
 	}
 
 	public void addReview(Review review) {
