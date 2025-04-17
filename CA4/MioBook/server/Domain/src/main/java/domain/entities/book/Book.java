@@ -23,6 +23,7 @@ public class Book extends DomainEntity<String> {
 	private String synopsis;
 	private final List<String> genres;
 	private final BookContent content;
+    private String imageLink;
 
 	@Builder.Default
 	private List<Review> reviews = new ArrayList<>();

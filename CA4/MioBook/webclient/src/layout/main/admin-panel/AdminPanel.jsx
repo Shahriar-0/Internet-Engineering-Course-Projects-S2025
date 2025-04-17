@@ -71,14 +71,10 @@ const AdminPanel = () => {
             navigate(UrlService.urls.signIn);
     }
 
-    const newAuthorSubmitted = () => {
-        fetchAuthors();
-    }
-
     return (
         <main className="container">
-            <AddAuthorModal onSubmit={newAuthorSubmitted} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
-            <AddBookModal isOpen={addBookModalOpen} onClose={() => setAddBookModalOpen(false)} />
+            <AddAuthorModal onSubmit={fetchAuthors} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
+            <AddBookModal onSubmit={fetchBooks} isOpen={addBookModalOpen} onClose={() => setAddBookModalOpen(false)} />
 
             <section className="shadow rounded-3 p-3 mb-5 h-100 d-flex justify-content-between align-items-center">
                 <div>

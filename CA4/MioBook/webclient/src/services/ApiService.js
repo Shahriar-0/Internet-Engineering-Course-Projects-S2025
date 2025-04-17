@@ -156,6 +156,21 @@ const searchBooks = async (filter = null) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
 }
 
+const addBook = async (title, author, publisher, genres, publishedYear, price, synopsis, content, imageLink) => {
+    const reqBody = {
+        title: title,
+        author: author,
+        publisher: publisher,
+        genres: genres,
+        year: publishedYear,
+        price: price,
+        imageLink: imageLink,
+        synopsis: synopsis,
+        content: content
+    }
+    return await apiCallTemplate(HttpMethod.POST, booksUrl, reqBody);
+}
+
 const getGenres = async () => {
     return await apiCallTemplate(HttpMethod.GET, genresUrl, null);
 }
@@ -207,6 +222,7 @@ const ApiService = Object.freeze({
     addCredit,
     getCart,
     searchBooks,
+    addBook,
     getGenres,
     addReview,
     getAllAuthors,

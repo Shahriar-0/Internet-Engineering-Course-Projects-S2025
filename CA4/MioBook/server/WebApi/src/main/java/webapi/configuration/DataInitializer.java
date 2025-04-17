@@ -115,7 +115,7 @@ public class DataInitializer implements ApplicationRunner {
 				String content = node.get("content").asText();
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
-				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres);
+				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres, "");
 				Result<Book> result = addBook.perform(data, userResult.data());
 				if (result.isFailure())
 					System.err.println(
