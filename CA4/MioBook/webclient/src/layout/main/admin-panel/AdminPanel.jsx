@@ -8,14 +8,16 @@ import { useNavigate } from "react-router-dom";
 import AuthenticationService from "services/AuthenticationService";
 import BooksIcon from "assets/icons/admin-books-icon.svg";
 import AuthorsIcon from "assets/icons/admin-authors-icon.svg";
-import BookList from "../../../common/user/BookList";
 import AuthorList from "common/author/AuthorList";
+import BookList from "common/user/BookList";
+import AddAuthorModal from "./add-author-modal/AddAuthorModal";
 
 const AdminPanel = () => {
 
     const [authors, setAuthors] = useState(null);
     const [user, setUser] = useState(null);
     const [books, setBooks] = useState(null);
+    const [addAuthorModalOpen, setAddAuthorModalOpen] = useState(null);
 
 
     const navigate = useNavigate();
@@ -69,8 +71,14 @@ const AdminPanel = () => {
             navigate(UrlService.urls.signIn);
     }
 
+    const submitAuthor = (author) => {
+        console.log(author);
+    }
+
     return (
         <main className="container">
+            <AddAuthorModal onSubmit={submitAuthor} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
+
             <section className="shadow rounded-3 p-3 mb-5 h-100 d-flex justify-content-between align-items-center">
                 <div>
                     <p className="text-nowrap overflow-auto">
@@ -88,7 +96,7 @@ const AdminPanel = () => {
 
             <section>
                 <div className="d-flex justify-content-center mb-5">
-                    <button className="btn btn-lg green-btn mx-4">Add Author</button>
+                    <button onClick={() => setAddAuthorModalOpen(true)} className="btn btn-lg green-btn mx-4">Add Author</button>
                     <button className="btn btn-lg green-btn mx-4">Add Book</button>
                 </div>
 
