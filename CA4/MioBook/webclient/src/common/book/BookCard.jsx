@@ -1,5 +1,5 @@
 ﻿import defaultBookCardImage from "assets/images/books/book-card-image.svg";
-import AddCart from "./AddCart";
+import AddCartModal from "./add-cart-modal/AddCartModal";
 import Rating from "common/rating/Rating";
 import BookCardCover from "./BookCardCover";
 import BookTitle from "./BookTitle";
@@ -16,7 +16,7 @@ const BookCard = ({ title, author, price, averageRating, bookImage = defaultBook
                     <Rating rating={averageRating} />
                     <span>${price}</span>
                 </div>
-                <AddCart />
+                <AddCartModal />
             </div>
         </div>
     );
