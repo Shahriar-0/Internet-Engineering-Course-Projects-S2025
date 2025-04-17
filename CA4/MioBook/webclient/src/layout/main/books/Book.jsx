@@ -9,7 +9,6 @@ import BookCoverImg from "assets/images/books/book-img.svg"
 import Rating from "common/rating/Rating";
 import AuthorName from "common/author/AuthorName";
 import AddCartModal from "common/book/add-cart-modal/AddCartModal";
-import addToCart from "common/book/add-cart-modal/addCartLogic";
 import AddReviewImg from "assets/icons/add-review-icon.svg";
 import AddReviewModal from "./add-review-modal/AddReviewModal";
 
@@ -89,7 +88,7 @@ const Book = () => {
 
                     <div>
                         <p class="fw-bold fs-5">${book?.price}</p>
-                        <AddCartModal title={book?.title} price={book?.price} onSubmit={addToCart} isOpen={addCartModalOpen} onClose={() => setAddCartModalOpen(false)} />
+                        <AddCartModal title={book?.title} price={book?.price} isOpen={addCartModalOpen} onClose={() => setAddCartModalOpen(false)} />
                         <button onClick={() => setAddCartModalOpen(true)} class="btn green-btn">Add to cart</button>
                     </div>
                 </div>

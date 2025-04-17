@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import UrlService from "services/UrlService";
 import styles from "./AddCartModal.module.css";
 
-const AddCartModal = ({ isOpen, onClose, onSubmit, title, price }) => {
+const AddCartModal = ({ isOpen, onClose, title, price }) => {
     const navigate = useNavigate();
 
     const [state, setState] = useState(getModalInitialState());
@@ -18,18 +18,25 @@ const AddCartModal = ({ isOpen, onClose, onSubmit, title, price }) => {
     }, [isOpen]);
 
     const submit = async () => {
-        // const { body } = await ApiService.addReview(title, state.rating, state.review);
-
-        // if (body == null)
-        //     navigate(UrlService.urls.unexpectedError);
-        // else if (body.status !== ApiService.statusCode.CREATED)
-        //     toast.error(body.message);
-        // else {
-        //     toast.success("Review added successfully.");
-        //     if (onSubmit) onSubmit();
-        // }
-
-        // onClose();
+        if (state.isBorrowing) {
+            const { body, error } = await ApiService.borrowCart(title, state.borrowingDays);
+            if (body && body.status === ApiService.statusCode.CREATED)
+                toast.success(body.message);
+            else if (body && body.status !== ApiService.statusCode.CREATED)
+                toast.error(body.message);
+            else
+                navigate(UrlService.urls.unexpectedError);
+        }
+        else {
+            const { body, error } = await ApiService.addToCart(title);
+            if (body && body.status === ApiService.statusCode.CREATED)
+                toast.success(body.message);
+            else if (body && body.status !== ApiService.statusCode.CREATED)
+                toast.error(body.message);
+            else
+                navigate(UrlService.urls.unexpectedError);
+        }
+        onClose();
     }
 
     return (
@@ -68,7 +75,7 @@ const AddCartModal = ({ isOpen, onClose, onSubmit, title, price }) => {
                 </div>
             )}
             <div className="d-flex justify-content-between align-items-center">
-                <p className="mb-0">Final Price: ${price}</p>
+                <p className="mb-0">Final Price: ${state.isBorrowing ? price * state.borrowingDays / 10 : price}</p>
                 <SpinnerButton onClick={submit} className="btn green-btn px-5">Add</SpinnerButton>
             </div>
         </Modal>
