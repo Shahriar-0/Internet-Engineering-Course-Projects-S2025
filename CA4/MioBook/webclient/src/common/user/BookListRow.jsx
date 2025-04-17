@@ -23,6 +23,7 @@ const BookListRow = ({ book, status, button }) => {
             <td class="d-none d-md-table-cell">{book.publisher}</td>
             <td class="d-none d-md-table-cell">{book.year}</td>
             <td class="d-none d-md-table-cell">{book.isBorrowed ? (<><div>Borrowed</div><div style={{ fontSize: '0.8em' }}>Until: {getExpirationDate()}</div></>) : "Owned"}</td>
+            <td class="d-none d-md-table-cell">{book.borrowDays || "-"}</td>
             <td class="d-none d-md-table-cell">button</td>
         </tr>
     );

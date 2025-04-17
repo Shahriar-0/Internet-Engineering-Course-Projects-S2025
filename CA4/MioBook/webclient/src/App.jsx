@@ -18,6 +18,7 @@ import AccessDenied from "layout/main/errors/AccessDenied";
 import UrlAccessControl from "services/UrlAccessControl";
 import UrlService from "services/UrlService";
 import AuthenticationService from "services/AuthenticationService";
+import Cart from "layout/main/customer/Cart";
 
 function App() {
     const urls = UrlService.urls;
@@ -35,6 +36,7 @@ function App() {
                     <Route path={urls.home} element={<Home />} />
                     <Route path={urls.searchResult} element={<SearchResult />} />
                     <Route path={urls.profile} element={<CustomerProfile />} />
+                    <Route path={urls.cart} element={<Cart />} />
                     <Route path={`${urls.books}/:title`} element={<Book />} />
                     <Route path={`${urls.authors}/:name`} element={<Author />} />
                     <Route path={urls.unexpectedError} element={<UnexpectedError />} />

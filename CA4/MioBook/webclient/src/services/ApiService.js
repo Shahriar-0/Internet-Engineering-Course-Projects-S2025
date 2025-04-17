@@ -107,6 +107,10 @@ const addCredit = async (amount) => {
     return await apiCallTemplate(HttpMethod.PATCH, profileUrl + "/credit", reqBody);
 }
 
+const getCart = async () => {
+    return await apiCallTemplate(HttpMethod.GET, profileUrl + "/cart", null);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -119,6 +123,7 @@ const ApiService = Object.freeze({
     getProfile,
     getProfileBooks,
     addCredit,
+    getCart,
     statusCode
 });
 
