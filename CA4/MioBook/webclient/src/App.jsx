@@ -9,6 +9,7 @@ import Home from "layout/main/home/Home";
 import SearchResult from "layout/main/search-result/SearchResult";
 import Book from "layout/main/books/Book";
 import Author from "layout/main/author/Author";
+import CustomerProfile from "layout/main/customer/CustomerProfile";
 import UnexpectedError from "layout/main/errors/UnexpectedError";
 import NotFound from "layout/main/errors/NotFound";
 import AccessDenied from "layout/main/errors/AccessDenied";
@@ -16,6 +17,7 @@ import AccessDenied from "layout/main/errors/AccessDenied";
 import UrlAccessControl from "services/UrlAccessControl";
 import UrlService from "services/UrlService";
 import AuthenticationService from "services/AuthenticationService";
+import Cart from "layout/main/customer/Cart";
 
 function App() {
     const urls = UrlService.urls;
@@ -32,6 +34,8 @@ function App() {
                     <Route path={urls.signUp} element={<SignUp />} />
                     <Route path={urls.home} element={<Home />} />
                     <Route path={urls.searchResult} element={<SearchResult />} />
+                    <Route path={urls.profile} element={<CustomerProfile />} />
+                    <Route path={urls.cart} element={<Cart />} />
                     <Route path={`${urls.books}/:title`} element={<Book />} />
                     <Route path={`${urls.authors}/:name`} element={<Author />} />
                     <Route path={urls.unexpectedError} element={<UnexpectedError />} />

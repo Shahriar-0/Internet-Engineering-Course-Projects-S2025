@@ -1,3 +1,5 @@
+import AuthenticationService from "./AuthenticationService";
+
 const baseUrl = process.env.REACT_APP_API_URL + "/api";
 const defaultHeader = { "Content-Type": "application/json" };
 
@@ -6,13 +8,16 @@ const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
 const booksUrl = baseUrl + "/books";
 const authorsUrl = baseUrl + "/authors";
+const usersUrl = baseUrl + "/users";
+const profileUrl = baseUrl + "/profile";
 const genresUrl = booksUrl + "/genres";
 
 const HttpMethod = Object.freeze({
     GET: "GET",
     POST: "POST",
     PUT: "PUT",
-    DELETE: "DELETE"
+    DELETE: "DELETE",
+    PATCH: "PATCH"
 });
 
 const statusCode = Object.freeze({
@@ -103,6 +108,26 @@ const getBooksByAuthor = async (author) => {
 }
 
 const getAuthor = async (name) => {
+    return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
+}
+
+const getProfile = async () => {
+    return await apiCallTemplate(HttpMethod.GET, usersUrl + "/" + AuthenticationService.getCurrentUser().username, null);
+}
+
+const getProfileBooks = async () => {
+    return await apiCallTemplate(HttpMethod.GET, profileUrl + "/books", null);
+}
+
+const addCredit = async (amount) => {
+    const reqBody = {
+        amount: amount
+    }
+    return await apiCallTemplate(HttpMethod.PATCH, profileUrl + "/credit", reqBody);
+}
+
+const getCart = async () => {
+    return await apiCallTemplate(HttpMethod.GET, profileUrl + "/cart", null);
     console.log("author url:",)
     return await apiCallTemplate(HttpMethod.GET, authorsUrl + "/" + name, null);
 }
@@ -124,6 +149,10 @@ const ApiService = Object.freeze({
     getBookReviews,
     getBooksByAuthor,
     getAuthor,
+    getProfile,
+    getProfileBooks,
+    addCredit,
+    getCart,
     searchBooks,
     getGenres,
     statusCode
