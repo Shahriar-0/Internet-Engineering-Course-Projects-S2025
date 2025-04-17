@@ -164,6 +164,21 @@ const deleteFromCart = async (title) => {
     return await apiCallTemplate(HttpMethod.DELETE, cartUrl + "/" + title);
 }
 
+const addToCart = async (title) => {
+    const reqBody = {
+        title: title
+    }
+    return await apiCallTemplate(HttpMethod.POST, cartUrl, reqBody);
+}
+
+const borrowCart = async (title, days) => {
+    const reqBody = {
+        title: title,
+        borrowDays: days
+    }
+    return await apiCallTemplate(HttpMethod.POST, cartUrl, reqBody);
+}
+
 const ApiService = Object.freeze({
     signIn,
     signOut,
@@ -184,6 +199,8 @@ const ApiService = Object.freeze({
     purchaseCart,
     getBookContent,
     deleteFromCart,
+    addToCart,
+    borrowCart,
     statusCode
 });
 

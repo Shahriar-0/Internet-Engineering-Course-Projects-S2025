@@ -8,7 +8,7 @@ import HomeEntityCover from "common/HomeEntity/HomeEntityCover";
 import BookCoverImg from "assets/images/books/book-img.svg"
 import Rating from "common/rating/Rating";
 import AuthorName from "common/author/AuthorName";
-import AddCart from "common/book/AddCart";
+import AddCartModal from "common/book/add-cart-modal/AddCartModal";
 import AddReviewImg from "assets/icons/add-review-icon.svg";
 import AddReviewModal from "./add-review-modal/AddReviewModal";
 
@@ -18,6 +18,7 @@ const Book = () => {
     const [book, setBook] = useState(null);
     const [reviews, setReviews] = useState(null);
     const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
+    const [addCartModalOpen, setAddCartModalOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -50,7 +51,6 @@ const Book = () => {
         fetchReviews();
         fetchBook();
     }
-
 
     return (
         <main class="container">
@@ -87,9 +87,8 @@ const Book = () => {
 
                     <div>
                         <p class="fw-bold fs-5">${book?.price}</p>
-                        <AddCart book={book} /> {/* FIXME: fix the size, previous version below */}
-                        {/* <button class="btn px-4 fw-bold mt-auto green-btn">Add to Cart</button> */}
-
+                        <AddCartModal title={book?.title} price={book?.price} isOpen={addCartModalOpen} onClose={() => setAddCartModalOpen(false)} />
+                        <button onClick={() => setAddCartModalOpen(true)} class="btn green-btn">Add to cart</button>
                     </div>
                 </div>
             </section>
