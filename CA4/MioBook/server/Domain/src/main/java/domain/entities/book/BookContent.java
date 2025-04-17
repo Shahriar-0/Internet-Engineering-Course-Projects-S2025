@@ -9,13 +9,15 @@ import lombok.experimental.SuperBuilder;
 public class BookContent extends DomainEntity<String> {
 
 	private String content;
+	private String authorName;
 
 	public String getTitle() {
 		return key;
 	}
 
-	public BookContent(String title, String content) {
+	public BookContent(String title, String content, String authorName) {
 		super(title);
 		this.content = content;
+		this.authorName = authorName;
 	}
 }
