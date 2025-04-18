@@ -183,6 +183,10 @@ const purchaseCart = async () => {
     return await apiCallTemplate(HttpMethod.POST, profileUrl + "/purchase", null);
 }
 
+const getPurchasedHistory = async () => {
+    return await apiCallTemplate(HttpMethod.GET, profileUrl + "/history", null);
+}
+
 const getBookContent = async (title) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + "/" + title + "/content", null);
 }
@@ -226,6 +230,7 @@ const ApiService = Object.freeze({
     addReview,
     getAllAuthors,
     purchaseCart,
+    getPurchasedHistory,
     getBookContent,
     deleteFromCart,
     addToCart,
