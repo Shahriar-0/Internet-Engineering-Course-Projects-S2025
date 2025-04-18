@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "layout/header/Header";
 import Footer from "layout/footer/Footer";
@@ -27,7 +28,7 @@ function App() {
 
     return (
         <>
-            <ToastContainer />
+            <ToastContainer position="bottom-right" />
             <BrowserRouter>
                 <UrlAccessControl />
                 <Header />
