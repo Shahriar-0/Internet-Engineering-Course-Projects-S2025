@@ -22,6 +22,7 @@ import UrlAccessControl from "services/UrlAccessControl";
 import UrlService from "services/UrlService";
 import AuthenticationService from "services/AuthenticationService";
 import AdminPanel from "./layout/main/admin-panel/AdminPanel";
+import PurchasedHistory from "./layout/main/purchased-history/PurchasedHistory";
 
 function App() {
     const urls = UrlService.urls;
@@ -41,6 +42,7 @@ function App() {
                     <Route path={urls.profile} element={<CustomerProfile />} />
                     <Route path={urls.adminPanel} element={<AdminPanel />} />
                     <Route path={urls.cart} element={<Cart />} />
+                    <Route path={urls.history} element={<PurchasedHistory />} />
                     <Route path={`${urls.books}/:title`} element={<Book />} />
                     <Route path={`${urls.books}/:title/content`} element={<BookContent />} />
                     <Route path={`${urls.authors}/:name`} element={<Author />} />

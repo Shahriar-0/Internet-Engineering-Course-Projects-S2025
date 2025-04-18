@@ -1,7 +1,7 @@
 ﻿import React, {useState} from "react";
 import AccordionItem from "./AccordionItem";
 
-const Accordion = ({children}) => {
+const Accordion = ({children, className}) => {
 
     const [openItemIndex, setOpenItemIndex] = useState(-1);
 
@@ -30,7 +30,7 @@ const Accordion = ({children}) => {
     }
 
     return (
-        <div className="d-flex flex-column">
+        <div className={`d-flex flex-column ${className}`}>
             {annotateChildren()}
         </div>
     )
