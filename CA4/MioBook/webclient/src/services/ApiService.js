@@ -53,7 +53,7 @@ const createFilterQueryForSearchBook = (filter) => {
     if (!filter) return "";
 
     let query = "?";
-    console.log(filter)
+
     if (filter.title) query += `title=${filter.title}&`;
     if (filter.author) query += `author=${filter.author}&`;
     if (filter.genre) query += `genre=${filter.genre}&`;
@@ -188,7 +188,6 @@ const getBookContent = async (title) => {
 }
 
 const deleteFromCart = async (title) => {
-    console.log(title);
     return await apiCallTemplate(HttpMethod.DELETE, cartUrl + "/" + title);
 }
 
@@ -202,9 +201,9 @@ const addToCart = async (title) => {
 const borrowCart = async (title, days) => {
     const reqBody = {
         title: title,
-        borrowDays: days
+        borrowedDays: days
     }
-    return await apiCallTemplate(HttpMethod.POST, cartUrl, reqBody);
+    return await apiCallTemplate(HttpMethod.POST, profileUrl + "/borrow", reqBody);
 }
 
 const ApiService = Object.freeze({

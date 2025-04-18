@@ -19,7 +19,7 @@ const AddCartModal = ({ isOpen, onClose, title, price }) => {
 
     const submit = async () => {
         if (state.isBorrowing) {
-            const { body, error } = await ApiService.borrowCart(title, state.borrowingDays);
+            const { body, error } = await ApiService.borrowCart(title, state.borrowedDays);
             if (body && body.status === ApiService.statusCode.CREATED)
                 toast.success(body.message);
             else if (body && body.status !== ApiService.statusCode.CREATED)
@@ -65,17 +65,17 @@ const AddCartModal = ({ isOpen, onClose, title, price }) => {
                 <div className="row">
                     {Array.from({ length: 9 }, (_, i) => (
                         <div key={i} className="col-4 mb-2">
-                        <button key={i}
-                        onClick={() => setState({ ...state, borrowingDays: i + 1 })}
-                        className={`btn btn-sm w-100 py-2
-                        ${i + 1 === state.borrowingDays ? styles["enable-day-picker-btn"] : styles["disable-day-picker-btn"]}`}
-                        >{i + 1} Days</button>
+                            <button key={i}
+                                onClick={() => setState({ ...state, borrowedDays: i + 1 })}
+                                className={`btn btn-sm w-100 py-2
+                        ${i + 1 === state.borrowedDays ? styles["enable-day-picker-btn"] : styles["disable-day-picker-btn"]}`}
+                            >{i + 1} Days</button>
                         </div>
                     ))}
                 </div>
             )}
             <div className="d-flex justify-content-between align-items-center">
-                <p className="mb-0">Final Price: ${state.isBorrowing ? price * state.borrowingDays / 10 : price}</p>
+                <p className="mb-0">Final Price: ${state.isBorrowing ? price * state.borrowedDays / 10 : price}</p>
                 <SpinnerButton onClick={submit} className="btn green-btn px-5">Add</SpinnerButton>
             </div>
         </Modal>
