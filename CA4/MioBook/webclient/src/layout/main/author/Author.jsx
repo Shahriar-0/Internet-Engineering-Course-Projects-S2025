@@ -43,33 +43,33 @@ const Author = () => {
 
 
     return (
-        <main class="container">
-            <section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
+        <main className="container">
+            <section className="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
                 {/* FIXME: not exactly like figma */}
                 <HomeEntityCover title={author?.name} cover={author?.image || AuthorCoverImg} />
 
-                <div class="col-12 col-md-7 col-lg-8 d-flex flex-column">
-                    <p class="fw-bold fs-3 d-none d-md-block">{author?.name}</p>
-                    <div class="row mb-auto">
-                        <div class="col-4 col-lg">
-                            <p class="mb-1 fs-7 text-secondary">PenName</p>
-                            <p class="text-truncate">{author?.penName}</p>
+                <div className="col-12 col-md-7 col-lg-8 d-flex flex-column">
+                    <p className="fw-bold fs-3 d-none d-md-block">{author?.name}</p>
+                    <div className="row mb-auto">
+                        <div className="col-4 col-lg">
+                            <p className="mb-1 fs-7 text-secondary">PenName</p>
+                            <p className="text-truncate">{author?.penName}</p>
                         </div>
-                        <div class="col-4 col-lg">
-                            <p class="mb-1 fs-7 text-secondary">Nationality</p>
-                            <p class="text-truncate">{author?.nationality}</p>
+                        <div className="col-4 col-lg">
+                            <p className="mb-1 fs-7 text-secondary">Nationality</p>
+                            <p className="text-truncate">{author?.nationality}</p>
                         </div>
-                        <div class="col-4 col-lg">
-                            <p class="mb-1 fs-7 text-secondary">Born</p>
-                            <p class="text-truncate">{author?.born}</p>
+                        <div className="col-4 col-lg">
+                            <p className="mb-1 fs-7 text-secondary">Born</p>
+                            <p className="text-truncate">{author?.born}</p>
                         </div>
-                        <div class="col-4 col-lg">
-                            <p class="mb-1 fs-7 text-secondary">Died</p>
-                            <p class="text-truncate">{author?.died || "-"}</p>
+                        <div className="col-4 col-lg">
+                            <p className="mb-1 fs-7 text-secondary">Died</p>
+                            <p className="text-truncate">{author?.died || "-"}</p>
                         </div>
-                        <div class="col-4 col-lg">
-                            <p class="mb-1 fs-7 text-secondary">Books</p>
-                            <p class="text-truncate">{author?.bookCount}</p>
+                        <div className="col-4 col-lg">
+                            <p className="mb-1 fs-7 text-secondary">Books</p>
+                            <p className="text-truncate">{author?.bookCount}</p>
                         </div>
                     </div>
                 </div>

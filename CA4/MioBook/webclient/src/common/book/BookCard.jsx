@@ -21,7 +21,7 @@ const BookCard = ({ title, author, price, averageRating, bookImage = defaultBook
                         <Rating rating={averageRating} />
                         <span>${price}</span>
                     </div>
-                    <button onClick={() => setAddCartModalOpen(true)} class="btn green-btn w-100">Add to cart</button>
+                    <button onClick={() => setAddCartModalOpen(true)} className="btn green-btn w-100">Add to cart</button>
                 </div>
             </div>
         </>

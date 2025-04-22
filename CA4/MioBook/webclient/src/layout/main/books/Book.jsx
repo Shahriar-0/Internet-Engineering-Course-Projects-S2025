@@ -53,52 +53,52 @@ const Book = () => {
     }
 
     return (
-        <main class="container">
-            <section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
+        <main className="container">
+            <section className="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
                 <AddReviewModal title={book?.title} isOpen={addReviewModalOpen}
-                                onSubmit={reviewSubmit} onClose={() => setAddReviewModalOpen(false)} />
+                    onSubmit={reviewSubmit} onClose={() => setAddReviewModalOpen(false)} />
                 <HomeEntityCover title={book?.title} rating={book?.averageRating} cover={book?.cover || BookCoverImg} />
 
-                <div class="col-12 col-md-7 col-lg-8 d-flex flex-column">
-                    <p class="fw-bold fs-3 d-none d-md-block">{book?.title}</p>
-                    <div class="mb-4 d-none d-md-flex align-items-end">
+                <div className="col-12 col-md-7 col-lg-8 d-flex flex-column">
+                    <p className="fw-bold fs-3 d-none d-md-block">{book?.title}</p>
+                    <div className="mb-4 d-none d-md-flex align-items-end">
                         <Rating rating={book?.averageRating} />
-                        <span class="align-middle ms-2 fs-7">{book?.averageRating?.toFixed(1)}</span> {/* FIXME: fix alignment*/}
+                        <span className="align-middle ms-2 fs-7">{book?.averageRating?.toFixed(1)}</span> {/* FIXME: fix alignment*/}
                     </div>
 
-                    <div class="row mb-auto">
-                        <div class="col-4 col-lg-3">
-                            <p class="mb-1 fs-7 text-secondary">Author</p>
+                    <div className="row mb-auto">
+                        <div className="col-4 col-lg-3">
+                            <p className="mb-1 fs-7 text-secondary">Author</p>
                             <AuthorName author={book?.author} />
                         </div>
-                        <div class="col-4 col-lg-3">
-                            <p class="mb-1 fs-7 text-secondary">Publisher</p>
-                            <p class="text-truncate">{book?.publisher}</p>
+                        <div className="col-4 col-lg-3">
+                            <p className="mb-1 fs-7 text-secondary">Publisher</p>
+                            <p className="text-truncate">{book?.publisher}</p>
                         </div>
-                        <div class="col-4 col-lg-3">
-                            <p class="mb-1 fs-7 text-secondary">Year</p>
-                            <p class="text-truncate">{book?.year}</p>
+                        <div className="col-4 col-lg-3">
+                            <p className="mb-1 fs-7 text-secondary">Year</p>
+                            <p className="text-truncate">{book?.year}</p>
                         </div>
-                        <div class="col-12">
-                            <p class="mb-1 fs-7 text-secondary">About</p>
-                            <p class="about-text overflow-auto">{book?.synopsis}</p>
+                        <div className="col-12">
+                            <p className="mb-1 fs-7 text-secondary">About</p>
+                            <p className="about-text overflow-auto">{book?.synopsis}</p>
                         </div>
                     </div>
 
                     <div>
-                        <p class="fw-bold fs-5">${book?.price}</p>
+                        <p className="fw-bold fs-5">${book?.price}</p>
                         <AddCartModal title={book?.title} price={book?.price} isOpen={addCartModalOpen} onClose={() => setAddCartModalOpen(false)} />
-                        <button onClick={() => setAddCartModalOpen(true)} class="btn green-btn">Add to cart</button>
+                        <button onClick={() => setAddCartModalOpen(true)} className="btn green-btn">Add to cart</button>
                     </div>
                 </div>
             </section>
 
-            <section class="row rounded-4 shadow-lg border-1 border-bottom border-secondary p-4 mx-2 mb-5 d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <p class="align-middle mb-0">Reviews <span class="text-muted">({reviews?.list.length})</span></p>
+            <section className="row rounded-4 shadow-lg border-1 border-bottom border-secondary p-4 mx-2 mb-5 d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <p className="align-middle mb-0">Reviews <span className="text-muted">({reviews?.list.length})</span></p>
                     <button onClick={() => setAddReviewModalOpen(true)} className="btn border-0 bg-gray px-3 bg-gray">
                         Add reviews
-                        <img className="ms-2" src={AddReviewImg} alt="add-review"/>
+                        <img className="ms-2" src={AddReviewImg} alt="add-review" />
                     </button>
                 </div>
 
@@ -113,15 +113,15 @@ const Book = () => {
                 ))}
                 {/* FIXME: fix star position here */}
 
-                <ul class="pagination justify-content-center">
-                    <li class="px-3 py-2 mx-1 rounded-3 pagination-item">&lt;</li>
-                    <li class="px-3 py-2 mx-1 rounded-3 pagination-item active">1</li>
-                    <li class="px-3 py-2 mx-1 rounded-3 pagination-item">2</li>
-                    <li class="px-3 py-2 mx-1 rounded-3 pagination-item">3</li>
-                    <li class="d-sm-none px-3 py-2 mx-1 rounded-3 pagination-item">...</li>
-                    <li class="d-none d-sm-block px-3 py-2 mx-1 rounded-3 pagination-item">4</li>
-                    <li class="d-none d-sm-block px-3 py-2 mx-1 rounded-3 pagination-item">5</li>
-                    <li class="px-3 py-2 mx-1 rounded-3 pagination-item">&gt;</li>
+                <ul className="pagination justify-content-center">
+                    <li className="px-3 py-2 mx-1 rounded-3 pagination-item">&lt;</li>
+                    <li className="px-3 py-2 mx-1 rounded-3 pagination-item active">1</li>
+                    <li className="px-3 py-2 mx-1 rounded-3 pagination-item">2</li>
+                    <li className="px-3 py-2 mx-1 rounded-3 pagination-item">3</li>
+                    <li className="d-sm-none px-3 py-2 mx-1 rounded-3 pagination-item">...</li>
+                    <li className="d-none d-sm-block px-3 py-2 mx-1 rounded-3 pagination-item">4</li>
+                    <li className="d-none d-sm-block px-3 py-2 mx-1 rounded-3 pagination-item">5</li>
+                    <li className="px-3 py-2 mx-1 rounded-3 pagination-item">&gt;</li>
                 </ul>
             </section>
         </main>
