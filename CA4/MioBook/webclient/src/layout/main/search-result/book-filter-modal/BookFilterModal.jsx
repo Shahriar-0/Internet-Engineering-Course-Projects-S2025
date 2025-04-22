@@ -7,6 +7,7 @@ import GenreSelector from "./GenreSelector";
 import {useNavigate} from "react-router-dom";
 import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
+import {getInitialFilterState} from "./BookFilterLogic";
 
 const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
 
@@ -18,6 +19,11 @@ const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
         onApply(filterState);
         onClose();
     }
+
+    const onResetClick = () => {
+        const initialState = getInitialFilterState();
+        setFilterState(initialState);
+    };
 
     useEffect(() => {
        setFilterState(state);
@@ -79,7 +85,10 @@ const BookFilterModal = ({state, isOpen, onClose, onApply}) => {
                                  state={filterState.isAscending}/>
                 </div>
             </div>
-            <button onClick={onApplyClick} className="btn btn-lg green-btn mt-auto mx-5">Apply</button>
+            <div className="d-flex justify-content-center gap-3 mt-auto mx-5">
+                <button onClick={onApplyClick} className="btn btn-lg green-btn">Apply</button>
+                <button onClick={onResetClick} className="btn btn-lg red-btn">Reset</button>
+            </div>
         </Modal>
     )
 }
