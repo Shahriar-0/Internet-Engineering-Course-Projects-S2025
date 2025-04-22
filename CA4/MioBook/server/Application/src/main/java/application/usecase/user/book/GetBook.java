@@ -41,8 +41,9 @@ public class GetBook implements IUseCase {
 			filter.genre,
 			filter.from,
 			filter.to,
-			filter.ascendingSortByRating,
-			filter.ascendingSortByDateAdded,
+			filter.sortBy,
+			BookFilter.fromString(filter.sortBy),
+			filter.isAscending,
 			(filter.pageNumber != null) ? filter.pageNumber : DEFAULT_BOOK_PAGE_NUMBER,
 			standardizePageSizeField(filter.pageSize)
 		);
@@ -64,9 +65,25 @@ public class GetBook implements IUseCase {
 		String genre,
 		@Positive Integer from,
 		@Positive Integer to,
-		Boolean ascendingSortByRating,
-		Boolean ascendingSortByDateAdded,
+		String sortBy,
+		BookSortByType sortByType,
+		Boolean isAscending,
 		@Positive Integer pageNumber,
 		@Positive Integer pageSize
-	) {}
+	) {
+		public enum BookSortByType {
+			DATE,
+			RATING,
+			REVIEWS
+		}
+
+		public static BookSortByType fromString(String sortBy) {
+			try {
+				return BookSortByType.valueOf(sortBy.toUpperCase());
+			}
+			catch (IllegalArgumentException | NullPointerException e) {
+				return null; // we don't want it to crash
+			}
+		}
+	}
 }
