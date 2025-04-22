@@ -14,7 +14,7 @@ const BookCardContainer = ({ bookList = null, url }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (bookList == null) {
+        if (bookList == null && url != null) {
             const fetchBooks = async () => {
                 const { body, error } = await ApiService.getBooks(url);
                 if (error) {
@@ -42,7 +42,7 @@ const BookCardContainer = ({ bookList = null, url }) => {
                 </div>
             )}
             {
-                books.map((book, index) => (
+                books?.map((book, index) => (
                     <div className="mb-2" key={index}>
                         <BookCard key={index}  {...book} />
                     </div>
