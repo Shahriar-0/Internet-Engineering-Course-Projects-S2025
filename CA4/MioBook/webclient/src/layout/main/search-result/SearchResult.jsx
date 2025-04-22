@@ -1,12 +1,12 @@
 ﻿import BookCardContainer from "common/book/BookCardContainer";
 import PagedContainer from "library/paged-container/PagedContainer";
-import {useEffect, useRef, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
 import filterIcon from "assets/icons/filter-icon.svg";
 import BookFilterModal from "./book-filter-modal/BookFilterModal";
-import {getInitialFilterState} from "./book-filter-modal/BookFilterLogic";
+import { getInitialFilterState } from "./book-filter-modal/BookFilterLogic";
 
 const SearchResult = () => {
     const DEFAULT_PAGE_SIZE = 10;
@@ -21,11 +21,25 @@ const SearchResult = () => {
     const page = useRef(1);
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const filterType = params.get("filterType");
+        const filterValue = params.get("filterValue");
+
+        if (filterType && filterValue) {
+            const newFilter = { ...filter.current };
+            console.log(filterType);
+            if (filterType === "Name") newFilter.bookName = filterValue;
+            else if (filterType === "Author") newFilter.authorName = filterValue;
+            else if (filterType === "Genre") newFilter.genre = filterValue;
+
+            filter.current = newFilter;
+        }
+
         fetchBooks(filter.current, page.current);
     }, []);
 
     const fetchBooks = async (filter, page) => {
-        const {body} = await ApiService.searchBooks({
+        const { body } = await ApiService.searchBooks({
             title: filter.bookName,
             author: filter.authorName,
             genre: filter.genre,
@@ -59,17 +73,17 @@ const SearchResult = () => {
     return (
         <main className="container">
             <section>
-                <BookFilterModal state={filter.current} isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)} onApply={onFilterApply}/>
+                <BookFilterModal state={filter.current} isOpen={filterModalOpen} onClose={() => setFilterModalOpen(false)} onApply={onFilterApply} />
 
                 <button className="ms-auto mb-3 d-flex align-items-center btn btn-lg green-btn px-3" onClick={() => setFilterModalOpen(true)}>
-                    <img className="me-1" src={filterIcon} alt="filter icon"/>Filter
+                    <img className="me-1" src={filterIcon} alt="filter icon" />Filter
                 </button>
 
                 <PagedContainer pageNumberClassName="px-3 py-2 mx-1 rounded-3 hover-gray fw-bold"
-                                currentPageNumberClassName="px-3 py-2 mx-1 rounded-3 bg-green text-white fw-bold"
-                                totalPages={totalPages}
-                                onPageChange={onPageChange}>
-                    <BookCardContainer bookList={books}/>
+                    currentPageNumberClassName="px-3 py-2 mx-1 rounded-3 bg-green text-white fw-bold"
+                    totalPages={totalPages}
+                    onPageChange={onPageChange}>
+                    <BookCardContainer bookList={books} />
                 </PagedContainer>
             </section>
         </main>

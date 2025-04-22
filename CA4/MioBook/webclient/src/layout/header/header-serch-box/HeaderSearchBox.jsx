@@ -20,7 +20,11 @@ const HeaderSearchBox = () => {
                 className="d-none d-md-block flex-grow-1 border-start border-secondary ps-3 border-0 bg-transparent outline-0"
                 placeholder="Search" />
             <img className="me-md-3 pointer" src={searchIcon} alt="search icon"
-                 onClick={() => navigate(UrlService.urls.searchResult)} />
+                 onClick={() => {
+                     const filterType = document.getElementById('filter-type').value;
+                     const filterValue = document.getElementById('filter-value').value;
+                     navigate(`${UrlService.urls.searchResult}?filterType=${encodeURIComponent(filterType)}&filterValue=${encodeURIComponent(filterValue)}`);
+                 }} />
         </div>
     );
 }
