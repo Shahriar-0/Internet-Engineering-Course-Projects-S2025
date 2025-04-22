@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import UrlService from "services/UrlService";
 
 const AuthorName = ({ author, className }) => {
-    const formattedAuthor = author?.replace(/\s+/g, "%20");
+    const formattedAuthor = encodeURIComponent(author);
 
     return (
         <Link to={`${UrlService.urls.authors}/${formattedAuthor}`} className="text-decoration-none">
