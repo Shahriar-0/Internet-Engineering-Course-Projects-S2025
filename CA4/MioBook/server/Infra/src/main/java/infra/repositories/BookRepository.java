@@ -50,7 +50,8 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 		assert filter.pageSize() != null &&
 		filter.pageNumber() != null &&
-		filter.sortBy() != null : "we rely on standard filter field that should be pass from application layer";
+		filter.sortBy() != null &&
+		filter.isAscending() != null : "we rely on standard filter field that should be pass from application layer";
 
 		if (filter.sortBy() != null) {
 			books = sortBooks(books, getSortFunction(filter.sortByType()), filter.isAscending());
@@ -64,6 +65,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 			case DATE -> Comparator.comparing(Book::getDateAdded);
 			case RATING -> Comparator.comparing(Book::getAverageRating);
 			case REVIEWS -> Comparator.comparing(book -> book.getReviews().size());
+			case DEFAULT -> Comparator.comparing(Book::getTitle); // default sort by title
 		};
 	}
 

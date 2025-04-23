@@ -43,7 +43,7 @@ public class GetBook implements IUseCase {
 			filter.to,
 			filter.sortBy,
 			BookFilter.fromString(filter.sortBy),
-			filter.isAscending,
+			(filter.isAscending != null) ? filter.isAscending : false,
 			(filter.pageNumber != null) ? filter.pageNumber : DEFAULT_BOOK_PAGE_NUMBER,
 			standardizePageSizeField(filter.pageSize)
 		);
@@ -74,7 +74,8 @@ public class GetBook implements IUseCase {
 		public enum BookSortByType {
 			DATE,
 			RATING,
-			REVIEWS
+			REVIEWS,
+			DEFAULT
 		}
 
 		public static BookSortByType fromString(String sortBy) {
@@ -82,7 +83,7 @@ public class GetBook implements IUseCase {
 				return BookSortByType.valueOf(sortBy.toUpperCase());
 			}
 			catch (IllegalArgumentException | NullPointerException e) {
-				return null; // we don't want it to crash
+				return BookSortByType.DEFAULT;
 			}
 		}
 	}
