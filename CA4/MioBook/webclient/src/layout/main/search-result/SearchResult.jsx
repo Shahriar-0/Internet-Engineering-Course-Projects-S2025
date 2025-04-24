@@ -1,7 +1,7 @@
 ﻿import BookCardContainer from "common/book/BookCardContainer";
 import PagedContainer from "library/paged-container/PagedContainer";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
 import filterIcon from "assets/icons/filter-icon.svg";
@@ -16,18 +16,17 @@ const SearchResult = () => {
     const [totalPages, setTotalPages] = useState(0);
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const filter = useRef(getInitialFilterState());
     const page = useRef(1);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const filterType = params.get("filterType");
-        const filterValue = params.get("filterValue");
+        const filterType = searchParams.get("filterType");
+        const filterValue = searchParams.get("filterValue");
 
         if (filterType && filterValue) {
             const newFilter = { ...filter.current };
-            console.log(filterType);
             if (filterType === "Name") newFilter.bookName = filterValue;
             else if (filterType === "Author") newFilter.authorName = filterValue;
             else if (filterType === "Genre") newFilter.genre = filterValue;
@@ -36,7 +35,7 @@ const SearchResult = () => {
         }
 
         fetchBooks(filter.current, page.current);
-    }, []);
+    }, [searchParams]);
 
     const fetchBooks = async (filter, page) => {
         const { body } = await ApiService.searchBooks({
