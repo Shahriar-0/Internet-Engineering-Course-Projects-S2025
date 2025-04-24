@@ -20,32 +20,25 @@ import CustomInput from "library/form-assets/CustomInput";
 const SignUpForm = () => {
     const [formState, setFormState] = useState(getInitFormState());
     const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
-    const changeName = (e) => {
-        const username = e.target.value;
-        setFormState({ ...formState, username: { ...formState.username, value: username } });
-    }
+    const handleFieldChange = (field, isNestedValue = true) => (e) => {
+        const value = e.target.value;
 
-    const changePassword = (e) => {
-        const password = e.target.value;
-        setFormState({ ...formState, password: { ...formState.password, value: password } });
-    }
-
-    const changeEmail = (e) => {
-        const email = e.target.value;
-        setFormState({ ...formState, email: { ...formState.email, value: email } });
-    }
-
-    const changeCountry = (e) => {
-        const country = e.target.value;
-        setFormState({ ...formState, country: country });
-    }
-
-    const changeCity = (e) => {
-        const city = e.target.value;
-        setFormState({ ...formState, city: city });
-    }
+        if (isNestedValue) {
+            setFormState({
+                ...formState,
+                [field]: { ...formState[field], value }
+            });
+        }
+        else {
+            setFormState({
+                ...formState,
+                [field]: value
+            });
+        }
+    };
 
     const changeRole = (role) => {
         setFormState({ ...formState, role: role });
@@ -93,19 +86,19 @@ const SignUpForm = () => {
     return (
         <div className="row">
             <CustomInput type="text" errorClassName="p-0" className="form-control form-control-lg mb-3" placeholder="Username"
-                error={formState.username.error} onChange={changeName} />
+                error={formState.username.error} onChange={handleFieldChange("username")} />
 
             <PasswordInput divClassName="mb-3 p-0" inputClassName="form-control form-control-lg" errorClassName="p-0"
-                error={formState.password.error} onChange={changePassword} />
+                error={formState.password.error} onChange={handleFieldChange("password")} />
 
             <CustomInput type="email" errorClassName="p-0" className="form-control form-control-lg mb-3" placeholder="Email"
-                error={formState.email.error} onChange={changeEmail} />
+                error={formState.email.error} onChange={handleFieldChange("email")} />
 
             <div className="mb-3 col-12 col-sm-6 px-0 pe-sm-1">
-                <CustomInput type="text" className="form-control form-control-lg" placeholder="Country" onChange={changeCountry} />
+                <CustomInput type="text" className="form-control form-control-lg" placeholder="Country" onChange={handleFieldChange("country", false)} />
             </div>
             <div className="mb-3 col-sm-6 col-12 px-0 ps-sm-1">
-                <CustomInput type="text" className="form-control form-control-lg" placeholder="City" onChange={changeCity} />
+                <CustomInput type="text" className="form-control form-control-lg" placeholder="City" onChange={handleFieldChange("city", false)} />
             </div>
             <RolePicker onChange={changeRole} />
             <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn" spinnerClassName="border-green" disabled={!canSubmit(formState)} loading={loading} onClick={submit}>Sign up</SpinnerButton>
