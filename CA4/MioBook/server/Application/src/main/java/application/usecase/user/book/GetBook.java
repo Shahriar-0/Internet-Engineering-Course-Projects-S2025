@@ -75,7 +75,7 @@ public class GetBook implements IUseCase {
 			DATE,
 			RATING,
 			REVIEWS,
-			DEFAULT
+			TITLE
 		}
 
 		public static BookSortByType fromString(String sortBy) {
@@ -83,7 +83,7 @@ public class GetBook implements IUseCase {
 				return BookSortByType.valueOf(sortBy.toUpperCase());
 			}
 			catch (IllegalArgumentException | NullPointerException e) {
-				return BookSortByType.DEFAULT;
+				return BookSortByType.TITLE;  // default sort by title
 			}
 		}
 	}
