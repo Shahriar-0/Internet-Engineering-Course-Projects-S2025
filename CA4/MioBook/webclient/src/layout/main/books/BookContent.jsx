@@ -29,7 +29,7 @@ const BookContent = () => {
         <main className="container p-4 justify-content-center align-items-center">
             <div className="p-5 shadow rounded-4 d-flex justify-content-between align-items-center mb-4">
                 <h3 className="fw-bold fs-2 d-flex">
-                    <img className="me-2" src={BookContentIcon} alt="book-content-icon"/>
+                    <img className="me-2" src={BookContentIcon} alt="book-content-icon" />
                     {book?.title}
                 </h3>
                 <span className="d-flex">By <AuthorName className={"ms-1"} author={book?.authorName} /></span>

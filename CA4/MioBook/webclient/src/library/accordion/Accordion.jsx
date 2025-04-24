@@ -1,7 +1,7 @@
-﻿import React, {useState} from "react";
+﻿import React, { useState } from "react";
 import AccordionItem from "./AccordionItem";
 
-const Accordion = ({children, className}) => {
+const Accordion = ({ children, className }) => {
 
     const [openItemIndex, setOpenItemIndex] = useState(-1);
 

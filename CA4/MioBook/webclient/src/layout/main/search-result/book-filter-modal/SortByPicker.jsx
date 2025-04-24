@@ -1,6 +1,6 @@
-import {useState} from "react";
+import { useState } from "react";
 
-const SortByPicker = ({state, onChange, className}) => {
+const SortByPicker = ({ state, onChange, className }) => {
     const sortBy = Object.freeze({
         rating: "rating",
         review: "reviews"
@@ -23,15 +23,15 @@ const SortByPicker = ({state, onChange, className}) => {
 
     return (
         <div className={`d-flex ${className}`}>
-                <button className={`me-1 ${sortByValue === sortBy.rating ? activeStyle : inactiveStyle}`}
-                        onClick={setSortByRating}>
-                    Rating
-                </button>
+            <button className={`me-1 ${sortByValue === sortBy.rating ? activeStyle : inactiveStyle}`}
+                onClick={setSortByRating}>
+                Rating
+            </button>
 
-                <button className={`ms-1 ${sortByValue === sortBy.review ? activeStyle : inactiveStyle}`}
-                        onClick={setSortByReview}>
-                    Reviews
-                </button>
+            <button className={`ms-1 ${sortByValue === sortBy.review ? activeStyle : inactiveStyle}`}
+                onClick={setSortByReview}>
+                Reviews
+            </button>
         </div>
     );
 }

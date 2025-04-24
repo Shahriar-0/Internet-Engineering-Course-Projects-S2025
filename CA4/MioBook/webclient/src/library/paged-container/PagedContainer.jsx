@@ -1,6 +1,6 @@
-﻿import {useState} from "react";
+﻿import { useState } from "react";
 
-const PagedContainer = ({children, totalPages, pageNumberClassName, currentPageNumberClassName, onPageChange}) => {
+const PagedContainer = ({ children, totalPages, pageNumberClassName, currentPageNumberClassName, onPageChange }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const onFirstPage = () => {

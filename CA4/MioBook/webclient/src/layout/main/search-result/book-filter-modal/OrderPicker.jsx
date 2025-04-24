@@ -1,6 +1,6 @@
-import {useState} from "react";
+import { useState } from "react";
 
-const OrderPicker = ({state, onChange, className}) => {
+const OrderPicker = ({ state, onChange, className }) => {
     const activeStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-khaki text-green border-green";
     const inactiveStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-gray";
 
@@ -19,12 +19,12 @@ const OrderPicker = ({state, onChange, className}) => {
     return (
         <div className={`d-flex ${className}`}>
             <button className={`me-1 ${isAscending === false ? activeStyle : inactiveStyle}`}
-                    onClick={setOrderDescending}>
+                onClick={setOrderDescending}>
                 Descending
             </button>
 
             <button className={`ms-1 ${isAscending === true ? activeStyle : inactiveStyle}`}
-                    onClick={setOrderAscending}>
+                onClick={setOrderAscending}>
                 Ascending
             </button>
         </div>
