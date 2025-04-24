@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 import Header from "layout/header/Header";
 import Footer from "layout/footer/Footer";
@@ -26,6 +27,19 @@ import PurchasedHistory from "./layout/main/purchased-history/PurchasedHistory";
 
 function App() {
     const urls = UrlService.urls;
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            console.log("Clearing localStorage before unload");
+            localStorage.clear();
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
 
     return (
         <>
