@@ -4,8 +4,8 @@ import UrlService from "services/UrlService";
 import { useState } from "react";
 
 const HeaderSearchBox = () => {
-    const [filterType, setFilterType] = useState(null);
-    const [filterValue, setFilterValue] = useState(null);
+    const [filterType, setFilterType] = useState("Name");
+    const [filterValue, setFilterValue] = useState("");
 
     const handleFilterTypeChange = (event) => {
         setFilterType(event.target.value);
@@ -19,9 +19,9 @@ const HeaderSearchBox = () => {
 
     const handleSearch = () => {
         let query = "";
-        if (filterType && filterValue)
-            query = `?filterType=${encodeURIComponent(filterType)}&filterValue=${encodeURIComponent(filterValue)}`;
-        navigate(`${UrlService.urls.searchResult}?${query}`);
+        if (filterValue)
+            query = `?${filterType}=${encodeURIComponent(filterValue)}`;
+        navigate(`${UrlService.urls.searchResult}${query}`);
     };
 
     return (

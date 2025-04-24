@@ -22,14 +22,15 @@ const SearchResult = () => {
     const page = useRef(1);
 
     useEffect(() => {
-        const filterType = searchParams.get("filterType");
-        const filterValue = searchParams.get("filterValue");
+        const filterName = searchParams.get("Name");
+        const filterAuthor = searchParams.get("Author");
+        const filterGenre = searchParams.get("Genre");
 
-        if (filterType && filterValue) {
+        if (filterName || filterAuthor || filterGenre) {
             const newFilter = { ...filter.current };
-            if (filterType === "Name") newFilter.bookName = filterValue;
-            else if (filterType === "Author") newFilter.authorName = filterValue;
-            else if (filterType === "Genre") newFilter.genre = filterValue;
+            if (filterName) newFilter.bookName = filterName;
+            if (filterAuthor) newFilter.authorName = filterAuthor;
+            if (filterGenre) newFilter.genre = filterGenre;
 
             filter.current = newFilter;
         }
