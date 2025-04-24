@@ -54,6 +54,8 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		filter.isAscending() != null : "we rely on standard filter field that should be pass from application layer";
 
 		if (filter.sortBy() != null) {
+			// since we are comparing with this field which may be null is request
+			// the default value for TITLE when not passed is not considered
 			books = sortBooks(books, getSortFunction(filter.sortByType()), filter.isAscending());
 		}
 
