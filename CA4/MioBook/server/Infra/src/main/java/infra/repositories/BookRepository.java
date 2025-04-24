@@ -7,7 +7,6 @@ import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
-
 import java.util.*;
 
 public class BookRepository extends BaseRepository<String, Book> implements IBookRepository {
@@ -38,21 +37,40 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	@Override
 	public Page<Book> filter(GetBook.BookFilter filter) {
 		List<Book> books = new ArrayList<>(map.values());
-		if (filter.title() != null) books = filterTitle(books, filter.title());
-		if (filter.author() != null) books = filterAuthorName(books, filter.author());
-		if (filter.genre() != null) books = filterGenre(books, filter.genre());
-		if (filter.from() != null) books = filterLowerBoundYear(books, filter.from());
-		if (filter.to() != null) books = filterUpperBoundYear(books, filter.to());
+		if (filter.title() != null)
+			books = filterTitle(books, filter.title());
+		if (filter.author() != null)
+			books = filterAuthorName(books, filter.author());
+		if (filter.genre() != null)
+			books = filterGenre(books, filter.genre());
+		if (filter.from() != null)
+			books = filterLowerBoundYear(books, filter.from());
+		if (filter.to() != null)
+			books = filterUpperBoundYear(books, filter.to());
 
 		assert filter.pageSize() != null &&
-		filter.pageNumber() != null : "we rely on standard filter field that should be pass from application layer";
+		filter.pageNumber() != null &&
+		filter.sortByType() != null &&
+		filter.isAscending() != null : "we rely on standard filter field that should be pass from application layer";
 
-		if (filter.ascendingSortByDateAdded() != null)
-			books = sortByDateAdded(books, filter.ascendingSortByDateAdded());
-		else if (filter.ascendingSortByRating() != null)
-			books = sortByRating(books, filter.ascendingSortByRating()); // for now we don't combine sorts
+		if (filter.sortBy() != null) {
+			books = sortBooks(books, getSortFunction(filter.sortByType()), filter.isAscending());
+		}
 
 		return new Page<>(books, filter.pageNumber(), filter.pageSize());
+	}
+
+	private static Comparator<Book> getSortFunction(GetBook.BookFilter.BookSortByType filterType) {
+		return switch (filterType) {
+			case DATE -> Comparator.comparing(Book::getDateAdded);
+			case RATING -> Comparator.comparing(Book::getAverageRating);
+			case REVIEWS -> Comparator.comparing(book -> book.getReviews().size());
+			case TITLE -> Comparator.comparing(Book::getTitle);
+		};
+	}
+
+	private static List<Book> sortBooks(List<Book> books, Comparator<Book> comparator, boolean isAscending) {
+		return books.stream().sorted(isAscending ? comparator : comparator.reversed()).toList();
 	}
 
 	@Override
@@ -65,16 +83,16 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 		return Result.success(page);
 	}
 
-    @Override
-    public List<String> getGenres() {
-        List<Book> books = new ArrayList<>(map.values());
-        List<List<String>> genresList = books.stream().map(Book::getGenres).toList();
-        Set<String> genresSet = new HashSet<>();
-        for (List<String> genres : genresList)
-            genresSet.addAll(genres);
+	@Override
+	public List<String> getGenres() {
+		List<Book> books = new ArrayList<>(map.values());
+		List<List<String>> genresList = books.stream().map(Book::getGenres).toList();
+		Set<String> genresSet = new HashSet<>();
+		for (List<String> genres : genresList)
+			genresSet.addAll(genres);
 
-        return genresSet.stream().toList();
-    }
+		return genresSet.stream().toList();
+	}
 
 	private static List<Book> filterTitle(List<Book> books, String title) {
 		return books.stream().filter(book -> book.getTitle().contains(title)).toList();
@@ -94,21 +112,5 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 	private static List<Book> filterUpperBoundYear(List<Book> books, int upperBound) {
 		return books.stream().filter(book -> book.getPublishedYear() <= upperBound).toList();
-	}
-
-	private static List<Book> sortByDateAdded(List<Book> books, boolean isAscending) {
-		return books
-			.stream()
-			.sorted(isAscending ? Comparator.comparing(Book::getDateAdded) :
-								Comparator.comparing(Book::getDateAdded).reversed())
-			.toList();
-	}
-
-	private static List<Book> sortByRating(List<Book> books, boolean isAscending) {
-		return books
-			.stream()
-			.sorted(isAscending ? Comparator.comparing(Book::getAverageRating) :
-								Comparator.comparing(Book::getAverageRating).reversed())
-			.toList();
 	}
 }

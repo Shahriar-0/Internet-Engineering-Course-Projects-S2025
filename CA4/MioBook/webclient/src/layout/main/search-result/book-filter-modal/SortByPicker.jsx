@@ -3,7 +3,7 @@ import {useState} from "react";
 const SortByPicker = ({state, onChange, className}) => {
     const sortBy = Object.freeze({
         rating: "rating",
-        review: "review"
+        review: "reviews"
     })
 
     const activeStyle = "flex-grow-1 btn border-3 fw-bold position-relative bg-khaki text-green border-green";

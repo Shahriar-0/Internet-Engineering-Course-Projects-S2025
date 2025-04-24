@@ -28,7 +28,7 @@ const Author = () => {
         };
 
         const fetchBooks = async () => {
-            const { body, error } = await ApiService.getBooksByAuthor(name);
+            const { body, error } = await ApiService.searchBooks({ author: name });
             if (body && body.status === ApiService.statusCode.OK)
                 setBook(body.data.list);
             else if (body && body.status !== ApiService.statusCode.OK)
