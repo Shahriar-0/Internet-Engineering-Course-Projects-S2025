@@ -1,9 +1,9 @@
 ﻿import emptyStar from "assets/icons/empty-star.svg";
 import filledStar from "assets/icons/filled-star.svg";
 import styles from "./AddReviewModal.module.css";
-import {useState} from "react";
+import { useState } from "react";
 
-const RatingPicker = ({onChange}) => {
+const RatingPicker = ({ onChange }) => {
     const [rating, setRating] = useState(0);
 
     const setRatingHandler = (index) => {

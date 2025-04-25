@@ -2,23 +2,23 @@ import BookListRow from "./BookListRow";
 
 const BookList = ({ bookList = null, actionName = null, action = null }) => {
     return (
-        <table class="table">
+        <table className="table">
             <thead>
                 <tr>
-                    <th class="d-sm-none bg-gray fw-medium text-muted">Info</th>
-                    <th class="bg-gray fw-medium text-muted">Image</th>
-                    <th class="d-none d-sm-table-cell bg-gray fw-medium text-muted">Name</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Price</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Author</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Genre</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Publisher</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Published Year</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">Status</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted">BorrowDays</th>
-                    <th class="d-none d-md-table-cell bg-gray fw-medium text-muted"></th>
+                    <th className="d-sm-none bg-gray fw-medium text-muted">Info</th>
+                    <th className="bg-gray fw-medium text-muted">Image</th>
+                    <th className="d-none d-sm-table-cell bg-gray fw-medium text-muted">Name</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">Price</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">Author</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">Genre</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">Publisher</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">Published Year</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">Status</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted">BorrowDays</th>
+                    <th className="d-none d-md-table-cell bg-gray fw-medium text-muted"></th>
                 </tr>
             </thead>
-            <tbody class="align-middle">
+            <tbody className="align-middle">
                 {bookList && bookList.map((book, index) => (
                     <BookListRow key={index} book={book} action={action} actionName={actionName} />
                 ))}

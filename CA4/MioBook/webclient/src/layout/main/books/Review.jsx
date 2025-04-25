@@ -8,22 +8,22 @@ const Review = ({ user, review, rating, date }) => {
     })
 
     return (
-        <div class="row align-items-center p-2 mb-4 shadow-sm rounded-1 border-1 border-bottom border-secondary">
-            <div class="d-none d-md-flex rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">{user.charAt(0).toUpperCase()}</div>
-            <div class="row col-12 col-md-9">
-                <div class="col-3 d-md-none rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
-                <div class="col-8">
-                    <p class="mb-0 fw-bold">{user}</p>
-                    <div class="d-md-none mb-3">
+        <div className="row align-items-center p-2 mb-4 shadow-sm rounded-1 border-1 border-bottom border-secondary">
+            <div className="d-none d-md-flex rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">{user.charAt(0).toUpperCase()}</div>
+            <div className="row col-12 col-md-9">
+                <div className="col-3 d-md-none rounded-circle bg-gray p-3 align-self-start profile-img-container pointer">TW</div>
+                <div className="col-8">
+                    <p className="mb-0 fw-bold">{user}</p>
+                    <div className="d-md-none mb-3">
                         <Rating rating={rating} />
-                        <span class="align-middle fs-8 text-muted">{formattedDate}</span>
+                        <span className="align-middle fs-8 text-muted">{formattedDate}</span>
                     </div>
                 </div>
-                <p class="mb-0 fs-7">{review}</p>
+                <p className="mb-0 fs-7">{review}</p>
             </div>
-            <div class="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
+            <div className="d-none d-md-inline col-0 col-md-2 px-0 ms-auto text-end">
                 <Rating className="justify-content-end" rating={rating} />
-                <span class="align-middle fs-8 text-muted">{formattedDate}</span>
+                <span className="align-middle fs-8 text-muted">{formattedDate}</span>
             </div>
         </div>
     );

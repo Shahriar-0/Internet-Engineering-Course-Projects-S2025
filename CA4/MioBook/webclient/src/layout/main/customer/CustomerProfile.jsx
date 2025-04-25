@@ -81,44 +81,44 @@ const CustomerProfile = () => {
     }
 
     return (
-        <main class="d-flex flex-column align-items-center">
-            <section class="container row mb-5">
-                <div class="col-12 col-sm-6 col-xl-8 mb-4 mb-sm-0">
-                    <div class="shadow rounded-3 p-3 h-100 d-flex flex-column justify-content-between">
-                        <p class="fw-bold fs-3">${user?.balance}</p>
-                        <div class="d-flex flex-wrap">
-                            <label for="credit-amount" class="visually-hidden">Credit Amount</label>
-                            <input class="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount"
-                                   type="number" placeholder="$Amount"
-                                   value={amountInput} onChange={(e) => setAmountInput(e.target.value)}/>
-                            <button onClick={handleAddCreditClick} class="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
+        <main className="d-flex flex-column align-items-center">
+            <section className="container row mb-5">
+                <div className="col-12 col-sm-6 col-xl-8 mb-4 mb-sm-0">
+                    <div className="shadow rounded-3 p-3 h-100 d-flex flex-column justify-content-between">
+                        <p className="fw-bold fs-3">${user?.balance}</p>
+                        <div className="d-flex flex-wrap">
+                            <label htmlFor="credit-amount" className="visually-hidden">Credit Amount</label>
+                            <input className="form-control w-100 w-md-50 w-xl-75 mb-2 mb-md-0 credit-input" id="credit-amount"
+                                type="number" placeholder="$Amount"
+                                value={amountInput} onChange={(e) => setAmountInput(e.target.value)} />
+                            <button onClick={handleAddCreditClick} className="btn w-100 w-md-auto ms-auto green-btn">Add more credit</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-xl-4">
-                    <div class="shadow rounded-3 p-3 h-100 d-flex flex-column justify-content-between">
-                        <p class="text-nowrap overflow-auto">
+                <div className="col-12 col-sm-6 col-xl-4">
+                    <div className="shadow rounded-3 p-3 h-100 d-flex flex-column justify-content-between">
+                        <p className="text-nowrap overflow-auto">
                             <img src={ProfileIcon} alt="user-icon" /> {user?.username}
                         </p>
-                        <p class="text-nowrap overflow-auto">
+                        <p className="text-nowrap overflow-auto">
                             <img src={UserEmailIcon} alt="user-icon" /> {user?.email}
                         </p>
                         <div>
-                            <button onClick={onLogout} class="btn btn-sm bg-gray border-0 px-4 bg-gray">logout</button>
+                            <button onClick={onLogout} className="btn btn-sm bg-gray border-0 px-4 bg-gray">logout</button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section class="container row mb-5">
-                <div class="col-12">
-                    <div class="shadow rounded-3 p-3">
-                        <p class="fw-bold fs-3 d-flex align-items-center">
+            <section className="container row mb-5">
+                <div className="col-12">
+                    <div className="shadow rounded-3 p-3">
+                        <p className="fw-bold fs-3 d-flex align-items-center">
                             <img className="me-2" src={MyBooks} alt="buy-basket" />
                             MyBooks
                         </p>
-                        <div class="text-center">
+                        <div className="text-center">
                             {books && books.length > 0 ? (
                                 <BookList bookList={books} action={readAction} actionName={"Read"} />
                             ) : (

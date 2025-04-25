@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import UrlService from "services/UrlService";
 
-
 const SignUp = () => {
     return (
         <main className="container d-flex justify-content-center align-items-center text-center p-4">

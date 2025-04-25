@@ -19,8 +19,8 @@ export const getInitFormState = () => {
 }
 
 export const canSubmit = (formState) => {
-    return formState.username.value && formState.password.value
-        && formState.email.value && formState.country && formState.city;
+    return formState.username.value && formState.password.value &&
+           formState.email.value && formState.country && formState.city;
 }
 
 export const hasAnyError = (formState) => {
@@ -63,27 +63,23 @@ export const clearError = (formState) => {
     return state;
 }
 
-
 const validateUsername = (username) => {
     const usernameRegex = /^[a-zA-Z0-9_-]+$/;
-    if (!usernameRegex.test(username)) {
+    if (!usernameRegex.test(username))
         return "Username must contain only letters, numbers, underscores, hyphens, or underscores.";
-    }
     return '';
 }
 
 const validatePassword = (password) => {
     const minLength = 4;
-    if (password.length < minLength) {
+    if (password.length < minLength)
         return "Password must be at least " + minLength + " characters long.";
-    }
     return '';
 }
 
 const validateEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email))
         return "Invalid email format.";
-    }
     return '';
 }

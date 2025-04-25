@@ -1,11 +1,11 @@
 ﻿import Accordion from "library/accordion/Accordion";
 import AccordionItem from "library/accordion/AccordionItem";
 import HistoryIcon from "assets/icons/purchased-history-icon.svg";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
-import {useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import BookList from "common/user/BookList";
 
 const PurchasedHistory = () => {
@@ -50,7 +50,7 @@ const PurchasedHistory = () => {
                 <Accordion className="rounded border bg-custom-white">
                     {purchasedList.map((purchase) => (
                         <AccordionItem headerText={`${formatDateTime(purchase.datePurchased)} | $${purchase.totalCost}`} headerClassName="bg-gray"
-                                       activeHeaderClassName="bg-khaki text-green rounded-top" className="border rounded-top"
+                            activeHeaderClassName="bg-khaki text-green rounded-top" className="border rounded-top"
                         >
                             <div className="p-3 pb-0">
                                 <BookList bookList={purchase.books} />
