@@ -1,0 +1,3278 @@
+{
+	"info": {
+		"_postman_id": "e9dee72d-54cc-4272-8a91-f40e5241ecb8",
+		"name": "e2e test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38187593",
+		"_collection_link": "https://blue-station-566561.postman.co/workspace/IE~1c4dc48c-134b-4309-af53-c3f557a9706f/collection/38187593-e9dee72d-54cc-4272-8a91-f40e5241ecb8?action=share&source=collection_link&creator=38187593"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "customer user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"customer\",\r\n    \"username\":\"customerTest1\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"customerTest1@test.com\",\r\n    \"address\":{\r\n        \"country\":\"Iran\",\r\n        \"city\":\"Tehran\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"admin\",\r\n    \"username\":\"adminTest1\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"adminTest1@test.com\",\r\n    \"address\":{\r\n        \"country\":\"Iran\",\r\n        \"city\":\"Tehran\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customer user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualCustomer =  pm.response.json().data;\r",
+									"    const expectedCustomer = {\r",
+									"        username: \"customerTest1\",\r",
+									"        role: \"customer\",\r",
+									"        email: \"customerTest1@test.com\",\r",
+									"        address: {\r",
+									"            country: \"Iran\",\r",
+									"            city: \"Tehran\"\r",
+									"        },\r",
+									"        balance: 0\r",
+									"    }\r",
+									"    pm.expect(actualCustomer).to.deep.equal(expectedCustomer);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/users/customerTest1",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users",
+								"customerTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualAdmin =  pm.response.json().data;\r",
+									"    const expectedAdmin = {\r",
+									"        username: \"adminTest1\",\r",
+									"        role: \"admin\",\r",
+									"        email: \"adminTest1@test.com\",\r",
+									"        address: {\r",
+									"            country: \"Iran\",\r",
+									"            city: \"Tehran\"\r",
+									"        },\r",
+									"    }\r",
+									"    pm.expect(actualAdmin).to.deep.equal(expectedAdmin);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/users/adminTest1",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users",
+								"adminTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/users/randomUsernameThatNotExists",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users",
+								"randomUsernameThatNotExists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "null body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "null fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"password\", \"address\", \"role\", \"email\", \"username\")\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"password\", \"address.city\", \"address.country\", \"role\", \"email\", \"username\")\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"role\",\r\n    \"username\":\"shahnam feyzian\",\r\n    \"password\": \"12\",\r\n    \"email\":\"email\",\r\n    \"address\":{}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "username already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"User with username 'customerTest1' already exists!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"customer\",\r\n    \"username\":\"customerTest1\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"test@test.com\",\r\n    \"address\":{\r\n        \"country\":\"Iran\",\r\n        \"city\":\"Tehran\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "email already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"User with email 'adminTest1@test.com' already exists!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"customer\",\r\n    \"username\":\"adminTest2\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"adminTest1@test.com\",\r\n    \"address\":{\r\n        \"country\":\"Iran\",\r\n        \"city\":\"Tehran\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/users",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "login with username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"1234\",\r\n    \"username\":\"customerTest1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "try login twice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Some one logged in\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"1234\",\r\n    \"username\":\"customerTest1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/auth/logout",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "try logout twice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"No one logged in\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/auth/logout",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"1234\",\r\n    \"email\":\"adminTest1@test.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/auth/logout",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "null fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"password\", \"bothEmailAndUsernameBlank\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user does not exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Username/Email or Password is not correct\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"password\",\r\n    \"username\":\"usernameThatDoesNotExist\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "wrong password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Username/Email or Password is not correct\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"12345\",\r\n    \"username\":\"customerTest1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "null fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"name\", \"penName\", \"nationality\", \"born\", \"yearRangeConsistent\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/authors",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"born\", \"died\", \"yearRangeConsistent\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"authorTest1\",\r\n    \"penName\":\"big author1\",\r\n    \"nationality\":\"Persion\",\r\n    \"born\":\"salam\",\r\n    \"died\":\"201-04-08\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/authors",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "no one login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"authorTest1\",\r\n    \"penName\":\"big author1\",\r\n    \"nationality\":\"Persion\",\r\n    \"born\":\"1990-02-09\",\r\n    \"died\":\"2011-04-08\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/authors",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"1234\",\r\n    \"username\":\"customerTest1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "without permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"authorTest1\",\r\n    \"penName\":\"big author1\",\r\n    \"nationality\":\"Persion\",\r\n    \"born\":\"1990-02-09\",\r\n    \"died\":\"2011-04-08\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/authors",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/auth/logout",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"1234\",\r\n    \"email\":\"adminTest1@test.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"authorTest1\",\r\n    \"penName\":\"big author1\",\r\n    \"nationality\":\"Persion\",\r\n    \"born\":\"1990-02-09\",\r\n    \"died\":\"2011-04-08\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/authors",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add with same name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", () => {\r",
+									"    pm.response.to.have.status(409);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Entity with type of 'Author' and key value of 'authorTest1' already exists!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"authorTest1\",\r\n    \"penName\":\"big author1\",\r\n    \"nationality\":\"Persion\",\r\n    \"born\":\"1990-02-09\",\r\n    \"died\":\"2011-04-08\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/authors",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/auth/logout",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "author not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/authors/authorThatDoesNotExist",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors",
+								"authorThatDoesNotExist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualAdmin =  pm.response.json().data;\r",
+									"    const expectedAdmin = {\r",
+									"        name: \"authorTest1\",\r",
+									"        penName: \"big author1\",\r",
+									"        nationality: \"Persion\",\r",
+									"        born: \"1990-02-09\",\r",
+									"        died: \"2011-04-08\"\r",
+									"    };\r",
+									"    pm.expect(actualAdmin).to.deep.equal(expectedAdmin);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/authors/authorTest1",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"authors",
+								"authorTest1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "unauthorized add book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\":\"authorTest1\",\r\n    \"title\":\"bookTest1\",\r\n    \"publisher\":\"publisher\",\r\n    \"year\": 1999,\r\n    \"price\": 20000,\r\n    \"synopsis\": \"synopsis\",\r\n    \"content\": \"lorem\",\r\n    \"genres\":[\"academic\", \"engineering\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unauthorized get book content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/bookTest1/content",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"bookTest1",
+								"content"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unauthorized add review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\":3,\r\n    \"comment\":\"comment\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books/bookTest1/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"bookTest1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"admin1\",\r\n    \"username\":\"admin1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book null field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"year\", \"genres\", \"price\", \"author\", \"publisher\", \"synopsis\", \"title\", \"content\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book bad field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"year\", \"genres[0]\", \"price\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\":\"authorTest1\",\r\n    \"title\":\"bookTest1\",\r\n    \"publisher\":\"publisher\",\r\n    \"year\": 0,\r\n    \"price\": -1,\r\n    \"synopsis\": \"synopsis\",\r\n    \"content\": \"lorem\",\r\n    \"genres\":[\"\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\":\"Robert Brown\",\r\n    \"title\":\"bookTest1\",\r\n    \"publisher\":\"publisher\",\r\n    \"year\": 1999,\r\n    \"price\": 20000,\r\n    \"synopsis\": \"synopsis\",\r\n    \"content\": \"lorem\",\r\n    \"genres\":[\"academic\", \"engineering\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book with same title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Book with title 'bookTest1' already exists!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\":\"Robert Brown\",\r\n    \"title\":\"bookTest1\",\r\n    \"publisher\":\"publisher\",\r\n    \"year\": 1999,\r\n    \"price\": 20000,\r\n    \"synopsis\": \"synopsis\",\r\n    \"content\": \"lorem\",\r\n    \"genres\":[\"academic\", \"engineering\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book author not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Author with username 'Robert Browney' does not exist!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\":\"Robert Browney\",\r\n    \"title\":\"bookTest2\",\r\n    \"publisher\":\"publisher\",\r\n    \"year\": 1999,\r\n    \"price\": 20000,\r\n    \"synopsis\": \"synopsis\",\r\n    \"content\": \"lorem\",\r\n    \"genres\":[\"academic\", \"engineering\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book that does not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/bookThatDoesNotExists",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"bookThatDoesNotExists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualBook =  pm.response.json().data;\r",
+									"    const expectedBook = {\r",
+									"        \"title\": \"bookTest1\",\r",
+									"        \"author\": \"Robert Brown\",\r",
+									"        \"publisher\": \"publisher\",\r",
+									"        \"genres\": [\r",
+									"            \"academic\",\r",
+									"            \"engineering\"\r",
+									"        ],\r",
+									"        \"year\": 1999,\r",
+									"        \"price\": 20000,\r",
+									"        \"synopsis\": \"synopsis\",\r",
+									"        \"averageRating\": 0.0\r",
+									"    };\r",
+									"    pm.expect(actualBook).to.deep.equal(expectedBook);\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/bookTest1",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"bookTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book content with admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/bookTest1/content",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"bookTest1",
+								"content"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book review book not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/DoesNotExist/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"DoesNotExist",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book reviews",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualReview =  pm.response.json().data;\r",
+									"    const expectedReview = {\r",
+									"        \"list\": [\r",
+									"            {\r",
+									"                \"rating\": 1,\r",
+									"                \"comment\": \"It had some scary moments, but I expected more from the horror aspect.\",\r",
+									"                \"customer\": \"user2\",\r",
+									"                \"date\": actualReview.list[0].date\r",
+									"            }\r",
+									"        ],\r",
+									"        \"pageNumber\": 1,\r",
+									"        \"pageSize\": 5,\r",
+									"        \"totalPageNumber\": 1,\r",
+									"        \"totalDataSize\": 1\r",
+									"    };\r",
+									"    pm.expect(actualReview).to.deep.equal(expectedReview);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book with filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualReview =  pm.response.json().data;\r",
+									"    const expectedReview = {\r",
+									"        \"list\": [\r",
+									"            {\r",
+									"                \"title\": \"Nightfall\",\r",
+									"                \"author\": \"John Doe\",\r",
+									"                \"publisher\": \"Mystic Press\",\r",
+									"                \"genres\": [\r",
+									"                    \"horror\",\r",
+									"                    \"supernatural\"\r",
+									"                ],\r",
+									"                \"year\": 2021,\r",
+									"                \"price\": 290,\r",
+									"                \"synopsis\": \"A supernatural horror novel set in a cursed town.\",\r",
+									"                \"averageRating\": 1.0\r",
+									"            }\r",
+									"        ],\r",
+									"        \"pageNumber\": 1,\r",
+									"        \"pageSize\": 20,\r",
+									"        \"totalPageNumber\": 1,\r",
+									"        \"totalDataSize\": 1\r",
+									"    };\r",
+									"    pm.expect(actualReview).to.deep.equal(expectedReview);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books?title=ll",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "ll"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add review with admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\":3,\r\n    \"comment\":\"nice one\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/auth/logout",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"user1_pass\",\r\n    \"username\":\"user1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/auth/login",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book with customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\":\"Robert Brown\",\r\n    \"title\":\"bookTest1\",\r\n    \"publisher\":\"publisher\",\r\n    \"year\": 1999,\r\n    \"price\": 20000,\r\n    \"synopsis\": \"synopsis\",\r\n    \"content\": \"lorem\",\r\n    \"genres\":[\"academic\", \"engineering\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book content but do not have that book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Book 'Nightfall' is not accessible!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/content",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"content"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "increase credit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":1200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/credit",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add book to cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Nightfall\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "purchase book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/purchase",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get book content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualReview =  pm.response.json().data;\r",
+									"    const expectedReview = {\r",
+									"        \"content\": \"As darkness falls, the town’s forgotten spirits begin to stir. One resident holds the key to breaking the cycle of terror.\",\r",
+									"        \"title\": \"Nightfall\"\r",
+									"    };\r",
+									"    pm.expect(actualReview).to.deep.equal(expectedReview);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/content",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"content"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\":4,\r\n    \"comment\":\"nice one\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add review null field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"rating\", \"comment\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add review bad fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"rating\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\":12,\r\n    \"comment\":\"comment\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/books/Nightfall/reviews",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"books",
+								"Nightfall",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "add to cart - book does not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Book with title 'book that does not exist' does not exist!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"book that does not exist\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add to cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"bookTest1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add to cart - same book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Can't add to the cart because: Book with title 'bookTest1' is already in cart!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"bookTest1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add to cart - bought book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Can't add to the cart because: Book with title 'Nightfall' has already been bought!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Nightfall\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualData =  pm.response.json().data;\r",
+									"    const expectedData = {\r",
+									"        \"username\": \"user1\",\r",
+									"        \"totalCost\": 20000,\r",
+									"        \"items\": [\r",
+									"            {\r",
+									"                \"title\": \"bookTest1\",\r",
+									"                \"author\": \"Robert Brown\",\r",
+									"                \"publisher\": \"publisher\",\r",
+									"                \"genres\": [\r",
+									"                    \"academic\",\r",
+									"                    \"engineering\"\r",
+									"                ],\r",
+									"                \"year\": 1999,\r",
+									"                \"price\": 20000,\r",
+									"                \"isBorrowed\": false,\r",
+									"                \"finalPrice\": 20000\r",
+									"            }\r",
+									"        ]\r",
+									"    };\r",
+									"    pm.expect(actualData).to.deep.equal(expectedData);\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get purchase history",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualData =  pm.response.json().data;\r",
+									"    const expectedData = {\r",
+									"        \"books\": [\r",
+									"            {\r",
+									"                \"title\": \"Nightfall\",\r",
+									"                \"author\": \"John Doe\",\r",
+									"                \"publisher\": \"Mystic Press\",\r",
+									"                \"genres\": [\r",
+									"                    \"horror\",\r",
+									"                    \"supernatural\"\r",
+									"                ],\r",
+									"                \"year\": 2021,\r",
+									"                \"price\": 290,\r",
+									"                \"isBorrowed\": false,\r",
+									"                \"finalPrice\": 290\r",
+									"            }\r",
+									"        ]\r",
+									"    };\r",
+									"    pm.expect(actualData).to.deep.equal(expectedData);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart/bookTest1",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart",
+								"bookTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete cart that does not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Can't remove from the cart because: Book with title 'bookTest1' is not in cart!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/cart/bookTest1",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"cart",
+								"bookTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrow with null field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"title\", \"borrowedDays\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/borrow",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrow with bad fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Violated fields should exists in response data\", () => {\r",
+									"    const errorData = pm.response.json().data;\r",
+									"    pm.expect(errorData).to.have.keys(\"title\", \"borrowedDays\");\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"   \",\r\n    \"borrowedDays\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/borrow",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrow book does not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"doesNotExist\",\r\n    \"borrowedDays\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/borrow",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrow book that already buy it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Can't add to the cart because: Book with title 'Nightfall' has already been bought!\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Nightfall\",\r\n    \"borrowedDays\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/borrow",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"bookTest1\",\r\n    \"borrowedDays\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/borrow",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "purchase without money",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate error message\", () => {\r",
+									"    const actualMessage = pm.response.json().message;\r",
+									"    const expectedMessage = \"Can't purchase the cart because: Not enough credit! Required credit: 14000, Current credit: 910\";\r",
+									"    pm.expect(actualMessage).to.equal(expectedMessage);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/purchase",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "increase credit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":20000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_ie}}/profile/credit",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/purchase",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Validate response data\", () => {\r",
+									"    const actualData =  pm.response.json().data;\r",
+									"    const expectedData = {\r",
+									"        \"books\": [\r",
+									"            {\r",
+									"                \"title\": \"Nightfall\",\r",
+									"                \"author\": \"John Doe\",\r",
+									"                \"publisher\": \"Mystic Press\",\r",
+									"                \"genres\": [\r",
+									"                    \"horror\",\r",
+									"                    \"supernatural\"\r",
+									"                ],\r",
+									"                \"year\": 2021,\r",
+									"                \"price\": 290,\r",
+									"                \"isBorrowed\": false,\r",
+									"                \"finalPrice\": 290\r",
+									"            },\r",
+									"            {\r",
+									"                \"title\": \"bookTest1\",\r",
+									"                \"author\": \"Robert Brown\",\r",
+									"                \"publisher\": \"publisher\",\r",
+									"                \"genres\": [\r",
+									"                    \"academic\",\r",
+									"                    \"engineering\"\r",
+									"                ],\r",
+									"                \"year\": 1999,\r",
+									"                \"price\": 20000,\r",
+									"                \"isBorrowed\": true,\r",
+									"                \"borrowDays\": 7,\r",
+									"                \"finalPrice\": 14000\r",
+									"            }\r",
+									"        ]\r",
+									"    };\r",
+									"    pm.expect(actualData).to.deep.equal(expectedData);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_ie}}/profile/books",
+							"host": [
+								"{{base_url_ie}}"
+							],
+							"path": [
+								"profile",
+								"books"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
