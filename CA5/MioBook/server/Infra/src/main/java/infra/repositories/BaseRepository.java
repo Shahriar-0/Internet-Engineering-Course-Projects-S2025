@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements IBaseRepository<KT, T> {
+public abstract class BaseRepository<T extends DomainEntity> implements IBaseRepository<T> {
 
-	Map<KT, T> map = new HashMap<>();
+	Map<Long, T> map = new HashMap<>();
 
 	protected abstract Class<T> getEntityClassType();
 
@@ -19,15 +19,15 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 
 	@Override
 	public Result<T> add(T entity) {
-		if (map.containsKey(entity.getKey()))
-			return Result.failure(new EntityAlreadyExists(entity.getClass(), entity.getKey()));
+		if (map.containsKey(entity.getId()))
+			return Result.failure(new EntityAlreadyExists(entity.getClass(), entity.getId()));
 
-		map.put(entity.getKey(), entity);
+		map.put(entity.getId(), entity);
 		return Result.success(copyOf(entity));
 	}
 
 	@Override
-	public Result<T> remove(KT key) {
+	public Result<T> remove(Long key) {
 		T entity = map.remove(key);
 		if (entity == null)
 			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
@@ -37,15 +37,15 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 
 	@Override
 	public Result<T> update(T entity) {
-		if (!map.containsKey(entity.getKey()))
-			return Result.failure(new EntityDoesNotExist(entity.getClass(), entity.getKey()));
+		if (!map.containsKey(entity.getId()))
+			return Result.failure(new EntityDoesNotExist(entity.getClass(), entity.getId()));
 
-		map.put(entity.getKey(), entity);
+		map.put(entity.getId(), entity);
 		return Result.success(copyOf(entity));
 	}
 
 	@Override
-	public Result<T> find(KT key) {
+	public Result<T> find(Long key) {
 		T entity = map.get(key);
 		if (entity == null)
 			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
@@ -54,12 +54,12 @@ public abstract class BaseRepository<KT, T extends DomainEntity<KT>> implements 
 	}
 
 	@Override
-	public Boolean exists(KT key) {
+	public Boolean exists(Long key) {
 		return map.containsKey(key);
 	}
 
 	@Override
-	public Result<T> get(KT key) {
+	public Result<T> get(Long key) {
 		T entity = map.get(key);
 		if (entity == null)
 			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));

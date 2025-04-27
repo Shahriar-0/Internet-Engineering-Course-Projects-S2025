@@ -17,19 +17,15 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class Cart extends DomainEntity<String> {
+public class Cart extends DomainEntity {
 
 	public static final int MAXIMUM_BOOKS = 10;
 
 	private final Customer customer;
 	private final List<CartItem> items = new ArrayList<>();
 
-	public String getCustomerName() {
-		return key;
-	}
-
 	public Cart(Customer customer) {
-		super(customer.getKey());
+		super(customer.getId());
 		this.customer = customer;
 	}
 
@@ -37,7 +33,7 @@ public class Cart extends DomainEntity<String> {
 		List<DomainException> exceptions = new ArrayList<>();
 		if (items.size() >= MAXIMUM_BOOKS)
 			exceptions.add(new CartIsFull());
-		if (items.stream().anyMatch(b -> b.getBook().isKeyEqual(bookTitle)))
+		if (items.stream().anyMatch(b -> b.getBook().isTitleEqual(bookTitle)))
 			exceptions.add(new BookAlreadyInCart(bookTitle));
 		if (customer.hasAccess(bookTitle))
 			exceptions.add(new CustomerAlreadyHasAccess(bookTitle));
@@ -47,7 +43,7 @@ public class Cart extends DomainEntity<String> {
 
 	public List<DomainException> getRemoveBookErrors(String bookTitle) {
 		List<DomainException> exceptions = new ArrayList<>();
-		if (items.stream().noneMatch(b -> b.getBook().getTitle().equals(bookTitle)))
+		if (items.stream().noneMatch(b -> b.getBook().isTitleEqual(bookTitle)))
 			exceptions.add(new BookDoesNotExistInCart(bookTitle));
 
 		return exceptions;
@@ -55,17 +51,17 @@ public class Cart extends DomainEntity<String> {
 
 	public void addBook(Book book) {
 		assert getAddBookErrors(book.getTitle()).isEmpty();
-		items.add(CartItem.createPermanentItem(this, customer, book));
+		items.add(CartItem.createPermanentItem(this, book));
 	}
 
 	public void borrowBook(Book book, int borrowDays) {
 		assert getAddBookErrors(book.getTitle()).isEmpty();
-		items.add(CartItem.createBorrowingItem(this, customer, book, borrowDays));
+		items.add(CartItem.createBorrowingItem(this, book, borrowDays));
 	}
 
 	public void removeBook(Book book) {
 		assert getRemoveBookErrors(book.getTitle()).isEmpty();
-		items.removeIf(b -> b.getBook().isKeyEqual(book.getKey()));
+		items.removeIf(b -> b.getBook().equals(book));
 	}
 
 	public long getTotalCost() {

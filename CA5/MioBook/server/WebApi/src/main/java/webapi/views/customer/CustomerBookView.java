@@ -42,8 +42,8 @@ public record CustomerBookView(
 			item.getBook().getGenres(),
 			item.getBook().getPublishedYear(),
 			item.getBook().getBasePrice(),
-			item.isBorrow(),
-			item.isBorrow() ? item.getBorrowDays() : null,
+			item.isBorrowed(),
+			item.isBorrowed() ? item.getBorrowDays() : null,
 			null, // FIXME: this is technical debt
 			item.getPrice()
 		);

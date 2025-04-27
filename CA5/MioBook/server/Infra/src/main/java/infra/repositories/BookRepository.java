@@ -20,7 +20,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	protected Book copyOf(Book persistedEntity) {
 		return Book
 			.builder()
-			.key(persistedEntity.getTitle())
+			.id(persistedEntity.getTitle())
 			.author(persistedEntity.getAuthor())
 			.publisher(persistedEntity.getPublisher())
 			.publishedYear(persistedEntity.getPublishedYear())

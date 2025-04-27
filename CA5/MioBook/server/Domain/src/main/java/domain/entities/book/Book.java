@@ -14,12 +14,13 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class Book extends DomainEntity<String> {
+public class Book extends DomainEntity {
 
+    private String title;
 	private Author author;
 	private String publisher;
-	private int publishedYear;
-	private long basePrice; // in cents
+	private Integer publishedYear;
+	private Long basePrice; // in cents
 	private String synopsis;
 	private final List<String> genres;
 	private final BookContent content;
@@ -34,10 +35,6 @@ public class Book extends DomainEntity<String> {
 	@Builder.Default
 	private String coverLink = null;
 
-	public String getTitle() {
-		return super.getKey();
-	}
-
 	public Book(
 		String title,
 		Author author,
@@ -48,24 +45,32 @@ public class Book extends DomainEntity<String> {
 		List<String> genres,
 		String content
 	) {
-		super(title);
+		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
 		this.publishedYear = publishedYear;
 		this.basePrice = basePrice;
 		this.synopsis = synopsis;
 		this.genres = genres;
-		this.content = new BookContent(title, content, author.getName());
+		this.content = new BookContent(this, content);
 	}
 
 	public void addReview(Review review) {
-		assert review.getBook().isKeyEqual(key);
+		assert review.getBook().equals(this);
 
-		reviews.removeIf(r -> r.isKeyEqual(review.getKey())); // replace previous review of the same customer
+		reviews.removeIf(r -> r.equals(review));
 		reviews.add(review);
 	}
 
 	public float getAverageRating() {
-		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0)).setScale(1, RoundingMode.HALF_UP).floatValue();
+		return BigDecimal.valueOf(reviews.stream().mapToInt(Review::getRating).average().orElse(0))
+            .setScale(1, RoundingMode.HALF_UP).floatValue();
 	}
+
+    public boolean isTitleEqual(String title) {
+        if (this.title == null)
+            return false;
+
+        return this.title.equals(title);
+    }
 }

@@ -46,24 +46,16 @@ public class AddBook implements IUseCase {
 	}
 
 	private static Book mapToBook(AddBookData data, Author author) {
-		return Book
-			.builder()
-			.key(data.title)
-			.author(author)
-			.publisher(data.publisher)
-			.publishedYear(data.year)
-			.basePrice(data.price)
-			.synopsis(data.synopsis)
-			.genres(data.genres)
-			.content(
-				BookContent.builder()
-					.content(data.content)
-					.key(data.title)
-					.authorName(author.getName())
-                    .build()
-            )
-            .imageLink(data.imageLink)
-			.build();
+        return new Book(
+            data.title,
+            author,
+            data.publisher,
+            data.year,
+            data.price,
+            data.synopsis,
+            data.genres,
+            data.content
+        );
 	}
 
 	public record AddBookData(

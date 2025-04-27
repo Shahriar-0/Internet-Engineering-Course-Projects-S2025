@@ -5,15 +5,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Objects;
+
 @Getter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class DomainEntity<KT> {
+public abstract class DomainEntity {
 
-	protected KT key;
+	protected Long id;
 
-	public final Boolean isKeyEqual(KT otherKey) {
-		return key.equals(otherKey);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        DomainEntity other = (DomainEntity) obj;
+        return Objects.equals(id, other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

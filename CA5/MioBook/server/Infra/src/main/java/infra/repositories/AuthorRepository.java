@@ -14,7 +14,7 @@ public class AuthorRepository extends BaseRepository<String, Author> implements 
 	protected Author copyOf(Author persistedEntity) {
 		return Author
 			.builder()
-			.key(persistedEntity.getName())
+			.id(persistedEntity.getName())
 			.penName(persistedEntity.getPenName())
 			.nationality(persistedEntity.getNationality())
 			.born(persistedEntity.getBorn())

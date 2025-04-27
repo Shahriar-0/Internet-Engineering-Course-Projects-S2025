@@ -20,7 +20,7 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 		if (persistedEntity instanceof Customer)
 			return Customer
 				.builder()
-				.key(persistedEntity.getUsername())
+				.id(persistedEntity.getUsername())
 				.address(persistedEntity.getAddress())
 				.password(persistedEntity.getPassword())
 				.email(persistedEntity.getEmail())
@@ -30,7 +30,7 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 		else if (persistedEntity instanceof Admin)
 			return Admin
 				.builder()
-				.key(persistedEntity.getUsername())
+				.id(persistedEntity.getUsername())
 				.address(persistedEntity.getAddress())
 				.password(persistedEntity.getPassword())
 				.email(persistedEntity.getEmail())

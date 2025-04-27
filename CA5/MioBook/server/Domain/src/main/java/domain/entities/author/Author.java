@@ -11,26 +11,21 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class Author extends DomainEntity<String> {
+public class Author extends DomainEntity {
 
+    private String name;
 	private String penName;
 	private String nationality;
 	private LocalDate born;
-
-	@Builder.Default
-	private LocalDate died = null;
+	private LocalDate died;
 
 	@Builder.Default
 	private List<Book> books = new ArrayList<>();
 
-	public String getName() {
-		return super.getKey();
-	}
-
 	public static Author createAliveAuthor(String name, String penName, String nationality, LocalDate born) {
 		return Author
 			.builder()
-			.key(name)
+			.name(name)
 			.penName(penName)
 			.nationality(nationality)
 			.born(born)
@@ -40,7 +35,7 @@ public class Author extends DomainEntity<String> {
 	public static Author createDeadAuthor(String name, String penName, String nationality, LocalDate born, LocalDate died) {
 		return Author
 			.builder()
-			.key(name)
+			.name(name)
 			.penName(penName)
 			.nationality(nationality)
 			.born(born)
@@ -49,7 +44,7 @@ public class Author extends DomainEntity<String> {
 	}
 
 	public void addBook(Book book) {
-		assert book.getAuthor().getKey().equals(key);
+		assert book.getAuthor().getId().equals(id);
 		books.add(book);
 	}
 

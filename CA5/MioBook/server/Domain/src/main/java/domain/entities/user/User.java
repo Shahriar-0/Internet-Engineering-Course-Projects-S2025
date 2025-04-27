@@ -9,20 +9,17 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public abstract class User extends DomainEntity<String> {
+public abstract class User extends DomainEntity {
 
-	protected Address address;
+	protected String username;
+    protected Address address;
 	protected String password;
 	protected String email;
 	protected Role role;
-	
-	public String getUsername() {
-		return super.getKey();
-	}
 
 	public User(String username, String password, String email, Address address, Role role) {
-		super(username);
-		this.password = password;
+		this.username = username;
+        this.password = password;
 		this.email = email;
 		this.address = address;
 		this.role = role;

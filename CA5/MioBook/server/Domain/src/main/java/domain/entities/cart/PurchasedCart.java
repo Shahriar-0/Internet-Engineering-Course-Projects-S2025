@@ -10,36 +10,17 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class PurchasedCart extends DomainEntity<PurchasedCart.Key> {
+public class PurchasedCart extends DomainEntity {
 
 	private final Customer customer;
 	private final List<PurchasedCartItem> items = new ArrayList<>();
 	private final LocalDateTime purchaseDate;
-    private final long totalCost;
+    private final Long totalCost;
 
-    public Long getId() {
-		return key.id;
-	}
-
-    public String getCustomerName() {
-        return key.customerName;
-    }
-
-    public PurchasedCart(Cart cart, long id) {
-        super(new Key(cart.getCustomer().getUsername(), id));
-        this.customer = cart.getCustomer();
-        this.purchaseDate = LocalDateTime.now();
-        this.totalCost = cart.getTotalCost();
-        cart.getItems().forEach(item -> items.add(new PurchasedCartItem(item, id)));
-    }
-
-    public PurchasedCart(Cart cart, long id, LocalDateTime purchaseDate) {
-        super(new Key(cart.getCustomer().getUsername(), id));
+    public PurchasedCart(Cart cart, LocalDateTime purchaseDate) {
         this.customer = cart.getCustomer();
         this.purchaseDate = purchaseDate;
         this .totalCost = cart.getTotalCost();
-        cart.getItems().forEach(item -> items.add(new PurchasedCartItem(item, id)));
+        cart.getItems().forEach(item -> items.add(new PurchasedCartItem(item)));
     }
-
-	public record Key(String customerName, long id) {}
 }

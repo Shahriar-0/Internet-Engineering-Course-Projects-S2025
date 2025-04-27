@@ -9,7 +9,7 @@ import domain.entities.book.Review;
 
 import java.util.List;
 
-public interface IBookRepository extends IBaseRepository<String, Book> {
+public interface IBookRepository extends IBaseRepository<Book> {
 	Page<Book> filter(GetBook.BookFilter filter);
 	Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter);
     List<String> getGenres();

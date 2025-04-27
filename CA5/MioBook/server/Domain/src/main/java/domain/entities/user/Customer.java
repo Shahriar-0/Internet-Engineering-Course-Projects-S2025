@@ -23,7 +23,7 @@ import java.util.List;
 public class Customer extends User {
 	public static final int INITIAL_CREDIT_AMOUNT = 0;
 
-	private long credit;
+	private Long credit;
 	private Cart cart;
 	private final List<BookLicense> purchasedLicenses = new ArrayList<>();
 	private final List<PurchasedCart> purchaseHistory = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Customer extends User {
 	public Customer(String username, String password, String email, Address address) {
 		super(username, password, email, address, Role.CUSTOMER);
 		this.cart = new Cart(this);
-		this.credit = 0;
+		this.credit = 0L;
 	}
 
 	public List<BookLicense> getValidLicenses() {
@@ -64,7 +64,7 @@ public class Customer extends User {
         LocalDateTime purchaseDate = LocalDateTime.now();
         cart.getItems().forEach(item -> addCartItemToLicenses(item, purchaseDate));
 		credit -= cart.getTotalCost();
-		PurchasedCart purchasedCart = new PurchasedCart(cart, purchaseHistory.size() + 1, purchaseDate);
+		PurchasedCart purchasedCart = new PurchasedCart(cart, purchaseDate);
 		purchaseHistory.add(purchasedCart);
 		cart = new Cart(this);
 		return purchasedCart;
@@ -73,7 +73,7 @@ public class Customer extends User {
     private void addCartItemToLicenses(CartItem item, LocalDateTime purchaseDate) {
         BookLicense license;
 
-        if (item.isBorrow())
+        if (item.isBorrowed())
             license = new TemporaryBookLicense(
                 this,
                 item.getBook(),
@@ -93,11 +93,13 @@ public class Customer extends User {
     }
 
 	private void updateLicense(BookLicense license) {
-		purchasedLicenses.removeIf(l -> l.isKeyEqual(license.getKey()));
+		purchasedLicenses.removeIf(l -> l.equals(license));
 		purchasedLicenses.add(license);
 	}
 
 	public Boolean hasAccess(String bookTitle) {
-		return purchasedLicenses.stream().anyMatch(b -> b.getBook().isKeyEqual(bookTitle) && b.isValid());
+		return purchasedLicenses.stream().anyMatch(
+            b -> b.getBook().isTitleEqual(bookTitle) && b.isValid()
+        );
 	}
 }

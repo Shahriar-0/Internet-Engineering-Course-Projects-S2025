@@ -15,7 +15,7 @@ public class TemporaryBookLicense extends BookLicense {
 	public static final int MIN_VALIDITY_DAYS = 1;
 	public static final int MAX_VALIDITY_DAYS = 10;
 
-	private int validityDays;
+	private Integer validityDays;
 
 	public TemporaryBookLicense(Customer customer, Book book, long price, LocalDateTime purchaseDate, int validityDays) {
 		super(customer, book, price, purchaseDate);
