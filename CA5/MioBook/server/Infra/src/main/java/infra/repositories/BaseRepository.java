@@ -11,7 +11,9 @@ import java.util.Map;
 
 public abstract class BaseRepository<T extends DomainEntity> implements IBaseRepository<T> {
 
-	Map<Long, T> map = new HashMap<>();
+    private int nextId = 1;
+
+    Map<Long, T> map = new HashMap<>();
 
 	protected abstract Class<T> getEntityClassType();
 
@@ -22,7 +24,7 @@ public abstract class BaseRepository<T extends DomainEntity> implements IBaseRep
 		if (map.containsKey(entity.getId()))
 			return Result.failure(new EntityAlreadyExists(entity.getClass(), entity.getId()));
 
-		map.put(entity.getId(), entity);
+		map.put(getNextId(entity.getId()), entity);
 		return Result.success(copyOf(entity));
 	}
 
@@ -71,4 +73,8 @@ public abstract class BaseRepository<T extends DomainEntity> implements IBaseRep
 	public Result<List<T>> getAll() {
 		return Result.success(map.values().stream().map(this::copyOf).toList());
 	}
+
+    private Long getNextId(Long entityId) {
+        return entityId == null ? nextId++ : entityId;
+    }
 }
