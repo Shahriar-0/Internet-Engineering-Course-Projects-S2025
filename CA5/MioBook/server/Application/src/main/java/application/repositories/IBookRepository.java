@@ -8,11 +8,10 @@ import domain.entities.book.Book;
 import domain.entities.book.Review;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IBookRepository extends IBaseRepository<Book> {
 	Page<Book> filter(GetBook.BookFilter filter);
 	Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter);
     List<String> getGenres();
-    Optional<Book> findByTitle(String title);
+    Result<Book> findByTitle(String title);
 }

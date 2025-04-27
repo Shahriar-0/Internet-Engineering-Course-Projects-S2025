@@ -28,7 +28,7 @@ public class AddCart implements IUseCase {
 		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
-		Result<Book> bookResult = bookRepository.get(data.title);
+		Result<Book> bookResult = bookRepository.findByTitle(data.title);
 		if (bookResult.isFailure())
 			return Result.failure(new BookDoesntExist(data.title));
 		Book book = bookResult.data();

@@ -70,7 +70,7 @@ public class DataInitializer implements ApplicationRunner {
 
 			for (JsonNode node : objectMapper.readTree(jsonResponse)) {
 				String username = node.get("username").asText();
-				Result<User> userResult = userRepository.get(username);
+				Result<User> userResult = userRepository.findByUsername(username);
 				if (userResult.isFailure())
 					throw userResult.exception();
 				String name = node.get("name").asText();
@@ -103,7 +103,7 @@ public class DataInitializer implements ApplicationRunner {
 
 			for (JsonNode node : objectMapper.readTree(jsonResponse)) {
 				String username = node.get("username").asText();
-				Result<User> userResult = userRepository.get(username);
+				Result<User> userResult = userRepository.findByUsername(username);
 				if (userResult.isFailure())
 					throw userResult.exception();
 				String authorName = node.get("author").asText();
@@ -140,7 +140,7 @@ public class DataInitializer implements ApplicationRunner {
 
 			for (JsonNode node : objectMapper.readTree(jsonResponse)) {
 				String username = node.get("username").asText();
-				Result<User> userResult = userRepository.get(username);
+				Result<User> userResult = userRepository.findByUsername(username);
 				if (userResult.isFailure())
 					throw userResult.exception();
 				String title = node.get("title").asText();

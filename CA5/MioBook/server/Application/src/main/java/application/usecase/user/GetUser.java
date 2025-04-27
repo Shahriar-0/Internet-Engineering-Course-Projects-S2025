@@ -22,7 +22,7 @@ public class GetUser implements IUseCase {
 	public Result<User> perform(String username) {
 		assert username != null && !username.isBlank() : "we rely on presentation layer validation for field username";
 
-		return userRepository.find(username);
+		return userRepository.findByUsername(username);
 	}
 
 	public Result<List<User>> perform(UserFilter filter) {

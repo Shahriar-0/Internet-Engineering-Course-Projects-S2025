@@ -1,6 +1,8 @@
 package infra.repositories;
 
+import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IUserRepository;
+import application.result.Result;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
@@ -53,4 +55,24 @@ public class UserRepository extends BaseRepository<User> implements IUserReposit
 
 		return Optional.of(userList.getFirst());
 	}
+
+    @Override
+    public Boolean doesUsernameExist(String username) {
+        for (User user : map.values()) {
+            if (username.equals(user.getUsername()))
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Result<User> findByUsername(String username) {
+        for (User user : map.values()) {
+            if (username.equals(user.getUsername()))
+                return Result.success(user);
+        }
+
+        return Result.failure(new EntityDoesNotExist(getEntityClassType(), username));
+    }
 }

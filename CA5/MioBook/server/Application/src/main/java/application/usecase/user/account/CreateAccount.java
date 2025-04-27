@@ -26,7 +26,7 @@ public class CreateAccount implements IUseCase {
 	}
 
 	public Result<User> perform(AddUserData data) {
-		if (userRepository.exists(data.username))
+		if (userRepository.doesUsernameExist(data.username))
 			return Result.failure(new UsernameAlreadyExists(data.username));
 
 		if (userRepository.doesEmailExist(data.email))

@@ -15,7 +15,7 @@ public record BookReviewsView(
         this(
             review.getRating(),
             review.getComment(),
-            review.getCustomerName(),
+            review.getCustomer().getUsername(),
             review.getDateTime()
         );
     }

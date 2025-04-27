@@ -11,7 +11,7 @@ public record CartView(
 ) {
     public CartView(Cart cart) {
         this(
-            cart.getCustomerName(),
+            cart.getCustomer().getUsername(),
             cart.getTotalCost(),
             cart.getItems().stream().map(CustomerBookView::new).toList()
         );

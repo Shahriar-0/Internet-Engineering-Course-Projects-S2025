@@ -78,11 +78,11 @@ public class BookRepository extends BaseRepository<Book> implements IBookReposit
 
 	@Override
 	public Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter) {
-		Optional<Book> bookResult = findByTitle(title);
-		if (bookResult.isEmpty())
-			return Result.failure(new EntityDoesNotExist(getEntityClassType(), title));
+		Result<Book> bookResult = findByTitle(title);
+		if (bookResult.isFailure())
+			return Result.failure(bookResult.exception());
 
-		Page<Review> page = new Page<>(bookResult.get().getReviews(), filter.pageNumber(), filter.pageSize());
+		Page<Review> page = new Page<>(bookResult.data().getReviews(), filter.pageNumber(), filter.pageSize());
 		return Result.success(page);
 	}
 
@@ -97,13 +97,13 @@ public class BookRepository extends BaseRepository<Book> implements IBookReposit
 		return genresSet.stream().toList();
 	}
 
-    public Optional<Book> findByTitle(String title) {
+    public Result<Book> findByTitle(String title) {
         for (Book book : map.values()) {
             if (title.equals(book.getTitle()))
-                return Optional.of(book);
+                return Result.success(book);
         }
 
-        return Optional.empty();
+        return Result.failure(new EntityDoesNotExist(getEntityClassType(), title));
     }
 
 	private static List<Book> filterTitle(List<Book> books, String title) {

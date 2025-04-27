@@ -1,6 +1,8 @@
 package infra.repositories;
 
+import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IAuthorRepository;
+import application.result.Result;
 import domain.entities.author.Author;
 
 import java.util.Optional;
@@ -26,12 +28,12 @@ public class AuthorRepository extends BaseRepository<Author> implements IAuthorR
 	}
 
     @Override
-    public Optional<Author> findByName(String name) {
+    public Result<Author> findByName(String name) {
         for (Author author : map.values()) {
             if (name.equals(author.getName()))
-                return Optional.of(author);
+                return Result.success(author);
         }
 
-        return Optional.empty();
+        return Result.failure(new EntityDoesNotExist(getEntityClassType(), name));
     }
 }

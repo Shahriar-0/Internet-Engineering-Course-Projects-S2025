@@ -35,7 +35,7 @@ public class Login implements IUseCase {
 	}
 
 	private Result<User> loginByUsername(String username, String password) {
-		Result<User> userResult = userRepository.get(username);
+		Result<User> userResult = userRepository.findByUsername(username);
 		if (userResult.isFailure())
 			return Result.failure(UserNotFound.usernameNotFound(username));
 

@@ -35,9 +35,9 @@ public class AddBook implements IUseCase {
 	public Result<Book> perform(AddBookData data, User user) {
 		assert Role.ADMIN.equals(user.getRole()) : "we rely on presentation layer access control";
 
-		Optional<Author> authorResult = authorRepository.findByName(data.author);
-		if (authorResult.isEmpty()) return Result.failure(new AuthorDoesNotExists(data.author));
-		Author author = authorResult.get();
+		Result<Author> authorResult = authorRepository.findByName(data.author);
+		if (authorResult.isFailure()) return Result.failure(new AuthorDoesNotExists(data.author));
+		Author author = authorResult.data();
 
 		Book book = mapToBook(data, author);
 		Result<Book> bookResult = bookRepository.add(book);

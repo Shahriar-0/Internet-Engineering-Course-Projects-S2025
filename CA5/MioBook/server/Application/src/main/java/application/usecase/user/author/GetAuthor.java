@@ -22,7 +22,7 @@ public class GetAuthor implements IUseCase {
 	public Result<Author> perform(String name) {
 		assert name != null && !name.isBlank() : "we rely on presentation layer validation for field 'name'";
 
-		return authorRepository.find(name);
+		return authorRepository.findByName(name);
 	}
 
 	public Result<List<Author>> perform() {

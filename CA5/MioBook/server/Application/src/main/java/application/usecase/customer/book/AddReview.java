@@ -33,7 +33,7 @@ public class AddReview implements IUseCase {
         assert user instanceof Customer: "we rely on presentation layer access control";
         Customer customer = (Customer) user;
 
-        Result<Book> bookResult = bookRepository.get(title);
+        Result<Book> bookResult = bookRepository.findByTitle(title);
         if (bookResult.isFailure())
             return Result.failure(bookResult.exception());
         Book book = bookResult.data();
