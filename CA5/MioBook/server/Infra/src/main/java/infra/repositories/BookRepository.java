@@ -1,5 +1,6 @@
 package infra.repositories;
 
+import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.pagination.Page;
 import application.repositories.IBookRepository;
 import application.result.Result;
@@ -9,7 +10,7 @@ import domain.entities.book.Book;
 import domain.entities.book.Review;
 import java.util.*;
 
-public class BookRepository extends BaseRepository<String, Book> implements IBookRepository {
+public class BookRepository extends BaseRepository<Book> implements IBookRepository {
 
 	@Override
 	protected Class<Book> getEntityClassType() {
@@ -20,7 +21,7 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 	protected Book copyOf(Book persistedEntity) {
 		return Book
 			.builder()
-			.id(persistedEntity.getTitle())
+			.title(persistedEntity.getTitle())
 			.author(persistedEntity.getAuthor())
 			.publisher(persistedEntity.getPublisher())
 			.publishedYear(persistedEntity.getPublishedYear())
@@ -77,11 +78,11 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 	@Override
 	public Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter) {
-		Result<Book> bookResult = get(title);
-		if (bookResult.isFailure())
-			return Result.failure(bookResult.exception());
+		Optional<Book> bookResult = findByTitle(title);
+		if (bookResult.isEmpty())
+			return Result.failure(new EntityDoesNotExist(getEntityClassType(), title));
 
-		Page<Review> page = new Page<>(bookResult.data().getReviews(), filter.pageNumber(), filter.pageSize());
+		Page<Review> page = new Page<>(bookResult.get().getReviews(), filter.pageNumber(), filter.pageSize());
 		return Result.success(page);
 	}
 
@@ -95,6 +96,15 @@ public class BookRepository extends BaseRepository<String, Book> implements IBoo
 
 		return genresSet.stream().toList();
 	}
+
+    public Optional<Book> findByTitle(String title) {
+        for (Book book : map.values()) {
+            if (title.equals(book.getTitle()))
+                return Optional.of(book);
+        }
+
+        return Optional.empty();
+    }
 
 	private static List<Book> filterTitle(List<Book> books, String title) {
 		return books.stream().filter(book -> book.getTitle().contains(title)).toList();

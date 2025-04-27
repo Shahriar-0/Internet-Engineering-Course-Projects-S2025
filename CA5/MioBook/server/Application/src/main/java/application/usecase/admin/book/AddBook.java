@@ -17,6 +17,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -33,9 +35,9 @@ public class AddBook implements IUseCase {
 	public Result<Book> perform(AddBookData data, User user) {
 		assert Role.ADMIN.equals(user.getRole()) : "we rely on presentation layer access control";
 
-		Result<Author> authorResult = authorRepository.get(data.author);
-		if (authorResult.isFailure()) return Result.failure(new AuthorDoesNotExists(data.author));
-		Author author = authorResult.data();
+		Optional<Author> authorResult = authorRepository.findByName(data.author);
+		if (authorResult.isEmpty()) return Result.failure(new AuthorDoesNotExists(data.author));
+		Author author = authorResult.get();
 
 		Book book = mapToBook(data, author);
 		Result<Book> bookResult = bookRepository.add(book);

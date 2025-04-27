@@ -8,7 +8,7 @@ import domain.entities.user.User;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepository extends BaseRepository<String, User> implements IUserRepository {
+public class UserRepository extends BaseRepository<User> implements IUserRepository {
 
 	@Override
 	protected Class<User> getEntityClassType() {
@@ -20,7 +20,7 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 		if (persistedEntity instanceof Customer)
 			return Customer
 				.builder()
-				.id(persistedEntity.getUsername())
+				.username(persistedEntity.getUsername())
 				.address(persistedEntity.getAddress())
 				.password(persistedEntity.getPassword())
 				.email(persistedEntity.getEmail())
@@ -30,7 +30,7 @@ public class UserRepository extends BaseRepository<String, User> implements IUse
 		else if (persistedEntity instanceof Admin)
 			return Admin
 				.builder()
-				.id(persistedEntity.getUsername())
+				.username(persistedEntity.getUsername())
 				.address(persistedEntity.getAddress())
 				.password(persistedEntity.getPassword())
 				.email(persistedEntity.getEmail())
