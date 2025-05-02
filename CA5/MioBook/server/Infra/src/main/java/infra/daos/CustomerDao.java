@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "customer")
@@ -35,9 +37,10 @@ public class CustomerDao {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private WalletDao wallet;
 
-    //TODO: Add CartDao
+    @OneToMany(mappedBy = "customer")
+    private List<BookLicenseDao> bookLicenses;
 
-    //TODO: Add LicenseDao
+    //TODO: Add CartDao
 
     //TODO: Add PurchasedCartDao
 }
