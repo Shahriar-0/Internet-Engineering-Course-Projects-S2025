@@ -40,7 +40,9 @@ public class CustomerDao {
     @OneToMany(mappedBy = "customer")
     private List<BookLicenseDao> bookLicenses;
 
-    //TODO: Add CartDao
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartItemDao> cartItems;
 
     //TODO: Add PurchasedCartDao
 }
