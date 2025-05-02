@@ -15,12 +15,14 @@ public class PurchasedCart extends DomainEntity {
 	private final Customer customer;
 	private final List<PurchasedCartItem> items = new ArrayList<>();
 	private final LocalDateTime purchaseDate;
-    private final Long totalCost;
 
     public PurchasedCart(Cart cart, LocalDateTime purchaseDate) {
         this.customer = cart.getCustomer();
         this.purchaseDate = purchaseDate;
-        this .totalCost = cart.getTotalCost();
         cart.getItems().forEach(item -> items.add(new PurchasedCartItem(item)));
+    }
+
+    public long getTotalCost() {
+        return items.stream().map(PurchasedCartItem::getPrice).reduce(0L, Long::sum);
     }
 }
