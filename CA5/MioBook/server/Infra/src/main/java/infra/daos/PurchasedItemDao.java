@@ -6,33 +6,28 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "license")
+@Table(name = "purchased_item")
 @NoArgsConstructor
-public class BookLicenseDao {
+public class PurchasedItemDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer borrowDays;
+
     @NotNull
     private Long price;
-
-    @NotNull
-    private LocalDateTime purchaseDateTime;
-
-    private Integer validityDays;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private CustomerDao customer;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "book_id")
     private BookDao book;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "purchase_history_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private PurchasedCartDao purchasedCart;
 }

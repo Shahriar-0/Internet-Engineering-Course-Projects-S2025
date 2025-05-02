@@ -7,23 +7,19 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "license")
+@Table(name = "purchase_history")
 @NoArgsConstructor
-public class BookLicenseDao {
+public class PurchasedCartDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private Long price;
-
-    @NotNull
     private LocalDateTime purchaseDateTime;
-
-    private Integer validityDays;
 
     @NotNull
     @ManyToOne
@@ -31,8 +27,6 @@ public class BookLicenseDao {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private CustomerDao customer;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private BookDao book;
+    @OneToMany(mappedBy = "purchasedCart", cascade = CascadeType.REMOVE)
+    private List<PurchasedItemDao> purchasedItems;
 }

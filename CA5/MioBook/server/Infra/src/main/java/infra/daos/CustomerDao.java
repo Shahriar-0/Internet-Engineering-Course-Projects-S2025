@@ -37,12 +37,13 @@ public class CustomerDao {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private WalletDao wallet;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<BookLicenseDao> bookLicenses;
 
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CartItemDao> cartItems;
 
-    //TODO: Add PurchasedCartDao
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    private List<PurchasedCartDao> purchasedCarts;
 }
