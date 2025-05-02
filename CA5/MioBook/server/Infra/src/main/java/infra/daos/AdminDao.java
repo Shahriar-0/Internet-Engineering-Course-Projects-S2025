@@ -35,4 +35,7 @@ public class AdminDao {
 
     @OneToMany(mappedBy = "admin")
     private List<AuthorDao> addedAuthors;
+
+    @OneToMany(mappedBy = "admin")
+    private List<BookDao> addedBooks;
 }

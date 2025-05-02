@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "author")
@@ -38,5 +39,6 @@ public class AuthorDao {
     @JoinColumn(name = "admin_id")
     private AdminDao admin;
 
-    //TODO: Add BookDao
+    @OneToMany(mappedBy = "author")
+    private List<BookDao> booksWritten;
 }
