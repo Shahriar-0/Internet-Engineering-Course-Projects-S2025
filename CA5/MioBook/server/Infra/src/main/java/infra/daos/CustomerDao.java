@@ -32,8 +32,8 @@ public class CustomerDao {
     @JoinColumn(name = "address_id")
     private AddressDao address;
 
-    @NotNull
-    private Long credit;
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private WalletDao wallet;
 
     //TODO: Add CartDao
 
