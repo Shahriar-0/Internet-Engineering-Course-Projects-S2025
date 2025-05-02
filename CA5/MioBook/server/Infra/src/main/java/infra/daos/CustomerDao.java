@@ -46,4 +46,7 @@ public class CustomerDao {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<PurchasedCartDao> purchasedCarts;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ReviewDao> reviews;
 }

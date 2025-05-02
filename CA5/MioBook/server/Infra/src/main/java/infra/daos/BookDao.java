@@ -55,4 +55,7 @@ public class BookDao {
         inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private List<GenreDao> genres;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ReviewDao> reviews;
 }
