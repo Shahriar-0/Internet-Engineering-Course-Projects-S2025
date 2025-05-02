@@ -21,17 +21,14 @@ public class AuthorDao {
     private String name;
 
     @NotBlank
-    @Column(name = "pen_name")
     private String penName;
 
     @NotBlank
     private String nationality;
 
     @NotNull
-    @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column(name = "death_date")
     private LocalDate deathDate;
 
     @NotNull

@@ -25,7 +25,6 @@ public class BookDao {
 
 
     @NotNull
-    @Column(name = "published_year")
     private Integer publishedYear;
 
     @NotNull
@@ -37,7 +36,6 @@ public class BookDao {
     @NotBlank
     private String content;
 
-    @Column(name = "image_link")
     private String imageLink;
 
     @NotNull

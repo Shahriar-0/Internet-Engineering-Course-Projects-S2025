@@ -12,7 +12,6 @@ import org.hibernate.annotations.OnDeleteAction;
 public class WalletDao {
 
     @Id
-    @Column(name = "customer_id")
     private Long customerId;
 
     @OneToOne
