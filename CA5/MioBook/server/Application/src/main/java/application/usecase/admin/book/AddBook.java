@@ -8,7 +8,6 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.author.Author;
 import domain.entities.book.Book;
-import domain.entities.book.BookContent;
 import domain.entities.user.Role;
 import domain.entities.user.User;
 import jakarta.validation.Valid;
@@ -16,11 +15,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import java.util.List;
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 @RequiredArgsConstructor
 public class AddBook implements IUseCase {
 

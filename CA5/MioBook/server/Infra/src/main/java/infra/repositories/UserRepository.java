@@ -6,10 +6,12 @@ import application.result.Result;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class UserRepository extends BaseRepository<User> implements IUserRepository {
 
 	@Override

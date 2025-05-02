@@ -10,9 +10,11 @@ import domain.entities.user.Customer;
 import domain.entities.user.User;
 import domain.exceptions.DomainException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class RemoveCart implements IUseCase {
 	private final IBookRepository bookRepository;

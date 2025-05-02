@@ -10,7 +10,9 @@ import domain.entities.book.BookContent;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 public class GetBookContent implements IUseCase {
 

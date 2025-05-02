@@ -6,9 +6,11 @@ import application.usecase.UseCaseType;
 import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GetPurchaseHistory implements IUseCase {
     @Override
     public UseCaseType getType() {

@@ -12,9 +12,11 @@ import domain.entities.user.User;
 import domain.exceptions.DomainException;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class AddCart implements IUseCase {
 	private final IBookRepository bookRepository;

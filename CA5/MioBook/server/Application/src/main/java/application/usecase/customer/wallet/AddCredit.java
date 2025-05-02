@@ -6,7 +6,9 @@ import application.usecase.UseCaseType;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import jakarta.validation.constraints.Min;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AddCredit implements IUseCase {
 	@Override
 	public UseCaseType getType() {

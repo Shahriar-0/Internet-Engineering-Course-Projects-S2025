@@ -6,9 +6,11 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class GetUser implements IUseCase {
 

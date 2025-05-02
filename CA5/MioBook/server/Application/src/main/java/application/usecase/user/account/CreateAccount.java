@@ -14,7 +14,9 @@ import domain.valueobjects.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 public class CreateAccount implements IUseCase {
 
