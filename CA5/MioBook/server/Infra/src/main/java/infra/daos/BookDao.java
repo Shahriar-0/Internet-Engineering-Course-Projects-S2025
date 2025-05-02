@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "book")
 @NoArgsConstructor
@@ -46,7 +48,13 @@ public class BookDao {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "admin_id")
-    private AuthorDao admin;
+    private AdminDao admin;
 
-    //TODO: Add GenreDao
+    @ManyToMany
+    @JoinTable(
+        name = "book_genre",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<GenreDao> genres;
 }
