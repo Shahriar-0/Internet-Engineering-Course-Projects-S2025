@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "admin")
 @NoArgsConstructor
@@ -30,4 +32,7 @@ public class AdminDao {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private AddressDao address;
+
+    @OneToMany(mappedBy = "admin")
+    private List<AuthorDao> addedAuthors;
 }
