@@ -32,20 +32,22 @@ public class AddReview implements IUseCase {
 	}
 
 	public Result<Book> perform(AddReviewData data, String title, User user) {
-        assert user instanceof Customer: "we rely on presentation layer access control";
-        Customer customer = (Customer) user;
+//        assert user instanceof Customer: "we rely on presentation layer access control";
+//        Customer customer = (Customer) user;
+//
+//        Result<Book> bookResult = bookRepository.findByTitle(title);
+//        if (bookResult.isFailure())
+//            return Result.failure(bookResult.exception());
+//        Book book = bookResult.data();
+//
+//        if (enforceAccessChecks && !customer.hasAccess(title))
+//            return Result.failure(new BookIsNotAccessible(title));
+//
+//        Review review = new Review(data.rating, data.comment, customer, book);
+//        book.addReview(review);
+//        return Result.success(book);
 
-        Result<Book> bookResult = bookRepository.findByTitle(title);
-        if (bookResult.isFailure())
-            return Result.failure(bookResult.exception());
-        Book book = bookResult.data();
-
-        if (enforceAccessChecks && !customer.hasAccess(title))
-            return Result.failure(new BookIsNotAccessible(title));
-
-        Review review = new Review(data.rating, data.comment, customer, book);
-        book.addReview(review);
-        return Result.success(book);
+        return null;
     }
 
 	public record AddReviewData(

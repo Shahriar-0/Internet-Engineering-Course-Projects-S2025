@@ -33,18 +33,20 @@ public class AddBook implements IUseCase {
 	}
 
 	public Result<Book> perform(AddBookData data, User user) {
-		assert Role.ADMIN.equals(user.getRole()) : "we rely on presentation layer access control";
+//		assert Role.ADMIN.equals(user.getRole()) : "we rely on presentation layer access control";
+//
+//		Result<Author> authorResult = authorRepository.findByName(data.author);
+//		if (authorResult.isFailure()) return Result.failure(new AuthorDoesNotExists(data.author));
+//		Author author = authorResult.data();
+//
+//		Book book = mapToBook(data, author);
+//		Result<Book> bookResult = bookRepository.save(book);
+//		if (bookResult.isSuccessful())
+//			author.addBook(book);
+//
+//		return bookResult;
 
-		Result<Author> authorResult = authorRepository.findByName(data.author);
-		if (authorResult.isFailure()) return Result.failure(new AuthorDoesNotExists(data.author));
-		Author author = authorResult.data();
-
-		Book book = mapToBook(data, author);
-		Result<Book> bookResult = bookRepository.save(book);
-		if (bookResult.isSuccessful())
-			author.addBook(book);
-
-		return bookResult;
+        return null;
 	}
 
 	private static Book mapToBook(AddBookData data, Author author) {

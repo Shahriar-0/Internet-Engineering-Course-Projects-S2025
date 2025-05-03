@@ -25,21 +25,23 @@ public class RemoveCart implements IUseCase {
 	}
 
 	public Result<Customer> perform(String title, User user) {
-		assert title != null && !title.isBlank() : "we rely on presentation layer validation for field 'title'";
+//		assert title != null && !title.isBlank() : "we rely on presentation layer validation for field 'title'";
+//
+//		assert user instanceof Customer: "we rely on presentation layer access control";
+//		Customer customer = (Customer) user;
+//
+//		Result<Book> bookResult = bookRepository.findByTitle(title);
+//		if (bookResult.isFailure())
+//			return Result.failure(bookResult.exception());
+//		Book book = bookResult.data();
+//
+//        List<DomainException> exceptions = customer.getCart().getRemoveBookErrors(title);
+//		if (!exceptions.isEmpty())
+//			return Result.failure(new CantRemoveFromCart(exceptions.getFirst().getMessage()));
+//
+//		customer.getCart().removeBook(book);
+//		return Result.success(customer);
 
-		assert user instanceof Customer: "we rely on presentation layer access control";
-		Customer customer = (Customer) user;
-
-		Result<Book> bookResult = bookRepository.findByTitle(title);
-		if (bookResult.isFailure())
-			return Result.failure(bookResult.exception());
-		Book book = bookResult.data();
-
-        List<DomainException> exceptions = customer.getCart().getRemoveBookErrors(title);
-		if (!exceptions.isEmpty())
-			return Result.failure(new CantRemoveFromCart(exceptions.getFirst().getMessage()));
-
-		customer.getCart().removeBook(book);
-		return Result.success(customer);
+        return null;
 	}
 }

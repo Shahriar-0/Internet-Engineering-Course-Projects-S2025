@@ -22,14 +22,16 @@ public class GetAuthor implements IUseCase {
 	}
 
 	public Result<Author> perform(String name) {
-		assert name != null && !name.isBlank() : "we rely on presentation layer validation for field 'name'";
-
-		return authorRepository.findByName(name);
+//		assert name != null && !name.isBlank() : "we rely on presentation layer validation for field 'name'";
+//
+//		return authorRepository.findByName(name);
+        return null;
 	}
 
 	public Result<List<Author>> perform() {
-		return authorRepository.getAll();
-	}
+//		return authorRepository.getAll();
+	    return null;
+    }
 
 	public Result<List<Author>> perform(AuthorFilter filter) {
 		throw new RuntimeException("Not implemented yet");

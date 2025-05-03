@@ -1,6 +1,5 @@
 package webapi.controllers;
 
-import application.pagination.Page;
 import application.result.Result;
 import application.usecase.UseCaseType;
 import application.usecase.admin.book.AddBook;
@@ -15,6 +14,7 @@ import domain.entities.book.Review;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import webapi.accesscontrol.Access;
 import webapi.response.Response;

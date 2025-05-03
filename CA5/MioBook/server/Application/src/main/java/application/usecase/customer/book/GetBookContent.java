@@ -24,16 +24,18 @@ public class GetBookContent implements IUseCase {
 	}
 
 	public Result<BookContent> perform(String title, User user) {
-		assert user instanceof Customer: "we rely on presentation layer access control";
-		Customer customer = (Customer) user;
+//		assert user instanceof Customer: "we rely on presentation layer access control";
+//		Customer customer = (Customer) user;
+//
+//		Result<Book> bookResult = bookRepository.findByTitle(title);
+//		if (bookResult.isFailure())
+//            return Result.failure(bookResult.exception());
+//
+//		if (!customer.hasAccess(title))
+//            return Result.failure(new BookIsNotAccessible(title));
+//
+//		return Result.success(bookResult.data().getContent());
 
-		Result<Book> bookResult = bookRepository.findByTitle(title);
-		if (bookResult.isFailure())
-            return Result.failure(bookResult.exception());
-
-		if (!customer.hasAccess(title))
-            return Result.failure(new BookIsNotAccessible(title));
-
-		return Result.success(bookResult.data().getContent());
+        return null;
 	}
 }

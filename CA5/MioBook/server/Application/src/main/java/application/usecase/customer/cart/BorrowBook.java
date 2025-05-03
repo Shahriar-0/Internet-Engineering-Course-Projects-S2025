@@ -30,20 +30,22 @@ public class BorrowBook implements IUseCase {
 	}
 
 	public Result<Customer> perform(BorrowBookData data, User user) {
-		assert user instanceof Customer: "we rely on presentation layer access control";
-		Customer customer = (Customer) user;
+//		assert user instanceof Customer: "we rely on presentation layer access control";
+//		Customer customer = (Customer) user;
+//
+//		Result<Book> bookResult = bookRepository.findByTitle(data.title);
+//		if (bookResult.isFailure())
+//			return Result.failure(new BookDoesntExist(data.title));
+//		Book book = bookResult.data();
+//
+//        List<DomainException> exceptions = customer.getCart().getAddBookErrors(data.title);
+//        if (!exceptions.isEmpty())
+//            return Result.failure(new CantAddToCart(exceptions.getFirst().getMessage()));
+//
+//		customer.getCart().borrowBook(book, data.borrowedDays);
+//		return Result.success(customer);
 
-		Result<Book> bookResult = bookRepository.findByTitle(data.title);
-		if (bookResult.isFailure())
-			return Result.failure(new BookDoesntExist(data.title));
-		Book book = bookResult.data();
-
-        List<DomainException> exceptions = customer.getCart().getAddBookErrors(data.title);
-        if (!exceptions.isEmpty())
-            return Result.failure(new CantAddToCart(exceptions.getFirst().getMessage()));
-
-		customer.getCart().borrowBook(book, data.borrowedDays);
-		return Result.success(customer);
+        return null;
 	}
 
 	public record BorrowBookData(
