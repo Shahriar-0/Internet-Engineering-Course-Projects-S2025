@@ -24,12 +24,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-
-import static com.fasterxml.classmate.AnnotationOverrides.builder;
 
 @Repository
 @RequiredArgsConstructor
@@ -40,7 +36,6 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     private final ReviewDaoRepository reviewDaoRepository;
     private final BookMapper bookMapper;
     private final ReviewMapper reviewMapper;
-
 
     @Override
     protected IMapper<Book, BookDao> getMapper() {
@@ -53,44 +48,10 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     }
 
 	@Override
+    @Transactional(readOnly = true)
 	public Page<Book> filter(GetBook.BookFilter filter) {
-		List<Book> books = new ArrayList<>(map.values());
-		if (filter.title() != null)
-			books = filterTitle(books, filter.title());
-		if (filter.author() != null)
-			books = filterAuthorName(books, filter.author());
-		if (filter.genre() != null)
-			books = filterGenre(books, filter.genre());
-		if (filter.from() != null)
-			books = filterLowerBoundYear(books, filter.from());
-		if (filter.to() != null)
-			books = filterUpperBoundYear(books, filter.to());
-
-		assert filter.pageSize() != null &&
-		filter.pageNumber() != null &&
-		filter.sortByType() != null &&
-		filter.isAscending() != null : "we rely on standard filter field that should be pass from application layer";
-
-		if (filter.sortBy() != null) {
-			// since we are comparing with this field which may be null is request
-			// the default value for TITLE when not passed is not considered
-			books = sortBooks(books, getSortFunction(filter.sortByType()), filter.isAscending());
-		}
-
-		return new Page<>(books, filter.pageNumber(), filter.pageSize());
-	}
-
-	private static Comparator<Book> getSortFunction(GetBook.BookFilter.BookSortByType filterType) {
-		return switch (filterType) {
-			case DATE -> Comparator.comparing(Book::getDateAdded);
-			case RATING -> Comparator.comparing(Book::getAverageRating);
-			case REVIEWS -> Comparator.comparing(book -> book.getReviews().size());
-			case TITLE -> Comparator.comparing(Book::getTitle);
-		};
-	}
-
-	private static List<Book> sortBooks(List<Book> books, Comparator<Book> comparator, boolean isAscending) {
-		return books.stream().sorted(isAscending ? comparator : comparator.reversed()).toList();
+        //TODO: implement this fucking peace of shit, i passed out
+        return Page.empty();
 	}
 
 	@Override
@@ -125,24 +86,4 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         Book book = bookMapper.toDomain(optionalDao.get());
         return Optional.of(book);
     }
-
-	private static List<Book> filterTitle(List<Book> books, String title) {
-		return books.stream().filter(book -> book.getTitle().contains(title)).toList();
-	}
-
-	private static List<Book> filterAuthorName(List<Book> books, String name) {
-		return books.stream().filter(book -> book.getAuthor().getName().contains(name)).toList();
-	}
-
-	private static List<Book> filterGenre(List<Book> books, String genre) {
-		return books.stream().filter(book -> book.getGenres().contains(genre)).toList();
-	}
-
-	private static List<Book> filterLowerBoundYear(List<Book> books, int lowerBound) {
-		return books.stream().filter(book -> book.getPublishedYear() >= lowerBound).toList();
-	}
-
-	private static List<Book> filterUpperBoundYear(List<Book> books, int upperBound) {
-		return books.stream().filter(book -> book.getPublishedYear() <= upperBound).toList();
-	}
 }
