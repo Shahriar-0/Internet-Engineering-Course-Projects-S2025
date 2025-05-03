@@ -28,10 +28,10 @@ public class CreateAccount implements IUseCase {
 	}
 
 	public Result<User> perform(AddUserData data) {
-		if (userRepository.doesUsernameExist(data.username))
+		if (userRepository.existsByUsername(data.username))
 			return Result.failure(new UsernameAlreadyExists(data.username));
 
-		if (userRepository.doesEmailExist(data.email))
+		if (userRepository.existsByEmail(data.email))
 			return Result.failure(new EmailAlreadyExists(data.email));
 
 		return userRepository.save(mapToUser(data));
