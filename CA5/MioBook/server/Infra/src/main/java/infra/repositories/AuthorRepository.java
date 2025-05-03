@@ -4,9 +4,9 @@ import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import domain.entities.author.Author;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public class AuthorRepository extends BaseRepository<Author> implements IAuthorRepository {
 
 	@Override

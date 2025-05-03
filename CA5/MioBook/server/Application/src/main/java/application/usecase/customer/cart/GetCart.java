@@ -6,7 +6,9 @@ import application.usecase.UseCaseType;
 import domain.entities.cart.Cart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GetCart implements IUseCase {
 	@Override
 	public UseCaseType getType() {

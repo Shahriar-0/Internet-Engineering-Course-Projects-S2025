@@ -8,7 +8,9 @@ import application.usecase.UseCaseType;
 import domain.entities.book.Book;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 public class GetBook implements IUseCase {
 

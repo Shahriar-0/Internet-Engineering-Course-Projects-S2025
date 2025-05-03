@@ -8,9 +8,11 @@ import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import domain.exceptions.DomainException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PurchaseCart implements IUseCase {
 	@Override
 	public UseCaseType getType() {

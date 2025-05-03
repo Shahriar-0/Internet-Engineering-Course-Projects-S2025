@@ -8,8 +8,11 @@ import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
+import org.springframework.stereotype.Repository;
+
 import java.util.*;
 
+@Repository
 public class BookRepository extends BaseRepository<Book> implements IBookRepository {
 
 	@Override
