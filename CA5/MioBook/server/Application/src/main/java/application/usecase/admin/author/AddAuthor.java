@@ -28,7 +28,7 @@ public class AddAuthor implements IUseCase {
 	public Result<Author> perform(AddAuthorData data, User user) {
 		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
-		return authorRepository.add(mapToAuthor(data));
+		return authorRepository.save(mapToAuthor(data));
 	}
 
 	private static Author mapToAuthor(AddAuthorData data) {

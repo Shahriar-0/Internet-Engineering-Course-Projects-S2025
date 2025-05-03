@@ -34,7 +34,7 @@ public class CreateAccount implements IUseCase {
 		if (userRepository.doesEmailExist(data.email))
 			return Result.failure(new EmailAlreadyExists(data.email));
 
-		return userRepository.add(mapToUser(data));
+		return userRepository.save(mapToUser(data));
 	}
 
 	private static User mapToUser(AddUserData data) {

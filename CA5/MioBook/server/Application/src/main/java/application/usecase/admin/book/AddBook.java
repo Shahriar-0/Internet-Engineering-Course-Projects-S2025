@@ -40,7 +40,7 @@ public class AddBook implements IUseCase {
 		Author author = authorResult.data();
 
 		Book book = mapToBook(data, author);
-		Result<Book> bookResult = bookRepository.add(book);
+		Result<Book> bookResult = bookRepository.save(book);
 		if (bookResult.isSuccessful())
 			author.addBook(book);
 

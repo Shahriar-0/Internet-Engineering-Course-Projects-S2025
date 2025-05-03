@@ -1,80 +1,79 @@
 package infra.repositories;
 
-import application.exceptions.dataaccessexceptions.EntityAlreadyExists;
 import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IBaseRepository;
-import application.result.Result;
 import domain.entities.DomainEntity;
-import java.util.HashMap;
+import infra.mappers.IMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-public abstract class BaseRepository<T extends DomainEntity> implements IBaseRepository<T> {
+public abstract class BaseRepository<T extends DomainEntity, K> implements IBaseRepository<T> {
 
-    private int nextId = 1;
+    protected abstract IMapper<T, K> getMapper();
+    protected abstract JpaRepository<K, Long> getDaoRepository();
 
-    Map<Long, T> map = new HashMap<>();
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<T> findById(Long id) {
+        Optional<K> optionalDao = getDaoRepository().findById(id);
+        if (optionalDao.isEmpty())
+            return Optional.empty();
 
-	protected abstract Class<T> getEntityClassType();
+        T entity = getMapper().toDomain(optionalDao.get());
+        return Optional.of(entity);
+    }
 
-	protected abstract T copyOf(T persistedEntity);
+    @Override
+    @Transactional(readOnly = true)
+    public List<T> findAll() {
+        List<K> daoList = getDaoRepository().findAll();
+        return daoList.stream().map(dao -> getMapper().toDomain(dao)).toList();
+    }
 
-	@Override
-	public Result<T> add(T entity) {
-		if (map.containsKey(entity.getId()))
-			return Result.failure(new EntityAlreadyExists(entity.getClass(), entity.getId()));
+    @Override
+    @Transactional
+    public T save(T entity) {
+        K persistedDao = getDaoRepository().save(getMapper().toDao(entity));
+        return getMapper().toDomain(persistedDao);
+    }
 
-		map.put(getNextId(entity.getId()), entity);
-		return Result.success(copyOf(entity));
-	}
+    @Override
+    @Transactional
+    public T update(T entity) {
+        Optional<K> optionalDao = getDaoRepository().findById(entity.getId());
+        if (optionalDao.isEmpty())
+            throw new EntityDoesNotExist(entity.getClass(), entity.getId());
 
-	@Override
-	public Result<T> remove(Long key) {
-		T entity = map.remove(key);
-		if (entity == null)
-			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
+        K daoEntity = optionalDao.get();
+        getMapper().update(entity, daoEntity);
+        K updatedDao = getDaoRepository().save(daoEntity);
+        return getMapper().toDomain(updatedDao);
+    }
 
-		return Result.success(copyOf(entity));
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return getDaoRepository().existsById(id);
+    }
 
-	@Override
-	public Result<T> update(T entity) {
-		if (!map.containsKey(entity.getId()))
-			return Result.failure(new EntityDoesNotExist(entity.getClass(), entity.getId()));
+    @Override
+    @Transactional
+    public void delete(T entity) {
+        getDaoRepository().delete(getMapper().toDao(entity));
+    }
 
-		map.put(entity.getId(), entity);
-		return Result.success(copyOf(entity));
-	}
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        getDaoRepository().deleteById(id);
+    }
 
-	@Override
-	public Result<T> find(Long key) {
-		T entity = map.get(key);
-		if (entity == null)
-			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
-
-		return Result.success(copyOf(entity));
-	}
-
-	@Override
-	public Boolean exists(Long key) {
-		return map.containsKey(key);
-	}
-
-	@Override
-	public Result<T> get(Long key) {
-		T entity = map.get(key);
-		if (entity == null)
-			return Result.failure(new EntityDoesNotExist(getEntityClassType(), key));
-
-		return Result.success(entity);
-	}
-
-	@Override
-	public Result<List<T>> getAll() {
-		return Result.success(map.values().stream().map(this::copyOf).toList());
-	}
-
-    private Long getNextId(Long entityId) {
-        return entityId == null ? nextId++ : entityId;
+    @Override
+    @Transactional
+    public void deleteAll() {
+        getDaoRepository().deleteAll();
     }
 }
