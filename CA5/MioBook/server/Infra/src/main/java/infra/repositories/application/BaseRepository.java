@@ -1,4 +1,4 @@
-package infra.repositories;
+package infra.repositories.application;
 
 import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IBaseRepository;

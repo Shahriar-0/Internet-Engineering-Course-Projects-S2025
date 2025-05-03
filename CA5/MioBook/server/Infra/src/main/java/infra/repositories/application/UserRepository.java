@@ -1,4 +1,4 @@
-package infra.repositories;
+package infra.repositories.application;
 
 import application.repositories.IUserRepository;
 import domain.entities.user.Admin;
