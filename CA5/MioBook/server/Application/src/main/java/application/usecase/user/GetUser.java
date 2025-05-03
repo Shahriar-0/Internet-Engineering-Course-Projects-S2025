@@ -1,5 +1,6 @@
 package application.usecase.user;
 
+import application.exceptions.businessexceptions.userexceptions.UserNotFound;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +26,10 @@ public class GetUser implements IUseCase {
 	public Result<User> perform(String username) {
 		assert username != null && !username.isBlank() : "we rely on presentation layer validation for field username";
 
-		return userRepository.findByUsername(username);
-	}
+		Optional<User> user = userRepository.findByUsername(username);
+        return user.map(Result::success)
+            .orElseGet(() -> Result.failure(UserNotFound.usernameNotFound(username)));
+    }
 
 	public Result<List<User>> perform(UserFilter filter) {
 		throw new RuntimeException("Not implemented yet");

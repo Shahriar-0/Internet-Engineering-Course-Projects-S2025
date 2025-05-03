@@ -1,18 +1,29 @@
 package infra.repositories;
 
-import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IUserRepository;
-import application.result.Result;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
+import infra.daos.AdminDao;
+import infra.daos.CustomerDao;
+import infra.mappers.AdminMapper;
+import infra.mappers.CustomerMapper;
+import infra.repositories.jpa.AdminDaoRepository;
+import infra.repositories.jpa.CustomerDaoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class UserRepository extends BaseRepository<User> implements IUserRepository {
+
+    private final CustomerDaoRepository customerDaoRepository;
+    private final AdminDaoRepository adminDaoRepository;
+    private final CustomerMapper customerMapper;
+    private final AdminMapper adminMapper;
 
 	@Override
 	protected Class<User> getEntityClassType() {
@@ -69,12 +80,15 @@ public class UserRepository extends BaseRepository<User> implements IUserReposit
     }
 
     @Override
-    public Result<User> findByUsername(String username) {
-        for (User user : map.values()) {
-            if (username.equals(user.getUsername()))
-                return Result.success(user);
-        }
+    public Optional<User> findByUsername(String username) {
+        Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByName(username);
+        if (optionalCustomerDao.isPresent())
+            return Optional.of(customerMapper.toSimpleDomain(optionalCustomerDao.get()));
 
-        return Result.failure(new EntityDoesNotExist(getEntityClassType(), username));
+        Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByName(username);
+        if (optionalAdminDao.isPresent())
+            return Optional.of(adminMapper.toDomain(optionalAdminDao.get()));
+
+        return Optional.empty();
     }
 }

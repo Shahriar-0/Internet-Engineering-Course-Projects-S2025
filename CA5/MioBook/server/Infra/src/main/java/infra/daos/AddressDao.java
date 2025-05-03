@@ -1,18 +1,23 @@
 package infra.daos;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "address")
 @NoArgsConstructor
 public class AddressDao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
+    @NotBlank
     private String country;
-    @NotNull
+
+    @NotBlank
     private String city;
 }
