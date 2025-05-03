@@ -10,9 +10,11 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @SuperBuilder
 public class Book extends DomainEntity {
 
@@ -22,8 +24,8 @@ public class Book extends DomainEntity {
 	private Integer publishedYear;
 	private Long basePrice; // in cents
 	private String synopsis;
-	private final List<String> genres;
-	private final BookContent content;
+	private List<String> genres;
+	private BookContent content;
     private String imageLink;
 
 	@Builder.Default

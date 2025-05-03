@@ -9,6 +9,7 @@ import infra.repositories.jpa.AuthorDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class AuthorRepository extends BaseRepository<Author, AuthorDao> implemen
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Author> findByName(String name) {
         Optional<AuthorDao> optionalDao = authorDaoRepository.findByName(name);
         if (optionalDao.isEmpty())

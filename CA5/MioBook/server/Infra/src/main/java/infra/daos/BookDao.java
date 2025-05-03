@@ -3,10 +3,13 @@ package infra.daos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "book")
 @NoArgsConstructor
@@ -37,6 +40,11 @@ public class BookDao {
     private String content;
 
     private String imageLink;
+
+    private String coverLink;
+
+    @NotNull
+    private LocalDateTime dateAdded;
 
     @NotNull
     @ManyToOne

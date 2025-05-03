@@ -1,42 +1,56 @@
 package infra.repositories.application;
 
-import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
-import application.pagination.Page;
 import application.repositories.IBookRepository;
-import application.result.Result;
 import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
+import infra.daos.BookDao;
+import infra.daos.GenreDao;
+import infra.daos.ReviewDao;
+import infra.mappers.BookMapper;
+import infra.mappers.IMapper;
+import infra.mappers.ReviewMapper;
+import infra.repositories.jpa.BookDaoRepository;
+import infra.repositories.jpa.GenreDaoRepository;
+import infra.repositories.jpa.ReviewDaoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+import static com.fasterxml.classmate.AnnotationOverrides.builder;
 
 @Repository
-public class BookRepository extends BaseRepository<Book> implements IBookRepository {
+@RequiredArgsConstructor
+public class BookRepository extends BaseRepository<Book, BookDao> implements IBookRepository {
 
-	@Override
-	protected Class<Book> getEntityClassType() {
-		return Book.class;
-	}
+    private final BookDaoRepository bookDaoRepository;
+    private final GenreDaoRepository genreDaoRepository;
+    private final ReviewDaoRepository reviewDaoRepository;
+    private final BookMapper bookMapper;
+    private final ReviewMapper reviewMapper;
 
-	@Override
-	protected Book copyOf(Book persistedEntity) {
-		return Book
-			.builder()
-			.title(persistedEntity.getTitle())
-			.author(persistedEntity.getAuthor())
-			.publisher(persistedEntity.getPublisher())
-			.publishedYear(persistedEntity.getPublishedYear())
-			.basePrice(persistedEntity.getBasePrice())
-			.synopsis(persistedEntity.getSynopsis())
-			.content(persistedEntity.getContent())
-			.genres(persistedEntity.getGenres())
-			.reviews(persistedEntity.getReviews())
-			.dateAdded(persistedEntity.getDateAdded())
-			.coverLink(persistedEntity.getCoverLink())
-			.build();
-	}
+
+    @Override
+    protected IMapper<Book, BookDao> getMapper() {
+        return bookMapper;
+    }
+
+    @Override
+    protected JpaRepository<BookDao, Long> getDaoRepository() {
+        return bookDaoRepository;
+    }
 
 	@Override
 	public Page<Book> filter(GetBook.BookFilter filter) {
@@ -80,33 +94,36 @@ public class BookRepository extends BaseRepository<Book> implements IBookReposit
 	}
 
 	@Override
-	public Result<Page<Review>> filterReview(String title, GetBookReviews.ReviewFilter filter) {
-		Result<Book> bookResult = findByTitle(title);
-		if (bookResult.isFailure())
-			return Result.failure(bookResult.exception());
+    @Transactional(readOnly = true)
+	public Page<Review> filterReview(String title, GetBookReviews.ReviewFilter filter) {
+        Pageable pageable = PageRequest.of(
+            filter.pageNumber(),
+            filter.pageSize(),
+            Sort.by(Sort.Direction.DESC, "dateTime")
+        );
 
-		Page<Review> page = new Page<>(bookResult.data().getReviews(), filter.pageNumber(), filter.pageSize());
-		return Result.success(page);
+        Specification<ReviewDao> spec = Specification.where(null);
+        spec = spec.and((root, query, cb) ->
+            cb.like(cb.lower(root.get("book").get("title")), "%" + title.toLowerCase() + "%"));
+
+        return reviewDaoRepository.findAll(spec, pageable).map(reviewMapper::toDomain);
 	}
 
 	@Override
+    @Transactional(readOnly = true)
 	public List<String> getGenres() {
-		List<Book> books = new ArrayList<>(map.values());
-		List<List<String>> genresList = books.stream().map(Book::getGenres).toList();
-		Set<String> genresSet = new HashSet<>();
-		for (List<String> genres : genresList)
-			genresSet.addAll(genres);
-
-		return genresSet.stream().toList();
+		return genreDaoRepository.findAll().stream().map(GenreDao::getGenre).toList();
 	}
 
-    public Result<Book> findByTitle(String title) {
-        for (Book book : map.values()) {
-            if (title.equals(book.getTitle()))
-                return Result.success(book);
-        }
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Book> findByTitle(String title) {
+        Optional<BookDao> optionalDao = bookDaoRepository.findByTitle(title);
+        if (optionalDao.isEmpty())
+            return Optional.empty();
 
-        return Result.failure(new EntityDoesNotExist(getEntityClassType(), title));
+        Book book = bookMapper.toDomain(optionalDao.get());
+        return Optional.of(book);
     }
 
 	private static List<Book> filterTitle(List<Book> books, String title) {
