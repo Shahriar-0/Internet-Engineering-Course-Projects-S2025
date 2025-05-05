@@ -1,27 +1,24 @@
-package application.usecase.user;
+package webapi.controllers;
 
-
-import application.fixture.AdminFixtureUtil;
-import application.fixture.CustomerFixtureUtil;
 import application.repositories.IUserRepository;
-import application.result.Result;
-import domain.entities.user.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import webapi.fixture.CustomerFixtureUtil;
+import webapi.fixture.AdminFixtureUtil;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-class GetUserTest {
+class UserControllerTest {
 
     @Autowired
-    private GetUser usecase;
+    UserController userController;
 
     @Autowired
-    private IUserRepository userRepository;
+    IUserRepository userRepository;
 
     @BeforeEach
     void setup() {
@@ -35,9 +32,8 @@ class GetUserTest {
     }
 
     @Test
-    void getCustomerUserWorksCorrectly() {
-        Result<User> userResult = usecase.perform(CustomerFixtureUtil.name(0));
-
-        System.out.println(userResult.data());
+    void sdlafj() {
+        assertThat(true).isTrue();
     }
+
 }

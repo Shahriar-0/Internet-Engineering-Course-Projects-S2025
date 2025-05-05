@@ -1,30 +1,30 @@
-package application.fixture;
+package webapi.fixture;
 
-import domain.entities.user.Admin;
+import domain.entities.user.Customer;
 import domain.entities.user.Role;
 
-public class AdminFixtureUtil {
+public class CustomerFixtureUtil {
 
-    public static Admin admin(int index) {
-        return Admin.builder()
-            .id((long) index)
+    public static Customer customer(int index) {
+        return Customer.builder()
             .username(name(index))
             .password(password(index))
             .email(email(index))
             .address(AddressFixtureUtil.address(index))
-            .role(Role.ADMIN)
+            .role(Role.CUSTOMER)
+            .credit(100000L)
             .build();
     }
 
     public static String name(int index) {
-        return "AdminName_" + index;
+        return "CustomerName_" + index;
     }
 
     public static String password(int index) {
-        return "AdminPassword_" + index;
+        return "CustomerPassword_" + index;
     }
 
     public static String email(int index) {
-        return "AdminEmail_" + index + "@gmail.com";
+        return "CustomerEmail_" + index + "@gmail.com";
     }
 }
