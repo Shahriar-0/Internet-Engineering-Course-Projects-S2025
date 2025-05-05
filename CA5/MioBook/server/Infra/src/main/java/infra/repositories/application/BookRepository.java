@@ -58,7 +58,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     @Transactional(readOnly = true)
 	public Page<Review> filterReview(String title, GetBookReviews.ReviewFilter filter) {
         Pageable pageable = PageRequest.of(
-            filter.pageNumber(),
+            filter.pageNumber() - 1,
             filter.pageSize(),
             Sort.by(Sort.Direction.DESC, "dateTime")
         );

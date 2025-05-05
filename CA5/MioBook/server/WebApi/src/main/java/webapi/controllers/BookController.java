@@ -23,6 +23,7 @@ import webapi.services.UseCaseService;
 import webapi.views.book.BookContentView;
 import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
+import webapi.views.page.PageView;
 
 import java.util.List;
 
@@ -80,23 +81,29 @@ public class BookController {
 
 	@GetMapping("/{title}/reviews")
 	@Access(isWhiteList = false)
-	public Response<Page<BookReviewsView>> getBookReviews(
+	public Response<PageView<BookReviewsView>> getBookReviews(
 		@PathVariable String title,
 		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
 	) {
 		GetBookReviews useCase = (GetBookReviews) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 
 		Page<Review> reviews = useCase.perform(title, filter);
-		return Response.of(BookReviewsView.mapToView(reviews), OK);
+		return Response.of(
+            new PageView<>(BookReviewsView.mapToView(reviews)),
+            OK
+        );
 	}
 
 	@GetMapping
 	@Access(isWhiteList = false)
-	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
+	public Response<PageView<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
 		Page<Book> books = useCase.perform(filter);
-		return Response.of(BookView.mapToView(books), OK);
+		return Response.of(
+            new PageView<>(BookView.mapToView(books)),
+            OK
+        );
 	}
 
 	@PostMapping("/{title}/reviews")
