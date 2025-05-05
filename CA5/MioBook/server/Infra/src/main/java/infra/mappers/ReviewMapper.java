@@ -2,10 +2,21 @@ package infra.mappers;
 
 import domain.entities.book.Review;
 import infra.daos.ReviewDao;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ReviewMapper implements IMapper<Review, ReviewDao> {
+
+    private final CustomerMapper customerMapper;
+
+    public Review mapWithCustomer(ReviewDao dao) {
+        Review review = toDomain(dao);
+        review.setCustomer(customerMapper.toDomain(dao.getCustomer()));
+        return review;
+    }
+
     @Override
     public Review toDomain(ReviewDao dao) {
         return Review.builder()

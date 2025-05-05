@@ -67,7 +67,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         spec = spec.and((root, query, cb) ->
             cb.like(cb.lower(root.get("book").get("title")), "%" + title.toLowerCase() + "%"));
 
-        return reviewDaoRepository.findAll(spec, pageable).map(reviewMapper::toDomain);
+        return reviewDaoRepository.findAll(spec, pageable).map(reviewMapper::mapWithCustomer);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         if (optionalDao.isEmpty())
             return Optional.empty();
 
-        Book book = bookMapper.toDomain(optionalDao.get());
+        Book book = bookMapper.mapWithAuthor(optionalDao.get());
         return Optional.of(book);
     }
 }

@@ -1,7 +1,6 @@
 package application.usecase.user.book;
 
 import application.repositories.IBookRepository;
-import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.book.Review;
@@ -25,12 +24,11 @@ public class GetBookReviews implements IUseCase {
 		return UseCaseType.GET_BOOK_REVIEWS;
 	}
 
-	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
-//        assert title != null && !title.isBlank(): "we rely on presentation layer validation for field 'title'";
-//
-//		ReviewFilter standardizeFilter = standardizeFilter(filter);
-//		return bookRepository.filterReview(title, standardizeFilter);
-        return null;
+	public Page<Review> perform(String title, ReviewFilter filter) {
+        assert title != null && !title.isBlank(): "we rely on presentation layer validation for field 'title'";
+
+		ReviewFilter standardizeFilter = standardizeFilter(filter);
+		return bookRepository.filterReview(title, standardizeFilter);
 	}
 
     private static ReviewFilter standardizeFilter(ReviewFilter filter) {
