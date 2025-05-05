@@ -4,6 +4,7 @@ import application.repositories.IAuthorRepository;
 import domain.entities.author.Author;
 import infra.daos.AuthorDao;
 import infra.mappers.AuthorMapper;
+import infra.mappers.BookMapper;
 import infra.mappers.IMapper;
 import infra.repositories.jpa.AuthorDaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,6 +21,7 @@ public class AuthorRepository extends BaseRepository<Author, AuthorDao> implemen
 
     private final AuthorDaoRepository authorDaoRepository;
     private final AuthorMapper authorMapper;
+    private final BookMapper bookMapper;
 
     @Override
     protected IMapper<Author, AuthorDao> getMapper() {
@@ -37,7 +40,16 @@ public class AuthorRepository extends BaseRepository<Author, AuthorDao> implemen
         if (optionalDao.isEmpty())
             return Optional.empty();
 
-        Author author = authorMapper.toDomain(optionalDao.get());
+        Author author = authorMapper.mapWithBooks(optionalDao.get(), bookMapper);
         return Optional.of(author);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Author> findAllWithBooks() {
+        return authorMapper.mapWithBooks(
+            authorDaoRepository.findAll(),
+            bookMapper
+        );
     }
 }

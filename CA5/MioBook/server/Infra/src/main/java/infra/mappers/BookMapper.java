@@ -4,7 +4,6 @@ import domain.entities.book.Book;
 import domain.entities.book.BookContent;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
-import infra.repositories.jpa.AuthorDaoRepository;
 import infra.repositories.jpa.GenreDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

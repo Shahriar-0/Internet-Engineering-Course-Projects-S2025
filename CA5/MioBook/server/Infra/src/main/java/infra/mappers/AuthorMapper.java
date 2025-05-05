@@ -1,11 +1,26 @@
 package infra.mappers;
 
 import domain.entities.author.Author;
+import domain.entities.book.Book;
 import infra.daos.AuthorDao;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AuthorMapper implements IMapper<Author, AuthorDao> {
+
+    public Author mapWithBooks(AuthorDao dao, BookMapper bookMapper) {
+        Author author = toDomain(dao);
+        List<Book> books = dao.getBooksWritten().stream().map(bookMapper::toDomain).toList();
+        author.setBooks(books);
+        return author;
+    }
+
+    public List<Author> mapWithBooks(List<AuthorDao> daoList, BookMapper bookMapper) {
+        return daoList.stream().map(dao -> mapWithBooks(dao, bookMapper)).toList();
+    }
+
     @Override
     public Author toDomain(AuthorDao dao) {
         return Author.builder()
