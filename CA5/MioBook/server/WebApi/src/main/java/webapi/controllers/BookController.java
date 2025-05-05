@@ -98,11 +98,8 @@ public class BookController {
 	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
-		Result<Page<Book>> result = useCase.perform(filter);
-		if (result.isFailure())
-			throw result.exception();
-
-		return Response.of(BookView.mapToView(result.data()), OK);
+		Page<Book> books = useCase.perform(filter);
+		return Response.of(BookView.mapToView(books), OK);
 	}
 
 	@PostMapping("/{title}/reviews")
