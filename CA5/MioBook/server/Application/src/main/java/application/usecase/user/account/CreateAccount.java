@@ -28,14 +28,13 @@ public class CreateAccount implements IUseCase {
 	}
 
 	public Result<User> perform(AddUserData data) {
-//		if (userRepository.existsByUsername(data.username))
-//			return Result.failure(new UsernameAlreadyExists(data.username));
-//
-//		if (userRepository.existsByEmail(data.email))
-//			return Result.failure(new EmailAlreadyExists(data.email));
-//
-//		return userRepository.save(mapToUser(data));
-        return null;
+		if (userRepository.existsByUsername(data.username))
+			return Result.failure(new UsernameAlreadyExists(data.username));
+
+		if (userRepository.existsByEmail(data.email))
+			return Result.failure(new EmailAlreadyExists(data.email));
+
+		return Result.success(userRepository.save(mapToUser(data)));
 	}
 
 	private static User mapToUser(AddUserData data) {

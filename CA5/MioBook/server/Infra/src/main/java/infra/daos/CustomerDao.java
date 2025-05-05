@@ -32,7 +32,7 @@ public class CustomerDao {
     private String email;
 
     @NotNull
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressDao address;
 
