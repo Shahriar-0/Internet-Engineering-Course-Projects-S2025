@@ -8,9 +8,7 @@ import domain.entities.book.Review;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
 import infra.daos.ReviewDao;
-import infra.mappers.BookMapper;
-import infra.mappers.IMapper;
-import infra.mappers.ReviewMapper;
+import infra.mappers.*;
 import infra.repositories.jpa.BookDaoRepository;
 import infra.repositories.jpa.GenreDaoRepository;
 import infra.repositories.jpa.ReviewDaoRepository;
@@ -35,7 +33,9 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     private final GenreDaoRepository genreDaoRepository;
     private final ReviewDaoRepository reviewDaoRepository;
     private final BookMapper bookMapper;
+    private final AuthorMapper authorMapper;
     private final ReviewMapper reviewMapper;
+    private final CustomerMapper customerMapper;
 
     @Override
     protected IMapper<Book, BookDao> getMapper() {
@@ -67,7 +67,8 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         spec = spec.and((root, query, cb) ->
             cb.like(cb.lower(root.get("book").get("title")), "%" + title.toLowerCase() + "%"));
 
-        return reviewDaoRepository.findAll(spec, pageable).map(reviewMapper::mapWithCustomer);
+        return reviewDaoRepository.findAll(spec, pageable)
+            .map(dao -> reviewMapper.mapWithCustomer(dao, customerMapper));
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         if (optionalDao.isEmpty())
             return Optional.empty();
 
-        Book book = bookMapper.mapWithAuthor(optionalDao.get());
+        Book book = bookMapper.mapWithAuthorAndReviews(optionalDao.get(), authorMapper, reviewMapper);
         return Optional.of(book);
     }
 }
