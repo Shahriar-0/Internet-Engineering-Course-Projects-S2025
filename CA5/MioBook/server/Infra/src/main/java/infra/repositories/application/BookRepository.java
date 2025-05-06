@@ -41,7 +41,6 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     private final AuthorDaoRepository authorDaoRepository;
     private final BookMapper bookMapper;
     private final ReviewMapper reviewMapper;
-    private final CustomerMapper customerMapper;
 
     @Override
     protected IMapper<Book, BookDao> getMapper() {

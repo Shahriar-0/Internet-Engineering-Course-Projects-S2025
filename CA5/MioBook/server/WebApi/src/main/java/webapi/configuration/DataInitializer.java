@@ -43,7 +43,6 @@ public class DataInitializer implements ApplicationRunner {
 	private static final String BOOKS_API_URL = API_URL + "/books";
 	private static final String REVIEWS_API_URL = API_URL + "/reviews";
 
-	private final UseCaseService useCaseService;
 	private final IUserRepository userRepository;
 	private final IAuthorRepository authorRepository;
 	private final IBookRepository bookRepository;
