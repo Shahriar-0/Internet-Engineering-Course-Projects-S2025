@@ -50,12 +50,11 @@ public class AddBook implements IUseCase {
 			return Result.failure(new BookAlreadyExists(data.title));
 
 		Book book = mapToBook(data, author, (Admin) user);
-		// author.addBook(book);
-		// authorRepository.update(author);
+		author.addBook(book);
  		return Result.success(bookRepository.save(book));
 	}
 
-	private static Book mapToBook(AddBookData data, Author author, Admin admin) {
+	public static Book mapToBook(AddBookData data, Author author, Admin admin) {
         return Book.builder()
 				.title(data.title)
 				.publisher(data.publisher)

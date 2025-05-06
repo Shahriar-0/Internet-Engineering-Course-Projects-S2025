@@ -37,7 +37,7 @@ public class CreateAccount implements IUseCase {
 		return Result.success(userRepository.save(mapToUser(data)));
 	}
 
-	private static User mapToUser(AddUserData data) {
+	public static User mapToUser(AddUserData data) {
 		Role role = Role.valueOf(data.role.toUpperCase());
 
         if (role == Role.CUSTOMER)

@@ -39,7 +39,7 @@ public class AddAuthor implements IUseCase {
 		return Result.success(authorRepository.save(mapToAuthor(data, (Admin) user)));
 	}
 
-	private static Author mapToAuthor(AddAuthorData data, Admin admin) {
+	public static Author mapToAuthor(AddAuthorData data, Admin admin) {
 		if (data.died == null)
             return Author.createAliveAuthor(
                 data.name,

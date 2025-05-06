@@ -1,5 +1,7 @@
 package webapi.configuration;
 
+import application.repositories.IAuthorRepository;
+import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.UseCaseType;
@@ -13,6 +15,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.entities.author.Author;
 import domain.entities.book.Book;
+import domain.entities.book.Review;
+import domain.entities.user.Admin;
+import domain.entities.user.Customer;
+import domain.entities.user.Role;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
 
@@ -39,19 +45,20 @@ public class DataInitializer implements ApplicationRunner {
 
 	private final UseCaseService useCaseService;
 	private final IUserRepository userRepository;
+	private final IAuthorRepository authorRepository;
+	private final IBookRepository bookRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
 	@Override
 	public void run(ApplicationArguments args) {
-		// loadCustomers();
-		// loadAuthors();
-		// loadBooks();
-		// loadReviews();
+		loadUsers();
+		loadAuthors();
+		loadBooks();
+		loadReviews();
 	}
 
-	private void loadCustomers() {
-		CreateAccount addUser = (CreateAccount) useCaseService.getUseCase(UseCaseType.CREATE_ACCOUNT);
+	private void loadUsers() {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(USERS_API_URL, String.class);
@@ -60,12 +67,8 @@ public class DataInitializer implements ApplicationRunner {
 			List<CreateAccount.AddUserData> parsedUserData = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
 			for (CreateAccount.AddUserData userData : parsedUserData) {
-                Result<User> result = addUser.perform(userData);
-                if (result.isFailure())
-                    logger.error(
-                        "Failed to add user: " + userData.username() +
-                        " because: " + result.exception().getMessage()
-                );
+                User user = CreateAccount.mapToUser(userData);
+				userRepository.save(user);
             }
 		}
 		catch (Exception e) {
@@ -74,7 +77,6 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadAuthors() {
-		AddAuthor addAuthor = (AddAuthor) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(AUTHORS_API_URL, String.class);
@@ -86,6 +88,8 @@ public class DataInitializer implements ApplicationRunner {
 				Optional<User> userResult = userRepository.findByUsername(username);
 				if (userResult.isEmpty())
                     throw new Exception("User with username " + username + " doesn't exist.");
+				if (!Role.ADMIN.equals(userResult.get().getRole()))
+					throw new Exception("User with username " + username + " is not an admin.");
 				String name = node.get("name").asText();
 				String penName = node.get("penName").asText();
 				String nationality = node.get("nationality").asText();
@@ -93,12 +97,8 @@ public class DataInitializer implements ApplicationRunner {
 				String died = node.get("died") == null ? null : node.get("died").asText();
 
 				AddAuthor.AddAuthorData data = new AddAuthor.AddAuthorData(name, penName, nationality, born, died);
-				Result<Author> result = addAuthor.perform(data, userResult.get());
-				if (result.isFailure())
-					logger.error(
-						"Failed to add author: " + result.exception().getMessage() +
-						" because of: " + result.exception().getMessage()
-					);
+				Author author = AddAuthor.mapToAuthor(data, (Admin) userResult.get());
+				authorRepository.save(author);
 			}
 		}
 		catch (Exception e) {
@@ -107,7 +107,6 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadBooks() {
-		AddBook addBook = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(BOOKS_API_URL, String.class);
@@ -119,7 +118,14 @@ public class DataInitializer implements ApplicationRunner {
 				Optional<User> userResult = userRepository.findByUsername(username);
 				if (userResult.isEmpty())
                     throw new Exception("User with username " + username + " doesn't exist.");
+				if (!Role.ADMIN.equals(userResult.get().getRole()))
+					throw new Exception("User with username " + username + " is not an admin.");
+
 				String authorName = node.get("author").asText();
+				Optional<Author> authorResult = authorRepository.findByName(authorName);
+				if (authorResult.isEmpty())
+					throw new Exception("Author with name " + authorName + " doesn't exist.");
+
 				String title = node.get("title").asText();
 				String publisher = node.get("publisher").asText();
 				Integer year = node.get("year").asInt();
@@ -129,12 +135,8 @@ public class DataInitializer implements ApplicationRunner {
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
 				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres, "");
-				Result<Book> result = addBook.perform(data, userResult.get());
-				if (result.isFailure())
-					logger.error(
-						"Failed to add book: " + title +
-						" because: " + result.exception().getMessage()
-					);
+				Book book = AddBook.mapToBook(data, authorResult.get(), (Admin) userResult.get());
+				bookRepository.save(book);
 			}
 		}
 		catch (Exception e) {
@@ -143,9 +145,7 @@ public class DataInitializer implements ApplicationRunner {
 	}
 
 	private void loadReviews() {
-		AddReview addReview = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
 		try {
-			addReview.setEnforceAccessChecks(false); // Disable access checks during initialization
 			RestTemplate restTemplate = new RestTemplate();
 			String jsonResponse = restTemplate.getForObject(REVIEWS_API_URL, String.class);
 
@@ -156,26 +156,25 @@ public class DataInitializer implements ApplicationRunner {
 				Optional<User> userResult = userRepository.findByUsername(username);
 				if (userResult.isEmpty())
                     throw new Exception("User with username " + username + " doesn't exist.");
+				if (!Role.CUSTOMER.equals(userResult.get().getRole()))
+					throw new Exception("User with username " + username + " is not a customer.");
+
 				String title = node.get("title").asText();
+				Optional<Book> bookResult = bookRepository.findByTitle(title);
+				if (bookResult.isEmpty())
+					throw new Exception("Book with title " + title + " doesn't exist.");
+
 				int rating = node.get("rate").asInt();
 				String comment = node.get("comment").asText();
 
 				AddReview.AddReviewData addReviewData = new AddReview.AddReviewData(rating, comment);
-
-				Result<Book> result = addReview.perform(addReviewData, title, userResult.get());
-				if (result.isFailure()) {
-					logger.error(
-						"Failed to add review for book: " + title +
-						" because: " + result.exception().getMessage()
-					);
-				}
+				Review review = AddReview.mapToReview(addReviewData, bookResult.get(), (Customer) userResult.get());
+				bookResult.get().addReview(review);
+				// bookRepository.update(bookResult.get());
 			}
 		}
 		catch (Exception e) {
 			logger.error("Error loading reviews: " + e.getMessage());
 		}
-		finally {
-           addReview.setEnforceAccessChecks(true); // Re-enable access checks after initialization
-       }
 	}
 }

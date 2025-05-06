@@ -2,7 +2,6 @@ package infra.mappers;
 
 import domain.entities.book.Book;
 import domain.entities.book.BookContent;
-import domain.entities.book.Review;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
 import infra.repositories.jpa.GenreDaoRepository;
@@ -21,16 +20,9 @@ public class BookMapper implements IMapper<Book, BookDao> {
     private final AdminMapper adminMapper;
     private final AuthorMapper authorMapper;
 
-    public Book mapWithAuthor(BookDao dao, AuthorMapper authorMapper) {
+    public Book mapWithAuthor(BookDao dao) {
         Book book = toDomain(dao);
         book.setAuthor(authorMapper.toDomain(dao.getAuthor()));
-        return book;
-    }
-
-    public Book mapWithAuthorAndReviews(BookDao dao, AuthorMapper authorMapper, ReviewMapper reviewMapper) {
-        Book book = mapWithAuthor(dao, authorMapper);
-        List<Review> reviews = dao.getReviews().stream().map(reviewMapper::toDomain).toList();
-        book.setReviews(reviews);
         return book;
     }
 
