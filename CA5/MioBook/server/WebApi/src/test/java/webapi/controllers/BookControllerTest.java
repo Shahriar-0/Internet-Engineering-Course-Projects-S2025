@@ -3,14 +3,15 @@ package webapi.controllers;
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
 import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
+import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
 import application.usecase.admin.book.AddBook;
+import application.usecase.customer.book.AddReview;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.author.Author;
 import domain.entities.book.Book;
-import domain.entities.book.Review;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import org.junit.jupiter.api.AfterEach;
@@ -69,9 +70,8 @@ class BookControllerTest {
         book2.setGenres(BOOK2_GENRES);
         bookRepository.save(book2);
 
-        Review review1 = ReviewFixtureUtil.review(0, book1, customer1);
-        Review review2 = ReviewFixtureUtil.review(1, book1, customer2);
-        //TODO: Add these reviews to repo after adding review was rewrote
+        bookRepository.upsertReview(ReviewFixtureUtil.review(0, book1, customer1), book1, customer1);
+        bookRepository.upsertReview(ReviewFixtureUtil.review(1, book1, customer2), book1, customer2);
     }
 
     @AfterEach
@@ -152,7 +152,16 @@ class BookControllerTest {
     @Test
     @Disabled
     void getBookReviews_BookHasReviews_ReturnsReviewsInPage() {
-        //TODO: Add this scenario after adding reviews to fixture
+        String title = BookFixtureUtil.title(0);
+        GetBookReviews.ReviewFilter filter = new GetBookReviews.ReviewFilter(1, 10);
+        PageView<BookReviewsView> page = bookController.getBookReviews(title, filter).getBody().data();
+
+        List<BookReviewsView> expectedReviews = new ArrayList<>();
+        expectedReviews.add(ReviewFixtureUtil.view(0, CustomerFixtureUtil.name(0)));
+        expectedReviews.add(ReviewFixtureUtil.view(1, CustomerFixtureUtil.name(1)));
+        PageView<BookReviewsView> expectedPage = new PageView<>(1, 10, 1, 2L, expectedReviews);
+
+        assertThat(page).isEqualTo(expectedPage);
     }
 
     @Test
@@ -183,9 +192,34 @@ class BookControllerTest {
     }
 
     @Test
-    @Disabled
-    void addReview_Scenarios() {
-        //TODO: Add add review test scenarios after the use case rewrote
+    void addReview_CustomerDidNotAddReviewBefore_AddCorrectly() {
+        //TODO: Add this scenario when adding buying book rewrote
+    }
+
+    @Test
+    void addReview_CustomerAddedReviewBefore_ReplaceWithOldOne() {
+        //TODO: Add this scenario when adding buying book rewrote
+    }
+
+    @Test
+    void addReview_BookTitleDoesNotExist_ThrowsException() {
+        customerLoggedIn(0);
+        String title = "Title that does not exist";
+        AddReview.AddReviewData data = ReviewFixtureUtil.addReviewData(3);
+
+        assertThatThrownBy(() -> bookController.addReview(data, title))
+            .isInstanceOf(BookDoesntExist.class)
+            .hasMessage("Book with title '" + title + "' does not exist!");
+    }
+
+    @Test
+    void addReview_CustomerDoesNotHaveAccess_ThrowsException() {
+        customerLoggedIn(1);
+        AddReview.AddReviewData data = ReviewFixtureUtil.addReviewData(3);
+
+        assertThatThrownBy(() -> bookController.addReview(data, BookFixtureUtil.title(1)))
+            .isInstanceOf(BookIsNotAccessible.class)
+            .hasMessage("Book '" + BookFixtureUtil.title(1) + "' is not accessible!");
     }
 
     @Test
@@ -208,10 +242,10 @@ class BookControllerTest {
         bookController = new BookController(useCaseService, mockedAuthenticationService);
     }
 
-    private void customerLoggedIn() {
+    private void customerLoggedIn(int index) {
         AuthenticationService mockedAuthenticationService = mock(AuthenticationService.class);
         when(mockedAuthenticationService.getUser())
-            .thenReturn(userRepository.findByUsername(CustomerFixtureUtil.name(0)).get());
+            .thenReturn(userRepository.findByUsername(CustomerFixtureUtil.name(index)).get());
 
         bookController = new BookController(useCaseService, mockedAuthenticationService);
     }
