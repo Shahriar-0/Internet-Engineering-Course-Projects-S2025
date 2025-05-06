@@ -49,10 +49,59 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
 
 	@Override
     @Transactional(readOnly = true)
-	public Page<Book> filter(GetBook.BookFilter filter) {
-        //TODO: implement this fucking peace of shit, i passed out
-        return Page.empty();
-	}
+    public Page<Book> filter(GetBook.BookFilter filter) {
+        Sort sort = Sort.unsorted();
+        if (filter.sortBy() != null) {
+            sort = getSortObject(filter.sortByType(), filter.isAscending());
+        }
+
+        Pageable pageable = PageRequest.of(
+            filter.pageNumber() - 1,
+            filter.pageSize(),
+            sort
+        );
+
+        Specification<BookDao> spec = Specification.where(null);
+
+        if (filter.title() != null)
+            spec = spec.and((root, query, cb) ->
+                cb.like(cb.lower(root.get("title")), "%" + filter.title().toLowerCase() + "%")
+            );
+
+        if (filter.author() != null)
+            spec = spec.and((root, query, cb) ->
+                cb.like(cb.lower(root.get("author")), "%" + filter.author().toLowerCase() + "%")
+            );
+
+        if (filter.genre() != null)
+            spec = spec.and((root, query, cb) ->
+                cb.equal(root.get("genre"), filter.genre())
+            );
+
+        if (filter.from() != null)
+            spec = spec.and((root, query, cb) ->
+                cb.greaterThanOrEqualTo(root.get("year"), filter.from())
+            );
+
+        if (filter.to() != null)
+            spec = spec.and((root, query, cb) ->
+                cb.lessThanOrEqualTo(root.get("year"), filter.to())
+            );
+
+        return bookDaoRepository.findAll(spec, pageable).map(dao -> bookMapper.mapWithAuthor(dao, authorMapper));
+    }
+
+    private static Sort getSortObject(GetBook.BookFilter.BookSortByType sortByType, Boolean isAscending) {
+        String propertyName = switch (sortByType) {
+            case DATE -> "date_added";
+            // case RATING -> "averageRating";
+            // case REVIEWS -> "reviewsCount"; // TODO: implement, it should search among review table and find the shits
+            case TITLE -> "title";
+            default -> "title"; // TODO: temp solution just to fix switch
+        };
+
+        return isAscending ? Sort.by(propertyName).ascending() : Sort.by(propertyName).descending();
+    }
 
 	@Override
     @Transactional(readOnly = true)
