@@ -38,6 +38,8 @@ public class UserRepository implements IUserRepository {
     private final AdminMapper adminMapper;
     private final BookLicenseMapper bookLicenseMapper;
     private final BookMapper bookMapper;
+    private final PurchasedCartMapper purchasedCartMapper;
+    private final PurchasedItemMapper purchasedItemMapper;
 
     @Override
     public Optional<User> findById(Long id) {
@@ -107,8 +109,16 @@ public class UserRepository implements IUserRepository {
     @Transactional(readOnly = true)
     public Optional<User> findByUsername(String username) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByName(username);
-        if (optionalCustomerDao.isPresent())
-            return Optional.of(customerMapper.mapWithCartAndLicenses(optionalCustomerDao.get(), cartItemMapper, bookLicenseMapper));
+        if (optionalCustomerDao.isPresent()) {
+            CustomerDao customerDao = optionalCustomerDao.get();
+            Customer customer = customerMapper.mapWithCartAndLicenses(optionalCustomerDao.get(), cartItemMapper, bookLicenseMapper);
+            List<PurchasedCart> purchasedCarts = new ArrayList<>();
+            customerDao.getPurchasedCarts().forEach(cartDao -> {
+                purchasedCarts.add(purchasedCartMapper.mapWithItems(cartDao, purchasedItemMapper));
+            });
+            customer.setPurchaseHistory(purchasedCarts);
+            return Optional.of(customer);
+        }
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByName(username);
         return optionalAdminDao.map(adminMapper::toDomain);
@@ -118,8 +128,16 @@ public class UserRepository implements IUserRepository {
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByEmail(email);
-        if (optionalCustomerDao.isPresent())
-            return Optional.of(customerMapper.mapWithCartAndLicenses(optionalCustomerDao.get(), cartItemMapper, bookLicenseMapper));
+        if (optionalCustomerDao.isPresent()) {
+            CustomerDao customerDao = optionalCustomerDao.get();
+            Customer customer = customerMapper.mapWithCartAndLicenses(optionalCustomerDao.get(), cartItemMapper, bookLicenseMapper);
+            List<PurchasedCart> purchasedCarts = new ArrayList<>();
+            customerDao.getPurchasedCarts().forEach(cartDao -> {
+                purchasedCarts.add(purchasedCartMapper.mapWithItems(cartDao, purchasedItemMapper));
+            });
+            customer.setPurchaseHistory(purchasedCarts);
+            return Optional.of(customer);
+        }
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByEmail(email);
         return optionalAdminDao.map(adminMapper::toDomain);
