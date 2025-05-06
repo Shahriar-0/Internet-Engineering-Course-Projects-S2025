@@ -32,9 +32,7 @@ public class GetBook implements IUseCase {
 		assert title != null && !title.isBlank() : "we rely on presentation layer validation for field 'title'";
 
         Optional<Book> book = bookRepository.findByTitle(title);
-        return book.map(Result::success)
-            .orElseGet(() -> Result.failure(new BookDoesntExist(title)));
-
+        return book.map(Result::success).orElseGet(() -> Result.failure(new BookDoesntExist(title)));
     }
 
 	public Page<Book> perform(BookFilter filter) {

@@ -27,8 +27,7 @@ public class GetAuthor implements IUseCase {
 		assert name != null && !name.isBlank() : "we rely on presentation layer validation for field 'name'";
 
         Optional<Author> author = authorRepository.findByName(name);
-        return author.map(Result::success)
-            .orElseGet(() -> Result.failure(new AuthorDoesNotExists(name)));
+        return author.map(Result::success).orElseGet(() -> Result.failure(new AuthorDoesNotExists(name)));
     }
 
 	public List<Author> perform() {
