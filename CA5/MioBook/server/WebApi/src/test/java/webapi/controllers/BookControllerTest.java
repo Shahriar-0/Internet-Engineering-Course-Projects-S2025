@@ -27,8 +27,11 @@ import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
 import webapi.views.page.PageView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -38,6 +41,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @SpringBootTest
 class BookControllerTest {
+
+    static final List<String> BOOK2_GENRES = List.of("Test Genre1", "Test Genre2");
 
     @Autowired
     BookController bookController;
@@ -72,6 +77,7 @@ class BookControllerTest {
         Book book2 = BookFixtureUtil.book(1);
         book2.setAdmin(admin);
         book2.setAuthor(author);
+        book2.setGenres(BOOK2_GENRES);
         bookRepository.save(book2);
 
         Review review1 = ReviewFixtureUtil.review(0, book1, customer1);
@@ -179,6 +185,30 @@ class BookControllerTest {
         assertThatThrownBy(() -> bookController.getBookReviews(title, filter))
             .isInstanceOf(BookDoesntExist.class)
             .hasMessage("Book with title '" + title + "' does not exist!");
+    }
+
+    @Test
+    @Disabled
+    void searchBook_Scenarios() {
+        //TODO: Add search book test scenarios after the repository method completed
+    }
+
+    @Test
+    @Disabled
+    void addReview_Scenarios() {
+        //TODO: Add add review test scenarios after the use case rewrote
+    }
+
+    @Test
+    void getGenres_EverythingIsOk_ReturnsGenreList() {
+        List<String> genres = bookController.getGenres().getBody().data();
+
+        List<String> expectedGenres = new ArrayList<>();
+        expectedGenres.addAll(BookFixtureUtil.GENRES);
+        expectedGenres.addAll(BOOK2_GENRES);
+        expectedGenres.sort(String::compareTo);
+
+        assertThat(genres).isEqualTo(expectedGenres);
     }
 
     private void adminLoggedIn() {
