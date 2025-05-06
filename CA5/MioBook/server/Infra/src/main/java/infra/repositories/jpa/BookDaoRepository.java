@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface BookDaoRepository extends JpaRepository<BookDao, Long>, JpaSpecificationExecutor<BookDao> {
     Optional<BookDao> findByTitle(String title);
+    boolean existsByTitle(String title);
 }

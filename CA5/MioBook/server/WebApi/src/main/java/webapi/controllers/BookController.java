@@ -87,9 +87,12 @@ public class BookController {
 	) {
 		GetBookReviews useCase = (GetBookReviews) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 
-		Page<Review> reviews = useCase.perform(title, filter);
+		Result<Page<Review>> result = useCase.perform(title, filter);
+        if (result.isFailure())
+            throw result.exception();
+
 		return Response.of(
-            new PageView<>(BookReviewsView.mapToView(reviews)),
+            new PageView<>(BookReviewsView.mapToView(result.data())),
             OK
         );
 	}

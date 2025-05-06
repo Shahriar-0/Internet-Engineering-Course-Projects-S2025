@@ -13,7 +13,7 @@ public record PageView<T> (
 ) {
     public PageView(Page<T> page) {
         this(
-            page.getNumber(),
+            page.getNumber() + 1,
             page.getSize(),
             page.getTotalPages(),
             page.getTotalElements(),

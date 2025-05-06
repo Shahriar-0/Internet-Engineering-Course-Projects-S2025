@@ -17,4 +17,5 @@ public interface IBookRepository extends IBaseRepository<Book> {
     List<String> getGenres();
     Optional<Book> findByTitle(String title);
     Review upsertReview(Review review, Book book, Customer customer);
+    boolean existsByTitle(String title);
 }

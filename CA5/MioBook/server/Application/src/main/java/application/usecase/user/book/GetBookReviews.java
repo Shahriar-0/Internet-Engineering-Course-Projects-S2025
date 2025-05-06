@@ -1,6 +1,8 @@
 package application.usecase.user.book;
 
+import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.repositories.IBookRepository;
+import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.book.Review;
@@ -24,11 +26,14 @@ public class GetBookReviews implements IUseCase {
 		return UseCaseType.GET_BOOK_REVIEWS;
 	}
 
-	public Page<Review> perform(String title, ReviewFilter filter) {
+	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
         assert title != null && !title.isBlank(): "we rely on presentation layer validation for field 'title'";
 
+        if (!bookRepository.existsByTitle(title))
+            return Result.failure(new BookDoesntExist(title));
+
 		ReviewFilter standardizeFilter = standardizeFilter(filter);
-		return bookRepository.filterReview(title, standardizeFilter);
+		return Result.success(bookRepository.filterReview(title, standardizeFilter));
 	}
 
     private static ReviewFilter standardizeFilter(ReviewFilter filter) {
