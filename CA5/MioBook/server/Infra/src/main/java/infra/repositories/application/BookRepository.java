@@ -17,6 +17,7 @@ import infra.repositories.jpa.GenreDaoRepository;
 import infra.repositories.jpa.ReviewDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,6 +26,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,15 +56,10 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
 	@Override
     @Transactional(readOnly = true)
     public Page<Book> filter(GetBook.BookFilter filter) {
-        Sort sort = Sort.unsorted();
-        if (filter.sortBy() != null) {
-            sort = getSortObject(filter.sortByType(), filter.isAscending());
-        }
 
         Pageable pageable = PageRequest.of(
             filter.pageNumber() - 1,
-            filter.pageSize(),
-            sort
+            filter.pageSize()
         );
 
         Specification<BookDao> spec = Specification.where(null);
@@ -95,20 +93,30 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
                 cb.lessThanOrEqualTo(root.get("year"), filter.to())
             );
 
-        return bookDaoRepository.findAll(spec, pageable).map(dao -> bookMapper.mapWithAuthorAndReviews(dao, reviewMapper));
+        Page<Book> page = bookDaoRepository
+            .findAll(spec, pageable)
+            .map(dao -> bookMapper.mapWithAuthorAndReviews(dao, reviewMapper));
+
+        // sort content in‑memory
+        List<Book> sortedList = new ArrayList<>(page.getContent());
+        Comparator<Book> comparator = getSortFunction(filter.sortByType());
+        sortedList = sortedList.stream().sorted(filter.isAscending() ? comparator : comparator.reversed()).toList();
+
+        return new PageImpl<>( // TODO: improve this sorting
+            sortedList,
+            page.getPageable(),
+            page.getTotalElements()
+        );
     }
 
-    private static Sort getSortObject(GetBook.BookFilter.BookSortByType sortByType, Boolean isAscending) {
-        String propertyName = switch (sortByType) {
-            case DATE -> "date_added";
-            // case RATING -> "averageRating";
-            // case REVIEWS -> "reviewsCount"; // TODO: implement, it should search among review table and find the shits
-            case TITLE -> "title";
-            default -> "title"; // TODO: temp solution just to fix switch
-        };
-
-        return isAscending ? Sort.by(propertyName).ascending() : Sort.by(propertyName).descending();
-    }
+	private static Comparator<Book> getSortFunction(GetBook.BookFilter.BookSortByType filterType) {
+		return switch (filterType) {
+			case DATE -> Comparator.comparing(Book::getDateAdded);
+			case RATING -> Comparator.comparing(Book::getAverageRating);
+			case REVIEWS -> Comparator.comparing(book -> book.getReviews().size());
+			case TITLE -> Comparator.comparing(Book::getTitle);
+		};
+	}
 
 	@Override
     @Transactional(readOnly = true)
