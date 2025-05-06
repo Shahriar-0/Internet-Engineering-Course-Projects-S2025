@@ -1,9 +1,11 @@
 package infra.mappers;
 
+import domain.entities.cart.Cart;
 import domain.entities.user.Customer;
 import domain.entities.user.Role;
 import infra.daos.CustomerDao;
 import infra.daos.WalletDao;
+import infra.repositories.jpa.CartDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,15 @@ import org.springframework.stereotype.Component;
 public class CustomerMapper implements IMapper<Customer, CustomerDao> {
 
     private final AddressMapper addressMapper;
+    private final CartDaoRepository cartDaoRepository;
+
+    public Customer mapWithCart(CustomerDao dao, CartItemMapper cartItemMapper) {
+        Customer customer = toDomain(dao);
+        Cart cart = new Cart(customer);
+        cartDaoRepository.findByCustomerId(dao.getId()).forEach(cartItem -> cart.addItem(cartItemMapper.toDomain(cartItem)));
+        customer.setCart(cart);
+        return customer;
+    }
 
     @Override
     public Customer toDomain(CustomerDao dao) {

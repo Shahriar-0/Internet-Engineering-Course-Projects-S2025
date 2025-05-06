@@ -2,14 +2,18 @@ package infra.repositories.application;
 
 import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IUserRepository;
+import domain.entities.cart.CartItem;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import infra.daos.AdminDao;
+import infra.daos.CartItemDao;
 import infra.daos.CustomerDao;
 import infra.mappers.AdminMapper;
+import infra.mappers.CartItemMapper;
 import infra.mappers.CustomerMapper;
 import infra.repositories.jpa.AdminDaoRepository;
+import infra.repositories.jpa.CartDaoRepository;
 import infra.repositories.jpa.CustomerDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,7 +31,10 @@ public class UserRepository implements IUserRepository {
     private final static String UNKNOWN_USER_TYPE = "Unknown user type";
 
     private final CustomerDaoRepository customerDaoRepository;
+    private final CartDaoRepository cartDaoRepository;
     private final AdminDaoRepository adminDaoRepository;
+
+    private final CartItemMapper cartItemMapper;
     private final CustomerMapper customerMapper;
     private final AdminMapper adminMapper;
 
@@ -100,7 +107,7 @@ public class UserRepository implements IUserRepository {
     public Optional<User> findByUsername(String username) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByName(username);
         if (optionalCustomerDao.isPresent())
-            return Optional.of(customerMapper.toDomain(optionalCustomerDao.get()));
+            return Optional.of(customerMapper.mapWithCart(optionalCustomerDao.get(), cartItemMapper));
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByName(username);
         return optionalAdminDao.map(adminMapper::toDomain);
@@ -111,7 +118,7 @@ public class UserRepository implements IUserRepository {
     public Optional<User> findByEmail(String email) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByEmail(email);
         if (optionalCustomerDao.isPresent())
-            return Optional.of(customerMapper.toDomain(optionalCustomerDao.get()));
+            return Optional.of(customerMapper.mapWithCart(optionalCustomerDao.get(), cartItemMapper));
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByEmail(email);
         return optionalAdminDao.map(adminMapper::toDomain);
@@ -161,5 +168,12 @@ public class UserRepository implements IUserRepository {
         adminMapper.update(admin, dao);
         dao = adminDaoRepository.save(dao);
         return adminMapper.toDomain(dao);
+    }
+
+    @Override
+    @Transactional
+    public CartItem saveCart(CartItem cartItem) {
+        CartItemDao dao = cartDaoRepository.save(cartItemMapper.toDao(cartItem));
+        return cartItemMapper.toDomain(dao);
     }
 }

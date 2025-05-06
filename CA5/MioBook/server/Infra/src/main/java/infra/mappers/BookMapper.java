@@ -63,7 +63,6 @@ public class BookMapper implements IMapper<Book, BookDao> {
 
     @Override
     public BookDao toDao(Book entity) {
-        System.out.println("here");
         BookDao dao = new BookDao();
         dao.setId(entity.getId());
         dao.setTitle(entity.getTitle());

@@ -54,6 +54,8 @@ public class Author extends DomainEntity {
 
 	public void addBook(Book book) {
 		assert book.getAuthor().getId().equals(id);
+		books = new ArrayList<>(books); //  java.base/java.util.ImmutableCollections$AbstractImmutableCollection.add(ImmutableCollections.java:
+		// FIXME: motherfucker
 		books.add(book);
 	}
 
