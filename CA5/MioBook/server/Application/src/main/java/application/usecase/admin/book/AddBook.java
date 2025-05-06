@@ -18,6 +18,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +65,7 @@ public class AddBook implements IUseCase {
 				.basePrice(data.price)
 				.synopsis(data.synopsis)
 				.imageLink(data.imageLink)
+                .coverLink(data.coverLink)
 				.dateAdded(LocalDateTime.now())
 				.genres(data.genres)
 				.content(BookContent.builder().content(data.content).build())
@@ -70,15 +74,19 @@ public class AddBook implements IUseCase {
 				.build();
 	}
 
-	public record AddBookData(
-		@NotBlank String author,
-		@NotBlank String title,
-		@NotBlank String publisher,
-		@NotBlank String synopsis,
-		@NotBlank String content,
-		@NotNull @Positive Integer year,
-		@NotNull @Positive Long price,
-		@NotEmpty @Valid List<@NotBlank String> genres,
-        String imageLink
-	) {}
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+	public static class AddBookData {
+        @NotBlank String author;
+        @NotBlank String title;
+        @NotBlank String publisher;
+        @NotBlank String synopsis;
+        @NotBlank String content;
+        @NotNull @Positive Integer year;
+        @NotNull @Positive Long price;
+        @NotEmpty @Valid List<@NotBlank String> genres;
+        String imageLink;
+        String coverLink;
+    }
 }

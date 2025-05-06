@@ -10,7 +10,6 @@ import application.usecase.user.account.CreateAccount;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import domain.entities.author.Author;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
@@ -19,7 +18,6 @@ import domain.entities.user.Customer;
 import domain.entities.user.Role;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -130,7 +128,7 @@ public class DataInitializer implements ApplicationRunner {
 				String content = node.get("content").asText();
 				List<String> genres = objectMapper.convertValue(node.get("genres"), new TypeReference<List<String>>() {});
 
-				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres, "");
+				AddBook.AddBookData data = new AddBook.AddBookData(authorName, title, publisher, synopsis, content, year, price, genres, "", "");
 				Book book = AddBook.mapToBook(data, authorResult.get(), (Admin) userResult.get());
 				bookRepository.save(book);
 			}
