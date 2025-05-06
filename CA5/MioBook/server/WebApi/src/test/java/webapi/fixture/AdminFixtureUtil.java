@@ -1,6 +1,7 @@
 package webapi.fixture;
 
 import application.usecase.user.account.CreateAccount;
+import application.usecase.user.account.Login;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.Role;
@@ -38,6 +39,13 @@ public class AdminFixtureUtil {
             email(index),
             AddressFixtureUtil.address(index)
         );
+    }
+
+    public static Login.LoginData loginData(int index) {
+        Login.LoginData data = new Login.LoginData();
+        data.setUsername(name(index));
+        data.setPassword(password(index));
+        return data;
     }
 
     public static String name(int index) {

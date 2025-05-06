@@ -10,6 +10,9 @@ import domain.entities.user.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,11 +62,14 @@ public class Login implements IUseCase {
 		return Result.success(optionalUser.get());
 	}
 
-	public record LoginData(
-		String username,
-		@Email String email,
-		@NotBlank String password
-	) {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+	public static class LoginData {
+		String username;
+		@Email String email;
+		@NotBlank String password;
+
 		@AssertTrue(message = "Both email and username can't be blank")
 		private boolean isBothEmailAndUsernameBlank() {
 			try {
