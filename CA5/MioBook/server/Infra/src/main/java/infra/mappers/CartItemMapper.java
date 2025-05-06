@@ -18,7 +18,6 @@ public class CartItemMapper implements IMapper<CartItem, CartItemDao> {
         return CartItem.builder()
             .id(dao.getId())
             .book(bookMapper.toDomain(dao.getBook()))
-            .cart(customerMapper.toDomain(dao.getCustomer()).getCart())
             .isBorrowed(dao.isBorrowed())
             .borrowDays(dao.getBorrowDays())
             .build();

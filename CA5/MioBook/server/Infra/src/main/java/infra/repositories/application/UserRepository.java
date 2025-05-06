@@ -12,6 +12,7 @@ import infra.daos.AdminDao;
 import infra.daos.CartItemDao;
 import infra.daos.CustomerDao;
 import infra.mappers.AdminMapper;
+import infra.mappers.BookLicenseMapper;
 import infra.mappers.CartItemMapper;
 import infra.mappers.CustomerMapper;
 import infra.repositories.jpa.AdminDaoRepository;
@@ -39,6 +40,7 @@ public class UserRepository implements IUserRepository {
     private final CartItemMapper cartItemMapper;
     private final CustomerMapper customerMapper;
     private final AdminMapper adminMapper;
+    private final BookLicenseMapper bookLicenseMapper;
 
     @Override
     public Optional<User> findById(Long id) {
@@ -109,7 +111,7 @@ public class UserRepository implements IUserRepository {
     public Optional<User> findByUsername(String username) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByName(username);
         if (optionalCustomerDao.isPresent())
-            return Optional.of(customerMapper.mapWithCart(optionalCustomerDao.get(), cartItemMapper));
+            return Optional.of(customerMapper.mapWithCartAndLicenses(optionalCustomerDao.get(), cartItemMapper, bookLicenseMapper));
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByName(username);
         return optionalAdminDao.map(adminMapper::toDomain);
@@ -120,7 +122,7 @@ public class UserRepository implements IUserRepository {
     public Optional<User> findByEmail(String email) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByEmail(email);
         if (optionalCustomerDao.isPresent())
-            return Optional.of(customerMapper.mapWithCart(optionalCustomerDao.get(), cartItemMapper));
+            return Optional.of(customerMapper.mapWithCartAndLicenses(optionalCustomerDao.get(), cartItemMapper, bookLicenseMapper));
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByEmail(email);
         return optionalAdminDao.map(adminMapper::toDomain);

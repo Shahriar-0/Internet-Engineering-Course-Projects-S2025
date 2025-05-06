@@ -25,8 +25,8 @@ public class Customer extends User {
 
 	private Long credit;
 	private Cart cart;
-	private final List<BookLicense> purchasedLicenses = new ArrayList<>();
-	private final List<PurchasedCart> purchaseHistory = new ArrayList<>();
+	private List<BookLicense> purchasedLicenses = new ArrayList<>();
+	private List<PurchasedCart> purchaseHistory = new ArrayList<>();
 
 	public Customer(String username, String password, String email, Address address) {
 		super(username, password, email, address, Role.CUSTOMER);
