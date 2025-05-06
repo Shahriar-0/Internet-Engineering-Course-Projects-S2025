@@ -35,6 +35,7 @@ public class Author extends DomainEntity {
 			.nationality(nationality)
 			.born(born)
 			.admin(admin)
+			.books(new ArrayList<>())
 			.build();
 	}
 
@@ -47,6 +48,7 @@ public class Author extends DomainEntity {
 			.born(born)
 			.died(died)
 			.admin(admin)
+			.books(new ArrayList<>())
 			.build();
 	}
 

@@ -18,6 +18,8 @@ import java.util.Optional;
 public class BookMapper implements IMapper<Book, BookDao> {
 
     private final GenreDaoRepository genreDaoRepository;
+    private final AdminMapper adminMapper;
+    private final AuthorMapper authorMapper;
 
     public Book mapWithAuthor(BookDao dao, AuthorMapper authorMapper) {
         Book book = toDomain(dao);
@@ -45,6 +47,8 @@ public class BookMapper implements IMapper<Book, BookDao> {
             .imageLink(dao.getImageLink())
             .coverLink(dao.getCoverLink())
             .dateAdded(dao.getDateAdded())
+            .admin(adminMapper.toDomain(dao.getAdmin()))
+            .author(authorMapper.toDomain(dao.getAuthor()))
             .build();
 
         book.setContent(BookContent.builder()
@@ -58,6 +62,7 @@ public class BookMapper implements IMapper<Book, BookDao> {
 
     @Override
     public BookDao toDao(Book entity) {
+        System.out.println("here");
         BookDao dao = new BookDao();
         dao.setId(entity.getId());
         dao.setTitle(entity.getTitle());
@@ -70,6 +75,8 @@ public class BookMapper implements IMapper<Book, BookDao> {
         dao.setCoverLink(entity.getCoverLink());
         dao.setDateAdded(entity.getDateAdded());
         dao.setGenres(getGenreDaoList(entity.getGenres()));
+        dao.setAdmin(adminMapper.toDao(entity.getAdmin()));
+        dao.setAuthor(authorMapper.toDao(entity.getAuthor()));
         return dao;
     }
 
@@ -86,6 +93,8 @@ public class BookMapper implements IMapper<Book, BookDao> {
         dao.setCoverLink(entity.getCoverLink());
         dao.setDateAdded(entity.getDateAdded());
         dao.setGenres(getGenreDaoList(entity.getGenres()));
+        dao.setAdmin(adminMapper.toDao(entity.getAdmin()));
+        dao.setAuthor(authorMapper.toDao(entity.getAuthor()));
     }
 
     private List<GenreDao> getGenreDaoList(List<String> genres) {

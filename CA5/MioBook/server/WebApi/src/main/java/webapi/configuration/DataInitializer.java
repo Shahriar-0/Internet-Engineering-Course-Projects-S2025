@@ -44,7 +44,7 @@ public class DataInitializer implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) {
-		loadCustomers();
+		// loadCustomers();
 		// loadAuthors();
 		// loadBooks();
 		// loadReviews();

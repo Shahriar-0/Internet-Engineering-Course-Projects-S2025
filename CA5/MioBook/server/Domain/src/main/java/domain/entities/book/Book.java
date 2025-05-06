@@ -2,6 +2,8 @@ package domain.entities.book;
 
 import domain.entities.DomainEntity;
 import domain.entities.author.Author;
+import domain.entities.user.Admin;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ public class Book extends DomainEntity {
 	private List<String> genres;
 	private BookContent content;
     private String imageLink;
+	private Admin admin;
 
 	@Builder.Default
 	private List<Review> reviews = new ArrayList<>();
@@ -36,26 +39,6 @@ public class Book extends DomainEntity {
 
 	@Builder.Default
 	private String coverLink = null;
-
-	public Book(
-		String title,
-		Author author,
-		String publisher,
-		int publishedYear,
-		long basePrice,
-		String synopsis,
-		List<String> genres,
-		String content
-	) {
-		this.title = title;
-		this.author = author;
-		this.publisher = publisher;
-		this.publishedYear = publishedYear;
-		this.basePrice = basePrice;
-		this.synopsis = synopsis;
-		this.genres = genres;
-		this.content = new BookContent(this, content);
-	}
 
 	public void addReview(Review review) {
 		assert review.getBook().equals(this);

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -36,6 +37,7 @@ public class AuthorMapper implements IMapper<Author, AuthorDao> {
             .born(dao.getBirthDate())
             .died(dao.getDeathDate())
             .admin(adminMapper.toDomain(dao.getAdmin()))
+            .books(new ArrayList<>()) // FIXME: the Builder.Default didnt work
             .build();
     }
 
