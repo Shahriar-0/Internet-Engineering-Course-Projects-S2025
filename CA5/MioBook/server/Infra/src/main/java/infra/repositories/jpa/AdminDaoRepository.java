@@ -1,7 +1,6 @@
 package infra.repositories.jpa;
 
 import infra.daos.AdminDao;
-import infra.daos.CustomerDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

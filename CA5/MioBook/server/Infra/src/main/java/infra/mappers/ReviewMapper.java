@@ -2,12 +2,18 @@ package infra.mappers;
 
 import domain.entities.book.Review;
 import infra.daos.ReviewDao;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ReviewMapper implements IMapper<Review, ReviewDao> {
 
-    public Review mapWithCustomer(ReviewDao dao, CustomerMapper customerMapper) {
+    private final CustomerMapper customerMapper;
+    private final BookMapper bookMapper;
+
+    public Review mapWithCustomer(ReviewDao dao) {
         Review review = toDomain(dao);
         review.setCustomer(customerMapper.toDomain(dao.getCustomer()));
         return review;
@@ -20,6 +26,8 @@ public class ReviewMapper implements IMapper<Review, ReviewDao> {
             .rating(dao.getRating())
             .comment(dao.getComment())
             .dateTime(dao.getDateTime())
+            .book(bookMapper.toDomain(dao.getBook()))
+            .customer(customerMapper.toDomain(dao.getCustomer()))
             .build();
     }
 
@@ -30,6 +38,8 @@ public class ReviewMapper implements IMapper<Review, ReviewDao> {
         dao.setRating(entity.getRating());
         dao.setComment(entity.getComment());
         dao.setDateTime(entity.getDateTime());
+        dao.setBook(bookMapper.toDao(entity.getBook()));
+        dao.setCustomer(customerMapper.toDao(entity.getCustomer()));
         return dao;
     }
 

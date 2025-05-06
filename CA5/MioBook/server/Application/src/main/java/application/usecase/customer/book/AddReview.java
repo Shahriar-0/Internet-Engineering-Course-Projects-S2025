@@ -1,5 +1,6 @@
 package application.usecase.customer.book;
 
+import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
 import application.repositories.IBookRepository;
 import application.result.Result;
@@ -15,6 +16,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 @Setter
@@ -24,30 +28,31 @@ public class AddReview implements IUseCase {
 
 	private final IBookRepository bookRepository;
 
-    private boolean enforceAccessChecks = true; // for data initialization it would be false otherwise it would be true
-
 	@Override
 	public UseCaseType getType() {
 		return UseCaseType.ADD_REVIEW;
 	}
 
 	public Result<Book> perform(AddReviewData data, String title, User user) {
-//        assert user instanceof Customer: "we rely on presentation layer access control";
-//        Customer customer = (Customer) user;
-//
-//        Result<Book> bookResult = bookRepository.findByTitle(title);
-//        if (bookResult.isFailure())
-//            return Result.failure(bookResult.exception());
-//        Book book = bookResult.data();
-//
-//        if (enforceAccessChecks && !customer.hasAccess(title))
-//            return Result.failure(new BookIsNotAccessible(title));
-//
-//        Review review = new Review(data.rating, data.comment, customer, book);
-//        book.addReview(review);
-//        return Result.success(book);
+        assert user instanceof Customer: "we rely on presentation layer access control";
+        Customer customer = (Customer) user;
 
-        return null;
+        Optional<Book> bookResult = bookRepository.findByTitle(title);
+        if (bookResult.isEmpty())
+            return Result.failure(new BookDoesntExist(title));
+        Book book = bookResult.get();
+
+        if (!customer.hasAccess(title))
+            return Result.failure(new BookIsNotAccessible(title));
+
+        Review review = new Review(data.rating, data.comment, customer, book);
+        book.addReview(review);
+        bookRepository.upsertReview(review, book, customer);
+        return Result.success(book);
+    }
+
+    public static Review mapToReview(AddReviewData data, Book book, Customer customer) {
+        return new Review(data.rating, data.comment, customer, book);
     }
 
 	public record AddReviewData(

@@ -5,6 +5,7 @@ import application.usecase.user.book.GetBook;
 import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
+import domain.entities.user.Customer;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
 import infra.daos.ReviewDao;
@@ -33,7 +34,6 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     private final GenreDaoRepository genreDaoRepository;
     private final ReviewDaoRepository reviewDaoRepository;
     private final BookMapper bookMapper;
-    private final AuthorMapper authorMapper;
     private final ReviewMapper reviewMapper;
     private final CustomerMapper customerMapper;
 
@@ -88,7 +88,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
                 cb.lessThanOrEqualTo(root.get("year"), filter.to())
             );
 
-        return bookDaoRepository.findAll(spec, pageable).map(dao -> bookMapper.mapWithAuthor(dao, authorMapper));
+        return bookDaoRepository.findAll(spec, pageable).map(dao -> bookMapper.mapWithAuthor(dao));
     }
 
     private static Sort getSortObject(GetBook.BookFilter.BookSortByType sortByType, Boolean isAscending) {
@@ -117,7 +117,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
             cb.like(cb.lower(root.get("book").get("title")), "%" + title.toLowerCase() + "%"));
 
         return reviewDaoRepository.findAll(spec, pageable)
-            .map(dao -> reviewMapper.mapWithCustomer(dao, customerMapper));
+            .map(dao -> reviewMapper.mapWithCustomer(dao));
 	}
 
 	@Override
@@ -133,7 +133,18 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         if (optionalDao.isEmpty())
             return Optional.empty();
 
-        Book book = bookMapper.mapWithAuthorAndReviews(optionalDao.get(), authorMapper, reviewMapper);
+        Book book = bookMapper.mapWithAuthor(optionalDao.get());
         return Optional.of(book);
+    }
+
+    @Override
+    @Transactional
+    public Review upsertReview(Review review, Book book, Customer customer) {
+        if (reviewDaoRepository.findByBookIdAndCustomerId(book.getId(), customer.getId()).isPresent())
+            reviewDaoRepository.deleteByBookIdAndCustomerId(book.getId(), customer.getId());
+        
+        ReviewDao dao = reviewMapper.toDao(review);
+        dao = reviewDaoRepository.save(dao);
+        return reviewMapper.toDomain(dao);
     }
 }

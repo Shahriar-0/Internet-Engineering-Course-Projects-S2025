@@ -170,7 +170,7 @@ public class DataInitializer implements ApplicationRunner {
 				AddReview.AddReviewData addReviewData = new AddReview.AddReviewData(rating, comment);
 				Review review = AddReview.mapToReview(addReviewData, bookResult.get(), (Customer) userResult.get());
 				bookResult.get().addReview(review);
-				// bookRepository.update(bookResult.get());
+				bookRepository.upsertReview(review, bookResult.get(), (Customer) userResult.get());
 			}
 		}
 		catch (Exception e) {
