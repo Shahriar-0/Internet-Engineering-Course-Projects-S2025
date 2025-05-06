@@ -1,5 +1,6 @@
 package application.usecase.customer.book;
 
+import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.exceptions.businessexceptions.userexceptions.BookIsNotAccessible;
 import application.repositories.IBookRepository;
 import application.result.Result;
@@ -10,6 +11,9 @@ import domain.entities.book.BookContent;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,18 +28,17 @@ public class GetBookContent implements IUseCase {
 	}
 
 	public Result<BookContent> perform(String title, User user) {
-//		assert user instanceof Customer: "we rely on presentation layer access control";
-//		Customer customer = (Customer) user;
-//
-//		Result<Book> bookResult = bookRepository.findByTitle(title);
-//		if (bookResult.isFailure())
-//            return Result.failure(bookResult.exception());
-//
-//		if (!customer.hasAccess(title))
-//            return Result.failure(new BookIsNotAccessible(title));
-//
-//		return Result.success(bookResult.data().getContent());
+		assert user instanceof Customer: "we rely on presentation layer access control";
+		Customer customer = (Customer) user;
 
-        return null;
+		Optional<Book> bookResult = bookRepository.findByTitle(title);
+		if (bookResult.isEmpty())
+			return Result.failure(new BookDoesntExist(title));
+		Book book = bookResult.get();
+
+		if (!customer.hasAccess(title))
+           return Result.failure(new BookIsNotAccessible(title));
+
+		return Result.success(book.getContent());
 	}
 }
