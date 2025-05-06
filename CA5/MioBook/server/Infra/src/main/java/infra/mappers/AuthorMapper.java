@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -18,13 +19,13 @@ public class AuthorMapper implements IMapper<Author, AuthorDao> {
 
     public Author mapWithBooks(AuthorDao dao, BookMapper bookMapper) {
         Author author = toDomain(dao);
-        List<Book> books = dao.getBooksWritten().stream().map(bookMapper::toDomain).toList();
+        List<Book> books = dao.getBooksWritten().stream().map(bookMapper::toDomain).collect(Collectors.toList());
         author.setBooks(books);
         return author;
     }
 
     public List<Author> mapWithBooks(List<AuthorDao> daoList, BookMapper bookMapper) {
-        return daoList.stream().map(dao -> mapWithBooks(dao, bookMapper)).toList();
+        return daoList.stream().map(dao -> mapWithBooks(dao, bookMapper)).collect(Collectors.toList());
     }
 
     @Override

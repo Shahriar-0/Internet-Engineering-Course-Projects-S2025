@@ -14,4 +14,5 @@ public interface IBaseRepository<T extends DomainEntity> {
     void delete(T entity);
     void deleteById(Long id);
     void deleteAll();
+    void flush();
 }
