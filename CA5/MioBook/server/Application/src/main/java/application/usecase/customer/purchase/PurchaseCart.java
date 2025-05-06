@@ -35,7 +35,7 @@ public class PurchaseCart implements IUseCase {
 			return Result.failure(new CantPurchaseCart(exceptions.getFirst().getMessage()));
 
 		PurchasedCart purchasedCart = customer.purchaseCart();
-		userRepository.update(customer, purchasedCart);
+		userRepository.purchase(customer, purchasedCart);
 		return Result.success(purchasedCart);
 	}
 }

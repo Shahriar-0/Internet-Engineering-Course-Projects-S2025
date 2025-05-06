@@ -2,6 +2,7 @@ package infra.repositories.application;
 
 import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IUserRepository;
+import domain.entities.book.Book;
 import domain.entities.cart.CartItem;
 import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Admin;
@@ -162,7 +163,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     @Transactional
-    public Customer update(Customer customer, PurchasedCart purchasedCart) {
+    public Customer purchase(Customer customer, PurchasedCart purchasedCart) {
         Optional<CustomerDao> optionalDao = customerDaoRepository.findById(customer.getId());
         if (optionalDao.isEmpty())
             throw new EntityDoesNotExist(Customer.class, customer.getId());
@@ -170,6 +171,20 @@ public class UserRepository implements IUserRepository {
         cartDaoRepository.deleteByCustomerId(customer.getId());
         // TODO: store in purchase history
         return customer;
+    }
+
+    @Override
+    @Transactional
+    public void removeCart(Customer customer, Book book) {
+        Optional<CustomerDao> optionalDao = customerDaoRepository.findById(customer.getId());
+        if (optionalDao.isEmpty())
+            throw new EntityDoesNotExist(Customer.class, customer.getId());
+
+        Optional<CartItemDao> optionalCartItemDao = cartDaoRepository.findByCustomerIdAndBookId(customer.getId(), book.getId());
+        if (optionalCartItemDao.isEmpty())
+            throw new EntityDoesNotExist(CartItem.class, book.getId());
+
+        cartDaoRepository.deleteByCustomerIdAndBookId(customer.getId(), book.getId());
     }
 
     private Admin updateAdmin(Admin admin) {

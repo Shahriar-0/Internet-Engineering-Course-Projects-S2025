@@ -55,9 +55,10 @@ public class Cart extends DomainEntity {
 		return items.get(items.size() - 1);
 	}
 
-	public void borrowBook(Book book, int borrowDays) {
+	public CartItem borrowBook(Book book, int borrowDays) {
 		assert getAddBookErrors(book.getTitle()).isEmpty();
 		items.add(CartItem.createBorrowingItem(this, book, borrowDays));
+		return items.get(items.size() - 1);
 	}
 
 	public void removeBook(Book book) {
