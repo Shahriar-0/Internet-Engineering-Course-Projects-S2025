@@ -104,7 +104,6 @@ public class UserRepository implements IUserRepository {
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByName(username);
         return optionalAdminDao.map(adminMapper::toDomain);
-
     }
 
     @Override
@@ -116,7 +115,6 @@ public class UserRepository implements IUserRepository {
 
         Optional<AdminDao> optionalAdminDao = adminDaoRepository.findByEmail(email);
         return optionalAdminDao.map(adminMapper::toDomain);
-
     }
 
     @Override

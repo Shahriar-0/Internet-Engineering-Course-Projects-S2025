@@ -1,16 +1,20 @@
 package application.usecase.admin.author;
 
+import application.exceptions.businessexceptions.authorexceptions.AuthorAlreadyExists;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.author.Author;
+import domain.entities.user.Admin;
 import domain.entities.user.Role;
 import domain.entities.user.User;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,20 +30,23 @@ public class AddAuthor implements IUseCase {
 	}
 
 	public Result<Author> perform(AddAuthorData data, User user) {
-//		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
-//
-//		return authorRepository.save(mapToAuthor(data));
+		assert Role.ADMIN.equals(user.getRole()): "we rely on presentation layer access control";
 
-        return null;
+		Optional<Author> authorResult = authorRepository.findByName(data.name);
+		if (authorResult.isPresent())
+			return Result.failure(new AuthorAlreadyExists(data.name));
+
+		return Result.success(authorRepository.save(mapToAuthor(data, (Admin) user)));
 	}
 
-	private static Author mapToAuthor(AddAuthorData data) {
+	private static Author mapToAuthor(AddAuthorData data, Admin admin) {
 		if (data.died == null)
             return Author.createAliveAuthor(
                 data.name,
                 data.penName,
                 data.nationality,
-                LocalDate.parse(data.born)
+                LocalDate.parse(data.born),
+				admin
             );
         else
             return Author.createDeadAuthor(
@@ -47,8 +54,9 @@ public class AddAuthor implements IUseCase {
                 data.penName,
                 data.nationality,
                 LocalDate.parse(data.born),
-                LocalDate.parse(data.died)
-            );
+                LocalDate.parse(data.died),
+				admin
+			);
 	}
 
 	public record AddAuthorData(

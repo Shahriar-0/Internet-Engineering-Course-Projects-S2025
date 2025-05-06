@@ -3,12 +3,17 @@ package infra.mappers;
 import domain.entities.author.Author;
 import domain.entities.book.Book;
 import infra.daos.AuthorDao;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class AuthorMapper implements IMapper<Author, AuthorDao> {
+
+    private final AdminMapper adminMapper;
 
     public Author mapWithBooks(AuthorDao dao, BookMapper bookMapper) {
         Author author = toDomain(dao);
@@ -30,6 +35,7 @@ public class AuthorMapper implements IMapper<Author, AuthorDao> {
             .nationality(dao.getNationality())
             .born(dao.getBirthDate())
             .died(dao.getDeathDate())
+            .admin(adminMapper.toDomain(dao.getAdmin()))
             .build();
     }
 
@@ -42,6 +48,7 @@ public class AuthorMapper implements IMapper<Author, AuthorDao> {
         dao.setNationality(entity.getNationality());
         dao.setBirthDate(entity.getBorn());
         dao.setDeathDate(entity.getDied());
+        dao.setAdmin(adminMapper.toDao(entity.getAdmin()));
         return dao;
     }
 
@@ -53,5 +60,6 @@ public class AuthorMapper implements IMapper<Author, AuthorDao> {
         dao.setNationality(entity.getNationality());
         dao.setBirthDate(entity.getBorn());
         dao.setDeathDate(entity.getDied());
+        dao.setAdmin(adminMapper.toDao(entity.getAdmin()));
     }
 }
