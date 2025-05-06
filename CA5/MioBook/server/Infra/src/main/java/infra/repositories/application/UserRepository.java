@@ -3,6 +3,7 @@ package infra.repositories.application;
 import application.exceptions.dataaccessexceptions.EntityDoesNotExist;
 import application.repositories.IUserRepository;
 import domain.entities.cart.CartItem;
+import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
@@ -157,6 +158,18 @@ public class UserRepository implements IUserRepository {
         customerMapper.update(customer, dao);
         dao = customerDaoRepository.save(dao);
         return customerMapper.toDomain(dao);
+    }
+
+    @Override
+    @Transactional
+    public Customer update(Customer customer, PurchasedCart purchasedCart) {
+        Optional<CustomerDao> optionalDao = customerDaoRepository.findById(customer.getId());
+        if (optionalDao.isEmpty())
+            throw new EntityDoesNotExist(Customer.class, customer.getId());
+
+        cartDaoRepository.deleteByCustomerId(customer.getId());
+        // TODO: store in purchase history
+        return customer;
     }
 
     private Admin updateAdmin(Admin admin) {

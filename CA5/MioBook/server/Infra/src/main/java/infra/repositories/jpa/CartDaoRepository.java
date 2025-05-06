@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartDaoRepository extends JpaRepository<CartItemDao, Long> {
     List<CartItemDao> findByCustomerId(Long customerId);
+    void deleteByCustomerId(Long customerId);
 }
