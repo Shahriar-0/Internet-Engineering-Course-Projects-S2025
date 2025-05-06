@@ -3,8 +3,6 @@ package webapi.configuration;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
-import application.result.Result;
-import application.usecase.UseCaseType;
 import application.usecase.admin.author.AddAuthor;
 import application.usecase.admin.book.AddBook;
 import application.usecase.customer.book.AddReview;
@@ -28,7 +26,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import webapi.services.UseCaseService;
 
 import java.util.List;
 import java.util.Optional;

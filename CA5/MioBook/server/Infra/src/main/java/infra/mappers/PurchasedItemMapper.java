@@ -1,25 +1,50 @@
 package infra.mappers;
 
+import org.springframework.stereotype.Component;
 
+import domain.entities.cart.PurchasedItem;
+import infra.daos.PurchasedItemDao;
+import lombok.RequiredArgsConstructor;
 
-public class PurchasedItemMapper extends IMapper<PurchasedItem, PurchasedItemDao> {
+@Component
+@RequiredArgsConstructor
+public class PurchasedItemMapper implements IMapper<PurchasedItem, PurchasedItemDao> {
+
+    private final BookMapper bookMapper;
+    private final PurchasedCartMapper purchasedCartMapper;
 
     @Override
     public PurchasedItem toDomain(PurchasedItemDao dao) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDomain'");
+        return PurchasedItem.builder()
+                .id(dao.getId())
+                .isBorrowed(dao.isBorrowed())
+                .borrowDays(dao.getBorrowDays())
+                .price(dao.getPrice())
+                .book(bookMapper.toDomain(dao.getBook()))
+                .cart(purchasedCartMapper.toDomain(dao.getPurchasedCart()))
+                .build();
     }
 
     @Override
     public PurchasedItemDao toDao(PurchasedItem entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toDao'");
+        PurchasedItemDao dao = new PurchasedItemDao();
+        dao.setId(entity.getId());
+        dao.setBorrowed(entity.isBorrowed());
+        dao.setBorrowDays(entity.getBorrowDays());
+        dao.setPrice(entity.getPrice());
+        dao.setBook(bookMapper.toDao(entity.getBook()));
+        dao.setPurchasedCart(purchasedCartMapper.toDao(entity.getCart()));
+        return dao;
     }
 
     @Override
     public void update(PurchasedItem entity, PurchasedItemDao dao) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        dao.setId(entity.getId());
+        dao.setBorrowed(entity.isBorrowed());
+        dao.setBorrowDays(entity.getBorrowDays());
+        dao.setPrice(entity.getPrice());
+        dao.setBook(bookMapper.toDao(entity.getBook()));
+        dao.setPurchasedCart(purchasedCartMapper.toDao(entity.getCart()));
     }
 
 }

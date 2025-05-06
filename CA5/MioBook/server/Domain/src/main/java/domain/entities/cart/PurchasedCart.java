@@ -6,20 +6,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @SuperBuilder
 public class PurchasedCart extends DomainEntity {
 
 	private final Customer customer;
-	private final List<PurchasedItem> items = new ArrayList<>();
-	private final LocalDateTime purchaseDate;
+	private List<PurchasedItem> items = new ArrayList<>(); // FIXME: make this final
+	private final LocalDateTime purchaseDateTime;
 
 	public PurchasedCart(Cart cart, LocalDateTime purchaseDate) {
 		this.customer = cart.getCustomer();
-		this.purchaseDate = purchaseDate;
-		cart.getItems().forEach(item -> items.add(new PurchasedItem(item)));
+		this.purchaseDateTime = purchaseDate;
+		cart.getItems().forEach(item -> items.add(new PurchasedItem(item, this)));
 	}
 
 	public long getTotalCost() {

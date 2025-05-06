@@ -13,11 +13,13 @@ public class PurchasedItem extends DomainEntity {
 	private final boolean isBorrowed;
 	private final Integer borrowDays;
 	private final Long price;
+	private final PurchasedCart cart;
 
-	public PurchasedItem(CartItem item) {
+	public PurchasedItem(CartItem item, PurchasedCart cart) {
 		this.book = item.getBook();
 		this.isBorrowed = item.isBorrowed();
 		this.borrowDays = item.getBorrowDays();
 		this.price = item.getPrice();
+		this.cart = cart;
 	}
 }
