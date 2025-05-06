@@ -6,10 +6,12 @@ import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
 import domain.entities.user.Customer;
+import infra.daos.AuthorDao;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
 import infra.daos.ReviewDao;
 import infra.mappers.*;
+import infra.repositories.jpa.AuthorDaoRepository;
 import infra.repositories.jpa.BookDaoRepository;
 import infra.repositories.jpa.GenreDaoRepository;
 import infra.repositories.jpa.ReviewDaoRepository;
@@ -33,6 +35,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     private final BookDaoRepository bookDaoRepository;
     private final GenreDaoRepository genreDaoRepository;
     private final ReviewDaoRepository reviewDaoRepository;
+    private final AuthorDaoRepository authorDaoRepository;
     private final BookMapper bookMapper;
     private final ReviewMapper reviewMapper;
     private final CustomerMapper customerMapper;
@@ -68,10 +71,14 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
                 cb.like(cb.lower(root.get("title")), "%" + filter.title().toLowerCase() + "%")
             );
 
-        if (filter.author() != null)
-            spec = spec.and((root, query, cb) ->
-                cb.like(cb.lower(root.get("author")), "%" + filter.author().toLowerCase() + "%")
-            );
+        if (filter.author() != null) {
+            Optional<AuthorDao> authorDao = authorDaoRepository.findByName(filter.author());
+            if (authorDao.isPresent()) {
+                spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("author"), authorDao.get())
+                );
+            }
+        }
 
         if (filter.genre() != null)
             spec = spec.and((root, query, cb) ->
@@ -88,7 +95,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
                 cb.lessThanOrEqualTo(root.get("year"), filter.to())
             );
 
-        return bookDaoRepository.findAll(spec, pageable).map(dao -> bookMapper.mapWithAuthor(dao));
+        return bookDaoRepository.findAll(spec, pageable).map(dao -> bookMapper.mapWithAuthorAndReviews(dao, reviewMapper));
     }
 
     private static Sort getSortObject(GetBook.BookFilter.BookSortByType sortByType, Boolean isAscending) {
@@ -142,7 +149,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     public Review upsertReview(Review review, Book book, Customer customer) {
         if (reviewDaoRepository.findByBookIdAndCustomerId(book.getId(), customer.getId()).isPresent())
             reviewDaoRepository.deleteByBookIdAndCustomerId(book.getId(), customer.getId());
-        
+
         ReviewDao dao = reviewMapper.toDao(review);
         dao = reviewDaoRepository.save(dao);
         return reviewMapper.toDomain(dao);

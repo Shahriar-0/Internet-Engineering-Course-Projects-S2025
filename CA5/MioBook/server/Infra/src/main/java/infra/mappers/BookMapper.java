@@ -5,6 +5,7 @@ import domain.entities.book.BookContent;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
 import infra.repositories.jpa.GenreDaoRepository;
+import infra.repositories.jpa.ReviewDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +18,20 @@ import java.util.Optional;
 public class BookMapper implements IMapper<Book, BookDao> {
 
     private final GenreDaoRepository genreDaoRepository;
+    private final ReviewDaoRepository reviewDaoRepository;
     private final AdminMapper adminMapper;
     private final AuthorMapper authorMapper;
 
     public Book mapWithAuthor(BookDao dao) {
         Book book = toDomain(dao);
         book.setAuthor(authorMapper.toDomain(dao.getAuthor()));
+        return book;
+    }
+
+    public Book mapWithAuthorAndReviews(BookDao dao, ReviewMapper reviewMapper) {
+        Book book = toDomain(dao);
+        book.setAuthor(authorMapper.toDomain(dao.getAuthor()));
+        book.setReviews(reviewDaoRepository.findByBookId(dao.getId()).stream().map(reviewMapper::toDomain).toList());
         return book;
     }
 

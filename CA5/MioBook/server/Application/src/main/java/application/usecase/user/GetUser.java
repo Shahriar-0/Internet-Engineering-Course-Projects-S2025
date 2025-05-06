@@ -27,8 +27,7 @@ public class GetUser implements IUseCase {
 		assert username != null && !username.isBlank() : "we rely on presentation layer validation for field username";
 
 		Optional<User> user = userRepository.findByUsername(username);
-        return user.map(Result::success)
-            .orElseGet(() -> Result.failure(UserNotFound.usernameNotFound(username)));
+        return user.map(Result::success).orElseGet(() -> Result.failure(UserNotFound.usernameNotFound(username)));
     }
 
 	public Result<List<User>> perform(UserFilter filter) {
