@@ -13,16 +13,16 @@ import lombok.experimental.SuperBuilder;
 public class PurchasedCart extends DomainEntity {
 
 	private final Customer customer;
-	private final List<PurchasedCartItem> items = new ArrayList<>();
+	private final List<PurchasedItem> items = new ArrayList<>();
 	private final LocalDateTime purchaseDate;
 
-    public PurchasedCart(Cart cart, LocalDateTime purchaseDate) {
-        this.customer = cart.getCustomer();
-        this.purchaseDate = purchaseDate;
-        cart.getItems().forEach(item -> items.add(new PurchasedCartItem(item)));
-    }
+	public PurchasedCart(Cart cart, LocalDateTime purchaseDate) {
+		this.customer = cart.getCustomer();
+		this.purchaseDate = purchaseDate;
+		cart.getItems().forEach(item -> items.add(new PurchasedItem(item)));
+	}
 
-    public long getTotalCost() {
-        return items.stream().map(PurchasedCartItem::getPrice).reduce(0L, Long::sum);
-    }
+	public long getTotalCost() {
+		return items.stream().map(PurchasedItem::getPrice).reduce(0L, Long::sum);
+	}
 }
