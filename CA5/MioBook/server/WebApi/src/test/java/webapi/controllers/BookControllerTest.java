@@ -1,5 +1,7 @@
 package webapi.controllers;
 
+import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
+import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
@@ -23,6 +25,7 @@ import webapi.services.UseCaseService;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -81,6 +84,29 @@ class BookControllerTest {
         Book expectedBook = BookFixtureUtil.book(1);
         expectedBook.setDateAdded(book.get().getDateAdded());
         BookFixtureUtil.assertion(book.get(), expectedBook);
+    }
+
+    @Test
+    void addBook_AuthorDoesNotExist_ThrowsException() {
+        adminLoggedIn();
+        AddBook.AddBookData data = BookFixtureUtil.addBookData(1);
+        data.setAuthor(AuthorFixtureUtil.name(1));
+
+        assertThatThrownBy(() -> bookController.addBook(data))
+            .isInstanceOf(AuthorDoesNotExists.class)
+            .hasMessage("Author with username '" + AuthorFixtureUtil.name(1) + "' does not exist!");
+    }
+
+    @Test
+    void addBook_BookTitleAlreadyExists_ThrowsException() {
+        adminLoggedIn();
+        AddBook.AddBookData data = BookFixtureUtil.addBookData(1);
+        data.setAuthor(AuthorFixtureUtil.name(0));
+        data.setTitle(BookFixtureUtil.title(0));
+
+        assertThatThrownBy(() -> bookController.addBook(data))
+            .isInstanceOf(BookAlreadyExists.class)
+            .hasMessage("Book with title '" + BookFixtureUtil.title(0) + "' already exists!");
     }
 
     private void adminLoggedIn() {
