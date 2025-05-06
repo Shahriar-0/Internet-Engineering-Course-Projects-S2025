@@ -2,6 +2,7 @@ package webapi.controllers;
 
 import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.exceptions.businessexceptions.bookexceptions.BookAlreadyExists;
+import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.repositories.IAuthorRepository;
 import application.repositories.IBookRepository;
 import application.repositories.IUserRepository;
@@ -21,6 +22,7 @@ import webapi.fixture.CustomerFixtureUtil;
 import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
+import webapi.views.book.BookView;
 
 import java.util.Optional;
 
@@ -33,6 +35,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @SpringBootTest
 class BookControllerTest {
 
+    @Autowired
     BookController bookController;
     @Autowired
     UseCaseService useCaseService;
@@ -107,6 +110,24 @@ class BookControllerTest {
         assertThatThrownBy(() -> bookController.addBook(data))
             .isInstanceOf(BookAlreadyExists.class)
             .hasMessage("Book with title '" + BookFixtureUtil.title(0) + "' already exists!");
+    }
+
+    @Test
+    void getBook_BookExists_ReturnsCorrectBook() {
+        BookView book = bookController.getBook(BookFixtureUtil.title(0)).getBody().data();
+
+        BookView expectedView = BookFixtureUtil.view(0);
+        expectedView.setAuthor(AuthorFixtureUtil.name(0));
+        expectedView.setAverageRating(0.0f);
+
+        assertThat(book).isEqualTo(expectedView);
+    }
+
+    @Test
+    void getBook_BookDoesNotExist_ThrowsException() {
+        assertThatThrownBy(() -> bookController.getBook(BookFixtureUtil.title(1)))
+            .isInstanceOf(BookDoesntExist.class)
+            .hasMessage("Book with title '" + BookFixtureUtil.title(1) + "' does not exist!");
     }
 
     private void adminLoggedIn() {

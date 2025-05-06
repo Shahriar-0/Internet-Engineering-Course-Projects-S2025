@@ -3,6 +3,7 @@ package webapi.fixture;
 import application.usecase.admin.book.AddBook;
 import domain.entities.book.Book;
 import domain.entities.book.BookContent;
+import webapi.views.book.BookView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,6 +58,18 @@ public class BookFixtureUtil {
             IMAGE_LINK,
             COVER_LINK
         );
+    }
+
+    public static BookView view(int index) {
+        BookView view = new BookView();
+        view.setTitle(title(index));
+        view.setPublisher(PUBLISHER);
+        view.setGenres(GENRES);
+        view.setYear(publishedYear(index));
+        view.setPrice(PRICE);
+        view.setSynopsis(SYNOPSIS);
+        view.setCover(COVER_LINK);
+        return view;
     }
 
     public static String title(int index) {
