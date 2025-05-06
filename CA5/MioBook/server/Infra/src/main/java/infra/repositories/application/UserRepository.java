@@ -8,16 +8,10 @@ import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
-import infra.daos.AdminDao;
+import infra.daos.*;
 import infra.daos.CartItemDao;
-import infra.daos.CustomerDao;
-import infra.mappers.AdminMapper;
-import infra.mappers.BookLicenseMapper;
-import infra.mappers.CartItemMapper;
-import infra.mappers.CustomerMapper;
-import infra.repositories.jpa.AdminDaoRepository;
-import infra.repositories.jpa.CartDaoRepository;
-import infra.repositories.jpa.CustomerDaoRepository;
+import infra.mappers.*;
+import infra.repositories.jpa.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +30,14 @@ public class UserRepository implements IUserRepository {
     private final CustomerDaoRepository customerDaoRepository;
     private final CartDaoRepository cartDaoRepository;
     private final AdminDaoRepository adminDaoRepository;
+    private final PurchasedCartDaoRepository purchasedCartDaoRepository;
+    private final BookLicenseDaoRepository bookLicenseDaoRepository;
 
     private final CartItemMapper cartItemMapper;
     private final CustomerMapper customerMapper;
     private final AdminMapper adminMapper;
     private final BookLicenseMapper bookLicenseMapper;
+    private final BookMapper bookMapper;
 
     @Override
     public Optional<User> findById(Long id) {
@@ -170,8 +167,40 @@ public class UserRepository implements IUserRepository {
         if (optionalDao.isEmpty())
             throw new EntityDoesNotExist(Customer.class, customer.getId());
 
+        CustomerDao customerDao = optionalDao.get();
+
         cartDaoRepository.deleteByCustomerId(customer.getId());
-        // TODO: store in purchase history
+
+        PurchasedCartDao purchasedCartDao = new PurchasedCartDao();
+        purchasedCartDao.setPurchaseDateTime(purchasedCart.getPurchaseDateTime());
+        purchasedCartDao.setCustomer(customerDao);
+        List<PurchasedItemDao> purchasedItemDaoList = new ArrayList<>();
+        purchasedCart.getItems().forEach(item -> {
+            PurchasedItemDao itemDao = new PurchasedItemDao();
+            itemDao.setBorrowed(item.isBorrowed());
+            itemDao.setBorrowDays(item.getBorrowDays());
+            itemDao.setPrice(item.getPrice());
+            itemDao.setBook(bookMapper.toDao(item.getBook()));
+            itemDao.setPurchasedCart(purchasedCartDao);
+            purchasedItemDaoList.add(itemDao);
+        });
+        purchasedCartDao.setPurchasedItems(purchasedItemDaoList);
+        purchasedCartDaoRepository.save(purchasedCartDao);
+
+        List<BookLicenseDao> newLicenses = new ArrayList<>();
+        customer.getPurchasedLicenses().forEach(license -> {
+            if (license.getId() == null) {
+                BookLicenseDao licenseDao = bookLicenseMapper.toDao(license);
+                licenseDao.setCustomer(customerDao);
+                licenseDao.setBook(bookMapper.toDao(license.getBook()));
+                newLicenses.add(licenseDao);
+            }
+        });
+        bookLicenseDaoRepository.saveAll(newLicenses);
+
+        customerDao.getWallet().setCredit(customer.getCredit());
+        customerDaoRepository.save(customerDao);
+
         return customer;
     }
 

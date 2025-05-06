@@ -17,7 +17,6 @@ public class PurchasedItemDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private Integer borrowDays;
 
     @NotNull

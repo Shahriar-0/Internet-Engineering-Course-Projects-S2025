@@ -93,7 +93,7 @@ public class Customer extends User {
     }
 
 	private void updateLicense(BookLicense license) {
-		purchasedLicenses.removeIf(l -> l.equals(license));
+		purchasedLicenses.removeIf(l -> l.getBook().isTitleEqual(license.getBook().getTitle()));
 		purchasedLicenses.add(license);
 	}
 

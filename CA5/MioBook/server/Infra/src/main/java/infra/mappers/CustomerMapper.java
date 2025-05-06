@@ -55,6 +55,8 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
             .address(addressMapper.toValueObj(dao.getAddress()))
             .role(Role.CUSTOMER)
             .credit(dao.getWallet().getCredit())
+            .purchasedLicenses(new ArrayList<>())
+            .purchaseHistory(new ArrayList<>())
             .build();
     }
 

@@ -1,15 +1,24 @@
 package webapi.services;
 
+import application.repositories.IUserRepository;
 import domain.entities.user.User;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webapi.exceptions.AuthenticationException;
 
-@Service
 @Getter
+@Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
+    private final IUserRepository userRepository;
+
 	private User user = null;
+
+    public User getUser() {
+        return userRepository.findByUsername(user.getUsername()).get();
+    }
 
 	public void validateSomeOneLoggedIn() {
 		if (user == null)

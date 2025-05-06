@@ -29,6 +29,6 @@ public class PurchasedCartDao {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private CustomerDao customer;
 
-    @OneToMany(mappedBy = "purchasedCart", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "purchasedCart", cascade = CascadeType.ALL)
     private List<PurchasedItemDao> purchasedItems;
 }
