@@ -1,6 +1,7 @@
 package webapi.fixture;
 
 import domain.entities.author.Author;
+import domain.entities.user.Admin;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,12 @@ public class AuthorFixtureUtil {
             .born(born(index))
             .died(null)
             .build();
+    }
+
+    public static Author author(int index, Admin admin) {
+        Author author = author(index);
+        author.setAdmin(admin);
+        return author;
     }
 
     public static String name(int index) {

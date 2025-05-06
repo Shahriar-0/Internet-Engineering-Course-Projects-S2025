@@ -1,8 +1,10 @@
 package webapi.fixture;
 
 import application.usecase.admin.book.AddBook;
+import domain.entities.author.Author;
 import domain.entities.book.Book;
 import domain.entities.book.BookContent;
+import domain.entities.user.Admin;
 import webapi.views.book.BookView;
 
 import java.time.LocalDateTime;
@@ -42,6 +44,13 @@ public class BookFixtureUtil {
             .build();
 
         book.setContent(new BookContent(book, CONTENT));
+        return book;
+    }
+
+    public static Book book(int index, Admin admin, Author author) {
+        Book book = book(index);
+        book.setAdmin(admin);
+        book.setAuthor(author);
         return book;
     }
 

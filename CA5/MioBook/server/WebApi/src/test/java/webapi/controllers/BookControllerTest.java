@@ -28,10 +28,8 @@ import webapi.views.book.BookView;
 import webapi.views.page.PageView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -48,8 +46,6 @@ class BookControllerTest {
     BookController bookController;
     @Autowired
     UseCaseService useCaseService;
-    @Autowired
-    AuthenticationService authenticationService;
 
     @Autowired
     IUserRepository userRepository;
@@ -65,18 +61,11 @@ class BookControllerTest {
         Customer customer1 = (Customer) userRepository.save(CustomerFixtureUtil.customer(0));
         Customer customer2 = (Customer) userRepository.save(CustomerFixtureUtil.customer(1));
 
-        Author author = AuthorFixtureUtil.author(0);
-        author.setAdmin(admin);
-        author = authorRepository.save(author);
+        Author author = authorRepository.save(AuthorFixtureUtil.author(0, admin));
 
-        Book book1 = BookFixtureUtil.book(0);
-        book1.setAdmin(admin);
-        book1.setAuthor(author);
-        book1 = bookRepository.save(book1);
+        Book book1 = bookRepository.save(BookFixtureUtil.book(0, admin, author));
 
-        Book book2 = BookFixtureUtil.book(1);
-        book2.setAdmin(admin);
-        book2.setAuthor(author);
+        Book book2 = BookFixtureUtil.book(1, admin, author);
         book2.setGenres(BOOK2_GENRES);
         bookRepository.save(book2);
 
@@ -220,7 +209,7 @@ class BookControllerTest {
     }
 
     private void customerLoggedIn() {
-        AuthenticationService mockedAuthenticationService = mock(authenticationService);
+        AuthenticationService mockedAuthenticationService = mock(AuthenticationService.class);
         when(mockedAuthenticationService.getUser())
             .thenReturn(userRepository.findByUsername(CustomerFixtureUtil.name(0)).get());
 
