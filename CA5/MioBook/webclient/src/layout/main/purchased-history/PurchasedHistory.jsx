@@ -1,6 +1,7 @@
 ﻿import Accordion from "library/accordion/Accordion";
 import AccordionItem from "library/accordion/AccordionItem";
 import HistoryIcon from "assets/icons/purchased-history-icon.svg";
+import NoResult from "assets/images/user/no-result.svg";
 import { useEffect, useState } from "react";
 import ApiService from "services/ApiService";
 import UrlService from "services/UrlService";
@@ -47,17 +48,23 @@ const PurchasedHistory = () => {
                     <img className="me-2" src={HistoryIcon} alt="books-icon" /> History
                 </p>
 
-                <Accordion className="rounded border bg-custom-white">
-                    {purchasedList.map((purchase) => (
-                        <AccordionItem headerText={`${formatDateTime(purchase.datePurchased)} | $${purchase.totalCost}`} headerClassName="bg-gray"
-                            activeHeaderClassName="bg-khaki text-green rounded-top" className="border rounded-top"
-                        >
-                            <div className="p-3 pb-0">
-                                <BookList bookList={purchase.books} />
-                            </div>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
+                {purchasedList.length > 0 ? (
+                    <Accordion className="rounded border bg-custom-white">
+                        {purchasedList.map((purchase) => (
+                            <AccordionItem headerText={`${formatDateTime(purchase.datePurchased)} | $${purchase.totalCost}`} headerClassName="bg-gray"
+                                activeHeaderClassName="bg-khaki text-green rounded-top" className="border rounded-top"
+                            >
+                                <div className="p-3 pb-0">
+                                    <BookList bookList={purchase.books} />
+                                </div>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                ) : (
+                    <div className="text-center">
+                        <img src={NoResult} alt="no-result" />
+                    </div>
+                )}
             </section>
         </main>
     );

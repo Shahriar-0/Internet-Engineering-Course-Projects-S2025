@@ -31,7 +31,7 @@ function App() {
     useEffect(() => {
         const handleBeforeUnload = () => {
             console.log("Clearing localStorage before unload");
-            localStorage.clear();
+            // localStorage.clear();
         };
 
         window.addEventListener("beforeunload", handleBeforeUnload);
