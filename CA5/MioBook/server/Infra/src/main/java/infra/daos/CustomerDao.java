@@ -3,11 +3,13 @@ package infra.daos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
+@Data
 @Entity
 @Table(name = "customer")
 @NoArgsConstructor
@@ -30,7 +32,7 @@ public class CustomerDao {
     private String email;
 
     @NotNull
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressDao address;
 

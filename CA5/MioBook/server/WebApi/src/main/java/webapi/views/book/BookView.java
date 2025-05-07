@@ -1,7 +1,7 @@
 package webapi.views.book;
 
-import application.pagination.Page;
 import domain.entities.book.Book;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -31,13 +31,6 @@ public record BookView(
 	}
 
 	public static Page<BookView> mapToView(Page<Book> bookPage) {
-		return Page
-			.<BookView>builder()
-			.list(bookPage.getList().stream().map(BookView::new).toList())
-			.pageNumber(bookPage.getPageNumber())
-			.pageSize(bookPage.getPageSize())
-			.totalPageNumber(bookPage.getTotalPageNumber())
-			.totalDataSize(bookPage.getTotalDataSize())
-			.build();
+		return bookPage.map(BookView::new);
 	}
 }

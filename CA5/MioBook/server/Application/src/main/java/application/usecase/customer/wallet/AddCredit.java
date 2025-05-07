@@ -1,15 +1,22 @@
 package application.usecase.customer.wallet;
 
+import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AddCredit implements IUseCase {
+
+	private final IUserRepository userRepository;
+
 	@Override
 	public UseCaseType getType() {
 		return UseCaseType.ADD_CREDIT;
@@ -20,6 +27,7 @@ public class AddCredit implements IUseCase {
 		Customer customer = (Customer) user;
 
 		customer.addCredit(data.amount);
+		userRepository.update(customer);
 		return Result.success(customer);
 	}
 

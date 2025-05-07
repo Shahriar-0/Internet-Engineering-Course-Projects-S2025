@@ -3,18 +3,20 @@ package domain.entities.cart;
 import domain.entities.DomainEntity;
 import domain.entities.book.Book;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @SuperBuilder
 public class CartItem extends DomainEntity {
     public static final int MIN_BORROW_DAYS = 1;
     public static final int MAX_BORROW_DAYS = 10;
 
-    private final Cart cart;
-    private final Book book;
-    private final boolean isBorrowed;
-    private final Integer borrowDays;
+    private Cart cart;
+    private Book book;
+    private boolean isBorrowed;
+    private Integer borrowDays;
 
     private CartItem(Cart cart, Book book, boolean isBorrowed, int validityDays) {
         this.cart = cart;

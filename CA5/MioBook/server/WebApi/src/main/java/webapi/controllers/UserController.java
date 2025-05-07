@@ -46,7 +46,7 @@ public class UserController {
 	@Access(isWhiteList = false)
 	public Response<UserView> getUser(@PathVariable String username) {
 		GetUser useCase = (GetUser) useCaseService.getUseCase(UseCaseType.GET_USER);
-		
+
 		Result<User> result = useCase.perform(username);
 		if (result.isFailure())
 			throw result.exception();

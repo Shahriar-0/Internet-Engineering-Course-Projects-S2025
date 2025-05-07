@@ -1,6 +1,6 @@
 package application.usecase.user.book;
 
-import application.pagination.Page;
+import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.repositories.IBookRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -8,7 +8,10 @@ import application.usecase.UseCaseType;
 import domain.entities.book.Book;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +31,13 @@ public class GetBook implements IUseCase {
 	public Result<Book> perform(String title) {
 		assert title != null && !title.isBlank() : "we rely on presentation layer validation for field 'title'";
 
-		return bookRepository.findByTitle(title);
-	}
+        Optional<Book> book = bookRepository.findByTitle(title);
+        return book.map(Result::success).orElseGet(() -> Result.failure(new BookDoesntExist(title)));
+    }
 
-	public Result<Page<Book>> perform(BookFilter filter) {
+	public Page<Book> perform(BookFilter filter) {
 		BookFilter standardFilter = standardizeFilter(filter);
-		return Result.success(bookRepository.filter(standardFilter));
+		return bookRepository.filter(standardFilter);
 	}
 
 	private static BookFilter standardizeFilter(BookFilter filter) {

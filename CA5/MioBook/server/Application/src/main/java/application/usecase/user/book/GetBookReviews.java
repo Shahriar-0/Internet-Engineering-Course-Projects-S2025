@@ -1,13 +1,12 @@
 package application.usecase.user.book;
 
-import application.pagination.Page;
 import application.repositories.IBookRepository;
-import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.book.Review;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +24,7 @@ public class GetBookReviews implements IUseCase {
 		return UseCaseType.GET_BOOK_REVIEWS;
 	}
 
-	public Result<Page<Review>> perform(String title, ReviewFilter filter) {
+	public Page<Review> perform(String title, ReviewFilter filter) {
         assert title != null && !title.isBlank(): "we rely on presentation layer validation for field 'title'";
 
 		ReviewFilter standardizeFilter = standardizeFilter(filter);

@@ -28,16 +28,16 @@ public class CreateAccount implements IUseCase {
 	}
 
 	public Result<User> perform(AddUserData data) {
-		if (userRepository.doesUsernameExist(data.username))
+		if (userRepository.existsByUsername(data.username))
 			return Result.failure(new UsernameAlreadyExists(data.username));
 
-		if (userRepository.doesEmailExist(data.email))
+		if (userRepository.existsByEmail(data.email))
 			return Result.failure(new EmailAlreadyExists(data.email));
 
-		return userRepository.add(mapToUser(data));
+		return Result.success(userRepository.save(mapToUser(data)));
 	}
 
-	private static User mapToUser(AddUserData data) {
+	public static User mapToUser(AddUserData data) {
 		Role role = Role.valueOf(data.role.toUpperCase());
 
         if (role == Role.CUSTOMER)

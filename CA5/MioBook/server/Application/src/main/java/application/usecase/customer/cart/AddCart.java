@@ -3,10 +3,12 @@ package application.usecase.customer.cart;
 import application.exceptions.businessexceptions.bookexceptions.BookDoesntExist;
 import application.exceptions.businessexceptions.cartexceptions.CantAddToCart;
 import application.repositories.IBookRepository;
+import application.repositories.IUserRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.book.Book;
+import domain.entities.cart.CartItem;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
 import domain.exceptions.DomainException;
@@ -15,11 +17,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AddCart implements IUseCase {
+
 	private final IBookRepository bookRepository;
+	private final IUserRepository userRepository;
 
 	@Override
 	public UseCaseType getType() {
@@ -30,16 +35,17 @@ public class AddCart implements IUseCase {
 		assert user instanceof Customer: "we rely on presentation layer access control";
 		Customer customer = (Customer) user;
 
-		Result<Book> bookResult = bookRepository.findByTitle(data.title);
-		if (bookResult.isFailure())
+		Optional<Book> bookResult = bookRepository.findByTitle(data.title);
+		if (bookResult.isEmpty())
 			return Result.failure(new BookDoesntExist(data.title));
-		Book book = bookResult.data();
+		Book book = bookResult.get();
 
-        List<DomainException> exceptions = customer.getCart().getAddBookErrors(data.title);
+       List<DomainException> exceptions = customer.getCart().getAddBookErrors(data.title);
 		if (!exceptions.isEmpty())
 			return Result.failure(new CantAddToCart(exceptions.getFirst().getMessage()));
 
-		customer.getCart().addBook(book);
+		CartItem cartItem = customer.getCart().addBook(book);
+		userRepository.saveCart(cartItem);
 		return Result.success(customer);
 	}
 

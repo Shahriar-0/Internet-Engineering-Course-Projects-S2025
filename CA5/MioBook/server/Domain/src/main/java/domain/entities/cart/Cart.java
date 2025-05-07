@@ -49,14 +49,16 @@ public class Cart extends DomainEntity {
 		return exceptions;
 	}
 
-	public void addBook(Book book) {
+	public CartItem addBook(Book book) {
 		assert getAddBookErrors(book.getTitle()).isEmpty();
 		items.add(CartItem.createPermanentItem(this, book));
+		return items.get(items.size() - 1);
 	}
 
-	public void borrowBook(Book book, int borrowDays) {
+	public CartItem borrowBook(Book book, int borrowDays) {
 		assert getAddBookErrors(book.getTitle()).isEmpty();
 		items.add(CartItem.createBorrowingItem(this, book, borrowDays));
+		return items.get(items.size() - 1);
 	}
 
 	public void removeBook(Book book) {
@@ -66,5 +68,9 @@ public class Cart extends DomainEntity {
 
 	public long getTotalCost() {
 		return items.stream().mapToLong(CartItem::getPrice).sum();
+	}
+
+	public void addItem(CartItem item) {
+		items.add(item);
 	}
 }

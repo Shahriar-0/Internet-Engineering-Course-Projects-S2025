@@ -11,7 +11,7 @@ public record PurchasedCartSummaryView(
 {
     public PurchasedCartSummaryView(PurchasedCart purchasedCart) {
         this (
-            purchasedCart.getPurchaseDate(),
+            purchasedCart.getPurchaseDateTime(),
             purchasedCart.getTotalCost(),
             purchasedCart.getItems().size()
         );

@@ -6,7 +6,6 @@ import application.usecase.admin.author.AddAuthor;
 import application.usecase.user.author.GetAuthor;
 import domain.entities.author.Author;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import webapi.accesscontrol.Access;
@@ -14,6 +13,8 @@ import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.author.AuthorView;
+
+import java.util.List;
 
 import static domain.entities.user.Role.ADMIN;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -59,10 +60,7 @@ public class AuthorController {
 	public Response<List<AuthorView>> getAuthors() {
 		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 
-		Result<List<Author>> result = useCase.perform();
-		if (result.isFailure())
-			throw result.exception();
-
-		return Response.of(AuthorView.mapToView(result.data()), OK);
+		List<Author> authors = useCase.perform();
+		return Response.of(AuthorView.mapToView(authors), OK);
 	}
 }

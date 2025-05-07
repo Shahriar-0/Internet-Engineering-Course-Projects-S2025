@@ -3,9 +3,9 @@ package webapi.views.customer;
 import domain.entities.booklicense.BookLicense;
 import domain.entities.booklicense.TemporaryBookLicense;
 import domain.entities.cart.CartItem;
-import domain.entities.cart.PurchasedCartItem;
-import java.util.List;
+import domain.entities.cart.PurchasedItem;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record CustomerBookView(
 	String title,
@@ -34,7 +34,7 @@ public record CustomerBookView(
 		);
 	}
 
-	public CustomerBookView(PurchasedCartItem item) {
+	public CustomerBookView(PurchasedItem item) {
 		this(
 			item.getBook().getTitle(),
 			item.getBook().getAuthor().getName(),

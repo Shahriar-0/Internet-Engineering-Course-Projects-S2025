@@ -1,6 +1,5 @@
 package webapi.controllers;
 
-import application.pagination.Page;
 import application.result.Result;
 import application.usecase.UseCaseType;
 import application.usecase.admin.book.AddBook;
@@ -15,6 +14,7 @@ import domain.entities.book.Review;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import webapi.accesscontrol.Access;
 import webapi.response.Response;
@@ -23,6 +23,7 @@ import webapi.services.UseCaseService;
 import webapi.views.book.BookContentView;
 import webapi.views.book.BookReviewsView;
 import webapi.views.book.BookView;
+import webapi.views.page.PageView;
 
 import java.util.List;
 
@@ -80,29 +81,29 @@ public class BookController {
 
 	@GetMapping("/{title}/reviews")
 	@Access(isWhiteList = false)
-	public Response<Page<BookReviewsView>> getBookReviews(
+	public Response<PageView<BookReviewsView>> getBookReviews(
 		@PathVariable String title,
 		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
 	) {
 		GetBookReviews useCase = (GetBookReviews) useCaseService.getUseCase(UseCaseType.GET_BOOK_REVIEWS);
 
-		Result<Page<Review>> result = useCase.perform(title, filter);
-		if (result.isFailure())
-			throw result.exception();
-
-		return Response.of(BookReviewsView.mapToView(result.data()), OK);
+		Page<Review> reviews = useCase.perform(title, filter);
+		return Response.of(
+            new PageView<>(BookReviewsView.mapToView(reviews)),
+            OK
+        );
 	}
 
 	@GetMapping
 	@Access(isWhiteList = false)
-	public Response<Page<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
+	public Response<PageView<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
-		Result<Page<Book>> result = useCase.perform(filter);
-		if (result.isFailure())
-			throw result.exception();
-
-		return Response.of(BookView.mapToView(result.data()), OK);
+		Page<Book> books = useCase.perform(filter);
+		return Response.of(
+            new PageView<>(BookView.mapToView(books)),
+            OK
+        );
 	}
 
 	@PostMapping("/{title}/reviews")

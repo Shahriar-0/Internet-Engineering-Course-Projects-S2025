@@ -2,10 +2,12 @@ package infra.daos;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "genre")
 @NoArgsConstructor

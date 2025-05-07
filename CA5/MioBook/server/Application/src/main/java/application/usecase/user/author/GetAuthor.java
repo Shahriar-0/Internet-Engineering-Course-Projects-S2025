@@ -1,5 +1,6 @@
 package application.usecase.user.author;
 
+import application.exceptions.businessexceptions.authorexceptions.AuthorDoesNotExists;
 import application.repositories.IAuthorRepository;
 import application.result.Result;
 import application.usecase.IUseCase;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,12 +26,13 @@ public class GetAuthor implements IUseCase {
 	public Result<Author> perform(String name) {
 		assert name != null && !name.isBlank() : "we rely on presentation layer validation for field 'name'";
 
-		return authorRepository.findByName(name);
-	}
+        Optional<Author> author = authorRepository.findByName(name);
+        return author.map(Result::success).orElseGet(() -> Result.failure(new AuthorDoesNotExists(name)));
+    }
 
-	public Result<List<Author>> perform() {
-		return authorRepository.getAll();
-	}
+	public List<Author> perform() {
+		return authorRepository.findAllWithBooks();
+    }
 
 	public Result<List<Author>> perform(AuthorFilter filter) {
 		throw new RuntimeException("Not implemented yet");

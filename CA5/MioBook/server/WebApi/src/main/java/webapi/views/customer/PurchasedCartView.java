@@ -11,7 +11,7 @@ public record PurchasedCartView(
 ) {
     public PurchasedCartView(PurchasedCart cart) {
         this(
-            cart.getPurchaseDate(),
+            cart.getPurchaseDateTime(),
             cart.getTotalCost(),
             cart.getItems().stream().map(CustomerBookView::new).toList()
         );
