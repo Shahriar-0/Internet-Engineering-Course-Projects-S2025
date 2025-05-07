@@ -1,4 +1,4 @@
-package application.fixture;
+package webapi.fixture;
 
 import domain.valueobjects.Address;
 

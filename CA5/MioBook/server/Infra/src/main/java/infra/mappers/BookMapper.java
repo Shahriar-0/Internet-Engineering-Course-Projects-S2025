@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class BookMapper implements IMapper<Book, BookDao> {
             .publishedYear(dao.getPublishedYear())
             .basePrice(dao.getPrice())
             .synopsis(dao.getSynopsis())
-            .genres(dao.getGenres().stream().map(GenreDao::getGenre).toList())
+            .genres(dao.getGenres().stream().map(GenreDao::getGenre).collect(Collectors.toList()))
             .imageLink(dao.getImageLink())
             .coverLink(dao.getCoverLink())
             .dateAdded(dao.getDateAdded())

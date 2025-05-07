@@ -76,4 +76,10 @@ public abstract class BaseRepository<T extends DomainEntity, K> implements IBase
     public void deleteAll() {
         getDaoRepository().deleteAll();
     }
+
+    @Override
+    @Transactional
+    public void flush() {
+        getDaoRepository().flush();
+    }
 }

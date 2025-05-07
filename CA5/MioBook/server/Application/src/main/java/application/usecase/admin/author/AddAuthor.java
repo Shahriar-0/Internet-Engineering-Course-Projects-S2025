@@ -15,6 +15,9 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,18 +62,21 @@ public class AddAuthor implements IUseCase {
 			);
 	}
 
-	public record AddAuthorData(
-		@NotBlank String name,
-		@NotBlank String penName,
-		@NotBlank String nationality,
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+	public static class AddAuthorData {
+		@NotBlank String name;
+		@NotBlank String penName;
+		@NotBlank String nationality;
 
 		@NotBlank
 		@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Expected format: YYYY-MM-DD")
-		String born,
+		String born;
 
 		@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Expected format: YYYY-MM-DD")
-		String died
-	) {
+		String died;
+
 		@AssertTrue(message = "From and to years must be consistent")
 		private boolean isYearRangeConsistent() {
 			try {

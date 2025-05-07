@@ -106,6 +106,13 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    @Transactional
+    public void flush() {
+        customerDaoRepository.flush();
+        adminDaoRepository.flush();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByUsername(String username) {
         Optional<CustomerDao> optionalCustomerDao = customerDaoRepository.findByName(username);

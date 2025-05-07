@@ -1,16 +1,22 @@
 package webapi.views.book;
 
 import domain.entities.book.Review;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 
-public record BookReviewsView(
-    Integer rating,
-    String comment,
-    String customer,
-    LocalDateTime date
-) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BookReviewsView {
+    Integer rating;
+    String comment;
+    String customer;
+    LocalDateTime date;
+
     public BookReviewsView(Review review) {
         this(
             review.getRating(),

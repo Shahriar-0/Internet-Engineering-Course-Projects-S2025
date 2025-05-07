@@ -161,4 +161,10 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
         dao = reviewDaoRepository.save(dao);
         return reviewMapper.toDomain(dao);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByTitle(String title) {
+        return bookDaoRepository.existsByTitle(title);
+    }
 }

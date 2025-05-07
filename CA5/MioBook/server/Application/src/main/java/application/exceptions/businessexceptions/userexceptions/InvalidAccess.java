@@ -13,11 +13,11 @@ public class InvalidAccess extends BusinessException {
 
 	private static String message(List<Role> roles, Role targetRole, boolean isWhiteList) {
 		if (isWhiteList)
-			return "The role '" + targetRole.getValue() + "' has not appear in white list" +
-					roles.stream().map(r -> " '" + r.getValue() + "'") + "!";
+			return "The role '" + targetRole.getValue() + "' has not appear in white list: {" +
+					getListStr(roles) + "} " + "!";
 		else
-			return "The role '" + targetRole.getValue() + "' appears in black list" +
-					roles.stream().map(r -> " '" + r.getValue() + "'") + "!";
+			return "The role '" + targetRole.getValue() + "' appears in black list: {" +
+					getListStr(roles) + "} " + "!";
 	}
 
 	public InvalidAccess(String access) {
@@ -27,4 +27,17 @@ public class InvalidAccess extends BusinessException {
 	public InvalidAccess(List<Role> roles, Role targetRole, boolean isWhiteList) {
 		super(message(roles, targetRole, isWhiteList));
 	}
+
+    private static String getListStr(List<Role> roles) {
+        if (roles.isEmpty())
+            return "";
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role : roles) {
+            stringBuilder.append("'").append(role.getValue()).append("', ");
+        }
+
+        String result = stringBuilder.toString();
+        return result.substring(0, result.length() - 2);
+    }
 }

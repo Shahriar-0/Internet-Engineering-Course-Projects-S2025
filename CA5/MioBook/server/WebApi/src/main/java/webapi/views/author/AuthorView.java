@@ -4,15 +4,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import domain.entities.author.Author;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record AuthorView(
-	String name,
-	String penName,
-	String nationality,
-	LocalDate born,
-	LocalDate died,
-	int bookCount
-) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthorView {
+	String name;
+	String penName;
+	String nationality;
+	LocalDate born;
+	LocalDate died;
+	int bookCount;
+
 	public AuthorView(Author entity) {
 		this(
 			entity.getName(),
