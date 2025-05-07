@@ -19,6 +19,7 @@ const Book = () => {
     const [reviews, setReviews] = useState(null);
     const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
     const [addCartModalOpen, setAddCartModalOpen] = useState(false);
+    const [averageRating, setAverageRating] = useState(0); // TODO: remove this, it's just because backend is buggy and doesn't return reviews by default since db
 
     const navigate = useNavigate();
 
@@ -39,8 +40,10 @@ const Book = () => {
 
     const fetchReviews = async () => {
         const { body, error } = await ApiService.getBookReviews(title);
-        if (body && body.status === ApiService.statusCode.OK)
+        if (body && body.status === ApiService.statusCode.OK) {
+            setAverageRating(body.data.list.reduce((a, b) => a + b.rating, 0) / body.data.list.length);
             setReviews(body.data);
+        }
         else if (body && body.status !== ApiService.statusCode.OK)
             toast.error(body.message);
         else
@@ -57,13 +60,13 @@ const Book = () => {
             <section className="row rounded-4 shadow-lg border-1 border-bottom border-secondary py-4 mx-2 mb-5">
                 <AddReviewModal title={book?.title} isOpen={addReviewModalOpen}
                     onSubmit={reviewSubmit} onClose={() => setAddReviewModalOpen(false)} />
-                <HomeEntityCover title={book?.title} rating={book?.averageRating} cover={book?.cover || BookCoverImg} />
+                <HomeEntityCover title={book?.title} rating={averageRating?.toFixed(1)} cover={book?.cover || BookCoverImg} />
 
                 <div className="col-12 col-md-7 col-lg-8 d-flex flex-column">
                     <p className="fw-bold fs-3 d-none d-md-block">{book?.title}</p>
                     <div className="mb-4 d-none d-md-flex align-items-end">
-                        <Rating rating={book?.averageRating} />
-                        <span className="align-middle ms-2 fs-7">{book?.averageRating?.toFixed(1)}</span> {/* FIXME: fix alignment*/}
+                        <Rating rating={averageRating?.toFixed(1)} />
+                        <span className="align-middle ms-2 fs-7">{averageRating?.toFixed(1)}</span> {/* FIXME: fix alignment*/}
                     </div>
 
                     <div className="row mb-auto">
