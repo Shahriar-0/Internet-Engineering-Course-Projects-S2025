@@ -10,14 +10,18 @@ import infra.daos.AuthorDao;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
 import infra.daos.ReviewDao;
-import infra.mappers.*;
+import infra.mappers.BookMapper;
+import infra.mappers.IMapper;
+import infra.mappers.ReviewMapper;
 import infra.repositories.jpa.AuthorDaoRepository;
 import infra.repositories.jpa.BookDaoRepository;
 import infra.repositories.jpa.GenreDaoRepository;
 import infra.repositories.jpa.ReviewDaoRepository;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,10 +30,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import static application.usecase.user.book.GetBook.BookFilter.BookSortByType.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -92,30 +96,12 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
                 cb.lessThanOrEqualTo(root.get("year"), filter.to())
             );
 
-        Page<Book> page = bookDaoRepository
+        spec = addSortToSpec(spec, filter.sortByType(), filter.isAscending());
+
+        return bookDaoRepository
             .findAll(spec, pageable)
             .map(dao -> bookMapper.mapWithAuthorAndReviews(dao, reviewMapper));
-
-        // sort content in‑memory
-        List<Book> sortedList = new ArrayList<>(page.getContent());
-        Comparator<Book> comparator = getSortFunction(filter.sortByType());
-        sortedList = sortedList.stream().sorted(filter.isAscending() ? comparator : comparator.reversed()).toList();
-
-        return new PageImpl<>( // TODO: improve this sorting
-            sortedList,
-            page.getPageable(),
-            page.getTotalElements()
-        );
     }
-
-	private static Comparator<Book> getSortFunction(GetBook.BookFilter.BookSortByType filterType) {
-		return switch (filterType) {
-			case DATE -> Comparator.comparing(Book::getDateAdded);
-			case RATING -> Comparator.comparing(Book::getAverageRating);
-			case REVIEWS -> Comparator.comparing(book -> book.getReviews().size());
-			case TITLE -> Comparator.comparing(Book::getTitle);
-		};
-	}
 
 	@Override
     @Transactional(readOnly = true)
@@ -166,5 +152,36 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     @Transactional(readOnly = true)
     public boolean existsByTitle(String title) {
         return bookDaoRepository.existsByTitle(title);
+    }
+
+    private static Specification<BookDao> addSortToSpec(Specification<BookDao> spec, GetBook.BookFilter.BookSortByType sortType, boolean isAscending) {
+        if (sortType == RATING || sortType == REVIEWS)
+            spec = spec.and((root, query, cb) -> {
+                Join<BookDao, ReviewDao> ratings = root.join("reviews", JoinType.LEFT);
+                query.groupBy(root.get("id"));
+                if (sortType == RATING) {
+                    Expression<Double> avgRating = cb.avg(ratings.get("rating"));
+                    query.orderBy(isAscending ? cb.asc(avgRating) : cb.desc(avgRating));
+                }
+                else {
+                    Expression<Long> ratingCount = cb.count(ratings);
+                    query.orderBy(isAscending ? cb.asc(ratingCount) : cb.desc(ratingCount));
+                }
+                return cb.conjunction();
+            });
+
+        if (sortType == DATE)
+            spec = spec.and((root, query, cb) -> {
+                query.orderBy(isAscending ? cb.asc(root.get("publishedYear")) : cb.desc(root.get("publishedYear")));
+                return cb.conjunction();
+            });
+
+        if (sortType == TITLE)
+            spec = spec.and((root, query, cb) -> {
+                query.orderBy(isAscending ? cb.asc(root.get("title")) : cb.desc(root.get("title")));
+                return cb.conjunction();
+            });
+
+        return spec;
     }
 }
