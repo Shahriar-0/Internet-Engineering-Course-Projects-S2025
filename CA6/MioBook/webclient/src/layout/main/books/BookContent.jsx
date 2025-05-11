@@ -13,17 +13,18 @@ const BookContent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchBook = async () => {
-            const { body, error } = await ApiService.getBookContent(title);
-            if (body && body.status === ApiService.statusCode.OK)
-                setBook(body.data);
-            else if (body && body.status !== ApiService.statusCode.OK)
-                toast.error(body.message);
-            else
-                navigate(UrlService.urls.unexpectedError);
-        }
         fetchBook();
-    });
+    }, []);
+
+    const fetchBook = async () => {
+        const { body, error } = await ApiService.getBookContent(title);
+        if (body && body.status === ApiService.statusCode.OK)
+            setBook(body.data);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    }
 
     return (
         <main className="container p-4 justify-content-center align-items-center">
