@@ -45,6 +45,7 @@ public class Response<T> extends ResponseEntity<ResponseData<T>> {
     private static HttpHeaders createHeader(String sessionId) {
         HttpHeaders header = new HttpHeaders();
         header.set(AuthenticationService.SESSION_KEY_STR, sessionId);
+        header.set("Access-Control-Expose-Headers", AuthenticationService.SESSION_KEY_STR);
         return header;
     }
 
