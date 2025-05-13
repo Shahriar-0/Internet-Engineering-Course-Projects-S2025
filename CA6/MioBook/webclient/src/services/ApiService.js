@@ -33,7 +33,7 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
     try {
         const options = {
             method: httpMethod,
-            headers: defaultHeader
+            headers: AuthenticationService.addSessionToHeader(defaultHeader)
         };
 
         if (reqBody && httpMethod !== "GET") {
