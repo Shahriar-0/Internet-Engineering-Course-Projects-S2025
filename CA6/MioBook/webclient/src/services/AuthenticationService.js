@@ -1,23 +1,39 @@
 import ApiService from "./ApiService";
 
+const SESSION_ID_HEADER_KEY = "Session-Id";
+const LOGGED_IN_USER_KEY = "user";
+
 const Role = Object.freeze({ CUSTOMER: "customer", ADMIN: "admin" });
 
-const isAnyUserLoggedIn = () => localStorage.getItem("user") !== null;
+const isAnyUserLoggedIn = () => localStorage.getItem(LOGGED_IN_USER_KEY) !== null;
 
 const isUserLoggedIn = (username) => {
     if (!isAnyUserLoggedIn())
         return false;
 
-    return JSON.parse(localStorage.getItem("user")).username === username;
+    return JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY)).username === username;
 }
 
-const getCurrentUser = () => structuredClone(JSON.parse(localStorage.getItem("user")));
+const addSessionToHeader = (header) => {
+    if (!isAnyUserLoggedIn())
+        return header;
+
+    const sessionId = JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY)).sessionId;
+    const sessionAddedHeader = {...header, [SESSION_ID_HEADER_KEY]: sessionId};
+    return sessionAddedHeader;
+}
+
+const getCurrentUser = () => structuredClone(JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY)));
 
 const login = async (username, password) => {
-    const { body } = await ApiService.signIn(username, password);
+    const { response, body } = await ApiService.signIn(username, password);
 
     if (body !== null && body.status === ApiService.statusCode.OK)
-        localStorage.setItem("user", JSON.stringify({ username: username, password: password, role: body.data }));
+        localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify({
+            username: username,
+            role: body.data,
+            sessionId: response.headers.get(SESSION_ID_HEADER_KEY)
+        }));
 
     return body;
 };
@@ -26,13 +42,13 @@ const isLoggedInUserAdmin = () => {
     if (!isAnyUserLoggedIn())
         return false;
 
-    return JSON.parse(localStorage.getItem("user")).role === Role.ADMIN;
+    return JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY)).role === Role.ADMIN;
 }
 
 const logout = async () => {
     const { body } = await ApiService.signOut();
     if (body)
-        localStorage.removeItem("user");
+        localStorage.removeItem(LOGGED_IN_USER_KEY);
 
     return body;
 };
@@ -40,6 +56,7 @@ const logout = async () => {
 const AuthenticationService = Object.freeze({
     isAnyUserLoggedIn,
     isUserLoggedIn,
+    addSessionToHeader,
     getCurrentUser,
     isLoggedInUserAdmin,
     login,
