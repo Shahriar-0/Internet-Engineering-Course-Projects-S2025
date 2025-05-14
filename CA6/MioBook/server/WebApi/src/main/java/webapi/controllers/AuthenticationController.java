@@ -35,7 +35,7 @@ public class AuthenticationController {
 	@Access(isWhiteList = false)
 	public Response<?> login(@Valid @RequestBody Login.LoginData data) {
 		Login useCase = (Login) useCaseService.getUseCase(UseCaseType.LOGIN);
-		
+
 		Result<User> userResult = useCase.perform(data);
 		if (userResult.isFailure())
 			return processFailureOfLogin(userResult.exception());
@@ -48,7 +48,7 @@ public class AuthenticationController {
 	@Access(isWhiteList = false)
 	public Response<?> logout() {
 		boolean isOk = authenticationService.deleteSession();
-		return isOk ? Response.of(OK ,LOGOUT_MESSAGE) : Response.of(UNAUTHORIZED, LOGOUT_FAILED);
+		return isOk ? Response.of(OK, LOGOUT_MESSAGE) : Response.of(UNAUTHORIZED, LOGOUT_FAILED);
 	}
 
 	private static Response<?> processFailureOfLogin(BaseException exception) {

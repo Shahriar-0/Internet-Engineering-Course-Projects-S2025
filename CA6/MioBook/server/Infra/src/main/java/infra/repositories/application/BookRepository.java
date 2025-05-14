@@ -74,26 +74,30 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
 
         if (filter.author() != null) {
             Optional<AuthorDao> authorDao = authorDaoRepository.findByName(filter.author());
-            if (authorDao.isPresent()) {
+            if (authorDao.isPresent()) { // FIXME: for when there is no author we should return empty list
                 spec = spec.and((root, query, cb) ->
                     cb.equal(root.get("author"), authorDao.get())
                 );
             }
         }
 
-        if (filter.genre() != null)
-            spec = spec.and((root, query, cb) ->
-                cb.equal(root.get("genre"), filter.genre())
-            );
+        if (filter.genre() != null) {
+            Optional<GenreDao> genreDao = genreDaoRepository.findByGenre(filter.genre());
+            if (genreDao.isPresent()) { // FIXME: for when there is no genre we should return empty list
+                spec = spec.and((root, query, cb) ->
+                    cb.isMember(genreDao.get(), root.get("genres"))
+                );
+            }
+        }
 
         if (filter.from() != null)
             spec = spec.and((root, query, cb) ->
-                cb.greaterThanOrEqualTo(root.get("year"), filter.from())
+                cb.greaterThanOrEqualTo(root.get("publishedYear"), filter.from())
             );
 
         if (filter.to() != null)
             spec = spec.and((root, query, cb) ->
-                cb.lessThanOrEqualTo(root.get("year"), filter.to())
+                cb.lessThanOrEqualTo(root.get("publishedYear"), filter.to())
             );
 
         spec = addSortToSpec(spec, filter.sortByType(), filter.isAscending());
