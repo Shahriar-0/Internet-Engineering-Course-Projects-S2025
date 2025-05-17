@@ -3,6 +3,7 @@ package application.usecase.user.account;
 import application.exceptions.businessexceptions.userexceptions.UserNotFound;
 import application.exceptions.businessexceptions.userexceptions.WrongPassword;
 import application.repositories.IUserRepository;
+import application.util.PasswordUtil;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
@@ -45,22 +46,22 @@ public class Login implements IUseCase {
 			return Result.failure(UserNotFound.usernameNotFound(username));
 
         User user = optionalUser.get();
-		if (!user.getPassword().equals(password))
-			return Result.failure(WrongPassword.wrongPasswordForUsername(username));
+        if (!PasswordUtil.verifyPassword(password, user.getPassword()))
+            return Result.failure(WrongPassword.wrongPasswordForUsername(username));
 
-		return Result.success(user);
-	}
+        return Result.success(user);
+    }
 
 	private Result<User> loginByEmail(String email, String password) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isEmpty())
-			return Result.failure(UserNotFound.emailNotFound(email));
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty())
+            return Result.failure(UserNotFound.emailNotFound(email));
 
-		if (!optionalUser.get().getPassword().equals(password))
-			return Result.failure(WrongPassword.wrongPasswordForEmail(email));
+        if (!PasswordUtil.verifyPassword(password, optionalUser.get().getPassword()))
+            return Result.failure(WrongPassword.wrongPasswordForEmail(email));
 
-		return Result.success(optionalUser.get());
-	}
+        return Result.success(optionalUser.get());
+    }
 
     @Data
     @NoArgsConstructor

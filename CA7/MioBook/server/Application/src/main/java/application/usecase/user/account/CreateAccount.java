@@ -3,6 +3,7 @@ package application.usecase.user.account;
 import application.exceptions.businessexceptions.userexceptions.EmailAlreadyExists;
 import application.exceptions.businessexceptions.userexceptions.UsernameAlreadyExists;
 import application.repositories.IUserRepository;
+import application.util.PasswordUtil;
 import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
@@ -39,11 +40,12 @@ public class CreateAccount implements IUseCase {
 
 	public static User mapToUser(AddUserData data) {
 		Role role = Role.valueOf(data.role.toUpperCase());
+		String password = PasswordUtil.hashPassword(data.password);
 
         if (role == Role.CUSTOMER)
-			return new Customer(data.username, data.password, data.email, data.address);
+			return new Customer(data.username, password, data.email, data.address);
 		else
-			return new Admin(data.username, data.password, data.email, data.address);
+			return new Admin(data.username, password, data.email, data.address);
 	}
 
 	public record AddUserData(
