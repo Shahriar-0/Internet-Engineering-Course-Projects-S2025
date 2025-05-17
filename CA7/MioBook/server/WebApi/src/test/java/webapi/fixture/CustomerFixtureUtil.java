@@ -2,6 +2,7 @@ package webapi.fixture;
 
 import application.usecase.user.account.CreateAccount;
 import application.usecase.user.account.Login;
+import application.util.PasswordUtil;
 import domain.entities.user.Customer;
 import domain.entities.user.Role;
 import webapi.views.user.UserView;
@@ -15,7 +16,7 @@ public class CustomerFixtureUtil {
     public static Customer customer(int index) {
         return Customer.builder()
             .username(name(index))
-            .password(password(index))
+            .password(PasswordUtil.hashPassword(password(index)))
             .email(email(index))
             .address(AddressFixtureUtil.address(index))
             .role(Role.CUSTOMER)

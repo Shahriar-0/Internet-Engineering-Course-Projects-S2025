@@ -2,6 +2,7 @@ package webapi.fixture;
 
 import application.usecase.user.account.CreateAccount;
 import application.usecase.user.account.Login;
+import application.util.PasswordUtil;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
 import domain.entities.user.Role;
@@ -14,7 +15,7 @@ public class AdminFixtureUtil {
     public static Admin admin(int index) {
         return Admin.builder()
             .username(name(index))
-            .password(password(index))
+            .password(PasswordUtil.hashPassword(password(index)))
             .email(email(index))
             .address(AddressFixtureUtil.address(index))
             .role(Role.ADMIN)
