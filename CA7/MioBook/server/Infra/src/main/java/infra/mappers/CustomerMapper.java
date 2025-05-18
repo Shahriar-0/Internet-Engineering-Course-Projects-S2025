@@ -55,6 +55,7 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
             .address(addressMapper.toValueObj(dao.getAddress()))
             .role(Role.CUSTOMER)
             .credit(dao.getWallet().getCredit())
+            .salt(dao.getSalt())
             .purchasedLicenses(new ArrayList<>())
             .purchaseHistory(new ArrayList<>())
             .build();
@@ -73,6 +74,7 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
         walletDao.setCustomerId(entity.getId());
         walletDao.setCredit(entity.getCredit());
         dao.setWallet(walletDao);
+        dao.setSalt(entity.getSalt());
         return dao;
     }
 
@@ -84,5 +86,6 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
         dao.setEmail(entity.getEmail());
         dao.setAddress(addressMapper.toDao(entity.getAddress()));
         dao.getWallet().setCredit(entity.getCredit());
+        dao.setSalt(entity.getSalt());
     }
 }

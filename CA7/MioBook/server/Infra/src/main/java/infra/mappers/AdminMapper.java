@@ -21,6 +21,7 @@ public class AdminMapper implements IMapper<Admin, AdminDao> {
             .email(dao.getEmail())
             .role(Role.ADMIN)
             .address(addressMapper.toValueObj(dao.getAddress()))
+            .salt(dao.getSalt())
             .build();
     }
 
@@ -32,6 +33,7 @@ public class AdminMapper implements IMapper<Admin, AdminDao> {
         dao.setPassword(entity.getPassword());
         dao.setEmail(entity.getEmail());
         dao.setAddress(addressMapper.toDao(entity.getAddress()));
+        dao.setSalt(entity.getSalt());
         return dao;
     }
 
@@ -42,5 +44,6 @@ public class AdminMapper implements IMapper<Admin, AdminDao> {
         dao.setPassword(entity.getPassword());
         dao.setEmail(entity.getEmail());
         dao.setAddress(addressMapper.toDao(entity.getAddress()));
+        dao.setSalt(entity.getSalt());
     }
 }
