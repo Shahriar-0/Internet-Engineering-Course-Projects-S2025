@@ -16,10 +16,12 @@ public abstract class User extends DomainEntity {
 	protected String password;
 	protected String email;
 	protected Role role;
+	protected String salt;
 
-	public User(String username, String password, String email, Address address, Role role) {
+	public User(String username, String password, String salt, String email, Address address, Role role) {
 		this.username = username;
         this.password = password;
+        this.salt = salt;
 		this.email = email;
 		this.address = address;
 		this.role = role;

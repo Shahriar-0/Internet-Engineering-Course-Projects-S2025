@@ -27,6 +27,9 @@ public class CustomerDao {
     private String password;
 
     @NotNull
+    private String salt;
+
+    @NotNull
     @Email
     @Column(unique = true)
     private String email;

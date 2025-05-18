@@ -14,9 +14,12 @@ public class CustomerFixtureUtil {
     public static final long CUSTOMER_CREDIT =  0L;
 
     public static Customer customer(int index) {
+        String salt = PasswordUtil.generateSalt();
+        String hashedPassword = PasswordUtil.hashPassword(password(index), salt);
         return Customer.builder()
             .username(name(index))
-            .password(PasswordUtil.hashPassword(password(index)))
+            .password(hashedPassword)
+            .salt(salt)
             .email(email(index))
             .address(AddressFixtureUtil.address(index))
             .role(Role.CUSTOMER)

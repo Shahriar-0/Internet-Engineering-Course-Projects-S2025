@@ -46,7 +46,7 @@ public class Login implements IUseCase {
 			return Result.failure(UserNotFound.usernameNotFound(username));
 
         User user = optionalUser.get();
-        if (!PasswordUtil.verifyPassword(password, user.getPassword()))
+        if (!PasswordUtil.verifyPassword(password, user.getSalt(), user.getPassword()))
             return Result.failure(WrongPassword.wrongPasswordForUsername(username));
 
         return Result.success(user);
@@ -57,10 +57,11 @@ public class Login implements IUseCase {
         if (optionalUser.isEmpty())
             return Result.failure(UserNotFound.emailNotFound(email));
 
-        if (!PasswordUtil.verifyPassword(password, optionalUser.get().getPassword()))
+        User user = optionalUser.get();
+        if (!PasswordUtil.verifyPassword(password, user.getSalt(), user.getPassword()))
             return Result.failure(WrongPassword.wrongPasswordForEmail(email));
 
-        return Result.success(optionalUser.get());
+        return Result.success(user);
     }
 
     @Data

@@ -4,7 +4,6 @@ import application.usecase.user.account.CreateAccount;
 import application.usecase.user.account.Login;
 import application.util.PasswordUtil;
 import domain.entities.user.Admin;
-import domain.entities.user.Customer;
 import domain.entities.user.Role;
 import webapi.views.user.UserView;
 
@@ -13,9 +12,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class AdminFixtureUtil {
 
     public static Admin admin(int index) {
+        String salt = PasswordUtil.generateSalt();
+        String hashedPassword = PasswordUtil.hashPassword(password(index), salt);
         return Admin.builder()
             .username(name(index))
-            .password(PasswordUtil.hashPassword(password(index)))
+            .password(hashedPassword)
+            .salt(salt)
             .email(email(index))
             .address(AddressFixtureUtil.address(index))
             .role(Role.ADMIN)

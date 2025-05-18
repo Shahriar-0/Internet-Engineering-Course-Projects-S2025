@@ -28,8 +28,8 @@ public class Customer extends User {
 	private List<BookLicense> purchasedLicenses = new ArrayList<>();
 	private List<PurchasedCart> purchaseHistory = new ArrayList<>();
 
-	public Customer(String username, String password, String email, Address address) {
-		super(username, password, email, address, Role.CUSTOMER);
+	public Customer(String username, String password, String salt, String email, Address address) {
+		super(username, password, salt, email, address, Role.CUSTOMER);
 		this.cart = new Cart(this);
 		this.credit = 0L;
 	}

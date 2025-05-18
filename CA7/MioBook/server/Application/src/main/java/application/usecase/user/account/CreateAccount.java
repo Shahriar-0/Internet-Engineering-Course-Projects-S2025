@@ -40,12 +40,13 @@ public class CreateAccount implements IUseCase {
 
 	public static User mapToUser(AddUserData data) {
 		Role role = Role.valueOf(data.role.toUpperCase());
-		String password = PasswordUtil.hashPassword(data.password);
-
+		String salt = PasswordUtil.generateSalt();
+		String password = PasswordUtil.hashPassword(data.password, salt);
+		
         if (role == Role.CUSTOMER)
-			return new Customer(data.username, password, data.email, data.address);
+			return new Customer(data.username, password, salt, data.email, data.address);
 		else
-			return new Admin(data.username, password, data.email, data.address);
+			return new Admin(data.username, password, salt, data.email, data.address);
 	}
 
 	public record AddUserData(
