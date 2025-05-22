@@ -1,20 +1,28 @@
 package webapi.services;
 
 import application.repositories.IUserRepository;
-import domain.entities.user.Admin;
-import domain.entities.user.Customer;
+import webapi.configuration.JwtConfig;
 import domain.entities.user.Role;
 import domain.entities.user.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.crypto.SecretKey;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +32,7 @@ public class AuthenticationService {
     public static final String SESSION_KEY_STR = "Session-Id";
     private static final String SESSION_PATH_PATTERN = "sessions:%s";
 
+    private final JwtConfig jwtConfig;
     private final RedisTemplate<String, UserSession> sessionStorage;
     private final IUserRepository userRepository;
 
@@ -63,6 +72,43 @@ public class AuthenticationService {
 
     private String getSessionPath(String sessionId) {
         return String.format(SESSION_PATH_PATTERN, sessionId);
+    }
+
+    public String generateToken(User user) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtConfig.getExpiration());
+
+        return Jwts.builder()
+                .subject(user.getId().toString()) // FIXME: not sure
+                .claim("username", user.getId())
+                .claim("email", user.getEmail())
+                .claim("role", user.getRole().toString())
+                .issuedAt(now)
+                .issuer(jwtConfig.getIssuer())
+                .expiration(expiryDate)
+                .signWith(getSignKey())
+                .compact();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> jwt = Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token);
+            Claims payload = jwt.getPayload();
+            return payload.getExpiration().after(new Date()) &&
+                   payload.getIssuedAt().before(new Date()) &&
+                   payload.getIssuer().equals(jwtConfig.getIssuer()) &&
+                   payload.getSubject() != null &&
+                   payload.get("role", String.class) != null &&
+                   payload.get("username", String.class) != null &&
+                   payload.get("email", String.class) != null;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    private SecretKey getSignKey() {
+        return Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
     }
 
     @Data
