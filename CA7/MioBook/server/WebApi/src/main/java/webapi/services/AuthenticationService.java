@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
 import javax.crypto.SecretKey;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -39,7 +40,8 @@ public class AuthenticationService {
 
     public String generateToken(User user) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtConfig.getExpiration());
+        long expiryInMillis = TimeUnit.DAYS.toMillis(jwtConfig.getExpiration());
+        Date expiryDate = new Date(now.getTime() + expiryInMillis);
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("username", user.getUsername())
