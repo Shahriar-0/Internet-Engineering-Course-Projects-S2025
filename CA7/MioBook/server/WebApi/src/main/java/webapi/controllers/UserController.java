@@ -31,7 +31,7 @@ public class UserController {
 	private final UseCaseService useCaseService;
 
 	@PostMapping
-	@Access(isWhiteList = false)
+	@Access(isWhiteList = true)
 	public Response<?> addUser(@Valid @RequestBody CreateAccount.AddUserData data) {
 		CreateAccount useCase = (CreateAccount) useCaseService.getUseCase(UseCaseType.CREATE_ACCOUNT);
 

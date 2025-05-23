@@ -3,7 +3,6 @@ package webapi.response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import webapi.services.AuthenticationService;
 
 import java.time.LocalDateTime;
 
@@ -36,16 +35,18 @@ public class Response<T> extends ResponseEntity<ResponseData<T>> {
         return new Response<>(body, status);
     }
 
-    public static <T> Response<T> of(T data, HttpStatus status, String message, String sessionId) {
+    public static <T> Response<T> of(T data, HttpStatus status, String message, String jwtToken) {
         ResponseData<T> body = createData(status.value(), message, data);
-        HttpHeaders header = createHeader(sessionId);
+        HttpHeaders header = createHeaderWithJwt(jwtToken);
         return new Response<>(body, status, header);
     }
 
-    private static HttpHeaders createHeader(String sessionId) {
+    private static HttpHeaders createHeaderWithJwt(String jwtToken) {
         HttpHeaders header = new HttpHeaders();
-        header.set(AuthenticationService.SESSION_KEY_STR, sessionId);
-        header.set("Access-Control-Expose-Headers", AuthenticationService.SESSION_KEY_STR);
+        if (jwtToken != null) {
+            header.set("Authorization", "Bearer " + jwtToken);
+            header.set("Access-Control-Expose-Headers", "Authorization");
+        }
         return header;
     }
 
