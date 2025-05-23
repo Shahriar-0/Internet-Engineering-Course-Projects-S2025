@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Access {
     Role[] roles() default {};
-    boolean isWhiteList() default true;
+    boolean isWhiteList() default false;
 }

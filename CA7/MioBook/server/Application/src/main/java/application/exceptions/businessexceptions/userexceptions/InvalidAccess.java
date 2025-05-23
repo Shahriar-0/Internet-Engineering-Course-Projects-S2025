@@ -12,7 +12,7 @@ public class InvalidAccess extends BusinessException {
 	}
 
 	private static String message(List<Role> roles, Role targetRole, boolean isWhiteList) {
-		if (isWhiteList)
+		if (isWhiteList) // TODO: update these based on new definition of white list or revert white list functionality
 			return "The role '" + targetRole.getValue() + "' has not appear in white list: {" +
 					getListStr(roles) + "} " + "!";
 		else
