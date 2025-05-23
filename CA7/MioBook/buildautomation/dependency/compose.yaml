@@ -21,23 +21,6 @@ services:
     networks:
       - db_network
 
-  redis:
-    image: docker.arvancloud.ir/redis
-    hostname: redis
-    ports:
-      - '6379:6379'
-    volumes:
-      - redis-data:/data
-    networks:
-      - redis_network
-
-  redisinsight:
-    image: redis/redisinsight
-    ports:
-      - "6380:5540"
-    networks:
-      - redis_network
-
 networks:
   db_network:
     driver: bridge
