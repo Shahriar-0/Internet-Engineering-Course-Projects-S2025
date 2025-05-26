@@ -23,10 +23,8 @@ public class CustomerDao {
     @Column(unique = true)
     private String name;
 
-    @NotNull
     private String password;
 
-    @NotNull
     private String salt;
 
     @NotNull
@@ -34,7 +32,6 @@ public class CustomerDao {
     @Column(unique = true)
     private String email;
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressDao address;

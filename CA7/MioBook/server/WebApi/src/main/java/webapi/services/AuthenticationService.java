@@ -97,7 +97,7 @@ public class AuthenticationService {
 			.password(null)
 			.salt(null)
 			.email(email)
-			.address(new domain.valueobjects.Address("", ""))
+			.address(null)
 			.role(domain.entities.user.Role.CUSTOMER)
 			.credit(0L)
 			.build();

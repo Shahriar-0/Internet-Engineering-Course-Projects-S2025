@@ -53,7 +53,13 @@ const logout = async () => {
     return body;
 };
 
+const getGoogleLoginUrl = async () => {
+    const { body } = await ApiService.getGoogleLoginUrl();
+    return body;
+}
+
 const AuthenticationService = Object.freeze({
+    getGoogleLoginUrl,
     isAnyUserLoggedIn,
     isUserLoggedIn,
     addSessionToHeader,

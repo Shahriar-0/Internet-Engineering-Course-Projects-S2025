@@ -42,6 +42,12 @@ public class AuthenticationController {
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
 
+    @Value("${google.auth.uri}")
+    private String googleAuthUri;
+
+    @Value("${google.token.uri}")
+    private String googleTokenUri;
+
 	@Value("${google.client.id}")
 	private String googleClientId;
 
@@ -50,6 +56,8 @@ public class AuthenticationController {
 
 	@Value("${google.redirect.uri}")
 	private String googleRedirectUri;
+
+
 
 	@PostMapping("login")
 	@Access(isWhiteList = true)
@@ -70,15 +78,15 @@ public class AuthenticationController {
 		return Response.of(OK, LOGOUT_MESSAGE);
 	}
 
-	@GetMapping("/google/login")
+	@GetMapping("/google/url")
 	@Access(isWhiteList = true)
-	public Response<?> googleLogin() {
+	public Response<?> googleLoginUrl() {
 		String googleAuthUrl = UriComponentsBuilder
-			.fromUriString("https://accounts.google.com/o/oauth2/auth")
+			.fromUriString(googleAuthUri)
 			.queryParam("client_id", googleClientId)
 			.queryParam("redirect_uri", googleRedirectUri)
 			.queryParam("response_type", "code")
-			.queryParam("scope", "openid email profile")
+			.queryParam("scope", "openid%20email%20profile")
 			.build()
 			.toUriString();
 		return Response.of(OK, googleAuthUrl);
@@ -88,7 +96,7 @@ public class AuthenticationController {
 	@Access(isWhiteList = true)
 	public Response<?> googleCallback(@RequestParam("code") String code) {
 		RestTemplate restTemplate = new RestTemplate();
-		String tokenUrl = "https://oauth2.googleapis.com/token";
+		String tokenUrl = googleTokenUri;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -124,7 +132,7 @@ public class AuthenticationController {
 		User user = authenticationService.findOrCreateGoogleUser(name, email);
 		authenticationService.setUserSession(user);
 		String jwt = authenticationService.generateToken(user);
-		return Response.of(user.getRole().getValue(), OK, LOGIN_MESSAGE, jwt);
+		return Response.redirect(user.getRole().getValue(), OK, LOGIN_MESSAGE, jwt, "http://localhost:3000/home");
 	}
 
 	private static Response<?> processFailureOfLogin(BaseException exception) {

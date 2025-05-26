@@ -60,6 +60,14 @@ const SignInForm = () => {
         setLoading(false);
     }
 
+    const googleLoginHandler = async () => {
+        const body = await AuthenticationService.getGoogleLoginUrl();
+        if (body === null || body.status !== ApiService.statusCode.OK)
+            navigate(UrlService.urls.unexpectedError);
+        else
+            window.location.href = body.message;
+    }
+
     return (
         <div>
             <CustomInput
@@ -84,6 +92,7 @@ const SignInForm = () => {
             >
                 Sign in
             </SpinnerButton>
+            <button onClick={googleLoginHandler} className="btn btn-lg btn-primary w-100 fw-bold border-2 mt-3">Login With Google</button>
         </div>
     );
 }

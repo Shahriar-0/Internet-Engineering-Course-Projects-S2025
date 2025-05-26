@@ -41,12 +41,24 @@ public class Response<T> extends ResponseEntity<ResponseData<T>> {
         return new Response<>(body, status, header);
     }
 
+    public static <T> Response<T> redirect(T data, HttpStatus status, String message, String jwtToken, String url) {
+        ResponseData<T> body = createData(status.value(), message, data);
+        HttpHeaders header = createHeaderWithJwtAndRedirect(jwtToken, url);
+        return new Response<>(body, status, header);
+    }
+
     private static HttpHeaders createHeaderWithJwt(String jwtToken) {
         HttpHeaders header = new HttpHeaders();
         if (jwtToken != null) {
             header.set("Authorization", "Bearer " + jwtToken);
             header.set("Access-Control-Expose-Headers", "Authorization");
         }
+        return header;
+    }
+
+    private static HttpHeaders createHeaderWithJwtAndRedirect(String jwtToken, String url) {
+        HttpHeaders header = createHeaderWithJwt(jwtToken);
+        header.set("Location", url);
         return header;
     }
 

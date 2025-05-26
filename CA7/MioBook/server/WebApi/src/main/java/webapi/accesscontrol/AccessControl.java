@@ -36,7 +36,7 @@ public class AccessControl {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         if (authHeader != null && authHeader.startsWith("Bearer "))
-        token = authHeader.substring(7); // The part after "Bearer " FIXME: maybe find a better way?
+            token = authHeader.substring(7); // The part after "Bearer " FIXME: maybe find a better way?
         if (token == null || !authenticationService.validateToken(token))
             throw AuthenticationException.noOneLoggedIn();
 
