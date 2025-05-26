@@ -32,7 +32,7 @@ public class AuthorController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	@Access(roles = {ADMIN})
+	@Access(roles = {ADMIN}, isWhiteList = false)
 	public Response<?> addAuthor(@Valid @RequestBody AddAuthor.AddAuthorData data) {
 		AddAuthor useCase = (AddAuthor) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
 

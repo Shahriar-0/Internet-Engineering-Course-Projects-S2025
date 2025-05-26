@@ -1,84 +1,90 @@
 package webapi.services;
 
 import application.repositories.IUserRepository;
-import domain.entities.user.Admin;
-import domain.entities.user.Customer;
+import webapi.configuration.JwtConfig;
 import domain.entities.user.Role;
 import domain.entities.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
+import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
+import javax.crypto.SecretKey;
+import java.util.concurrent.TimeUnit;
+
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private static final int SESSION_TIME_TO_LIVE_MINUTE = 20;
-    public static final String SESSION_KEY_STR = "Session-Id";
-    private static final String SESSION_PATH_PATTERN = "sessions:%s";
-
-    private final RedisTemplate<String, UserSession> sessionStorage;
+    private final JwtConfig jwtConfig;
     private final IUserRepository userRepository;
 
     private UserSession userSession;
 
     public User getUser() {
+        if (userSession == null) return null;
         Optional<User> optionalUser = userRepository.findByUsername(userSession.username);
         return optionalUser.orElse(null);
     }
 
-    public String createSession(User user) {
-        String sessionId = UUID.randomUUID().toString();
-        UserSession session = new UserSession(user, sessionId);
-        sessionStorage.opsForValue().set(getSessionPath(sessionId), session, Duration.ofMinutes(SESSION_TIME_TO_LIVE_MINUTE));
-        return sessionId;
+    public void setUserSession(User user) {
+        this.userSession = new UserSession(user.getId(), user.getUsername(), user.getEmail(), user.getRole());
+    }
+    public void setUserSession(String token) {
+        this.userSession = getUserSessionFromToken(token);
     }
 
-    public User setUserBySessionId(String sessionId) {
-        if (sessionId == null)
-            return null;
-
-        UserSession session = sessionStorage.opsForValue().get(getSessionPath(sessionId));
-        if (session == null)
-            return null;
-
-        sessionStorage.expire(getSessionPath(sessionId), Duration.ofMinutes(SESSION_TIME_TO_LIVE_MINUTE));
-        this.userSession = session;
-        return getUser();
+    public String generateToken(User user) {
+        Date now = new Date();
+        long expiryInMillis = TimeUnit.DAYS.toMillis(jwtConfig.getExpiration());
+        Date expiryDate = new Date(now.getTime() + expiryInMillis);
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .claim("username", user.getUsername())
+                .claim("email", user.getEmail())
+                .claim("role", user.getRole().toString())
+                .issuedAt(now)
+                .issuer(jwtConfig.getIssuer())
+                .expiration(expiryDate)
+                .signWith(getSignKey())
+                .compact();
     }
 
-	public boolean deleteSession() {
-        if (userSession == null || userSession.sessionId == null)
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> jwt = Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token);
+            Claims payload = jwt.getPayload();
+            Date now = new Date();
+            return payload.getExpiration().after(now) &&
+                   payload.getIssuedAt().before(now) &&
+                   payload.getIssuer().equals(jwtConfig.getIssuer()) &&
+                   payload.getSubject() != null &&
+                   payload.get("role", String.class) != null &&
+                   payload.get("username", String.class) != null &&
+                   payload.get("email", String.class) != null;
+        }
+        catch (Exception e) {
             return false;
-
-        return sessionStorage.delete(getSessionPath(userSession.sessionId));
-    }
-
-    private String getSessionPath(String sessionId) {
-        return String.format(SESSION_PATH_PATTERN, sessionId);
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserSession {
-        Long id;
-        String username;
-        Role role;
-        String sessionId;
-
-        UserSession(User user, String sessionId) {
-            this.id = user.getId();
-            this.username = user.getUsername();
-            this.role = user.getRole();
-            this.sessionId = sessionId;
         }
     }
+
+    private UserSession getUserSessionFromToken(String token) {
+        Jws<Claims> jwt = Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token);
+        Claims payload = jwt.getPayload();
+        Long id = Long.valueOf(payload.getSubject());
+        String username = payload.get("username", String.class);
+        String email = payload.get("email", String.class);
+        Role role = Role.valueOf(payload.get("role", String.class));
+        return new UserSession(id, username, email, role);
+    }
+
+    private SecretKey getSignKey() {
+        return Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
+    }
+
+    public static record UserSession(Long id, String username, String email, Role role) {} // FIXME: dunno if word session is a good choice or not
 }

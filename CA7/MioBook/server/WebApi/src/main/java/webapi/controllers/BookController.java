@@ -44,7 +44,7 @@ public class BookController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	@Access(roles = {ADMIN})
+	@Access(roles = {ADMIN}, isWhiteList = false)
 	public Response<?> addBook(@Valid @RequestBody AddBook.AddBookData data) {
 		AddBook useCase = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
 
@@ -68,7 +68,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}/content")
-	@Access(roles = {CUSTOMER})
+	@Access(roles = {CUSTOMER}, isWhiteList = false)
 	public Response<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
 		GetBookContent useCase = (GetBookContent) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
 
@@ -110,7 +110,7 @@ public class BookController {
 	}
 
 	@PostMapping("/{title}/reviews")
-	@Access(roles = {CUSTOMER})
+	@Access(roles = {CUSTOMER}, isWhiteList = false)
 	public Response<?> addReview(@Valid @RequestBody AddReview.AddReviewData data, @PathVariable String title) {
 		AddReview useCase = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
 

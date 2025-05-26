@@ -27,21 +27,30 @@ public class AccessControl {
 
     @Before("@annotation(webapi.accesscontrol.Access)")
     public void checkAccess(JoinPoint joinPoint) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String sessionId = request.getHeader(AuthenticationService.SESSION_KEY_STR);
-        User loggedInUser = authenticationService.setUserBySessionId(sessionId);
-
         Access access = getAccessAnnotation(joinPoint);
-        List<Role> roles = Arrays.stream(access.roles()).toList();
         boolean isWhiteList = access.isWhiteList();
-        if (!isWhiteList && roles.isEmpty())
+        if (isWhiteList)
             return;
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String authHeader = request.getHeader("Authorization");
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer "))
+        token = authHeader.substring(7); // The part after "Bearer " FIXME: maybe find a better way?
+        if (token == null || !authenticationService.validateToken(token))
+            throw AuthenticationException.noOneLoggedIn();
+
+        authenticationService.setUserSession(token);
+        User loggedInUser = authenticationService.getUser();
 
         if (loggedInUser == null)
             throw AuthenticationException.noOneLoggedIn();
 
-        boolean isRoleAppear = roles.contains(loggedInUser.getRole());
-        if ((isRoleAppear && !isWhiteList) || (!isRoleAppear && isWhiteList))
+        List<Role> roles = Arrays.stream(access.roles()).toList();
+        if (roles.isEmpty())
+            return;
+        boolean isAnAccessibleRole = roles.contains(loggedInUser.getRole());
+        if (!isAnAccessibleRole)
             throw new InvalidAccess(roles, loggedInUser.getRole(), isWhiteList);
     }
 
