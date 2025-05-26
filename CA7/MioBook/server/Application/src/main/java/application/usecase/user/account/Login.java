@@ -70,7 +70,7 @@ public class Login implements IUseCase {
 	public static class LoginData {
 		String username;
 		@Email String email;
-		@NotBlank String password;
+		String password;
 
 		@AssertTrue(message = "Both email and username can't be blank")
 		private boolean isBothEmailAndUsernameBlank() {

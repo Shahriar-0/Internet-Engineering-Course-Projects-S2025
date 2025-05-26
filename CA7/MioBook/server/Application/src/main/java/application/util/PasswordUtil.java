@@ -32,6 +32,6 @@ public class PasswordUtil {
 	}
 
 	public static boolean verifyPassword(String rawPassword, String salt, String hashedPassword) {
-		return hashPassword(rawPassword, salt).equals(hashedPassword);
+		return (rawPassword == null && hashedPassword == null && salt == null) || hashPassword(rawPassword, salt).equals(hashedPassword);
 	}
 }

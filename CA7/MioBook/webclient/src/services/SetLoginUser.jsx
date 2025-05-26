@@ -9,11 +9,7 @@ const SetLoginUser = () => {
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        if (AuthenticationService.isAnyUserLoggedIn()) {
-            console.log("saladmd")
-            AuthenticationService.setLoggedInUser(searchParams.get("username"), searchParams.get("role"));
-        }
-        console.log("saladmd")
+        AuthenticationService.login(searchParams.get("username"), searchParams.get("password"));
         navigate(UrlService.urls.home)
     }, []);
 }
