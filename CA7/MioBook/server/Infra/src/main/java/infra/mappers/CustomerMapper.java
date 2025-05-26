@@ -84,7 +84,7 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
         dao.setName(entity.getUsername());
         dao.setPassword(entity.getPassword());
         dao.setEmail(entity.getEmail());
-        dao.setAddress(addressMapper.toDao(entity.getAddress()));
+        dao.setAddress(entity.getAddress() == null ? null : addressMapper.toDao(entity.getAddress()));
         dao.getWallet().setCredit(entity.getCredit());
         dao.setSalt(entity.getSalt());
     }
