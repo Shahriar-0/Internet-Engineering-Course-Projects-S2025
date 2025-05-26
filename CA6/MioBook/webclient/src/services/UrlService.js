@@ -1,4 +1,6 @@
 const urls = Object.freeze({
+    setLoggedInUser: "/set-logged-in-user",
+
     signIn: "/sign-in",
     signUp: "/sign-up",
     home: "/home",
@@ -24,6 +26,8 @@ const doNotShowHeaderUrls = Object.freeze([
 ]);
 
 const defaultAccessUrls = Object.freeze([
+    urls.setLoggedInUser,
+
     urls.signIn,
     urls.signUp,
     urls.unexpectedError,

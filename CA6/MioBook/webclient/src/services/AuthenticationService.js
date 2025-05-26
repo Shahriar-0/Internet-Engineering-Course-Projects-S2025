@@ -1,4 +1,5 @@
 import ApiService from "./ApiService";
+import rolePicker from "../layout/main/sign-up/sign-up-form/RolePicker";
 
 const SESSION_ID_HEADER_KEY = "Session-Id";
 const LOGGED_IN_USER_KEY = "user";
@@ -58,7 +59,15 @@ const getGoogleLoginUrl = async () => {
     return body;
 }
 
+const setLoggedInUser = (username, role) => {
+    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify({
+        username: username,
+        role: role,
+    }));
+}
+
 const AuthenticationService = Object.freeze({
+    setLoggedInUser,
     getGoogleLoginUrl,
     isAnyUserLoggedIn,
     isUserLoggedIn,

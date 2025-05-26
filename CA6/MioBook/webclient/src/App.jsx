@@ -24,6 +24,7 @@ import UrlService from "services/UrlService";
 import AuthenticationService from "services/AuthenticationService";
 import AdminPanel from "./layout/main/admin-panel/AdminPanel";
 import PurchasedHistory from "./layout/main/purchased-history/PurchasedHistory";
+import SetLoginUser from "./services/SetLoginUser";
 
 function App() {
     const urls = UrlService.urls;
@@ -48,6 +49,8 @@ function App() {
                 <UrlAccessControl />
                 <Header />
                 <Routes>
+                    <Route path={urls.setLoggedInUser} element={SetLoginUser} />
+
                     <Route path="" element={<Navigate to={AuthenticationService.isAnyUserLoggedIn() ? urls.home : urls.signIn} replace />} />
                     <Route path={urls.signIn} element={<SignIn />} />
                     <Route path={urls.signUp} element={<SignUp />} />

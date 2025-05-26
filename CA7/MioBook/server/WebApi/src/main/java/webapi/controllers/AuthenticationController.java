@@ -1,8 +1,7 @@
 package webapi.controllers;
 
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.*;
 
 import application.exceptions.BaseException;
 import application.exceptions.businessexceptions.userexceptions.UserNotFound;
@@ -132,7 +131,7 @@ public class AuthenticationController {
 		User user = authenticationService.findOrCreateGoogleUser(name, email);
 		authenticationService.setUserSession(user);
 		String jwt = authenticationService.generateToken(user);
-		return Response.redirect(user.getRole().getValue(), OK, LOGIN_MESSAGE, jwt, "http://localhost:3000/home");
+		return Response.redirect(user.getRole().getValue(), FOUND, LOGIN_MESSAGE, jwt, "http://localhost:3000/set-logged-in-user?username="+name+"&role="+user.getRole().getValue());
 	}
 
 	private static Response<?> processFailureOfLogin(BaseException exception) {
