@@ -43,7 +43,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{username}")
-	@Access(isWhiteList = false)
+	@Access(isWhiteList = true)
 	public Response<UserView> getUser(@PathVariable String username) {
 		GetUser useCase = (GetUser) useCaseService.getUseCase(UseCaseType.GET_USER);
 

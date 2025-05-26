@@ -56,7 +56,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}")
-	@Access(isWhiteList = false)
+	@Access(isWhiteList = true)
 	public Response<BookView> getBook(@PathVariable String title) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
@@ -80,7 +80,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}/reviews")
-	@Access(isWhiteList = false)
+	@Access(isWhiteList = true)
 	public Response<PageView<BookReviewsView>> getBookReviews(
 		@PathVariable String title,
 		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
@@ -98,7 +98,7 @@ public class BookController {
 	}
 
 	@GetMapping
-	@Access(isWhiteList = false)
+	@Access(isWhiteList = true)
 	public Response<PageView<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
@@ -122,7 +122,7 @@ public class BookController {
 	}
 
     @GetMapping("/genres")
-    @Access(isWhiteList = false)
+    @Access(isWhiteList = true)
     public Response<List<String>> getGenres() {
         GetGenres useCase = (GetGenres) useCaseService.getUseCase(UseCaseType.GET_GENRES);
 

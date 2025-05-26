@@ -1,4 +1,4 @@
-﻿import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import UrlService from "./UrlService";
 import AuthenticationService from "./AuthenticationService";
 import {useEffect} from "react";
