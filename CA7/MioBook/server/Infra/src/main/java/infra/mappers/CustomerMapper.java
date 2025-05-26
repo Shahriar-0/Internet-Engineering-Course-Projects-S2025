@@ -52,7 +52,7 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
             .username(dao.getName())
             .password(dao.getPassword())
             .email(dao.getEmail())
-            .address(addressMapper.toValueObj(dao.getAddress()))
+            .address(dao.getAddress() == null ? null : addressMapper.toValueObj(dao.getAddress()))
             .role(Role.CUSTOMER)
             .credit(dao.getWallet().getCredit())
             .salt(dao.getSalt())
@@ -68,7 +68,7 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
         dao.setName(entity.getUsername());
         dao.setPassword(entity.getPassword());
         dao.setEmail(entity.getEmail());
-        dao.setAddress(addressMapper.toDao(entity.getAddress()));
+        dao.setAddress(entity.getAddress() == null ? null : addressMapper.toDao(entity.getAddress()));
         WalletDao walletDao = new WalletDao();
         walletDao.setCustomer(dao);
         walletDao.setCustomerId(entity.getId());
@@ -84,7 +84,7 @@ public class CustomerMapper implements IMapper<Customer, CustomerDao> {
         dao.setName(entity.getUsername());
         dao.setPassword(entity.getPassword());
         dao.setEmail(entity.getEmail());
-        dao.setAddress(addressMapper.toDao(entity.getAddress()));
+        dao.setAddress(entity.getAddress() == null ? null : addressMapper.toDao(entity.getAddress()));
         dao.getWallet().setCredit(entity.getCredit());
         dao.setSalt(entity.getSalt());
     }

@@ -1,20 +1,20 @@
 package webapi.services;
 
 import application.repositories.IUserRepository;
-import webapi.configuration.JwtConfig;
+import domain.entities.user.Customer;
 import domain.entities.user.Role;
 import domain.entities.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
-import javax.crypto.SecretKey;
 import java.util.concurrent.TimeUnit;
-
+import javax.crypto.SecretKey;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import webapi.configuration.JwtConfig;
 
 @Service
 @RequiredArgsConstructor
@@ -85,6 +85,24 @@ public class AuthenticationService {
     private SecretKey getSignKey() {
         return Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
     }
+
+	public User findOrCreateGoogleUser(String name, String email) {
+		Optional<User> userOpt = userRepository.findByEmail(email);
+		if (userOpt.isPresent()) {
+			return userOpt.get();
+		}
+		Customer customer = Customer
+			.builder()
+			.username(name)
+			.password(null)
+			.salt(null)
+			.email(email)
+			.address(null)
+			.role(domain.entities.user.Role.CUSTOMER)
+			.credit(0L)
+			.build();
+		return userRepository.save(customer);
+	}
 
     public static record UserSession(Long id, String username, String email, Role role) {} // FIXME: dunno if word session is a good choice or not
 }

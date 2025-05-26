@@ -1,6 +1,7 @@
 import ApiService from "./ApiService";
 
 const LOGGED_IN_USER_KEY = "user";
+
 const Role = Object.freeze({ CUSTOMER: "customer", ADMIN: "admin" });
 
 const isAnyUserLoggedIn = () => localStorage.getItem(LOGGED_IN_USER_KEY) !== null;
@@ -25,6 +26,7 @@ const getCurrentUser = () => structuredClone(JSON.parse(localStorage.getItem(LOG
 
 const login = async (username, password) => {
     const { response, body } = await ApiService.signIn(username, password);
+    console.log("response: ", response, "body: ", body);
     let jwt = null;
     if (response && response.headers && response.headers.get("Authorization")) {
         const authHeader = response.headers.get("Authorization");
@@ -56,7 +58,21 @@ const logout = async () => {
     return body;
 };
 
+const getGoogleLoginUrl = async () => {
+    const { body } = await ApiService.getGoogleLoginUrl();
+    return body;
+}
+
+const setLoggedInUser = (username, role) => {
+    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify({
+        username: username,
+        role: role,
+    }));
+}
+
 const AuthenticationService = Object.freeze({
+    setLoggedInUser,
+    getGoogleLoginUrl,
     isAnyUserLoggedIn,
     isUserLoggedIn,
     addSessionToHeader,

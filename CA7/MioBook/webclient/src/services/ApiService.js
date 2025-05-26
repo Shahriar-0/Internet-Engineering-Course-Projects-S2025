@@ -3,6 +3,7 @@ import AuthenticationService from "./AuthenticationService";
 const baseUrl = process.env.REACT_APP_API_URL + "/api";
 const defaultHeader = { "Content-Type": "application/json" };
 
+const googleLoginUrl = baseUrl + "/auth/google/url";
 const signInUrl = baseUrl + "/auth/login";
 const signOutUrl = baseUrl + "/auth/logout";
 const signUpUrl = baseUrl + "/users";
@@ -36,15 +37,18 @@ const apiCallTemplate = async (httpMethod, url, reqBody) => {
             headers: AuthenticationService.addSessionToHeader(defaultHeader)
         };
 
+
         if (reqBody && httpMethod !== "GET") {
             options.body = JSON.stringify(reqBody);
         }
 
         const response = await fetch(url, options);
         const body = await response.json();
+        console.log(options);
         return { response, body, error: null };
     }
     catch (e) {
+        console.error(e);
         return { response: null, body: null, error: e };
     }
 }
@@ -205,7 +209,12 @@ const borrowCart = async (title, days) => {
     return await apiCallTemplate(HttpMethod.POST, profileUrl + "/borrow", reqBody);
 }
 
+const getGoogleLoginUrl = async () => {
+    return await apiCallTemplate(HttpMethod.GET, googleLoginUrl, null);
+}
+
 const ApiService = Object.freeze({
+    getGoogleLoginUrl,
     signIn,
     signOut,
     signUp,
