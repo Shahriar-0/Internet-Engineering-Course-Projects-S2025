@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: docker.arvancloud.ir/mysql
+    hostname: mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: verysecret
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - db_network
+
+  adminer:
+    image: docker.arvancloud.ir/adminer
+    ports:
+      - "3307:8080"
+    networks:
+      - db_network
+
+networks:
+  db_network:
+    driver: bridge
+  redis_network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:
