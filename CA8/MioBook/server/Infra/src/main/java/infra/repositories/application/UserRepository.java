@@ -7,6 +7,7 @@ import domain.entities.cart.CartItem;
 import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Admin;
 import domain.entities.user.Customer;
+import domain.entities.user.Role;
 import domain.entities.user.User;
 import infra.daos.*;
 import infra.daos.CartItemDao;
@@ -260,4 +261,53 @@ public class UserRepository implements IUserRepository {
         CartItemDao dao = cartDaoRepository.save(cartItemMapper.toDao(cartItem));
         return cartItemMapper.toDomain(dao);
     }
+
+    @Override
+	@Transactional(readOnly = true)
+	public List<User> filter(application.usecase.user.GetUser.UserFilter filter) {
+		List<User> users = new ArrayList<>();
+		if (filter == null) {
+			users.addAll(customerDaoRepository.findAll().stream().map(customerMapper::toDomain).toList());
+			users.addAll(adminDaoRepository.findAll().stream().map(adminMapper::toDomain).toList());
+			return users;
+		}
+		if (filter.role() == null) {
+			users.addAll(customerDaoRepository.findAll().stream().map(customerMapper::toDomain).toList());
+			users.addAll(adminDaoRepository.findAll().stream().map(adminMapper::toDomain).toList());
+			return users
+				.stream()
+				.filter(u ->
+					(filter.name() == null || u.getUsername().equalsIgnoreCase(filter.name())) &&
+					(filter.email() == null || u.getEmail().equalsIgnoreCase(filter.email()))
+				)
+				.toList();
+		}
+        if (Role.valueOf(filter.role()).equals(Role.CUSTOMER)) {
+			users.addAll(
+				customerDaoRepository
+					.findAll()
+					.stream()
+					.filter(c ->
+						(filter.name() == null || c.getName().equalsIgnoreCase(filter.name())) &&
+						(filter.email() == null || c.getEmail().equalsIgnoreCase(filter.email()))
+					)
+					.map(customerMapper::toDomain)
+					.toList()
+			);
+		}
+        if (Role.valueOf(filter.role()).equals(Role.ADMIN)) {
+			users.addAll(
+				adminDaoRepository
+					.findAll()
+					.stream()
+					.filter(a ->
+						(filter.name() == null || a.getName().equalsIgnoreCase(filter.name())) &&
+						(filter.email() == null || a.getEmail().equalsIgnoreCase(filter.email()))
+					)
+					.map(adminMapper::toDomain)
+					.toList()
+			);
+		}
+		return users;
+	}
 }

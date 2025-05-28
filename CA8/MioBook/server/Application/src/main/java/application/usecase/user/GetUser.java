@@ -6,11 +6,10 @@ import application.result.Result;
 import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.user.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +30,9 @@ public class GetUser implements IUseCase {
     }
 
 	public Result<List<User>> perform(UserFilter filter) {
-		throw new RuntimeException("Not implemented yet");
+		List<User> users = userRepository.filter(filter);
+		return Result.success(users);
 	}
 
-	public record UserFilter() {}
+	public record UserFilter(String name, String email, String role) {}
 }
