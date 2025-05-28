@@ -7,13 +7,15 @@ import application.usecase.user.author.GetAuthor;
 import domain.entities.author.Author;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import webapi.accesscontrol.Access;
 import webapi.response.Response;
 import webapi.services.AuthenticationService;
 import webapi.services.UseCaseService;
 import webapi.views.author.AuthorView;
-
+import webapi.views.page.PageView;
 import java.util.List;
 
 import static domain.entities.user.Role.ADMIN;
@@ -62,5 +64,17 @@ public class AuthorController {
 
 		List<Author> authors = useCase.perform();
 		return Response.of(AuthorView.mapToView(authors), OK);
+	}
+
+	@GetMapping("/search")
+	@Access(isWhiteList = false)
+	public Response<PageView<AuthorView>> searchAuthors(@Valid @ModelAttribute GetAuthor.AuthorFilter filter) {
+		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
+
+		Page<Author> authors = useCase.perform(filter);
+		return Response.of(
+			new PageView<>(AuthorView.mapToView(authors)),
+			OK
+		);
 	}
 }

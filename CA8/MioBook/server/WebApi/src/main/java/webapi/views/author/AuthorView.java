@@ -3,6 +3,8 @@ package webapi.views.author;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import domain.entities.author.Author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,5 +34,9 @@ public class AuthorView {
 
 	public static List<AuthorView> mapToView(List<Author> authors) {
 		return authors.stream().map(AuthorView::new).toList();
+	}
+
+	public static Page<AuthorView> mapToView(Page<Author> authorPage) {
+		return authorPage.map(AuthorView::new);
 	}
 }
