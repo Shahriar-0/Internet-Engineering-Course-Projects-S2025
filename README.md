@@ -47,3 +47,9 @@ Initial application data is read from a given endpoint.
 The system now uses Redis for caching user sessions.
 The session data is stored in Redis and retrieved when needed.
 
+### CA7: JWT & OAuth
+
+User passwords are now stored as hashed values in the database.
+The system uses JSON Web Tokens for authentication and authorization.
+The front-end stores the token and sends it as a Bearer token in the request headers.
+The system also supports OAuth authorization using Google Sign-In.
