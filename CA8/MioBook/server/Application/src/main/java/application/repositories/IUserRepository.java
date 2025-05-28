@@ -5,6 +5,7 @@ import domain.entities.cart.CartItem;
 import domain.entities.cart.PurchasedCart;
 import domain.entities.user.Customer;
 import domain.entities.user.User;
+import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository extends IBaseRepository<User> {
@@ -15,4 +16,5 @@ public interface IUserRepository extends IBaseRepository<User> {
 	CartItem saveCart(CartItem cartItem);
 	Customer purchase(Customer customer, PurchasedCart purchasedCart);
     void removeCart(Customer customer, Book book);
+	List<User> filter(application.usecase.user.GetUser.UserFilter filter);
 }
