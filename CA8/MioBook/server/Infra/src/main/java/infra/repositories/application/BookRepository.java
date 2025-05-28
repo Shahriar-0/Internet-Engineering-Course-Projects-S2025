@@ -6,6 +6,7 @@ import application.usecase.user.book.GetBookReviews;
 import domain.entities.book.Book;
 import domain.entities.book.Review;
 import domain.entities.user.Customer;
+import infra.daos.AdminDao;
 import infra.daos.AuthorDao;
 import infra.daos.BookDao;
 import infra.daos.GenreDao;
@@ -13,6 +14,7 @@ import infra.daos.ReviewDao;
 import infra.mappers.BookMapper;
 import infra.mappers.IMapper;
 import infra.mappers.ReviewMapper;
+import infra.repositories.jpa.AdminDaoRepository;
 import infra.repositories.jpa.AuthorDaoRepository;
 import infra.repositories.jpa.BookDaoRepository;
 import infra.repositories.jpa.GenreDaoRepository;
@@ -43,6 +45,7 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
     private final GenreDaoRepository genreDaoRepository;
     private final ReviewDaoRepository reviewDaoRepository;
     private final AuthorDaoRepository authorDaoRepository;
+    private final AdminDaoRepository adminDaoRepository;
     private final BookMapper bookMapper;
     private final ReviewMapper reviewMapper;
 
@@ -77,6 +80,15 @@ public class BookRepository extends BaseRepository<Book, BookDao> implements IBo
             if (authorDao.isPresent()) { // FIXME: for when there is no author we should return empty list
                 spec = spec.and((root, query, cb) ->
                     cb.equal(root.get("author"), authorDao.get())
+                );
+            }
+        }
+
+        if (filter.admin() != null) {
+            Optional<AdminDao> adminDao = adminDaoRepository.findByName(filter.admin());
+            if (adminDao.isPresent()) { // FIXME: for when there is no admin we should return empty list
+                spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("admin"), adminDao.get())
                 );
             }
         }
