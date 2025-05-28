@@ -63,6 +63,7 @@ const createFilterQueryForSearchBook = (filter) => {
     if (filter.genre) query += `genre=${filter.genre}&`;
     if (filter.from) query += `from=${filter.from}&`;
     if (filter.to) query += `to=${filter.to}&`;
+    if (filter.admin) query += `admin=${filter.admin}&`;
     if (filter.sortBy) query += `sortBy=${filter.sortBy}&`;
     query += (filter.isAscending) ? "isAscending=true&" : "isAscending=false&";
     if (filter.pageNumber) query += `pageNumber=${filter.pageNumber}&`;
