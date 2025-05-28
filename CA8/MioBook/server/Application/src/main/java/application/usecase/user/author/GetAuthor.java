@@ -7,14 +7,18 @@ import application.usecase.IUseCase;
 import application.usecase.UseCaseType;
 import domain.entities.author.Author;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class GetAuthor implements IUseCase {
+
+	private static final int MAX_AUTHOR_PAGE_SIZE = 100;
+	private static final int DEFAULT_AUTHOR_PAGE_SIZE = 20;
+	private static final int DEFAULT_AUTHOR_PAGE_NUMBER = 1;
 
 	private final IAuthorRepository authorRepository;
 
@@ -34,9 +38,36 @@ public class GetAuthor implements IUseCase {
 		return authorRepository.findAllWithBooks();
     }
 
-	public Result<List<Author>> perform(AuthorFilter filter) {
-		throw new RuntimeException("Not implemented yet");
+	public Page<Author> perform(AuthorFilter filter) {
+		AuthorFilter standardFilter = standardizeFilter(filter);
+		return authorRepository.filter(standardFilter);
 	}
 
-	public record AuthorFilter() {}
+	private static AuthorFilter standardizeFilter(AuthorFilter filter) {
+		return new AuthorFilter(
+			filter.name(),
+			filter.nationality(),
+			filter.admin(),
+			(filter.pageNumber() != null) ? filter.pageNumber() : DEFAULT_AUTHOR_PAGE_NUMBER,
+			standardizePageSizeField(filter.pageSize())
+		);
+	}
+
+	private static int standardizePageSizeField(Integer currentPageSize) {
+		if (currentPageSize == null)
+			return DEFAULT_AUTHOR_PAGE_SIZE;
+
+		if (currentPageSize > MAX_AUTHOR_PAGE_SIZE)
+			return MAX_AUTHOR_PAGE_SIZE;
+
+		return currentPageSize;
+	}
+
+	public record AuthorFilter(
+		String name,
+		String nationality,
+		String admin,
+		Integer pageNumber,
+		Integer pageSize
+	) {}
 }
