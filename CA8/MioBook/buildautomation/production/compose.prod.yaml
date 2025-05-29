@@ -1,14 +1,42 @@
 services:
+  miobook-server:
+    image: miobook-server
+    env_file:
+      - ./server.env
+    ports:
+      - "5000:8080"
+    networks:
+      - miobook_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+        restart: true
+
+  miobook-webclient:
+    image: miobook-webclient
+    env_file:
+      - ./webclient.env
+    ports:
+      - "3000:80"
+    networks:
+      - miobook_network
+
   mysql:
     image: mysql:9
-    hostname: mysql
     env_file:
-      - mysql.env
+      - ./mysql.env
+    ports:
+      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - miobook_network
       - db_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   adminer:
     image: adminer:5
