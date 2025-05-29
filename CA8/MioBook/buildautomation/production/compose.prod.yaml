@@ -1,6 +1,6 @@
 services:
   miobook-server:
-    image: miobook-server
+    image: shahnamfeyzian/miobook-server:8
     env_file:
       - ./server.env
     ports:
@@ -18,7 +18,7 @@ services:
       retries: 5
 
   miobook-webclient:
-    image: miobook-webclient
+    image: shahnamfeyzian/miobook-webclient:8
     env_file:
       - ./webclient.env
     ports:
@@ -57,8 +57,10 @@ services:
 networks:
   miobook_network:
     driver: bridge
+    name: miobook-network
   db_network:
     driver: bridge
+    name: db-network
 
 volumes:
   mysql-data:
