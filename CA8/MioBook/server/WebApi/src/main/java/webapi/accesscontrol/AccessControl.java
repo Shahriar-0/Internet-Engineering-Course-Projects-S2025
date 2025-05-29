@@ -28,15 +28,15 @@ public class AccessControl {
     @Before("@annotation(webapi.accesscontrol.Access)")
     public void checkAccess(JoinPoint joinPoint) {
         Access access = getAccessAnnotation(joinPoint);
-        boolean isWhiteList = access.isWhiteList();
-        if (isWhiteList)
+        List<Role> roles = Arrays.stream(access.roles()).toList();
+        if (roles.isEmpty()) // If no roles are specified, we don't even check jwt so user be more comfortable, it's handled in frontend
             return;
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String authHeader = request.getHeader("Authorization");
         String token = null;
         if (authHeader != null && authHeader.startsWith("Bearer "))
-            token = authHeader.substring(7); // The part after "Bearer " FIXME: maybe find a better way?
+            token = authHeader.substring(7); // The part after "Bearer "
         if (token == null || !authenticationService.validateToken(token))
             throw AuthenticationException.noOneLoggedIn();
 
@@ -46,11 +46,9 @@ public class AccessControl {
         if (loggedInUser == null)
             throw AuthenticationException.noOneLoggedIn();
 
-        List<Role> roles = Arrays.stream(access.roles()).toList();
-        if (roles.isEmpty())
-            return;
-        boolean isAnAccessibleRole = roles.contains(loggedInUser.getRole());
-        if (!isAnAccessibleRole)
+        boolean isWhiteList = access.isWhiteList();
+        boolean isRoleAppear = roles.contains(loggedInUser.getRole());
+        if ((isRoleAppear && !isWhiteList) || (!isRoleAppear && isWhiteList))
             throw new InvalidAccess(roles, loggedInUser.getRole(), isWhiteList);
     }
 
