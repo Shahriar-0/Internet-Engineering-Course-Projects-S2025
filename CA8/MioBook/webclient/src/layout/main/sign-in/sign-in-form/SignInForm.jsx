@@ -7,7 +7,7 @@ import UrlService from "services/UrlService";
 import { toast } from "react-toastify";
 import SpinnerButton from "library/spinner-button/SpinnerButton";
 import CustomInput from "library/form-assets/CustomInput";
-
+import GoogleLoginButton from "library/form-assets/GoogleLoginButton";
 
 const SignInForm = () => {
     const incorrectMessage = "Username or password is incorrect.";
@@ -62,7 +62,6 @@ const SignInForm = () => {
 
     const googleLoginHandler = async () => {
         const body = await AuthenticationService.getGoogleLoginUrl();
-        console.log(body);
         if (body === null || body.status !== ApiService.statusCode.OK)
             navigate(UrlService.urls.unexpectedError);
         else
@@ -93,7 +92,7 @@ const SignInForm = () => {
             >
                 Sign in
             </SpinnerButton>
-            <button onClick={googleLoginHandler} className="btn btn-lg btn-primary w-100 fw-bold border-2 mt-3">Login With Google</button>
+            <GoogleLoginButton onClick={googleLoginHandler} />
         </div>
     );
 }

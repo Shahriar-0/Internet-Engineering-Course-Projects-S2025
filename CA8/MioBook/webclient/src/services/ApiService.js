@@ -11,6 +11,7 @@ const booksUrl = baseUrl + "/books";
 const getReviewsUrlByTitle = (title) => booksUrl + "/" + title + "/reviews";
 const genresUrl = booksUrl + "/genres";
 const authorsUrl = baseUrl + "/authors";
+const authorsSearchUrl = authorsUrl + "/search";
 const usersUrl = baseUrl + "/users";
 const profileUrl = baseUrl + "/profile";
 const cartUrl = profileUrl + "/cart";
@@ -63,8 +64,24 @@ const createFilterQueryForSearchBook = (filter) => {
     if (filter.genre) query += `genre=${filter.genre}&`;
     if (filter.from) query += `from=${filter.from}&`;
     if (filter.to) query += `to=${filter.to}&`;
+    if (filter.admin) query += `admin=${filter.admin}&`;
     if (filter.sortBy) query += `sortBy=${filter.sortBy}&`;
     query += (filter.isAscending) ? "isAscending=true&" : "isAscending=false&";
+    if (filter.pageNumber) query += `pageNumber=${filter.pageNumber}&`;
+    if (filter.pageSize) query += `pageSize=${filter.pageSize}&`;
+    query = query.endsWith("&") ? query.slice(0, -1) : query;
+
+    return query;
+}
+
+const createFilterQueryForSearchAuthor = (filter) => {
+    if (!filter) return "";
+
+    let query = "?";
+
+    if (filter.name) query += `name=${filter.name}&`;
+    if (filter.nationality) query += `nationality=${filter.nationality}&`;
+    if (filter.admin) query += `admin=${filter.admin}&`;
     if (filter.pageNumber) query += `pageNumber=${filter.pageNumber}&`;
     if (filter.pageSize) query += `pageSize=${filter.pageSize}&`;
     query = query.endsWith("&") ? query.slice(0, -1) : query;
@@ -155,6 +172,10 @@ const searchBooks = async (filter = null) => {
     return await apiCallTemplate(HttpMethod.GET, booksUrl + createFilterQueryForSearchBook(filter), null);
 }
 
+const searchAuthors = async (filter = null) => {
+    return await apiCallTemplate(HttpMethod.GET, authorsSearchUrl + createFilterQueryForSearchAuthor(filter), null);
+}
+
 const addBook = async (title, author, publisher, genres, publishedYear, price, synopsis, content, imageLink) => {
     const reqBody = {
         title: title,
@@ -232,6 +253,7 @@ const ApiService = Object.freeze({
     getGenres,
     addReview,
     getAllAuthors,
+    searchAuthors,
     purchaseCart,
     getPurchasedHistory,
     getBookContent,

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import UrlService from "services/UrlService";
 import SpinnerButton from "library/spinner-button/SpinnerButton";
 import CustomInput from "library/form-assets/CustomInput";
+import GoogleLoginButton from "library/form-assets/GoogleLoginButton";
 
 const SignUpForm = () => {
     const [formState, setFormState] = useState(getInitFormState());
@@ -102,6 +103,13 @@ const SignUpForm = () => {
             </div>
             <RolePicker onChange={changeRole} />
             <SpinnerButton className="btn btn-lg w-100 fw-bold border-2 green-btn" spinnerClassName="border-green" disabled={!canSubmit(formState)} loading={loading} onClick={submit}>Sign up</SpinnerButton>
+            <GoogleLoginButton onClick={async () => {
+                const body = await AuthenticationService.getGoogleLoginUrl();
+                if (body === null || body.status !== ApiService.statusCode.OK)
+                    navigate(UrlService.urls.unexpectedError);
+                else
+                    window.location.href = body.message;
+            }} />
         </div>
     );
 }

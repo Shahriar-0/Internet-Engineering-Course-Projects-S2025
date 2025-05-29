@@ -47,7 +47,7 @@ public class CustomerController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping("/cart")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<?> addCart(@Valid @RequestBody AddCart.AddCartData data) {
 		AddCart useCase = (AddCart) useCaseService.getUseCase(UseCaseType.ADD_CART);
 
@@ -59,7 +59,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/cart")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<CartView> getCart() {
 		GetCart useCase = (GetCart) useCaseService.getUseCase(UseCaseType.GET_CART);
 
@@ -71,7 +71,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/history")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<PurchaseHistoryView> getPurchaseHistory() {
 		GetPurchaseHistory useCase = (GetPurchaseHistory) useCaseService.getUseCase(UseCaseType.GET_PURCHASE_HISTORY);
 
@@ -83,7 +83,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/books")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<PurchasedBooksView> getPurchasedBooks() {
 		GetPurchasedBooks useCase = (GetPurchasedBooks) useCaseService.getUseCase(UseCaseType.GET_PURCHASED_BOOKS);
 
@@ -95,7 +95,7 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("/cart/{title}")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<?> removeCart(@PathVariable String title) {
 		RemoveCart useCase = (RemoveCart) useCaseService.getUseCase(UseCaseType.REMOVE_CART);
 
@@ -107,7 +107,7 @@ public class CustomerController {
 	}
 
 	@PatchMapping("credit")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<?> increaseCredit(@Valid @RequestBody AddCredit.AddCreditData data) {
 		AddCredit useCase = (AddCredit) useCaseService.getUseCase(UseCaseType.ADD_CREDIT);
 
@@ -119,7 +119,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/purchase")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<PurchasedCartSummaryView> purchaseCart() {
 		PurchaseCart useCase = (PurchaseCart) useCaseService.getUseCase(UseCaseType.PURCHASE_CART);
 
@@ -131,7 +131,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/borrow")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<?> borrowBook(@Valid @RequestBody BorrowBook.BorrowBookData data) {
 		BorrowBook useCase = (BorrowBook) useCaseService.getUseCase(UseCaseType.BORROW_BOOK);
 

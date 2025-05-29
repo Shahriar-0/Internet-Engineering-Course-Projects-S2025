@@ -44,7 +44,7 @@ public class BookController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	@Access(roles = {ADMIN}, isWhiteList = false)
+	@Access(roles = {ADMIN})
 	public Response<?> addBook(@Valid @RequestBody AddBook.AddBookData data) {
 		AddBook useCase = (AddBook) useCaseService.getUseCase(UseCaseType.ADD_BOOK);
 
@@ -56,7 +56,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}")
-	@Access(isWhiteList = true)
+	@Access
 	public Response<BookView> getBook(@PathVariable String title) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
@@ -68,7 +68,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}/content")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<BookContentView> getBookContent(@NotBlank @PathVariable String title) {
 		GetBookContent useCase = (GetBookContent) useCaseService.getUseCase(UseCaseType.GET_BOOK_CONTENT);
 
@@ -80,7 +80,7 @@ public class BookController {
 	}
 
 	@GetMapping("/{title}/reviews")
-	@Access(isWhiteList = true)
+	@Access
 	public Response<PageView<BookReviewsView>> getBookReviews(
 		@PathVariable String title,
 		@Valid @ModelAttribute GetBookReviews.ReviewFilter filter
@@ -98,7 +98,7 @@ public class BookController {
 	}
 
 	@GetMapping
-	@Access(isWhiteList = true)
+	@Access
 	public Response<PageView<BookView>> searchBook(@Valid @ModelAttribute GetBook.BookFilter filter) {
 		GetBook useCase = (GetBook) useCaseService.getUseCase(UseCaseType.GET_BOOK);
 
@@ -110,7 +110,7 @@ public class BookController {
 	}
 
 	@PostMapping("/{title}/reviews")
-	@Access(roles = {CUSTOMER}, isWhiteList = false)
+	@Access(roles = {CUSTOMER})
 	public Response<?> addReview(@Valid @RequestBody AddReview.AddReviewData data, @PathVariable String title) {
 		AddReview useCase = (AddReview) useCaseService.getUseCase(UseCaseType.ADD_REVIEW);
 
@@ -122,7 +122,7 @@ public class BookController {
 	}
 
     @GetMapping("/genres")
-    @Access(isWhiteList = true)
+    @Access
     public Response<List<String>> getGenres() {
         GetGenres useCase = (GetGenres) useCaseService.getUseCase(UseCaseType.GET_GENRES);
 

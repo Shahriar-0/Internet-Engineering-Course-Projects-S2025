@@ -21,37 +21,43 @@ const AdminPanel = () => {
     const [addAuthorModalOpen, setAddAuthorModalOpen] = useState(false);
     const [addBookModalOpen, setAddBookModalOpen] = useState(false);
 
-
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchAuthors();
-        fetchBooks();
         fetchUser();
     }, [navigate]);
 
-    const fetchAuthors = async () => {
-        const { body } = await ApiService.getAllAuthors();
-        if (body && body.status === ApiService.statusCode.OK)
-            setAuthors(body.data);
-        else if (body && body.status !== ApiService.statusCode.OK)
-            toast.error(body.message);
-        else
-            navigate(UrlService.urls.unexpectedError);
-    };
-
     const fetchUser = async () => {
         const { body, error } = await ApiService.getProfile();
-        if (body && body.status === ApiService.statusCode.OK)
+        if (body && body.status === ApiService.statusCode.OK) {
             setUser(body.data);
+            fetchBooksForAdmin(body.data.username);
+            fetchAuthorsForAdmin(body.data.username);
+        }
         else if (body && body.status !== ApiService.statusCode.OK)
             toast.error(body.message);
         else
             navigate(UrlService.urls.unexpectedError);
     };
 
-    const fetchBooks = async () => {
-        const { body } = await ApiService.searchBooks();
+    const fetchAuthorsForAdmin = async (adminUsername) => {
+        if (!adminUsername && user)
+            adminUsername = user.username;
+
+        const { body } = await ApiService.searchAuthors({ admin: adminUsername });
+        if (body && body.status === ApiService.statusCode.OK)
+            setAuthors(body.data.list);
+        else if (body && body.status !== ApiService.statusCode.OK)
+            toast.error(body.message);
+        else
+            navigate(UrlService.urls.unexpectedError);
+    };
+
+    const fetchBooksForAdmin = async (adminUsername) => {
+        if (!adminUsername && user)
+            adminUsername = user.username;
+
+        const { body } = await ApiService.searchBooks({ admin: adminUsername });
         if (body && body.status === ApiService.statusCode.OK)
             setBooks(body.data.list.map(book => ({ ...book, finalPrice: book.price })));
         else if (body && body.status !== ApiService.statusCode.OK)
@@ -73,8 +79,8 @@ const AdminPanel = () => {
 
     return (
         <main className="container">
-            <AddAuthorModal onSubmit={fetchAuthors} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
-            <AddBookModal onSubmit={fetchBooks} isOpen={addBookModalOpen} onClose={() => setAddBookModalOpen(false)} />
+            <AddAuthorModal onSubmit={fetchAuthorsForAdmin} isOpen={addAuthorModalOpen} onClose={() => setAddAuthorModalOpen(false)} />
+            <AddBookModal onSubmit={fetchBooksForAdmin} isOpen={addBookModalOpen} onClose={() => setAddBookModalOpen(false)} />
 
             <section className="shadow rounded-3 p-3 mb-5 h-100 d-flex justify-content-between align-items-center">
                 <div>
