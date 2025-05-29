@@ -34,7 +34,7 @@ public class AuthorController {
 	private final AuthenticationService authenticationService;
 
 	@PostMapping
-	@Access(roles = {ADMIN}, isWhiteList = false)
+	@Access(roles = {ADMIN})
 	public Response<?> addAuthor(@Valid @RequestBody AddAuthor.AddAuthorData data) {
 		AddAuthor useCase = (AddAuthor) useCaseService.getUseCase(UseCaseType.ADD_AUTHOR);
 
@@ -46,7 +46,7 @@ public class AuthorController {
 	}
 
 	@GetMapping("/{name}")
-	@Access(isWhiteList = false)
+	@Access
 	public Response<AuthorView> getAuthor(@PathVariable String name) {
 		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 
@@ -58,7 +58,7 @@ public class AuthorController {
 	}
 
 	@GetMapping
-	@Access(isWhiteList = false)
+	@Access
 	public Response<List<AuthorView>> getAuthors() {
 		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 
@@ -67,7 +67,7 @@ public class AuthorController {
 	}
 
 	@GetMapping("/search")
-	@Access(isWhiteList = false)
+	@Access
 	public Response<PageView<AuthorView>> searchAuthors(@Valid @ModelAttribute GetAuthor.AuthorFilter filter) {
 		GetAuthor useCase = (GetAuthor) useCaseService.getUseCase(UseCaseType.GET_AUTHOR);
 

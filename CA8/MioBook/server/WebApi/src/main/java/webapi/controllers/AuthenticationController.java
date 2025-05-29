@@ -57,7 +57,7 @@ public class AuthenticationController {
 	private String googleRedirectUri;
 
 	@PostMapping("login")
-	@Access(isWhiteList = true)
+	@Access
 	public Response<?> login(@Valid @RequestBody Login.LoginData data) {
 		Login useCase = (Login) useCaseService.getUseCase(UseCaseType.LOGIN);
 
@@ -71,13 +71,13 @@ public class AuthenticationController {
 	}
 
 	@DeleteMapping("logout")
-	@Access(isWhiteList = false)
+	@Access
 	public Response<?> logout() {
 		return Response.of(OK, LOGOUT_MESSAGE);
 	}
 
 	@GetMapping("/google/url")
-	@Access(isWhiteList = true)
+	@Access
 	public Response<?> googleLoginUrl() {
 		String googleAuthUrl = UriComponentsBuilder
 			.fromUriString(googleAuthUri)
@@ -91,7 +91,7 @@ public class AuthenticationController {
 	}
 
 	@GetMapping("/google/callback")
-	@Access(isWhiteList = true)
+	@Access
 	public Response<?> googleCallback(@RequestParam("code") String code) {
 		RestTemplate restTemplate = new RestTemplate();
 		String tokenUrl = googleTokenUri;
