@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,7 +24,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.core.ParameterizedTypeReference;
 import webapi.accesscontrol.Access;
 import webapi.response.Response;
 import webapi.services.AuthenticationService;
@@ -41,11 +41,11 @@ public class AuthenticationController {
 	private final UseCaseService useCaseService;
 	private final AuthenticationService authenticationService;
 
-    @Value("${google.auth.uri}")
-    private String googleAuthUri;
+	@Value("${google.auth.uri}")
+	private String googleAuthUri;
 
-    @Value("${google.token.uri}")
-    private String googleTokenUri;
+	@Value("${google.token.uri}")
+	private String googleTokenUri;
 
 	@Value("${google.client.id}")
 	private String googleClientId;
@@ -56,14 +56,16 @@ public class AuthenticationController {
 	@Value("${google.redirect.uri}")
 	private String googleRedirectUri;
 
+	@Value("${frontend.url}")
+	private String frontendUrl;
+
 	@PostMapping("login")
 	@Access
 	public Response<?> login(@Valid @RequestBody Login.LoginData data) {
 		Login useCase = (Login) useCaseService.getUseCase(UseCaseType.LOGIN);
 
 		Result<User> userResult = useCase.perform(data);
-		if (userResult.isFailure())
-			return processFailureOfLogin(userResult.exception());
+		if (userResult.isFailure()) return processFailureOfLogin(userResult.exception());
 
 		authenticationService.setUserSession(userResult.data());
 		String jwt = authenticationService.generateToken(userResult.data());
@@ -120,9 +122,8 @@ public class AuthenticationController {
 			new ParameterizedTypeReference<Map<String, Object>>() {}
 		);
 		Map<String, Object> userInfo = userInfoResponse.getBody();
-		if (userInfo == null || userInfo.get("email") == null) {
+		if (userInfo == null || userInfo.get("email") == null)
 			return Response.of(UNAUTHORIZED, "Google user info fetch failed");
-		}
 
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.getOrDefault("name", email);
@@ -130,12 +131,22 @@ public class AuthenticationController {
 		User user = authenticationService.findOrCreateGoogleUser(name, email);
 		authenticationService.setUserSession(user);
 		String jwt = authenticationService.generateToken(user);
-		return Response.redirect(user.getRole().getValue(), FOUND, LOGIN_MESSAGE, jwt, "http://localhost:3000/set-logged-in-user?username="+name+"&role="+user.getRole().getValue()); // FIXME: update url
+		return Response.redirect(
+			user.getRole().getValue(),
+			FOUND,
+			LOGIN_MESSAGE,
+			jwt,
+			UriComponentsBuilder.fromUriString(frontendUrl)
+				.path("/set-logged-in-user")
+				.queryParam("username", name)
+				.queryParam("role", user.getRole().getValue())
+				.build()
+				.toUriString()
+		); // FIXME: update url
 	}
 
 	private static Response<?> processFailureOfLogin(BaseException exception) {
-		if (!(exception instanceof UserNotFound || exception instanceof WrongPassword))
-			throw exception;
+		if (!(exception instanceof UserNotFound || exception instanceof WrongPassword)) throw exception;
 
 		return Response.of(UNAUTHORIZED, WRONG_USERNAME_OR_PASSWORD_MESSAGE);
 	}
