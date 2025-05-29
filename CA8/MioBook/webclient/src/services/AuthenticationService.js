@@ -26,7 +26,6 @@ const getCurrentUser = () => structuredClone(JSON.parse(localStorage.getItem(LOG
 
 const login = async (username, password) => {
     const { response, body } = await ApiService.signIn(username, password);
-    console.log("response: ", response, "body: ", body);
     let jwt = null;
     if (response && response.headers && response.headers.get("Authorization")) {
         const authHeader = response.headers.get("Authorization");
