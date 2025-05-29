@@ -1,0 +1,66 @@
+services:
+  miobook-server:
+    image: shahnamfeyzian/miobook-server:8
+    env_file:
+      - ./server.env
+    ports:
+      - "5000:8080"
+    networks:
+      - miobook_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health-check"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  miobook-webclient:
+    image: shahnamfeyzian/miobook-webclient:8
+    env_file:
+      - ./webclient.env
+    ports:
+      - "3000:80"
+    networks:
+      - miobook_network
+    depends_on:
+      miobook-server:
+        condition: service_healthy
+        restart: true
+
+  mysql:
+    image: mysql:9
+    env_file:
+      - ./mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - miobook_network
+      - db_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer:5
+    ports:
+      - "4001:8080"
+    networks:
+      - db_network
+
+networks:
+  miobook_network:
+    driver: bridge
+    name: miobook-network
+  db_network:
+    driver: bridge
+    name: db-network
+
+volumes:
+  mysql-data:
