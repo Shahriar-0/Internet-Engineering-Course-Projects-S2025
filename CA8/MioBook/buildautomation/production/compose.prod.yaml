@@ -1,0 +1,27 @@
+services:
+  mysql:
+    image: mysql:9
+    hostname: mysql
+    env_file:
+      - mysql.env
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - miobook_network
+      - db_network
+
+  adminer:
+    image: adminer:5
+    ports:
+      - "4001:8080"
+    networks:
+      - db_network
+
+networks:
+  miobook_network:
+    driver: bridge
+  db_network:
+    driver: bridge
+
+volumes:
+  mysql-data:
