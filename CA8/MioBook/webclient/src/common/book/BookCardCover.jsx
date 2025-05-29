@@ -3,7 +3,6 @@ import UrlService from "services/UrlService";
 
 const BookCardCover = ({ cover, title }) => {
     const formattedTitle = title.replace(/\s+/g, "%20");
-    // TODO: fetch image
     return (
         <Link to={`${UrlService.urls.books}/${formattedTitle}`} className="text-decoration-none">
             <img

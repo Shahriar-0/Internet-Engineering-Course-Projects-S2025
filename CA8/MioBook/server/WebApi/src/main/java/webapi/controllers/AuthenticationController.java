@@ -142,7 +142,7 @@ public class AuthenticationController {
 				.queryParam("role", user.getRole().getValue())
 				.build()
 				.toUriString()
-		); // FIXME: update url
+		);
 	}
 
 	private static Response<?> processFailureOfLogin(BaseException exception) {

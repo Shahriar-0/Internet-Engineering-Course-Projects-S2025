@@ -3,7 +3,6 @@ import UrlService from "services/UrlService";
 import Rating from "common/rating/Rating";
 
 const HomeEntityCover = ({ title, cover, rating = null }) => {
-    // TODO: fetch image
     return (
         <div className="col-12 col-md-5 col-lg-4 d-flex justify-content-center mb-4 mb-md-0">
             <div>
