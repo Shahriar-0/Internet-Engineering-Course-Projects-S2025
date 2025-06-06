@@ -1,0 +1,10 @@
+package webapi.response;
+
+import java.time.LocalDateTime;
+
+public record ResponseData<T> (
+        LocalDateTime timestamp,
+        int status,
+        String message,
+        T data
+) {}

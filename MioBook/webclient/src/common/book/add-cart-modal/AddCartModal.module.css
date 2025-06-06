@@ -1,0 +1,19 @@
+.disable-day-picker-btn {
+    background-color: var(--c-custom-white);
+}
+
+.enable-day-picker-btn {
+    background-color: var(--c-green) !important;
+    color: white !important;
+    border: 1px solid var(--c-green) !important;
+}
+
+.disable-day-picker-btn:hover {
+    background-color: var(--c-custom-white);
+}
+
+.enable-day-picker-btn:hover {
+    background-color: var(--c-green) !important;
+    color: white !important;
+    border: 1px solid var(--c-green) !important;
+}
