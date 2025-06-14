@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webclient-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webclient
+  template:
+    metadata:
+      labels:
+        app: webclient
+    spec:
+      containers:
+      - name: webclient
+        image: shahnamfeyzian/miobook-webclient:8
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        envFrom:
+          - configMapRef:
+              name: webclient-config
