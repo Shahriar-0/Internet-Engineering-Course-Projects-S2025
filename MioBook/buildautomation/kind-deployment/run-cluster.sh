@@ -19,37 +19,37 @@ function create_cluster() {
 
 function create_configmap_and_secrets() {
   echo "Creating ConfigMap and Secret..."
-  kubectl create secret generic db-secret-env --from-env-file=mysql.env
-  kubectl create secret generic server-secret-env --from-env-file=server.env
-  kubectl create configmap webclient-config --from-env-file=webclient.env
+  kubectl create secret generic db-secret-env --from-env-file=db/mysql.env
+  kubectl create secret generic server-secret-env --from-env-file=server/server.env
+  kubectl create configmap webclient-config --from-env-file=webclient/webclient.env
   echo "ConfigMap and Secret created successfully"
 }
 
 function create_pv_and_pvc() {
   echo "Creating PersistentVolume and PersistentVolumeClaim..."
-  kubectl apply -f db-pv.yaml
-  kubectl apply -f db-pvc.yaml
+  kubectl apply -f db/db-pv.yaml
+  kubectl apply -f db/db-pvc.yaml
   echo "PersistentVolume and PersistentVolumeClaim created successfully"
 }
 
 function deploy_mysql() {
   echo "Deploying MySQL..."
-  kubectl apply -f db-deployment.yaml
-  kubectl apply -f mysql-service.yaml
+  kubectl apply -f db/db-deployment.yaml
+  kubectl apply -f db/mysql-service.yaml
   echo "MySQL deployed successfully"
 }
 
 function deploy_server() {
   echo "Deploying Server..."
-  kubectl apply -f server-deployment.yaml
-  kubectl apply -f miobook-service.yaml
+  kubectl apply -f server/server-deployment.yaml
+  kubectl apply -f server/miobook-service.yaml
   echo "Server deployed successfully"
 }
 
 function deploy_webclient() {
   echo "Deploying Web Client..."
-  kubectl apply -f webclient-deploy.yaml
-  kubectl apply -f nginx-service.yaml
+  kubectl apply -f webclient/webclient-deploy.yaml
+  kubectl apply -f webclient/nginx-service.yaml
   echo "Web Client deployed successfully"
 }
 
