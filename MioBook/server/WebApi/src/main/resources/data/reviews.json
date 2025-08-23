@@ -1,0 +1,142 @@
+[
+  {
+    "username": "user1",
+    "title": "The Shadow Hour",
+    "rate": 5,
+    "comment": "A thrilling ride from start to finish! The suspense kept me on edge.",
+    "date": "2025-03-05 08:14:22"
+  },
+  {
+    "username": "user2",
+    "title": "The Shadow Hour",
+    "rate": 4,
+    "comment": "Great plot twists, but some parts felt a bit slow.",
+    "date": "2024-04-12 17:36:10"
+  },
+  {
+    "username": "user2",
+    "title": "Whispers in the Dark",
+    "rate": 4,
+    "comment": "Creepy and engaging, but I wish the ending was stronger.",
+    "date": "2024-05-19 11:25:03"
+  },
+  {
+    "username": "user1",
+    "title": "Echoes of Tomorrow",
+    "rate": 4,
+    "comment": "A fascinating take on time travel. The paradoxes were mind-blowing.",
+    "date": "2024-06-21 06:42:59"
+  },
+  {
+    "username": "user2",
+    "title": "Echoes of Tomorrow",
+    "rate": 5,
+    "comment": "Loved the time-travel elements! The story was really creative.",
+    "date": "2024-07-01 23:01:45"
+  },
+  {
+    "username": "user3",
+    "title": "Echoes of Tomorrow",
+    "rate": 2,
+    "comment": "The time travel elements felt a bit off. Could have been better.",
+    "date": "2024-08-03 14:59:18"
+  },
+  {
+    "username": "user1",
+    "title": "Beneath the Surface",
+    "rate": 5,
+    "comment": "Incredible underwater setting with a gripping mystery!",
+    "date": "2024-09-10 02:22:37"
+  },
+  {
+    "username": "user2",
+    "title": "Beneath the Surface",
+    "rate": 1,
+    "comment": "Started strong, but the mystery became predictable halfway through.",
+    "date": "2024-10-15 18:57:04"
+  },
+  {
+    "username": "user3",
+    "title": "Winds of Change",
+    "rate": 5,
+    "comment": "A beautiful and inspiring story about self-discovery. Highly recommended!",
+    "date": "2024-11-02 12:04:55"
+  },
+  {
+    "username": "user1",
+    "title": "The Silent Witness",
+    "rate": 4,
+    "comment": "A gripping true crime story. The details were chilling!",
+    "date": "2024-12-19 03:33:12"
+  },
+  {
+    "username": "user2",
+    "title": "The Silent Witness",
+    "rate": 4,
+    "comment": "The twists in this mystery were fantastic. Kept me guessing!",
+    "date": "2025-01-05 09:18:03"
+  },
+  {
+    "username": "user2",
+    "title": "The Starlit Path",
+    "rate": 2,
+    "comment": "The fantasy was overly idealistic, and I never really felt invested in the world.",
+    "date": "2025-02-11 07:48:56"
+  },
+  {
+    "username": "user3",
+    "title": "The Starlit Path",
+    "rate": 3,
+    "comment": "It tried too hard to be magical, but ended up feeling cliche and lacking depth.",
+    "date": "2024-03-22 21:57:45"
+  },
+  {
+    "username": "user1",
+    "title": "Shattered Reflections",
+    "rate": 3,
+    "comment": "The psychological thriller aspect was more frustrating than thrilling.",
+    "date": "2024-04-06 04:30:12"
+  },
+  {
+    "username": "user3",
+    "title": "Shattered Reflections",
+    "rate": 5,
+    "comment": "An unsettling but engaging thriller. I couldn’t put it down.",
+    "date": "2024-05-25 10:12:06"
+  },
+  {
+    "username": "user2",
+    "title": "Nightfall",
+    "rate": 1,
+    "comment": "It had some scary moments, but I expected more from the horror aspect.",
+    "date": "2024-06-18 16:08:31"
+  },
+  {
+    "username": "user3",
+    "title": "Beyond the Horizon",
+    "rate": 4,
+    "comment": "A breathtaking sci-fi adventure! The alien world was so well described.",
+    "date": "2024-07-09 01:55:49"
+  },
+  {
+    "username": "user1",
+    "title": "The Last Heist",
+    "rate": 5,
+    "comment": "A fast-paced crime thriller. The heist sequence was intense!",
+    "date": "2024-08-20 05:42:14"
+  },
+  {
+    "username": "user2",
+    "title": "Whispering Pines",
+    "rate": 3,
+    "comment": "The atmosphere was spooky, but I wanted more character development.",
+    "date": "2024-09-30 14:31:09"
+  },
+  {
+    "username": "user3",
+    "title": "Timeless Echoes",
+    "rate": 5,
+    "comment": "A deeply emotional and beautifully written book. It stayed with me.",
+    "date": "2024-10-28 20:23:37"
+  }
+]

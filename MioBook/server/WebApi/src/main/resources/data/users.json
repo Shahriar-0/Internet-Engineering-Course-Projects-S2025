@@ -1,0 +1,52 @@
+[
+  {
+    "username": "user1",
+    "password": "user1_pass",
+    "email": "user1@mail.com",
+    "role": "customer",
+    "address": {
+      "country": "Iran",
+      "city": "Karaj"
+    }
+  },
+  {
+    "username": "user2",
+    "password": "user2_pass",
+    "email": "user2@mail.com",
+    "role": "customer",
+    "address": {
+      "country": "Canada",
+      "city": "Toronto"
+    }
+  },
+  {
+    "username": "user3",
+    "password": "user3_pass",
+    "email": "user3@mail.com",
+    "role": "customer",
+    "address": {
+      "country": "Canada",
+      "city": "Toronto"
+    }
+  },
+  {
+    "username": "admin1",
+    "password": "admin1",
+    "email": "admin1@mail.com",
+    "role": "admin",
+    "address": {
+      "country": "Iran",
+      "city": "Tehran"
+    }
+  },
+  {
+    "username": "admin2",
+    "password": "admin2",
+    "email": "admin2@mail.com",
+    "role": "admin",
+    "address": {
+      "country": "Iran",
+      "city": "Tabriz"
+    }
+  }
+]

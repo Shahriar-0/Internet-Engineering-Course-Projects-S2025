@@ -1,0 +1,167 @@
+[
+  {
+    "username": "admin1",
+    "title": "The Shadow Hour",
+    "author": "John Doe",
+    "publisher": "Mystic Press",
+    "year": 2015,
+    "price": 300,
+    "synopsis": "A gripping thriller about a detective chasing shadows.",
+    "content": "Detective Carter follows a trail of cryptic messages left by an elusive killer. The closer he gets, the more his own past haunts him.",
+    "genres": ["thriller", "mystery"]
+  },
+  {
+    "username": "admin1",
+    "title": "Whispers in the Dark",
+    "author": "John Doe",
+    "publisher": "Dark Moon Publications",
+    "year": 2018,
+    "price": 280,
+    "synopsis": "An eerie horror story about a haunted mansion.",
+    "content": "Every night, Evelyn hears whispers echoing through the abandoned halls. But when she investigates, the house reveals terrifying secrets.",
+    "genres": ["horror", "suspense"]
+  },
+  {
+    "username": "admin1",
+    "title": "The Lost Chronicles",
+    "author": "Jane Smith",
+    "publisher": "Epic Tales",
+    "year": 2020,
+    "price": 1199,
+    "synopsis": "A fantasy epic about forgotten kingdoms.",
+    "content": "Long ago, an empire vanished from history, leaving only a cryptic map. Now, a young scholar embarks on a journey to uncover its fate.",
+    "genres": ["fantasy", "adventure"]
+  },
+  {
+    "username": "admin1",
+    "title": "Echoes of Tomorrow",
+    "author": "Jane Smith",
+    "publisher": "Future Reads",
+    "year": 2017,
+    "price": 320,
+    "synopsis": "A sci-fi novel exploring time travel paradoxes.",
+    "content": "A scientist discovers a portal that sends messages from the future. But each message warns of an impending disaster she must prevent.",
+    "genres": ["science fiction", "time travel"]
+  },
+  {
+    "username": "admin1",
+    "title": "Beneath the Surface",
+    "author": "Emily Johnson",
+    "publisher": "Oceanic Books",
+    "year": 2019,
+    "price": 280,
+    "synopsis": "A deep-sea thriller uncovering long-lost secrets.",
+    "content": "Diving into the abyss, Alex discovers a hidden civilization beneath the ocean floor. But something ancient and powerful does not want to be disturbed.",
+    "genres": ["thriller", "mystery"]
+  },
+  {
+    "username": "admin1",
+    "title": "Winds of Change",
+    "author": "Emily Johnson",
+    "publisher": "Skyline Press",
+    "year": 2021,
+    "price": 300,
+    "synopsis": "A heartwarming tale of personal growth and change.",
+    "content": "After losing everything, Anna sets out on a cross-country road trip. Each stop teaches her something new about herself and the world.",
+    "genres": ["drama", "inspirational"]
+  },
+  {
+    "username": "admin2",
+    "title": "The Silent Witness",
+    "author": "Robert Brown",
+    "publisher": "True Crime Press",
+    "year": 2016,
+    "price": 290,
+    "synopsis": "A true crime story about an unsolved murder.",
+    "content": "A single piece of evidence remained untouched for years. When reopened, the case leads to shocking revelations about the suspect.",
+    "genres": ["true crime", "mystery"]
+  },
+  {
+    "username": "admin1",
+    "title": "Secrets of the Past",
+    "author": "Robert Brown",
+    "publisher": "Mystery House",
+    "year": 2014,
+    "price": 270,
+    "synopsis": "A detective unravels a family's dark past.",
+    "content": "Detective Harris follows a series of anonymous letters. Each one exposes a hidden truth that threatens to destroy an influential family.",
+    "genres": ["mystery", "crime"]
+  },
+  {
+    "username": "admin1",
+    "title": "The Starlit Path",
+    "author": "Sophia Williams",
+    "publisher": "Dreamscape Books",
+    "year": 2022,
+    "price": 320,
+    "synopsis": "A journey through a magical realm filled with adventure.",
+    "content": "A young girl follows a glowing path into an enchanted world. Along the way, she discovers her true destiny as a guardian of the stars.",
+    "genres": ["fantasy", "adventure"]
+  },
+  {
+    "username": "admin2",
+    "title": "Shattered Reflections",
+    "author": "Sophia Williams",
+    "publisher": "Mirror House Publishing",
+    "year": 2019,
+    "price": 310,
+    "synopsis": "A psychological thriller about identity and deception.",
+    "content": "A woman wakes up in a house she doesn’t recognize. As she pieces together clues, she realizes she may not be who she thinks she is.",
+    "genres": ["psychological thriller", "suspense"]
+  },
+  {
+    "username": "admin2",
+    "title": "Nightfall",
+    "author": "John Doe",
+    "publisher": "Mystic Press",
+    "year": 2021,
+    "price": 290,
+    "synopsis": "A supernatural horror novel set in a cursed town.",
+    "content": "As darkness falls, the town’s forgotten spirits begin to stir. One resident holds the key to breaking the cycle of terror.",
+    "genres": ["horror", "supernatural"]
+  },
+  {
+    "username": "admin2",
+    "title": "Beyond the Horizon",
+    "author": "Jane Smith",
+    "publisher": "Epic Tales",
+    "year": 2018,
+    "price": 300,
+    "synopsis": "A sci-fi adventure to distant galaxies.",
+    "content": "An astronaut discovers a planet untouched by time. But its ancient inhabitants are not as welcoming as they seem.",
+    "genres": ["science fiction", "space adventure"]
+  },
+  {
+    "username": "admin2",
+    "title": "The Last Heist",
+    "author": "Emily Johnson",
+    "publisher": "Crime & Co.",
+    "year": 2017,
+    "price": 280,
+    "synopsis": "A crime thriller about a legendary heist gone wrong.",
+    "content": "A crew of master thieves plans one final heist. But betrayal lurks in the shadows, threatening to unravel everything.",
+    "genres": ["crime", "thriller"]
+  },
+  {
+    "username": "admin2",
+    "title": "Whispering Pines",
+    "author": "Robert Brown",
+    "publisher": "Darkwood Mysteries",
+    "year": 2020,
+    "price": 310,
+    "synopsis": "A horror novel about eerie happenings in an isolated town.",
+    "content": "The pines whisper secrets to those who dare to listen. One visitor learns too late that some stories should remain untold.",
+    "genres": ["horror", "mystery"]
+  },
+  {
+    "username": "admin2",
+    "title": "Timeless Echoes",
+    "author": "Sophia Williams",
+    "publisher": "Everlast Publishing",
+    "year": 2023,
+    "price": 330,
+    "synopsis": "A literary fiction novel exploring love and loss through time.",
+    "content": "A lost love letter from a century ago finds its way to the present. Its words inspire a new romance that mirrors the past.",
+    "genres": ["literary fiction", "drama"]
+  }
+]
