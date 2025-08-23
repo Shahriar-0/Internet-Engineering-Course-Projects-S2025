@@ -1,5 +1,23 @@
 # MioBook
 
+## Table of Contents
+
+- [MioBook](#miobook)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Project Evolution](#project-evolution)
+    - [Phase 1: Foundational Logic in Java (CA1)](#phase-1-foundational-logic-in-java-ca1)
+    - [Phase 2: Core Back-end and Command-Line Interface (CA2)](#phase-2-core-back-end-and-command-line-interface-ca2)
+    - [Phase 3: Front-end Implementation with HTML \& CSS (CA3)](#phase-3-front-end-implementation-with-html--css-ca3)
+    - [Phase 4: Transition to Spring REST and React (CA4)](#phase-4-transition-to-spring-rest-and-react-ca4)
+      - [Screenshots](#screenshots)
+    - [Phase 5: Database Integration with JPA/Hibernate (CA5)](#phase-5-database-integration-with-jpahibernate-ca5)
+      - [Database Diagrams](#database-diagrams)
+    - [Phase 6: Performance Caching with Redis (CA6)](#phase-6-performance-caching-with-redis-ca6)
+    - [Phase 7: Security with JWT and OAuth 2.0 (CA7)](#phase-7-security-with-jwt-and-oauth-20-ca7)
+    - [Phase 8: Containerization with Docker (CA8)](#phase-8-containerization-with-docker-ca8)
+    - [Phase 9: Kubernetes (CA9)](#phase-9-kubernetes-ca9)
+
 ## Project Overview
 
 MioBook is a comprehensive project developed for the Internet Engineering course at the University of Tehran. It documents the incremental development of an online e-bookstore, showcasing the evolution of a web application from a monolithic command-line program to a modern, containerized, and scalable service-oriented architecture. Each phase introduces and integrates key technologies and architectural patterns prevalent in modern web development.
@@ -24,13 +42,41 @@ This phase addressed the user interface by translating Figma design specificatio
 
 A significant architectural shift was undertaken in this phase to modernize the stack.
 
-* **Back-end**: The back-end was refactored from a monolithic structure to a RESTful API using the **Spring Boot** framework. This involved replacing the traditional Model-View-Controller (MVC) pattern with a REST architecture, exposing resources via JSON-based endpoints. A standardized API response format was established to ensure consistency across the application.
+- **Back-end**: The back-end was refactored from a monolithic structure to a RESTful API using the **Spring Boot** framework. This involved replacing the traditional Model-View-Controller (MVC) pattern with a REST architecture, exposing resources via JSON-based endpoints. A standardized API response format was established to ensure consistency across the application.
 
-* **Front-end**: The static front-end was re-implemented as a Single-Page Application (SPA) using **React**. Static HTML pages were converted into modular React components, and client-side routing was managed with **React Router**. Asynchronous API communication with the back-end was handled using the browser's **Fetch API**.
+- **Front-end**: The static front-end was re-implemented as a Single-Page Application (SPA) using **React**. Static HTML pages were converted into modular React components, and client-side routing was managed with **React Router**. Asynchronous API communication with the back-end was handled using the browser's **Fetch API**.
+
+#### Screenshots
+
+| Home Page | Signup Page | Author Page |
+|-----------|-------------|-------------|
+| ![home-page](./MioBook/pics/home-page.png) | ![signup-page](./MioBook/pics/signup-page.png) | ![author-page](./MioBook/pics/author-page.png) |
+
+| Book Page | Book Purchase | Book Content |
+|-----------|---------------|--------------|
+| ![book-page](./MioBook/pics/book-page.png) | ![book-page-buy](./MioBook/pics/book-page-buy.png) | ![book-content-page](./MioBook/pics/book-content-page.png) |
+
+| Cart (Before) | Cart (After) |
+|---------------|--------------|
+| ![cart-page-before](./MioBook/pics/cart-page-before.png) | ![cart-page-after](./MioBook/pics/cart-page-after.png) |
+
+| History (Before) | History (After) |
+|------------------|-----------------|
+| ![history-page-before](./MioBook/pics/history-page-before.png) | ![history-page-after](./MioBook/pics/history-page-after.png) |
+
+| Profile (Before) | Profile (After) |
+|------------------|-----------------|
+| ![profile-page-before](./MioBook/pics/profile-page-before.png) | ![profile-page-after](./MioBook/pics/profile-page-after.png) |
 
 ### Phase 5: Database Integration with JPA/Hibernate (CA5)
 
 Persistence was introduced by integrating a **MySQL** relational database. The in-memory data structures were replaced with a persistent data layer managed by **Hibernate ORM** and **Spring Data JPA**. Plain Old Java Object (POJO) models were annotated as JPA entities to map them to database tables. Database operations were abstracted through Spring Data JPA repositories, simplifying data access logic. Advanced functionalities such as search and pagination were implemented at the database level to optimize performance. The application was also configured to initialize its state by fetching data from an external API endpoint upon startup.
+
+#### Database Diagrams
+
+| Client Schema | Sample Data |
+|---------------|-------------|
+| ![mysql-client-schema](./MioBook/pics/mysql-client-schema.png) | ![mysql-sample-data](./MioBook/pics/mysql-sample-data.png) |
 
 ### Phase 6: Performance Caching with Redis (CA6)
 
@@ -40,17 +86,17 @@ To enhance performance and manage user state efficiently, **Redis** was integrat
 
 The application's security posture was significantly strengthened in this phase.
 
-* **Authentication**: The authentication mechanism was migrated to a token-based system using **JSON Web Tokens (JWT)**. Upon successful login, the back-end issues a signed JWT, which the front-end stores and includes in the `Authorization` header of subsequent requests as a Bearer token.
-* **Authorization**: The system leverages JWT claims for role-based authorization.
-* **Password Security**: Password management was improved by implementing one-way hashing for storing user credentials in the database.
-* **Third-Party Login**: Support for federated identity was added by integrating **Google Sign-In** via the **OAuth 2.0** protocol.
+- **Authentication**: The authentication mechanism was migrated to a token-based system using **JSON Web Tokens (JWT)**. Upon successful login, the back-end issues a signed JWT, which the front-end stores and includes in the `Authorization` header of subsequent requests as a Bearer token.
+- **Authorization**: The system leverages JWT claims for role-based authorization.
+- **Password Security**: Password management was improved by implementing one-way hashing for storing user credentials in the database.
+- **Third-Party Login**: Support for federated identity was added by integrating **Google Sign-In** via the **OAuth 2.0** protocol.
 
 ### Phase 8: Containerization with Docker (CA8)
 
 This phase focused on containerization to streamline development, deployment, and scalability using **Docker**.
 
-* **Dockerfiles**: Individual `Dockerfiles` were created for the Spring Boot back-end and the React front-end. The front-end container utilizes a multi-stage build with an **Nginx** web server to serve the static assets and proxy API requests to the back-end service, resolving CORS issues and simplifying the network configuration.
-* **Docker Compose**: A `docker-compose.yml` file was authored to orchestrate the multi-container application, defining the back-end, front-end, and MySQL database services. The Compose file manages environment variables, secrets, inter-service networking, and health checks, enabling the entire application stack to be launched with a single command.
+- **Dockerfiles**: Individual `Dockerfiles` were created for the Spring Boot back-end and the React front-end. The front-end container utilizes a multi-stage build with an **Nginx** web server to serve the static assets and proxy API requests to the back-end service, resolving CORS issues and simplifying the network configuration.
+- **Docker Compose**: A `docker-compose.yml` file was authored to orchestrate the multi-container application, defining the back-end, front-end, and MySQL database services. The Compose file manages environment variables, secrets, inter-service networking, and health checks, enabling the entire application stack to be launched with a single command.
 
 ### Phase 9: Kubernetes (CA9)
 
